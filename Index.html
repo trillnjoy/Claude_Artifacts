@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Poetry Archive</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+  :root{--ink:#1a1a1a;--ink-light:#555;--ink-faint:#999;--paper:#faf9f7;--paper-warm:#f3f1ed;--rule:#ddd8d0;--accent:#8b3a3a;--accent-light:#f5eeee;--tag-bg:#ede9e3;--tag-text:#555}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;font-weight:300;min-height:100vh}
+
+  /* HEADER */
+  header{padding:1.25rem 1.25rem 0;background:var(--paper);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--rule)}
+  .header-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.85rem}
+  header h1{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase}
+  .header-count{font-size:.75rem;color:var(--ink-faint)}
+  .search-row{margin-bottom:.75rem}
+  #search{width:100%;border:1px solid var(--rule);border-radius:2px;padding:.45rem .65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:300;background:white;color:var(--ink);outline:none;-webkit-appearance:none}
+  #search:focus{border-color:var(--accent)}
+  .filters{display:flex;flex-wrap:wrap;gap:.3rem;padding-bottom:.75rem}
+  .filter-pill{font-size:.68rem;letter-spacing:.04em;padding:.2rem .55rem;border-radius:2px;border:1px solid var(--rule);background:white;color:var(--ink-light);cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .filter-pill.active{background:var(--accent);color:white;border-color:var(--accent)}
+  .filter-pill.clear-pill{border-color:transparent;color:var(--accent);background:transparent;font-weight:600}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse}
+  thead tr{border-bottom:2px solid var(--rule);background:var(--paper-warm)}
+  th{font-family:'Source Sans 3',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);padding:.55rem .75rem;text-align:left;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  th:first-child{padding-left:1.25rem}th:last-child{padding-right:1.25rem}
+  th .sa{display:inline-block;margin-left:.3em;opacity:.3;font-size:.62rem}
+  th.sort-active{color:var(--accent)}th.sort-active .sa{opacity:1}
+  tbody tr{border-bottom:1px solid var(--rule);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  tbody tr:active{background:var(--paper-warm)}
+  td{padding:.75rem;vertical-align:top}
+  td:first-child{padding-left:1.25rem}td:last-child{padding-right:1.25rem}
+  .cp{width:42%}.cp-name{font-size:.88rem;color:var(--ink);font-weight:400;line-height:1.4}
+  .cp-dates{font-size:.73rem;color:var(--ink-faint);font-style:italic;margin-top:.1rem}
+  .ct{width:58%}.ct-name{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:400;color:var(--ink);line-height:1.4}
+  .ct-tags{display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.35rem}
+  .tag{font-family:'Source Sans 3',sans-serif;font-size:.62rem;letter-spacing:.03em;padding:.12rem .4rem;border-radius:2px;background:var(--tag-bg);color:var(--tag-text)}
+  .empty-row td{padding:2.5rem 1.25rem;text-align:center;color:var(--ink-faint);font-size:.88rem;cursor:default}
+
+  /* POEM VIEW */
+  #poem-view{display:none;min-height:100vh}
+  .pvh{padding:1rem 1.25rem .85rem;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:.85rem;position:sticky;top:0;background:var(--paper);z-index:100}
+  .back-btn{font-size:1.5rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0 .2rem;-webkit-tap-highlight-color:transparent;line-height:1.2;flex-shrink:0}
+  .pvm{flex:1}.pv-title{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:400;line-height:1.35}
+  .pv-poet{font-size:.83rem;color:var(--ink-light);margin-top:.2rem}
+  .pv-dates{font-size:.75rem;color:var(--ink-faint);font-style:italic}
+  .pv-tags{padding:.75rem 1.25rem 0;display:flex;flex-wrap:wrap;gap:.28rem}
+  .poem-body{padding:1.75rem 1.75rem 4rem;max-width:520px}
+  .poem-body .stanza{margin-bottom:1.5em}
+  .poem-body p{font-family:'Libre Baskerville',serif;font-size:.96rem;line-height:1.78;color:var(--ink)}
+  .poem-body em{font-style:italic}
+
+  /* ADD BUTTON */
+  .add-btn{position:fixed;bottom:1.5rem;right:1.25rem;width:3rem;height:3rem;border-radius:50%;background:var(--accent);color:white;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:200;line-height:1}
+
+  /* ADD MODE MENU */
+  .mode-menu{position:fixed;bottom:5.2rem;right:1.25rem;z-index:201;display:none;flex-direction:column;gap:.5rem;align-items:flex-end}
+  .mode-menu.open{display:flex}
+  .mode-btn{display:flex;align-items:center;gap:.6rem;background:var(--paper);border:1px solid var(--rule);border-radius:24px;padding:.55rem 1rem .55rem .8rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:400;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .mode-btn .icon{font-size:1.1rem}
+  .menu-scrim{position:fixed;inset:0;z-index:200;display:none}
+  .menu-scrim.open{display:block}
+
+  /* SHEET BASE */
+  .sheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:300;align-items:flex-end}
+  .sheet.open{display:flex}
+  .sheet-inner{background:var(--paper);width:100%;border-radius:12px 12px 0 0;padding:1.5rem 1.25rem;max-height:92vh;overflow-y:auto}
+  .sheet-inner h2{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:400;margin-bottom:1.1rem}
+  .fg{margin-bottom:.85rem}
+  .fg label{display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.25rem}
+  .fg input,.fg textarea,.fg select{width:100%;border:1px solid var(--rule);border-radius:2px;padding:.45rem .6rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:300;background:white;color:var(--ink);outline:none;-webkit-appearance:none}
+  .fg input:focus,.fg textarea:focus{border-color:var(--accent)}
+  .fg textarea{min-height:110px;resize:vertical;font-family:'Libre Baskerville',serif;font-size:.86rem;line-height:1.65}
+  .sheet-actions{display:flex;gap:.65rem;margin-top:1.1rem}
+  .btn-p{flex:1;background:var(--accent);color:white;border:none;border-radius:2px;padding:.65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer}
+  .btn-s{flex:1;background:none;color:var(--ink-light);border:1px solid var(--rule);border-radius:2px;padding:.65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;cursor:pointer}
+
+  /* CAPTURE SHEET SPECIFICS */
+  .capture-zone{border:1.5px dashed var(--rule);border-radius:4px;padding:2rem 1rem;text-align:center;cursor:pointer;margin-bottom:1rem;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s}
+  .capture-zone:active{border-color:var(--accent);background:var(--accent-light)}
+  .capture-zone .cz-icon{font-size:2rem;margin-bottom:.4rem}
+  .capture-zone .cz-label{font-size:.85rem;color:var(--ink-light)}
+  #capture-file{display:none}
+  .capture-preview{width:100%;border-radius:4px;margin-bottom:1rem;display:none;max-height:200px;object-fit:contain}
+  .ocr-status{font-size:.8rem;color:var(--ink-faint);text-align:center;padding:.5rem 0;min-height:1.5rem}
+  .ocr-status.working{color:var(--accent)}
+  .ocr-status.done{color:#4a7c4a}
+  .ocr-status.error{color:#c0392b}
+
+  /* SETTINGS SHEET */
+  .settings-btn{position:fixed;bottom:1.5rem;left:1.25rem;width:3rem;height:3rem;border-radius:50%;background:white;border:1px solid var(--rule);color:var(--ink-faint);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .key-status{width:10px;height:10px;border-radius:50%;background:#ccc;display:inline-block;margin-right:.4rem}
+  .key-status.set{background:#4a7c4a}
+
+  @media print{header,.add-btn,.settings-btn,.mode-menu,.menu-scrim,.sheet{display:none!important}#poem-view{display:block!important}#list-view{display:none!important}.poem-body{padding:2rem}.poem-body p{font-size:11pt;line-height:1.85}}
+</style>
+</head>
+<body>
+
+<!-- LIST VIEW -->
+<div id="list-view">
+  <header id="main-header">
+    <div class="header-top">
+      <h1>Poetry Archive</h1>
+      <span class="header-count" id="header-count"></span>
+    </div>
+    <div class="search-row">
+      <input id="search" type="search" placeholder="Search poet, title, or tag…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="filters" id="tag-filters"></div>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th data-col="poet" class="sort-active">Poet <span class="sa">▲</span></th>
+        <th data-col="title">Title <span class="sa">▲</span></th>
+      </tr>
+    </thead>
+    <tbody id="browse-body"></tbody>
+  </table>
+</div>
+
+<!-- POEM VIEW -->
+<div id="poem-view">
+  <div class="pvh">
+    <button class="back-btn" id="back-btn">‹</button>
+    <div class="pvm">
+      <div class="pv-title" id="view-title"></div>
+      <div class="pv-poet" id="view-poet"></div>
+      <div class="pv-dates" id="view-dates"></div>
+    </div>
+  </div>
+  <div class="pv-tags" id="view-tags"></div>
+  <div class="poem-body" id="view-body"></div>
+</div>
+
+<!-- SETTINGS BUTTON -->
+<button class="settings-btn" id="settings-btn" title="Settings">⚙︎</button>
+
+<!-- ADD MODE MENU -->
+<div class="menu-scrim" id="menu-scrim"></div>
+<div class="mode-menu" id="mode-menu">
+  <button class="mode-btn" id="btn-capture"><span class="icon">📷</span> Capture photo</button>
+  <button class="mode-btn" id="btn-manual"><span class="icon">✎</span> Enter manually</button>
+</div>
+<button class="add-btn" id="add-btn">+</button>
+
+<!-- CAPTURE SHEET -->
+<div class="sheet" id="capture-sheet">
+  <div class="sheet-inner">
+    <h2>Capture Poem</h2>
+    <div class="capture-zone" id="capture-zone">
+      <div class="cz-icon">📷</div>
+      <div class="cz-label">Tap to take photo or choose from library</div>
+    </div>
+    <input type="file" id="capture-file" accept="image/*" capture="environment">
+    <img class="capture-preview" id="capture-preview">
+    <div class="ocr-status" id="ocr-status"></div>
+
+    <div id="capture-form" style="display:none">
+      <div class="fg"><label>Poet</label><input id="cap-poet" type="text"></div>
+      <div class="fg"><label>Title</label><input id="cap-title" type="text"></div>
+      <div class="fg"><label>Dates (optional)</label><input id="cap-dates" type="text" placeholder="e.g. 1820–1890 or b. 1952"></div>
+      <div class="fg"><label>Tags (comma-separated)</label><input id="cap-tags" type="text"></div>
+      <div class="fg"><label>Poem text</label><textarea id="cap-text"></textarea></div>
+    </div>
+
+    <div class="sheet-actions">
+      <button class="btn-s" id="cap-cancel">Cancel</button>
+      <button class="btn-p" id="cap-save" style="display:none">Save Poem</button>
+    </div>
+  </div>
+</div>
+
+<!-- MANUAL SHEET -->
+<div class="sheet" id="manual-sheet">
+  <div class="sheet-inner">
+    <h2>Add Poem</h2>
+    <div class="fg"><label>Poet</label><input id="new-poet" type="text" placeholder="Poet's name"></div>
+    <div class="fg"><label>Title</label><input id="new-title" type="text" placeholder="Title or [Untitled]"></div>
+    <div class="fg"><label>Dates (optional)</label><input id="new-dates" type="text" placeholder="e.g. 1820–1890 or b. 1952"></div>
+    <div class="fg"><label>Tags (comma-separated)</label><input id="new-tags" type="text" placeholder="e.g. grief, sonnet, victorian"></div>
+    <div class="fg"><label>Poem text</label><textarea id="new-text" placeholder="Paste or type poem. Blank lines = stanza breaks."></textarea></div>
+    <div class="sheet-actions">
+      <button class="btn-s" id="cancel-manual">Cancel</button>
+      <button class="btn-p" id="save-manual">Save Poem</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS SHEET -->
+<div class="sheet" id="settings-sheet">
+  <div class="sheet-inner">
+    <h2>Settings</h2>
+    <div class="fg">
+      <label><span class="key-status" id="key-status"></span>Anthropic API Key</label>
+      <input id="api-key-input" type="password" placeholder="sk-ant-…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <p style="font-size:.75rem;color:var(--ink-faint);margin-top:-.4rem;margin-bottom:.85rem">Stored locally on this device. Required for photo capture.</p>
+    <div class="sheet-actions">
+      <button class="btn-s" id="cancel-settings">Cancel</button>
+      <button class="btn-p" id="save-settings">Save Key</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── BASE DATA ──
+const BASE_POEMS = [
+  {
+    "id": "laux-the-lovers",
+    "title": "The Lovers",
+    "poet": "Dorianne Laux",
+    "dates": "b. 1952",
+    "tags": [
+      "erotic",
+      "embodiment",
+      "desire",
+      "romantic",
+      "lyric",
+      "contemporary"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>She is about to come. This time,</p><p>they are sitting up, joined below the belly,</p><p>feet cupped like sleek hands praying</p><p>at the base of each other’s spines.</p><p>And when something lifts within her</p><p>toward a light she’s sure, once again,</p><p>she can’t bear, she opens her eyes</p><p>and sees his face is turned away,</p><p>one arm behind him, hand splayed</p><p>palm down on the mattress, to brace himself</p><p>so he can lever his hips, touch</p><p>with the bright tip the innermost spot.</p><p>And she finds she <em>can’t</em> bear it—</p><p>not his beautiful neck, stretched and corded,</p><p>not his hair fallen to one side like beach grass,</p><p>not the curved wing of his ear, washed thin</p><p>with daylight, deep pink of the inner body—</p><p>What she can’t bear is that she can’t see his face,</p><p>not that she thinks this exactly—she is rocking</p><p>and breathing—it’s more her body’s thought,</p><p>opening, as it is, into its own sheer truth.</p><p>So that when her hand lifts of its own volition</p><p>and slaps him, twice on the chest,</p></div><div class='stanza'><p>on that pad of muscled flesh just above the nipple,</p><p>slaps him twice, fast, like a nursing child</p><p>trying to get a mother’s attention,</p><p>she’s startled by the sound,</p><p>though when he turns his face to hers—</p><p>which is what her body wants, his eyes</p><p>pulled open, as if she had bitten—</p><p>she does reach out and bite him, on the shoulder,</p><p>not hard, but with the power infants have</p><p>over those who have borne them, tied as they are</p><p>to the body, and so, tied to the pleasure,</p><p>the exquisite pain of this world.</p><p>And when she lifts her face he sees</p><p>where she’s gone, knows she can’t speak,</p><p>is traveling toward something essential,</p><p>toward the core of her need, so he simply</p><p>watches, steadily, with an animal calm</p><p>as she arches and screams, watches the face that,</p><p>if she could see it, she would never let him see.</p></div>"
+  },
+  {
+    "id": "laux-the-thief",
+    "title": "The Thief",
+    "poet": "Dorianne Laux",
+    "dates": "b. 1952",
+    "tags": [
+      "erotic",
+      "embodiment",
+      "desire",
+      "conjugal",
+      "lyric",
+      "contemporary"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>What is it when your man sits on the floor</p><p>in sweatpants, his latest project</p><p>set out in front of him like a small world, maps</p><p>and photographs, diagrams and plans, everything</p><p>he hopes to build, invent or create,</p><p>and you believe in him as you always have,</p><p>even after the failures, even more now</p><p>as you set your coffee down</p><p>and move toward him, to where he sits</p><p>oblivious to you, concentrating</p><p>in a square of sun—</p><p>you step over the rulers and blue graph paper</p><p>to squat behind him, and he barely notices</p><p>though you’re still in your robe</p><p>which falls open a little as you reach</p><p>around his chest, feel for the pink</p><p>wheel of each nipple, the slow beat</p><p>of his heart, your ear pressed to his back</p><p>to listen—and you are torn,</p><p>not wanting to interrupt his work</p><p>but unable to keep your fingers</p><p>from dipping into the ditch of his pants,</p><p>torn again with tenderness</p><p>for the way his flesh grows unwillingly</p><p>toward your curved palm, toward the light,</p><p>as if you had planted it, this sweet root,</p><p>your mouth already an echo of its shape—</p><p>you slip your tongue into his ear</p></div><div class='stanza'><p>and he hears you, calling him away</p><p>from his work, the angled lines of his thoughts,</p><p>into the shapeless place you are bound</p><p>to take him, over bridges of bone, beyond</p><p>borders of skin, climbing over him</p><p>into the world of the body, its labyrinth</p><p>of ladders and stairs—and you love him</p><p>like the first time you loved him,</p><p>with equal measures of expectancy</p><p>and fear and awe, taking him with you</p><p>into the soft geometry of the flesh, the earth</p><p>before its sidewalks and cities,</p><p>its glistening spires,</p><p>stealing him back from the world he loves</p><p>into this other world he cannot build without you.</p></div>"
+  },
+  {
+    "id": "praxilla-untitled",
+    "title": "[Untitled]",
+    "poet": "Praxilla",
+    "dates": "ca. 2nd century BCE",
+    "tags": [
+      "desire",
+      "lyric",
+      "ancient",
+      "translation"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Peeking in through</p><p>the open window,</p><p>your face was</p><p>virginal.</p></div><div class='stanza'><p>But you were</p><p>all woman</p><p>below.</p></div>"
+  },
+  {
+    "id": "dunbar-passion-and-love",
+    "title": "Passion and Love",
+    "poet": "Paul Laurence Dunbar",
+    "dates": "1872–1906",
+    "tags": [
+      "romantic",
+      "longing",
+      "tenderness",
+      "rhymed",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>A maiden wept and, as a comforter,</p><p>Came one who cried, “I love thee,” and he seized</p><p>Her in his arms and kissed her with hot breath,</p><p>That dried tears upon her flaming cheeks.</p><p>While evermore his boldly blazing eye</p><p>Burned into hers; but she uncomforted</p><p>Shrank from his arms and only wept the more.</p></div><div class='stanza'><p>Then one came and gazed mutely in her face</p><p>With wide and wistful eyes; but still aloof</p><p>He held himself; as with a reverent fear,</p><p>As one who knows some sacred presence nigh.</p><p>And as she wept he mingled tear with tear,</p><p>That cheered her soul like dew a dusty flower,—</p><p>Until she smiled, approached, and touched his hand!</p></div>"
+  },
+  {
+    "id": "rexroth-quietly",
+    "title": "Quietly",
+    "poet": "Kenneth Rexroth",
+    "dates": "",
+    "tags": [
+      "tenderness",
+      "conjugal",
+      "embodiment",
+      "free-verse",
+      "modernist"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Lying here quietly beside you,</p><p>My cheek against your firm, quiet thighs,</p><p>The calm music of Boccherini</p><p>Washing over us in the quiet,</p><p>As the sun leaves the housetops and goes</p><p>Out over the Pacific, quiet—</p><p>So quiet the sun moves beyond us,</p><p>So quiet as the sun always goes,</p><p>So quiet, our bodies, worn with the</p><p>Times and the penances of love, our</p><p>Brains curled, quiet in their shells, dormant,</p><p>Our hearts slow, quiet, reliable</p><p>In their interlocked rhythms, the pulse</p><p>In your thigh caressing my cheek. Quiet.</p></div>"
+  },
+  {
+    "id": "marlowe-passionate-shepherd",
+    "title": "The Passionate Shepherd to His Love",
+    "poet": "Christopher Marlowe",
+    "dates": "1564–1593",
+    "tags": [
+      "romantic",
+      "desire",
+      "nature",
+      "rhymed",
+      "renaissance"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Come live with me and be my love,</p><p>And we will all the pleasures prove,</p><p>That valleys, groves, hills and fields,</p><p>Woods or steepy mountains yields.</p></div><div class='stanza'><p>And we will sit upon the rocks,</p><p>Seeing the shepherds feed their flocks</p><p>By shallow rivers, to whose falls</p><p>Melodious birds sing madrigals.</p></div><div class='stanza'><p>And I will make thee beds of roses,</p><p>And a thousand fragrant posies,</p><p>A cap of flowers and a kirtle</p><p>Embroidered all with leaves of myrtle;</p></div><div class='stanza'><p>A gown made of the finest wool,</p><p>Which from our pretty lambs we pull;</p><p>Fair-lined slippers for the cold,</p><p>With buckles of the purest gold;</p></div><div class='stanza'><p>A belt of straw and ivy buds,</p><p>With coral clasps and amber studs;</p><p>And if these pleasures may thee move,</p><p>Come live with me and be my love.</p></div><div class='stanza'><p>The shepherd swains shall dance and sing</p><p>For thy delight each May morning;</p><p>If these delights thy mind may move,</p><p>Then live with me and be my love.</p></div>"
+  },
+  {
+    "id": "marvell-coy-mistress",
+    "title": "To His Coy Mistress",
+    "poet": "Andrew Marvell",
+    "dates": "1621–1678",
+    "tags": [
+      "erotic",
+      "desire",
+      "mortality",
+      "time",
+      "rhymed",
+      "renaissance"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Had we but World enough, and Time,</p><p>This coyness Lady were no crime.</p><p>We would sit down, and think which way</p><p>To walk, and pass our long Loves Day.</p><p>Thou by the Indian Ganges side</p><p>Should’st Rubies find: I by the Tide</p><p>Of Humber would complain. I would</p><p>Love you ten years before the Flood:</p><p>And you should if you please refuse</p><p>Till the Conversion of the Jews.</p><p>My vegetable Love should grow</p><p>Vaster then Empires, and more slow.</p><p>An hundred years should go to praise</p><p>Thine Eyes, and on thy Forehead Gaze.</p><p>Two hundred to adore each Breast:</p><p>But thirty thousand to the rest.</p><p>An Age at least to every part,</p><p>And the last Age should show your Heart.</p><p>For Lady you deserve this State;</p><p>Nor would I love at lower rate.</p></div><div class='stanza'><p>But at my back I alwaies hear</p><p>Times winged Charriot hurrying near:</p><p>And yonder all before us lye</p><p>DesErts of vast Eternity.</p><p>Thy Beauty shall no more be found;</p><p>Nor, in thy marble Vault, shall sound</p><p>My ecchoing Song: then Worms shall try</p><p>That long preserv’d Virginity:</p><p>And your quaint Honour turn to dust;</p><p>And into ashes all my Lust.</p><p>The Grave’s a fine and private place,</p><p>But none I think do there embrace.</p></div><div class='stanza'><p>Now therefore, while the youthful hew</p><p>Sits on thy skin like morning dew</p><p>And while thy willing Soul transpires</p><p>At every pore with instant Fires,</p><p>Now let us sport us while we may;</p><p>And now, like am’rous birds of prey,</p><p>Rather at once our Time devour,</p><p>Than languish in his slow-chapt pow’r.</p><p>Let us roll all our Strength, and all</p><p>Our sweetness, up into one Ball:</p><p>And tear our Pleasures with rough strife,</p><p>Through the Iron gates of Life.</p><p>Thus, though we cannot make our Sun</p><p>Stand still, yet we will make him run.</p></div>"
+  },
+  {
+    "id": "shelley-loves-philosophy",
+    "title": "Love's Philosophy",
+    "poet": "Percy Bysshe Shelley",
+    "dates": "1792–1822",
+    "tags": [
+      "romantic",
+      "desire",
+      "nature",
+      "rhymed",
+      "romantic-era"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>The fountains mingle with the river</p><p>And the rivers with the ocean,</p><p>The winds of heaven mix for ever</p><p>With a sweet emotion;</p><p>Nothing in the world is single,</p><p>All things by a law divine</p><p>In one another’s being mingle–</p><p>Why not I with thine?</p></div><div class='stanza'><p>See the mountains kiss high heaven,</p><p>And the waves clasp one another;</p><p>No sister-flower would be forgiven</p><p>If it disdain’d its brother;</p><p>And the sunlight clasps the earth,</p><p>And the moonbeams kiss the sea–</p><p>What are all these kissings worth,</p><p>If thou kiss not me?</p></div>"
+  },
+  {
+    "id": "shakespeare-sonnet-116",
+    "title": "Sonnet 116",
+    "poet": "William Shakespeare",
+    "dates": "1564–1616",
+    "tags": [
+      "romantic",
+      "time",
+      "beauty",
+      "sonnet",
+      "rhymed",
+      "renaissance"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Let me not to the marriage of true minds</p><p>Admit impediments. Love is not love</p><p>Which alters when it alteration finds,</p><p>Or bends with the remover to remove:</p><p>O, no! it is an ever-fixed mark,</p><p>That looks on tempests and is never shaken;</p><p>It is the star to every wandering bark,</p><p>Whose worth’s unknown, although his height be taken.</p><p>Love’s not Time’s fool, though rosy lips and cheeks</p><p>Within his bending sickle’s compass come;</p><p>Love alters not with his brief hours and weeks,</p><p>But bears it out even to the edge of doom.</p><p>If this be error, and upon me prov’d,</p><p>I never writ, nor no man ever lov’d.</p></div>"
+  },
+  {
+    "id": "towne-nightfall",
+    "title": "Nightfall",
+    "poet": "Charles Hanson Towne",
+    "dates": "",
+    "tags": [
+      "longing",
+      "tenderness",
+      "conjugal",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>I need so much the quiet of your love</p><p>After the day’s loud strife;</p><p>I need your calm all other things above</p><p>After the stress of life.</p></div><div class='stanza'><p>I crave the haven that in your dear heart lies,</p><p>After all toil is done,</p><p>I need the star shine of your heavenly eyes,</p><p>After the day’s great sun.</p></div>"
+  },
+  {
+    "id": "anonymous-love",
+    "title": "Love",
+    "poet": "Anonymous",
+    "dates": "",
+    "tags": [
+      "romantic",
+      "tenderness",
+      "longing",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>I love you,</p><p>Not only for what you are,</p><p>But for what I am</p><p>When I am with you.</p><p>I love you,</p><p>Not only for what</p><p>You have made of yourself,</p><p>But for what</p><p>You are making of me.</p></div><div class='stanza'><p>I love you</p><p>For the part of me</p><p>That you bring out;</p><p>I love you</p><p>For putting your hand</p><p>Into my heaped-up heart</p><p>And passing over</p><p>All the foolish, weak things</p><p>That you can’t help</p><p>Dimly seeing there,</p><p>And for drawing out</p><p>Into the light</p><p>All the beautiful belongings</p><p>That no one else had looked</p><p>Quite far enough to find.</p><p>Winter’s cold, or summer’s heat,</p><p>Autumn’s tempests, on it beat,</p><p>It can never know defeat,</p><p><span style='padding-left:1.5em'>Never can rebel.</span></p></div><div class='stanza'><p>Such the love that I would gain,</p><p>Such the love, I tell thee plain,</p><p>Thou must give, or woo in vain;</p><p><span style='padding-left:1.5em'>So to thee, farewell!</span></p><p><span style='padding-left:2em'>Love me little, love me long,</span></p><p><span style='padding-left:2em'>Is the burden of my song.</span></p></div>"
+  },
+  {
+    "id": "lowell-the-taxi",
+    "title": "The Taxi",
+    "poet": "Amy Lowell",
+    "dates": "",
+    "tags": [
+      "longing",
+      "grief",
+      "free-verse",
+      "modernist"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>When I go away from you</p><p>The world beats dead</p><p>Like a slackened drum.</p><p>I call out for you against the jutted stars</p><p>And shout into the ridges of the wind.</p><p>Streets coming fast,</p><p>One after the other,</p><p>Wedge you away from me,</p><p>And the lamps of the city prick my eyes</p><p>So that I can no longer see your face.</p><p>Why should I leave you,</p><p>To wound myself upon the sharp edges of the night?</p></div>"
+  },
+  {
+    "id": "browning-if-thou-must-love-me",
+    "title": "If Thou Must Love Me",
+    "poet": "Elizabeth Barrett Browning",
+    "dates": "",
+    "tags": [
+      "romantic",
+      "longing",
+      "sonnet",
+      "rhymed",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>If thou must love me, let it be for naught</p><p>Except for love’s sake only. Do not say,</p><p>“I love her for her smile—her look—her way</p><p>Of speaking gently,—for a trick of thought</p><p>That falls in well with mine, and certes brought</p><p>A sense of pleasant ease on such a day”—</p><p>For these things in themselves, Beloved, may</p><p>Be changed, or change for thee—and love, so wrought,</p><p>May be unwrought so. Neither love me for</p><p>Thine own dear pity’s wiping my cheeks dry:</p><p>A creature might forget to weep, who bore</p><p>Thy comfort long, and lose thy love thereby!</p><p>But love me for love’s sake, that evermore</p><p>Thou mayest love on, through love’s eternity.</p></div>"
+  },
+  {
+    "id": "moore-believe-me",
+    "title": "Believe Me, If All Those Endearing Young Charms",
+    "poet": "Thomas Moore",
+    "dates": "",
+    "tags": [
+      "romantic",
+      "beauty",
+      "time",
+      "rhymed",
+      "romantic-era"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Believe me, if all those endearing young charms,</p><p><span style='padding-left:1.5em'>Which I gaze on so fondly today,</span></p><p>Were to change by tomorrow, and fleet in my arms,</p><p><span style='padding-left:1.5em'>Like fairy-gifts fading away,</span></p><p>Thou wouldst still be adored, as this moment thou art,</p><p><span style='padding-left:1.5em'>Let thy loveliness fade as it will,</span></p><p>And around the dear ruin each wish of my heart</p><p><span style='padding-left:1.5em'>Would entwine itself verdantly still.</span></p></div><div class='stanza'><p>It is not while beauty and youth are thine own,</p><p><span style='padding-left:1.5em'>And thy cheeks unprofaned by a tear,</span></p><p>That the fervour and faith of a soul can be known,</p><p><span style='padding-left:1.5em'>To which time will but make thee more dear;</span></p><p>No, the heart that has truly loved never forgets,</p><p><span style='padding-left:1.5em'>But as truly loves on to the close,</span></p><p>As the sunflower turns on her god, when he sets,</p><p><span style='padding-left:1.5em'>The same look which she turned when he rose.</span></p></div>"
+  },
+  {
+    "id": "wilcox-i-love-you",
+    "title": "I Love You",
+    "poet": "Ella Wheeler Wilcox",
+    "dates": "",
+    "tags": [
+      "erotic",
+      "desire",
+      "romantic",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>I love your lips when they’re wet with wine</p><p><span style='padding-left:1.5em'>And red with a wild desire;</span></p><p>I love your eyes when the lovelight lies</p><p><span style='padding-left:1.5em'>Lit with a passionate fire.</span></p><p>I love your arms when the strands enmesh</p><p><span style='padding-left:1.5em'>Your kisses against my face.</span></p></div><div class='stanza'><p>Not for me the cold, calm kiss</p><p><span style='padding-left:1.5em'>Of a virgin’s bloodless love;</span></p><p>Not for me the saint’s white bliss,</p><p><span style='padding-left:1.5em'>Nor the heart of a spotless dove.</span></p><p>But give me the love that so freely gives</p><p><span style='padding-left:1.5em'>And laughs at the whole world’s blame,</span></p><p>With your body so young and warm in my arms,</p><p><span style='padding-left:1.5em'>It set my poor heart aflame.</span></p></div><div class='stanza'><p>So kiss me sweet with your warm wet mouth,</p><p><span style='padding-left:1.5em'>Still fragrant with ruby wine,</span></p><p>And say with a fervor born of the South</p><p><span style='padding-left:1.5em'>That your body and soul are mine.</span></p><p>Clasp me close in your warm young arms,</p><p><span style='padding-left:1.5em'>While the pale stars shine above,</span></p><p>And we’ll live our whole young lives away</p><p><span style='padding-left:1.5em'>In the joys of a living love.</span></p></div>"
+  },
+  {
+    "id": "lewisohn-together",
+    "title": "Together",
+    "poet": "Ludwig Lewisohn",
+    "dates": "",
+    "tags": [
+      "conjugal",
+      "tenderness",
+      "faith",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>You and I by this lamp with these</p><p>Few books shut out the world. Our knees</p><p>Touch almost in this little space.</p><p>But I am glad. I see your face.</p><p>The silences are long, but each</p><p>Hears the other without speech.</p><p>And in this simple scene there is</p><p>The essence of all subtleties,</p><p>The freedom from all fret and smart,</p><p>The one sure sabbath of the heart.</p></div><div class='stanza'><p>The world—we cannot conquer it,</p><p>Nor change the minds of fools one whit.</p><p>Here, here alone do we create</p><p>Beauty and peace inviolate;</p><p>Here night by night and hour by hour</p><p>We build a high impregnable tower</p><p>Whence may shine, now and again,</p><p>A light to light the feet of men</p><p>When they see the rays thereof:</p><p>And this is marriage, this is love.</p></div>"
+  },
+  {
+    "id": "sidney-my-true-love",
+    "title": "My True Love Hath My Heart …",
+    "poet": "Sir Philip Sidney",
+    "dates": "",
+    "tags": [
+      "romantic",
+      "tenderness",
+      "rhymed",
+      "renaissance"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>My true love hath my heart, and I have his,</p><p>By just exchange one for the other given.</p><p>I hold his dear, and mine he cannot miss;</p><p>There never was a better bargain driven.</p><p>His heart in me keeps me and him in one;</p><p>My heart in him his thoughts and senses guides;</p><p>He loves my heart, for once it was his own;</p><p>I cherish his, because in me it bides.</p><p>His heart his wound receivéd from my sight;</p><p>My heart was wounded with his wounded heart;</p><p>For as from me on him his hurt did light</p><p>So still methought in me his hurt did smart:</p><p>Both equal hurt, in this change sought our bliss;</p><p>My true love hath my heart, and I have his.</p></div>"
+  },
+  {
+    "id": "marinoni-who-are-my-people",
+    "title": "Who Are My People?",
+    "poet": "Rosa Zagnoni Marinoni",
+    "dates": "",
+    "tags": [
+      "identity",
+      "wonder",
+      "free-verse"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>My people? Who are they?</p><p>I went into the church where the congregation</p><p>Worshipped my God. Were they my people?</p><p>I felt no kinship to them as they knelt there.</p><p>My people! Where are they?</p><p>I went into the land where I was born,</p><p>Where men spoke my language …</p><p>I was a stranger there.</p><p>“My people,” my soul cried. “Who are my people?”</p></div><div class='stanza'><p>Last night in the rain I met an old man</p><p>Who spoke a language I do not speak,</p><p>Which marked him as one who does not know my God.</p><p>With apologetic smile he offered me</p><p>The shelter of his patched umbrella.</p><p>I met his eyes … And then I knew … .</p></div>"
+  },
+  {
+    "id": "oshaughnessy-ode",
+    "title": "Ode",
+    "poet": "Arthur O’Shaughnessy",
+    "dates": "",
+    "tags": [
+      "wonder",
+      "identity",
+      "time",
+      "rhymed",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>We are the music-makers,</p><p><span style='padding-left:1.5em'>And we are the dreamers of dreams,</span></p><p>Wandering by lone sea-breakers,</p><p><span style='padding-left:1.5em'>And sitting by desolate streams;</span></p><p>World-losers and world-forsakers,</p><p><span style='padding-left:1.5em'>On whom the pale moon gleams:</span></p><p>Yet we are the movers and shakers</p><p><span style='padding-left:1.5em'>Of the world for ever, it seems.</span></p></div><div class='stanza'><p>With wonderful deathless ditties</p><p>We build up the world’s cities,</p><p><span style='padding-left:1.5em'>And out of a fabulous story</span></p><p><span style='padding-left:1.5em'>We fashion an empire’s glory:</span></p><p>One man with a dream, at pleasure,</p><p><span style='padding-left:1.5em'>Shall go forth and conquer a crown;</span></p><p>And three with a new song’s measure</p><p><span style='padding-left:1.5em'>Can trample an empire down.</span></p></div><div class='stanza'><p>We, in the ages lying</p><p><span style='padding-left:1.5em'>In the buried past of the earth,</span></p><p>Built Nineveh with our sighing,</p><p><span style='padding-left:1.5em'>And Babel itself with our mirth;</span></p></div><div class='stanza'><p>And o’erthrew them with prophesying</p><p><span style='padding-left:1.5em'>To the old of the new world’s worth;</span></p><p>For each age is a dream that is dying,</p><p><span style='padding-left:1.5em'>Or one that is coming to birth.</span></p></div>"
+  },
+  {
+    "id": "wordsworth-world-too-much",
+    "title": "The World Is Too Much with Us",
+    "poet": "William Wordsworth",
+    "dates": "",
+    "tags": [
+      "nature",
+      "defiance",
+      "sonnet",
+      "rhymed",
+      "romantic-era"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>The world is too much with us; late and soon,</p><p>Getting and spending, we lay waste our powers:</p><p>Little we see in Nature that is ours;</p><p>We have given our hearts away, a sordid boon!</p><p>The sea that bares her bosom to the moon;</p><p>The winds that will be howling at all hours,</p><p>And are up-gathered now like sleeping flowers;</p><p>For this, for everything, we are out of tune;</p><p>It moves us not.—Great God! I’d rather be</p><p>A pagan suckled in a creed outworn.</p><p>So might I, standing on this pleasant lea,</p><p>Have glimpses that would make me less forlorn;</p><p>Have sight of Proteus rising from the sea;</p><p>Or hear old Triton blow his wreathed horn.</p></div>"
+  },
+  {
+    "id": "gillilan-watch-yourself",
+    "title": "Watch Yourself Go By",
+    "poet": "Strickland Gillilan",
+    "dates": "",
+    "tags": [
+      "identity",
+      "defiance",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Just stand aside and watch yourself go by;</p><p>Think of yourself as “he” instead of “I.”</p><p>Note closely as in other men you note</p><p>The bag-kneed trousers and the seedy coat.</p><p>Pick flaws; find fault; forget the man is you,</p><p>And strive to make your estimate ring true.</p><p>Confront yourself and look you in the eye—</p><p>Just stand aside and watch yourself go by.</p></div><div class='stanza'><p>Interpret all your motives just as though</p><p>You looked on one whose aims you did not know.</p><p>Let undisguised contempt surge through you when</p><p>You see you shirk, O commonest of men!</p><p>Despise your cowardice; condemn whate’er</p><p>You note of falseness in you anywhere.</p><p>Defend not one defect that shares your eye—</p><p>Just stand aside and watch yourself go by.</p></div><div class='stanza'><p>And then, with eyes unveiled to what you loathe,</p><p>To sins that with sweet charity you’d clothe,</p><p>Back to your self-walled tenement you’ll go</p><p>With tolerance for all who dwell below.</p><p>The faults of others then will dwarf and shrink,</p><p>Love’s chain grows stronger by one mighty link,</p><p>When you, with “he” as substitute for “I,”</p><p>Have stood aside and watched yourself go by.</p></div>"
+  },
+  {
+    "id": "turner-let-us-have-peace",
+    "title": "Let Us Have Peace",
+    "poet": "Nancy Byrd Turner",
+    "dates": "",
+    "tags": [
+      "war",
+      "nature",
+      "defiance",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>The earth is weary of our foolish wars.</p><p>Her hills and shores were shaped for lovely things,</p><p>Yet all our years are spent in bickerings</p><p><span style='padding-left:1.5em'>Beneath the astonished stars.</span></p></div><div class='stanza'><p>April by April laden with beauty comes,</p><p>Autumn by Autumn turns our toil to gain,</p><p>But hand at sword hilt, still we start and strain</p><p><span style='padding-left:1.5em'>To catch the beat of drums.</span></p></div><div class='stanza'><p>Knowledge to knowledge adding, skill to skill,</p><p>We strive for others’ good as for our own—</p><p>And then, like cavemen snarling with a bone,</p><p><span style='padding-left:1.5em'>We turn and rend and kill. …</span></p></div><div class='stanza'><p>With life so fair, and all too short a lease</p><p>Upon our special star! Nay, love and trust,</p><p>Not blood and thunder shall redeem our dust.</p><p><span style='padding-left:1.5em'>Let us have peace!</span></p></div>"
+  },
+  {
+    "id": "dickinson-apparently-no-surprise",
+    "title": "Apparently with No Surprise",
+    "poet": "Emily Dickinson",
+    "dates": "",
+    "tags": [
+      "mortality",
+      "nature",
+      "faith",
+      "lyric",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Apparently with no surprise</p><p>To any happy Flower</p><p>The Frost beheads it at its play—</p><p>In accidental power—</p><p>The blonde Assassin passes on—</p><p>The Sun proceeds unmoved</p><p>To measure off another Day</p><p>For an Approving God.</p></div>"
+  },
+  {
+    "id": "masefield-sea-fever",
+    "title": "Sea-Fever",
+    "poet": "John Masefield",
+    "dates": "",
+    "tags": [
+      "longing",
+      "nature",
+      "rhymed",
+      "modernist"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>I must go down to the seas again, to the lonely sea and the sky,</p><p><span style='padding-left:1.5em'>And all I ask is a tall ship and a star to steer her by,</span></p><p>And the wheel’s kick and the wind’s song and the white sail’s shaking,</p><p><span style='padding-left:1.5em'>And a gray mist on the sea’s face and a gray dawn breaking.</span></p></div><div class='stanza'><p>I must go down to the seas again, for the call of the running tide</p><p><span style='padding-left:1.5em'>Is a wild call and a clear call that may not be denied;</span></p><p>And all I ask is a windy day with the white clouds flying,</p><p><span style='padding-left:1.5em'>And the flung spray and the blown spume, and the sea-gulls crying.</span></p></div><div class='stanza'><p>I must go down to the seas again to the vagrant gypsy life.</p><p><span style='padding-left:1.5em'>To the gull’s way and the whale’s way where the wind’s like a whetted knife;</span></p><p>And all I ask is a merry yarn from a laughing fellow-rover,</p><p><span style='padding-left:1.5em'>And quiet sleep and a sweet dream when the long trick’s over.</span></p></div>"
+  },
+  {
+    "id": "riley-he-is-not-dead",
+    "title": "He Is Not Dead",
+    "poet": "James Whitcomb Riley",
+    "dates": "",
+    "tags": [
+      "grief",
+      "mortality",
+      "memory",
+      "rhymed"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>I cannot say, and I will not say</p><p>That he is dead. He is just away.</p><p>With a cheery smile, and a wave of the hand,</p><p>He has wandered into an unknown land</p><p>And left us dreaming how very fair</p><p>It needs must be, since he lingers there.</p><p>And you—oh, you, who the wildest yearn</p><p>For an old-time step, and the glad return,</p><p>Think of him faring on, as dear</p><p>In the love of There as the love of Here.</p><p>Think of him still as the same. I say,</p><p>He is not dead—he is just away.</p></div>"
+  },
+  {
+    "id": "rossetti-remember",
+    "title": "Remember",
+    "poet": "Christina Georgina Rossetti",
+    "dates": "",
+    "tags": [
+      "grief",
+      "mortality",
+      "memory",
+      "sonnet",
+      "rhymed",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>Remember me when I am gone away,</p><p>Gone far away into the silent land;</p><p>When you can no more hold me by the hand,</p><p>Nor I half turn to go, yet turning stay.</p><p>Remember me when no more, day by day,</p><p>You tell me of our future that you planned;</p><p>Only remember me; you understand</p><p>It will be late to counsel then or pray.</p></div><div class='stanza'><p>Yet if you should forget me for a while</p><p>And afterwards remember, do not grieve;</p><p>For if the darkness and corruption leave</p><p>A vestige of the thoughts that once I had,</p><p>Better by far you should forget and smile</p><p>Than that you should remember and be sad.</p></div>"
+  },
+  {
+    "id": "millay-dirge-without-music",
+    "title": "Dirge without Music",
+    "poet": "Edna St. Vincent Millay",
+    "dates": "",
+    "tags": [
+      "grief",
+      "mortality",
+      "defiance",
+      "free-verse",
+      "modernist"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>I am not resigned to the shutting away of loving hearts</p><p><span style='padding-left:1.5em'>in the hard ground.</span></p><p>So it is, and so it will be, for so it has been, time out of mind:</p><p><span style='padding-left:1.5em'>Into the darkness they go, the wise and the lovely.</span></p><p>Crowned with lilies and with laurel they go;</p><p><span style='padding-left:2em'>but I am not resigned.</span></p></div><div class='stanza'><p>Lovers and thinkers, into the earth with you.</p><p>Be one with the dull, the indiscriminate dust.</p><p>A fragment of what you felt, of what you knew,</p><p>A formula, a phrase remains,—but the best is lost.</p></div><div class='stanza'><p>The answers quick and keen, the honest look,</p><p><span style='padding-left:1.5em'>the laughter, the love,—</span></p><p>They are gone. They are gone to feed the roses.</p><p><span style='padding-left:1.5em'>Elegant and curled</span></p><p>Is the blossom. Fragrant is the blossom. I know. But I do not approve.</p><p>More precious was the light in your eyes than all the roses of the world.</p></div><div class='stanza'><p>Down, down, down into the darkness of the grave</p><p>Gently they go, the beautiful, the tender, the kind;</p><p>Quietly they go, the intelligent, the witty, the brave.</p><p>I know. But I do not approve. And I am not resigned.</p></div>"
+  },
+  {
+    "id": "rossetti-song",
+    "title": "Song",
+    "poet": "Christina Georgina Rossetti",
+    "dates": "",
+    "tags": [
+      "grief",
+      "mortality",
+      "memory",
+      "rhymed",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>When I am dead, my dearest,</p><p><span style='padding-left:1.5em'>Sing no sad songs for me;</span></p><p>Plant thou no roses at my head,</p><p><span style='padding-left:1.5em'>Nor shady cypress tree:</span></p><p>Be the green grass above me</p><p><span style='padding-left:1.5em'>With showers and dewdrops wet;</span></p><p>And if thou wilt, remember,</p><p><span style='padding-left:1.5em'>And if thou wilt, forget.</span></p></div><div class='stanza'><p>I shall not see the shadows,</p><p><span style='padding-left:1.5em'>I shall not feel the rain;</span></p><p>I shall not hear the nightingale</p><p><span style='padding-left:1.5em'>Sing on, as if in pain;</span></p><p>And dreaming through the twilight</p><p><span style='padding-left:1.5em'>That doth not rise nor set,</span></p><p>Haply I may remember,</p><p><span style='padding-left:1.5em'>And haply may forget.</span></p></div>"
+  },
+  {
+    "id": "kingsley-the-old-song",
+    "title": "The Old Song",
+    "poet": "Charles Kingsley",
+    "dates": "",
+    "tags": [
+      "time",
+      "memory",
+      "beauty",
+      "rhymed",
+      "victorian"
+    ],
+    "added": "2026-03-11",
+    "text": "<div class='stanza'><p>When all the world is young, lad,</p><p><span style='padding-left:1.5em'>And all the trees are green;</span></p><p>And every goose a swan, lad,</p><p><span style='padding-left:1.5em'>And every lass a queen;</span></p><p>Then hey for boot and horse, lad,</p><p><span style='padding-left:1.5em'>And round the world away!</span></p><p>Young blood must have its course, lad,</p><p><span style='padding-left:1.5em'>And every dog his day.</span></p></div><div class='stanza'><p>When all the world is old, lad,</p><p><span style='padding-left:1.5em'>And all the trees are brown;</span></p><p>And all the sport is stale, lad,</p><p><span style='padding-left:1.5em'>And all the wheels run down;</span></p><p>Creep home, and take your place there</p><p><span style='padding-left:1.5em'>The spent and maim’d among;</span></p><p>God grant you find one face there</p><p><span style='padding-left:1.5em'>You loved when all was young!</span></p></div>"
+  }
+];
+
+// ── STATE ──
+let poems = [];
+let sortCol = 'poet';
+let sortDir = 1;
+let query = '';
+let activeTags = new Set();
+
+// ── INIT ──
+function init() {
+  const local = JSON.parse(localStorage.getItem('added_poems') || '[]');
+  poems = [...BASE_POEMS, ...local];
+  updateKeyStatus();
+  render();
+}
+
+// ── API KEY ──
+function getKey() { return localStorage.getItem('api_key') || ''; }
+function updateKeyStatus() {
+  const dot = document.getElementById('key-status');
+  dot.classList.toggle('set', !!getKey());
+}
+
+// ── SURNAME ──
+function surname(name) {
+  if (!name || name === 'Anonymous') return (name || '').toLowerCase();
+  const clean = name.replace(/^(Sir|Dame|Dr\.?)\s+/i, '').trim();
+  return clean.split(/\s+/).pop().toLowerCase();
+}
+
+// ── FILTER & SORT ──
+function filtered() {
+  return poems.filter(p => {
+    const q = query.toLowerCase();
+    const matchText = !q || p.title.toLowerCase().includes(q) || p.poet.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q));
+    const matchTags = activeTags.size === 0 || [...activeTags].every(t => p.tags.includes(t));
+    return matchText && matchTags;
+  });
+}
+
+function sorted(list) {
+  return [...list].sort((a, b) => {
+    let va, vb;
+    if (sortCol === 'poet') { va = surname(a.poet); vb = surname(b.poet); if (va===vb){va=a.title.toLowerCase();vb=b.title.toLowerCase();} }
+    else { va = a.title.toLowerCase(); vb = b.title.toLowerCase(); if (va===vb){va=surname(a.poet);vb=surname(b.poet);} }
+    return va < vb ? -sortDir : va > vb ? sortDir : 0;
+  });
+}
+
+function allTags() {
+  const set = new Set();
+  poems.forEach(p => p.tags.forEach(t => set.add(t)));
+  return [...set].sort();
+}
+
+// ── RENDER ──
+function render() { renderFilters(); renderTable(); }
+
+function renderFilters() {
+  const c = document.getElementById('tag-filters');
+  let html = activeTags.size > 0 ? '<span class="filter-pill clear-pill" data-clear="1">✕ clear</span>' : '';
+  allTags().forEach(t => { html += `<span class="filter-pill ${activeTags.has(t)?'active':''}" data-tag="${t}">${t}</span>`; });
+  c.innerHTML = html;
+  c.querySelectorAll('[data-tag]').forEach(el => el.addEventListener('click', () => { const t=el.dataset.tag; activeTags.has(t)?activeTags.delete(t):activeTags.add(t); render(); }));
+  const cl = c.querySelector('[data-clear]');
+  if (cl) cl.addEventListener('click', () => { activeTags.clear(); render(); });
+}
+
+function renderTable() {
+  const results = sorted(filtered());
+  const n = results.length;
+  document.getElementById('header-count').textContent = n + ' poem' + (n!==1?'s':'');
+  document.querySelectorAll('thead th').forEach(th => {
+    const active = th.dataset.col === sortCol;
+    th.classList.toggle('sort-active', active);
+    th.querySelector('.sa').textContent = active ? (sortDir===1?'▲':'▼') : '▲';
+  });
+  const tbody = document.getElementById('browse-body');
+  if (!results.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="2">No poems found.</td></tr>'; return; }
+  tbody.innerHTML = results.map(p => `<tr data-id="${p.id}"><td class="cp"><div class="cp-name">${p.poet}</div>${p.dates?`<div class="cp-dates">${p.dates}</div>`:''}</td><td class="ct"><div class="ct-name">${p.title}</div><div class="ct-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></td></tr>`).join('');
+  tbody.querySelectorAll('tr[data-id]').forEach(row => row.addEventListener('click', () => { const poem=poems.find(p=>p.id===row.dataset.id); if(poem) openPoem(poem); }));
+}
+
+document.querySelectorAll('thead th[data-col]').forEach(th => th.addEventListener('click', () => { const col=th.dataset.col; sortDir=sortCol===col?sortDir*-1:1; sortCol=col; renderTable(); }));
+document.getElementById('search').addEventListener('input', e => { query=e.target.value; renderTable(); });
+
+// ── POEM VIEW ──
+function openPoem(poem) {
+  document.getElementById('view-title').textContent = poem.title;
+  document.getElementById('view-poet').textContent = poem.poet;
+  document.getElementById('view-dates').textContent = poem.dates || '';
+  document.getElementById('view-tags').innerHTML = poem.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('view-body').innerHTML = poem.text;
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('poem-view').style.display='block';
+  document.getElementById('add-btn').style.display='none';
+  document.getElementById('settings-btn').style.display='none';
+  window.scrollTo(0,0);
+}
+
+document.getElementById('back-btn').addEventListener('click', () => {
+  document.getElementById('poem-view').style.display='none';
+  document.getElementById('list-view').style.display='block';
+  document.getElementById('add-btn').style.display='flex';
+  document.getElementById('settings-btn').style.display='flex';
+});
+
+// ── ADD BUTTON & MODE MENU ──
+const addBtn = document.getElementById('add-btn');
+const modeMenu = document.getElementById('mode-menu');
+const menuScrim = document.getElementById('menu-scrim');
+
+addBtn.addEventListener('click', () => {
+  modeMenu.classList.toggle('open');
+  menuScrim.classList.toggle('open');
+});
+menuScrim.addEventListener('click', closeMenu);
+function closeMenu() { modeMenu.classList.remove('open'); menuScrim.classList.remove('open'); }
+
+document.getElementById('btn-capture').addEventListener('click', () => { closeMenu(); openCaptureSheet(); });
+document.getElementById('btn-manual').addEventListener('click', () => { closeMenu(); openSheet('manual-sheet'); });
+
+// ── SAVE POEM (shared) ──
+function savePoem(title, poet, dates, tagsRaw, rawText) {
+  const tags = tagsRaw ? tagsRaw.split(',').map(t=>t.trim()).filter(Boolean) : [];
+  const id = [poet,title].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,60)+'-'+Date.now();
+  // Convert plain text to HTML stanzas
+  const htmlText = rawText.split(/\n\s*\n/).map(s =>
+    `<div class='stanza'>${s.split('\n').map(l=>`<p>${l}</p>`).join('')}</div>`
+  ).join('');
+  const poem = {id, title:title||'[Untitled]', poet:poet||'Anonymous', dates, tags, added:new Date().toISOString().slice(0,10), text:htmlText};
+  const local = JSON.parse(localStorage.getItem('added_poems')||'[]');
+  local.push(poem);
+  localStorage.setItem('added_poems', JSON.stringify(local));
+  poems.push(poem);
+  render();
+}
+
+// ── MANUAL SHEET ──
+document.getElementById('cancel-manual').addEventListener('click', () => closeSheet('manual-sheet'));
+document.getElementById('manual-sheet').addEventListener('click', e => { if(e.target===document.getElementById('manual-sheet')) closeSheet('manual-sheet'); });
+document.getElementById('save-manual').addEventListener('click', () => {
+  const title = document.getElementById('new-title').value.trim();
+  const poet  = document.getElementById('new-poet').value.trim();
+  const dates = document.getElementById('new-dates').value.trim();
+  const tags  = document.getElementById('new-tags').value.trim();
+  const text  = document.getElementById('new-text').value.trim();
+  if (!text) return;
+  savePoem(title, poet, dates, tags, text);
+  closeSheet('manual-sheet');
+  clearFields(['new-poet','new-title','new-dates','new-tags','new-text']);
+});
+
+// ── CAPTURE SHEET ──
+let capturedImageB64 = null;
+
+function openCaptureSheet() {
+  if (!getKey()) {
+    openSheet('settings-sheet');
+    document.getElementById('api-key-input').placeholder = 'Set your API key first…';
+    return;
+  }
+  resetCaptureSheet();
+  openSheet('capture-sheet');
+}
+
+function resetCaptureSheet() {
+  capturedImageB64 = null;
+  document.getElementById('capture-preview').style.display='none';
+  document.getElementById('capture-preview').src='';
+  document.getElementById('capture-form').style.display='none';
+  document.getElementById('cap-save').style.display='none';
+  document.getElementById('ocr-status').textContent='';
+  document.getElementById('ocr-status').className='ocr-status';
+  document.getElementById('capture-zone').style.display='block';
+  clearFields(['cap-poet','cap-title','cap-dates','cap-tags','cap-text']);
+}
+
+document.getElementById('capture-zone').addEventListener('click', () => {
+  document.getElementById('capture-file').click();
+});
+
+document.getElementById('capture-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Show preview
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const dataUrl = ev.target.result;
+    const b64 = dataUrl.split(',')[1];
+    capturedImageB64 = b64;
+
+    const preview = document.getElementById('capture-preview');
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+    document.getElementById('capture-zone').style.display = 'none';
+
+    // Call Claude
+    await runOCR(b64, file.type || 'image/jpeg');
+  };
+  reader.readAsDataURL(file);
+  // Reset input so same file can be re-selected
+  e.target.value = '';
+});
+
+async function runOCR(b64, mediaType) {
+  const status = document.getElementById('ocr-status');
+  status.textContent = 'Reading poem…';
+  status.className = 'ocr-status working';
+
+  const prompt = `This is a photograph of a poem from a printed anthology. Extract the following and respond ONLY with valid JSON and nothing else — no markdown, no explanation:
+{
+  "title": "poem title, or [Untitled] if none shown",
+  "poet": "poet full name as printed",
+  "dates": "dates if shown e.g. 1872-1906 or b. 1952, otherwise empty string",
+  "text": "complete poem text; preserve line breaks within stanzas; separate stanzas with a blank line"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': getKey(),
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-6',
+        max_tokens: 1500,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64 } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error?.message || 'API error');
+    }
+
+    const raw = data.content?.[0]?.text || '';
+    if (!raw) throw new Error('Empty response. Full data: ' + JSON.stringify(data).slice(0, 300));
+    // Strip possible markdown fences
+    const clean = raw.replace(/^```[json]*\n?/i,'').replace(/\n?```$/,'').trim();
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch(parseErr) {
+      throw new Error('JSON parse failed. Raw response: ' + clean.slice(0, 300));
+    }
+
+    document.getElementById('cap-poet').value  = parsed.poet  || '';
+    document.getElementById('cap-title').value = parsed.title || '';
+    document.getElementById('cap-dates').value = parsed.dates || '';
+    document.getElementById('cap-text').value  = parsed.text  || '';
+
+    status.textContent = 'Done — review and save.';
+    status.className = 'ocr-status done';
+    document.getElementById('capture-form').style.display = 'block';
+    document.getElementById('cap-save').style.display = 'block';
+
+  } catch(err) {
+    status.textContent = 'Error: ' + err.message;
+    status.className = 'ocr-status error';
+    // Still show form for manual correction
+    document.getElementById('capture-form').style.display = 'block';
+    document.getElementById('cap-save').style.display = 'block';
+  }
+}
+
+document.getElementById('cap-cancel').addEventListener('click', () => closeSheet('capture-sheet'));
+document.getElementById('capture-sheet').addEventListener('click', e => { if(e.target===document.getElementById('capture-sheet')) closeSheet('capture-sheet'); });
+
+document.getElementById('cap-save').addEventListener('click', () => {
+  const title = document.getElementById('cap-title').value.trim();
+  const poet  = document.getElementById('cap-poet').value.trim();
+  const dates = document.getElementById('cap-dates').value.trim();
+  const tags  = document.getElementById('cap-tags').value.trim();
+  const text  = document.getElementById('cap-text').value.trim();
+  if (!text) return;
+  savePoem(title, poet, dates, tags, text);
+  closeSheet('capture-sheet');
+});
+
+// ── SETTINGS ──
+document.getElementById('settings-btn').addEventListener('click', () => {
+  document.getElementById('api-key-input').value = getKey();
+  openSheet('settings-sheet');
+});
+document.getElementById('cancel-settings').addEventListener('click', () => closeSheet('settings-sheet'));
+document.getElementById('settings-sheet').addEventListener('click', e => { if(e.target===document.getElementById('settings-sheet')) closeSheet('settings-sheet'); });
+document.getElementById('save-settings').addEventListener('click', () => {
+  const key = document.getElementById('api-key-input').value.trim();
+  if (key) localStorage.setItem('api_key', key);
+  else localStorage.removeItem('api_key');
+  updateKeyStatus();
+  closeSheet('settings-sheet');
+});
+
+// ── SHEET HELPERS ──
+function openSheet(id) { document.getElementById(id).classList.add('open'); }
+function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
+function clearFields(ids) { ids.forEach(id => document.getElementById(id).value=''); }
+
+init();
+</script>
+</body>
+</html>
