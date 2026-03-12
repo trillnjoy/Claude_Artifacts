@@ -657,6 +657,30 @@ function init() {
   poems = [...BASE_POEMS, ...local];
   updateKeyStatus();
   render();
+  checkURLParams();
+}
+
+function checkURLParams() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.has('poet') && !p.has('title') && !p.has('text')) return;
+
+  // Pre-fill the capture form and open it
+  document.getElementById('cap-poet').value  = p.get('poet')  || '';
+  document.getElementById('cap-title').value = p.get('title') || '';
+  document.getElementById('cap-dates').value = p.get('dates') || '';
+  document.getElementById('cap-tags').value  = p.get('tags')  || '';
+  document.getElementById('cap-text').value  = p.get('text')  || '';
+
+  // Show form ready to review
+  document.getElementById('capture-zone').style.display = 'none';
+  document.getElementById('capture-form').style.display = 'block';
+  document.getElementById('cap-save').style.display = 'block';
+  document.getElementById('ocr-status').textContent = 'Review and save.';
+  document.getElementById('ocr-status').className = 'ocr-status done';
+  openSheet('capture-sheet');
+
+  // Clean the URL so a refresh doesn't re-open the form
+  window.history.replaceState({}, '', window.location.pathname);
 }
 
 // ── API KEY & PROXY ──
