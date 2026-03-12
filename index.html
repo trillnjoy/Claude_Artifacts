@@ -201,6 +201,11 @@
       <input id="api-key-input" type="password" placeholder="sk-ant-…" autocomplete="off" autocorrect="off" spellcheck="false">
     </div>
     <p style="font-size:.75rem;color:var(--ink-faint);margin-top:-.4rem;margin-bottom:.85rem">Stored locally on this device. Required for photo capture.</p>
+    <div class="fg">
+      <label>Proxy URL (home only)</label>
+      <input id="proxy-url-input" type="url" placeholder="http://192.168.x.x:8765" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <p style="font-size:.75rem;color:var(--ink-faint);margin-top:-.4rem;margin-bottom:.85rem">Your iMac's local address when adding poems at home. Leave blank otherwise.</p>
     <div class="sheet-actions">
       <button class="btn-s" id="cancel-settings">Cancel</button>
       <button class="btn-p" id="save-settings">Save Key</button>
@@ -654,8 +659,10 @@ function init() {
   render();
 }
 
-// ── API KEY ──
+// ── API KEY & PROXY ──
 function getKey() { return localStorage.getItem('api_key') || ''; }
+function getProxy() { return localStorage.getItem('proxy_url') || ''; }
+function getEndpoint() { return getProxy() || 'https://api.anthropic.com/v1/messages'; }
 function updateKeyStatus() {
   const dot = document.getElementById('key-status');
   dot.classList.toggle('set', !!getKey());
@@ -858,7 +865,7 @@ async function runOCR(b64, mediaType) {
 }`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch(getEndpoint(), {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -931,6 +938,7 @@ document.getElementById('cap-save').addEventListener('click', () => {
 // ── SETTINGS ──
 document.getElementById('settings-btn').addEventListener('click', () => {
   document.getElementById('api-key-input').value = getKey();
+  document.getElementById('proxy-url-input').value = getProxy();
   openSheet('settings-sheet');
 });
 document.getElementById('cancel-settings').addEventListener('click', () => closeSheet('settings-sheet'));
@@ -939,6 +947,9 @@ document.getElementById('save-settings').addEventListener('click', () => {
   const key = document.getElementById('api-key-input').value.trim();
   if (key) localStorage.setItem('api_key', key);
   else localStorage.removeItem('api_key');
+  const proxy = document.getElementById('proxy-url-input').value.trim();
+  if (proxy) localStorage.setItem('proxy_url', proxy);
+  else localStorage.removeItem('proxy_url');
   updateKeyStatus();
   closeSheet('settings-sheet');
 });
