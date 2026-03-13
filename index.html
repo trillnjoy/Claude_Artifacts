@@ -235,18 +235,43 @@ function dbCount() {
   });
 }
 
-// ── Seed ───────────────────────────────────────────────────────────────────
-async function seedIfEmpty() {
-  const count = await dbCount();
-  if (count > 0) return;
+// ── Seed (versioned merge) ─────────────────────────────────────────────────
+// poems_seed.json must be either a plain array (legacy) or
+// { "version": N, "poems": [...] }
+// On every load we compare seed version to stored version.
+// If seed is newer, we merge: add new poems, never delete existing ones.
+const SEED_VERSION_KEY = 'pa_seed_version';
+
+async function syncSeed() {
   try {
-    const resp = await fetch('poems_seed.json');
+    const resp = await fetch('poems_seed.json?v=' + Date.now()); // bypass SW cache
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const poems = await resp.json();
-    for (const p of poems) await dbPut(p);
-    console.log(`Seeded ${poems.length} poems into IndexedDB`);
+    const raw = await resp.json();
+
+    // Support both plain array and versioned object
+    const isVersioned = !Array.isArray(raw) && raw.version !== undefined;
+    const seedVersion = isVersioned ? raw.version : 1;
+    const seedPoems = isVersioned ? raw.poems : raw;
+
+    const storedVersion = parseInt(localStorage.getItem(SEED_VERSION_KEY) || '0', 10);
+    const count = await dbCount();
+
+    if (count === 0 || seedVersion > storedVersion) {
+      // Merge: get existing IDs, only add poems not already present
+      const existing = await dbGetAll();
+      const existingIds = new Set(existing.map(p => p.id));
+      let added = 0;
+      for (const p of seedPoems) {
+        if (!existingIds.has(p.id)) {
+          await dbPut(p);
+          added++;
+        }
+      }
+      localStorage.setItem(SEED_VERSION_KEY, seedVersion);
+      console.log(`Seed v${seedVersion}: added ${added} new poems (${existing.length + added} total)`);
+    }
   } catch(e) {
-    console.warn('Seed load failed:', e.message);
+    console.warn('Seed sync failed:', e.message);
   }
 }
 
@@ -384,7 +409,7 @@ document.getElementById('capture-file').addEventListener('change', async e => {
     });
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-allow-browser':'true'},
       body: JSON.stringify({
         model:'claude-haiku-4-5-20251001', max_tokens:2000,
         messages:[{role:'user',content:[
@@ -459,7 +484,7 @@ if ('serviceWorker' in navigator) {
 // ── Init ───────────────────────────────────────────────────────────────────
 (async ()=>{
   await openDB();
-  await seedIfEmpty();
+  await syncSeed();
   allPoems = await dbGetAll();
   document.getElementById('loading').style.display='none';
   document.getElementById('list-view').style.display='';
