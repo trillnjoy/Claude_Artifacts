@@ -1,7 +1,8 @@
 {
   "name": "Poetry Archive",
   "short_name": "Poetry",
-  "start_url": "/",
+  "start_url": "/Claude_Artifacts/",
+  "scope": "/Claude_Artifacts/",
   "display": "standalone",
   "background_color": "#faf9f7",
   "theme_color": "#faf9f7",
