@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "poems": [
   {
     "id": "laux-the-lovers",
@@ -1031,6 +1031,100 @@
   ],
   "added": "2026-03-13",
   "text": "<div class='stanza'><p>First snow—I release her into it—</p><p>I know, released, she won't come back.</p><p>This is different from letting what,</p></div><div class='stanza'><p>already, we count as lost go. It is nothing</p><p>like that. Also, it is not like wanting to learn what</p><p>losing a thing we love feels like. Oh yes:</p></div><div class='stanza'><p>I love her.</p><p>Released, she seems for a moment as if</p><p>some part of me that, almost,</p></div><div class='stanza'><p>I wouldn't mind</p><p>understanding better, is that</p><p>not love? She seems a part of me,</p></div><div class='stanza'><p>and then she seems entirely like what she is:</p><p>a white dog,</p><p>less white suddenly, against the snow,</p></div><div class='stanza'><p>who won't come back. I know that; and, knowing it,</p><p>I release her. It's as if I release her</p><p><em>because</em> I know.</p></div>"
+},
+{
+  "id": "kerouac-61st-chorus",
+  "title": "61st Chorus",
+  "poet": "Jack Kerouac",
+  "dates": "1922–1969",
+  "tags": [
+    "faith",
+    "sin",
+    "forgiveness",
+    "jazz",
+    "beat",
+    "free-verse",
+    "modernist"
+  ],
+  "added": "2026-03-13",
+  "source": "Mexico City Blues",
+  "text": "<div class='stanza'><p>And all my own sins</p><p>Have been forgiven somewhere —</p><p>I dont even remember them,</p><p>I remember the sins of others.</p></div><div class='stanza'><p>Let me meditate on my sins.</p><p><span style='padding-left:2em'>(Judgment Gate, somebody</span></p><p><span style='padding-left:2em'>stuck a spear</span></p><p><span style='padding-left:2em'>through the heart</span></p><p><span style='padding-left:2em'>of the Judgment Gate)</span></p><p><span style='padding-left:3em'>(with her surl of leer)</span></p></div><div class='stanza'><p><span style='padding-left:2em'>and that's how we got in</span></p></div><div class='stanza'><p>Powerful Tea you gotta smoke</p><p><span style='padding-left:2em'>to believe that</span></p></div><div class='stanza'><p>About the actual honey</p><p><span style='padding-left:2em'>of women's limbs</span></p></div><div class='stanza'><p>Archangels have true eyes —</p><p>They look sideways at you</p><p>And make you excise</p><p>The end from the tax bit</p><p><span style='padding-left:2em'>of your doubts —</span></p><p>'S all about angels' sins</p></div>"
+}
+,
+{
+  "id": "kerouac-55th-chorus",
+  "title": "55th Chorus",
+  "poet": "Jack Kerouac",
+  "dates": "1922–1969",
+  "tags": [
+    "memory",
+    "humor",
+    "literature",
+    "jazz",
+    "beat",
+    "free-verse",
+    "modernist"
+  ],
+  "added": "2026-03-13",
+  "source": "Mexico City Blues",
+  "text": "<div class='stanza'><p>When I was in the hospital</p><p>I had a big fat nurse</p><p>Who kept looking over my shoulder</p><p>At the book I was reading,</p><p>'The Brothers Karamazov,'</p><p>By Gambling Man Fyodor</p><p><span style='padding-left:2em'>Dostoevsky</span></p><p>Of Czarist Russia, a Saint,</p><p>And in the chapters</p><p><span style='padding-left:2em'>called Pro and Con</span></p><p>She kept giggling &amp; insisting</p><p>That Pro meant Prophylactic</p><p><span style='padding-left:2em'>and Con Contraceptive</span></p><p>In all her laughs &amp; gestures.</p><p><span style='padding-left:2em'>Of this Holy Nurse</span></p><p><span style='padding-left:2em'>I learned bed wet</span></p><p><span style='padding-left:2em'>comforts of hot water</span></p><p><span style='padding-left:2em'>and senile satisfaction</span></p><p>'I'll Take You Home Again Kathleen'</p><p>Sang the old white Cancer man</p><p><span style='padding-left:2em'>in the corner</span></p><p>when the children guitared</p><p><span style='padding-left:2em'>at my footbed,</span></p><p>Kolya Krosotkins</p><p><span style='padding-left:2em'>of my railroad</span></p></div>"
+}
+,
+{
+  "id": "kerouac-34th-chorus",
+  "title": "34th Chorus",
+  "poet": "Jack Kerouac",
+  "dates": "1922–1969",
+  "tags": [
+    "freedom",
+    "politics",
+    "identity",
+    "jazz",
+    "beat",
+    "free-verse",
+    "modernist"
+  ],
+  "added": "2026-03-13",
+  "source": "Mexico City Blues",
+  "text": "<div class='stanza'><p>"I have no plans</p><p><span style='padding-left:1em'>No dates</span></p><p><span style='padding-left:2em'>No appointments with anybody</span></p></div><div class='stanza'><p>So I leisurely explore</p><p><span style='padding-left:2em'>Souls and Cities</span></p></div><div class='stanza'><p>Geographically I'm from</p><p><span style='padding-left:2em'>and belong to that group</span></p><p><span style='padding-left:2em'>called Pennsylvania Dutch</span></p></div><div class='stanza'><p>But I'm really a citizen</p><p><span style='padding-left:2em'>of the world</span></p><p><span style='padding-left:3em'>who hates Communism</span></p><p><span style='padding-left:3em'>and tolerates Democracy</span></p></div><div class='stanza'><p>Of which Plato said 2000 years</p><p><span style='padding-left:2em'>ago,</span></p><p>Was the best form of bad government</p></div><div class='stanza'><p>I'm merely exploring souls &amp; cities</p><p>From the vantage point</p><p>Of my ivory tower built,</p><p>Built with the assistance</p><p><span style='padding-left:2em'>of Opium</span></p></div><div class='stanza'><p>That's enough, isnt it?"</p></div>"
+}
+,
+{
+  "id": "kerouac-32nd-chorus",
+  "title": "32nd Chorus",
+  "poet": "Jack Kerouac",
+  "dates": "1922–1969",
+  "tags": [
+    "cosmos",
+    "surrealism",
+    "Buddhism",
+    "jazz",
+    "beat",
+    "free-verse",
+    "modernist"
+  ],
+  "added": "2026-03-13",
+  "source": "Mexico City Blues",
+  "text": "<div class='stanza'><p>Newton's theory of relativity</p><p><span style='padding-left:2em'>and grave gravity</span></p><p>Is that rocks'll fall on your head</p></div><div class='stanza'><p>Pluto is the Latest Star</p></div><div class='stanza'><p>Astronomical facts</p><p><span style='padding-left:2em'>from under the bar.</span></p></div><div class='stanza'><p>Little cottages on hills receive</p><p>the Constellation of</p><p>the Southern Hemisphere</p></div><div class='stanza'><p>Where rosy doves're seen flyin</p><p><span style='padding-left:1em'>Past Pis Cacuaqaheuro</span></p><p><span style='padding-left:1em'>Monte Visto de Santo</span></p><p><span style='padding-left:1em'>De Gassa — healing helium</span></p><p><span style='padding-left:2em'>gas — from the substance</span></p><p><span style='padding-left:2em'>on the sun star —</span></p><p><span style='padding-left:2em'>gas discovered on the sun</span></p><p><span style='padding-left:2em'>by spectral gazing</span></p></div><div class='stanza'><p>Sorcerers hoppity skop</p><p><span style='padding-left:3em'>with the same familiarity</span></p><p>In my Buddhaland dreams —</p></div><div class='stanza'><p><span style='padding-left:3em'>Monotonous monotony</span></p><p><span style='padding-left:3em'>of endless grape dirigible stars</span></p></div>"
+}
+,
+{
+  "id": "kerouac-13th-chorus",
+  "title": "13th Chorus",
+  "poet": "Jack Kerouac",
+  "dates": "1922–1969",
+  "tags": [
+    "Mexico",
+    "surrealism",
+    "mythology",
+    "jazz",
+    "beat",
+    "free-verse",
+    "modernist"
+  ],
+  "added": "2026-03-13",
+  "source": "Mexico City Blues",
+  "text": "<div class='stanza'><p>I caught a cold</p><p>From the sun</p><p>When they tore my heart out</p><p>At the top of the pyramid</p></div><div class='stanza'><p><span style='padding-left:2em'>O the ruttle tooty blooty</span></p><p><span style='padding-left:2em'>windowpoopies</span></p><p><span style='padding-left:3em'>of Fellah Ack Ack</span></p><p><span style='padding-left:3em'>Town that russet noon</span></p><p><span style='padding-left:3em'>when priests dared</span></p><p><span style='padding-left:3em'>to lick their lips</span></p><p><span style='padding-left:3em'>over my thumping meat</span></p><p><span style='padding-left:4em'>heart —</span></p><p><span style='padding-left:3em'>the Sacrilegious beasts</span></p><p><span style='padding-left:3em'>Ate me 10,000 million</span></p><p><span style='padding-left:3em'>Times &amp; I came back</span></p><p><span style='padding-left:3em'>Spitting Pulque</span></p><p><span style='padding-left:5em'>in Borracho</span></p><p><span style='padding-left:5em'>Ork</span></p><p><span style='padding-left:5em'>Saloons</span></p><p><span style='padding-left:6em'>of old Sour Azteca</span></p></div><div class='stanza'><p>Askin for more</p><p>I popped outa Popocatapetl's</p><p>Hungry mouth</p></div>"
 }
 ]
 }
