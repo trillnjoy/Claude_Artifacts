@@ -267,18 +267,14 @@ async function syncSeed() {
     const count = await dbCount();
 
     if (count === 0 || seedVersion > storedVersion) {
-      // Merge: get existing IDs, only add poems not already present
-      const existing = await dbGetAll();
-      const existingIds = new Set(existing.map(p => p.id));
-      let added = 0;
-      for (const p of seedPoems) {
-        if (!existingIds.has(p.id)) {
-          await dbPut(p);
-          added++;
-        }
-      }
+      // Authoritative reseed: clear and rewrite from seed entirely
+      await new Promise((res, rej) => {
+        const req = db.transaction(STORE, 'readwrite').objectStore(STORE).clear();
+        req.onsuccess = res; req.onerror = e => rej(e.target.error);
+      });
+      for (const p of seedPoems) await dbPut(p);
       localStorage.setItem(SEED_VERSION_KEY, seedVersion);
-      console.log(`Seed v${seedVersion}: added ${added} new poems (${existing.length + added} total)`);
+      console.log(`Seed v${seedVersion}: loaded ${seedPoems.length} poems`);
     }
   } catch(e) {
     console.warn('Seed sync failed:', e.message);
