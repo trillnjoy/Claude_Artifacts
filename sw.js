@@ -1,8 +1,7 @@
-const CACHE = 'poetry-v1';
+const CACHE = 'poetry-v2';
 const SHELL = [
   '/',
   '/index.html',
-  '/poems_seed.json',
   '/manifest.json',
   'https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap'
 ];
@@ -22,9 +21,9 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Never intercept Anthropic API calls
   if (e.request.url.includes('api.anthropic.com')) return;
-  // Never intercept Google Fonts CSS (let it cache naturally)
+  // Always fetch seed fresh — never cache it
+  if (e.request.url.includes('poems_seed.json')) return;
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
