@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 17,
   "poems": [
     {
       "id": "laux-the-lovers",
@@ -54,7 +54,7 @@
             "text": "with the bright tip the innermost spot."
           },
           {
-            "text": "And she finds she can’t bear it—"
+            "text": "And she finds she <em>can’t</em> bear it—"
           },
           {
             "text": "not his beautiful neck, stretched and corded,"
@@ -3405,19 +3405,19 @@
             "text": "that you’ve always been her lover"
           },
           {
-            "text": "And you want to travel with her"
+            "text": "<em>And you want to travel with her</em>"
           },
           {
-            "text": "you want to travel blind"
+            "text": "<em>you want to travel blind</em>"
           },
           {
-            "text": "and you know that she can trust you"
+            "text": "<em>and you know that she can trust you</em>"
           },
           {
-            "text": "for you’ve touched her perfect body"
+            "text": "<em>for you’ve touched her perfect body</em>"
           },
           {
-            "text": "with your mind"
+            "text": "<em>with your mind</em>"
           }
         ],
         [
@@ -3458,19 +3458,19 @@
             "text": "he sank beneath your wisdom like a stone"
           },
           {
-            "text": "And you want to travel with him"
+            "text": "<em>And you want to travel with him</em>"
           },
           {
-            "text": "you want to travel blind"
+            "text": "<em>you want to travel blind</em>"
           },
           {
-            "text": "and you think maybe you’ll trust him"
+            "text": "<em>and you think maybe you’ll trust him</em>"
           },
           {
-            "text": "for he’s touched your perfect body"
+            "text": "<em>for he’s touched your perfect body</em>"
           },
           {
-            "text": "with his mind"
+            "text": "<em>with his mind</em>"
           }
         ],
         [
@@ -3514,19 +3514,19 @@
             "text": "while Suzanne holds the mirror"
           },
           {
-            "text": "And you want to travel with her"
+            "text": "<em>And you want to travel with her</em>"
           },
           {
-            "text": "you want to travel blind"
+            "text": "<em>you want to travel blind</em>"
           },
           {
-            "text": "and you know that you can trust her"
+            "text": "<em>and you know that you can trust her</em>"
           },
           {
-            "text": "for she’s touched your perfect body"
+            "text": "<em>for she’s touched your perfect body</em>"
           },
           {
-            "text": "with her mind"
+            "text": "<em>with her mind</em>"
           }
         ]
       ]
@@ -3561,16 +3561,16 @@
         ],
         [
           {
-            "text": "So long, Marianne"
+            "text": "<em>So long, Marianne</em>"
           },
           {
-            "text": "it’s time that we began"
+            "text": "<em>it’s time that we began</em>"
           },
           {
-            "text": "to laugh and cry and cry and laugh"
+            "text": "<em>to laugh and cry and cry and laugh</em>"
           },
           {
-            "text": "about it all again"
+            "text": "<em>about it all again</em>"
           }
         ],
         [
@@ -3659,16 +3659,16 @@
         ],
         [
           {
-            "text": "So long, Marianne"
+            "text": "<em>So long, Marianne</em>"
           },
           {
-            "text": "it’s time that we began"
+            "text": "<em>it’s time that we began</em>"
           },
           {
-            "text": "to laugh and cry and cry and laugh"
+            "text": "<em>to laugh and cry and cry and laugh</em>"
           },
           {
-            "text": "about it all again"
+            "text": "<em>about it all again</em>"
           }
         ]
       ]
@@ -3722,7 +3722,7 @@
             "text": "Your eyes are soft with sorrow"
           },
           {
-            "text": "Hey, that’s no way to say goodbye"
+            "text": "<em>Hey, that’s no way to say goodbye</em>"
           }
         ],
         [
@@ -3760,7 +3760,7 @@
             "text": "Your eyes are soft with sorrow"
           },
           {
-            "text": "Hey, that’s no way to say goodbye"
+            "text": "<em>Hey, that’s no way to say goodbye</em>"
           }
         ],
         [
@@ -3798,7 +3798,7 @@
             "text": "Your eyes are soft with sorrow"
           },
           {
-            "text": "Hey, that’s no way to say goodbye"
+            "text": "<em>Hey, that’s no way to say goodbye</em>"
           }
         ]
       ]
@@ -4079,28 +4079,28 @@
         ],
         [
           {
-            "text": "And there are no letters"
+            "text": "<em>And there are no letters</em>"
           },
           {
-            "text": "in the mailbox"
+            "text": "<em>in the mailbox</em>"
           },
           {
-            "text": "there are no grapes"
+            "text": "<em>there are no grapes</em>"
           },
           {
-            "text": "upon the vine"
+            "text": "<em>upon the vine</em>"
           },
           {
-            "text": "there are no chocolates"
+            "text": "<em>there are no chocolates</em>"
           },
           {
-            "text": "in your boxes any more"
+            "text": "<em>in your boxes any more</em>"
           },
           {
-            "text": "and there are no diamonds"
+            "text": "<em>and there are no diamonds</em>"
           },
           {
-            "text": "in the mine"
+            "text": "<em>in the mine</em>"
           }
         ],
         [
@@ -4131,7 +4131,7 @@
         ],
         [
           {
-            "text": "And there are no letters …"
+            "text": "<em>And there are no letters …</em>"
           }
         ],
         [
@@ -4162,28 +4162,28 @@
         ],
         [
           {
-            "text": "And there are no letters"
+            "text": "<em>And there are no letters</em>"
           },
           {
-            "text": "in the mailbox"
+            "text": "<em>in the mailbox</em>"
           },
           {
-            "text": "there are no grapes"
+            "text": "<em>there are no grapes</em>"
           },
           {
-            "text": "upon the vine"
+            "text": "<em>upon the vine</em>"
           },
           {
-            "text": "there are no chocolates"
+            "text": "<em>there are no chocolates</em>"
           },
           {
-            "text": "in your boxes any more"
+            "text": "<em>in your boxes any more</em>"
           },
           {
-            "text": "and there are no diamonds"
+            "text": "<em>and there are no diamonds</em>"
           },
           {
-            "text": "in the mine"
+            "text": "<em>in the mine</em>"
           }
         ]
       ]
@@ -4406,22 +4406,22 @@
       "stanzas": [
         [
           {
-            "text": "There is a war between the rich and poor, a war between the man and the woman. There is a war between the ones who say “there is a war” and the ones who say “there isn’t.” Why don’t you come on back to the war? It’s just beginning."
+            "text": "There is a war between the rich and poor, a war between the man and the woman. There is a war between the ones who say “there is a war” and the ones who say “there isn’t.” <em>Why don’t you come on back to the war? It’s just beginning.</em>"
           }
         ],
         [
           {
-            "text": "I live here with a woman and a child. The situation makes me kind of nervous. I rise up from her arms, she says, “I guess you call this love. I call it Room Service.” Why don’t you come on back to the war? Don’t be a tourist. Why don’t you come on back to the war? Let’s all get nervous."
+            "text": "I live here with a woman and a child. The situation makes me kind of nervous. I rise up from her arms, she says, “I guess you call this love. I call it Room Service.” <em>Why don’t you come on back to the war? Don’t be a tourist. Why don’t you come on back to the war? Let’s all get nervous.</em>"
           }
         ],
         [
           {
-            "text": "You cannot stand what I’ve become, you much prefer the gentleman I was before. I was so easy to defeat. I was so easy to control. I didn’t even know there was a war. Why don’t you come on back to the war? Don’t be embarrassed. Why don’t you come on back to the war? You can still get married."
+            "text": "You cannot stand what I’ve become, you much prefer the gentleman I was before. I was so easy to defeat. I was so easy to control. I didn’t even know there was a war. <em>Why don’t you come on back to the war? Don’t be embarrassed. Why don’t you come on back to the war? You can still get married.</em>"
           }
         ],
         [
           {
-            "text": "There is a war between the rich and poor, a war between the man and the woman. There is a war between the left and right, a war between the black and white, a war between the odd and the even. Why don’t you come on back to the war? Take up your tiny burden. Why don’t you come on back to the war? It’s just beginning. Why don’t you come on back to the war? Let’s all get even."
+            "text": "There is a war between the rich and poor, a war between the man and the woman. There is a war between the left and right, a war between the black and white, a war between the odd and the even. <em>Why don’t you come on back to the war? Take up your tiny burden. Why don’t you come on back to the war? It’s just beginning. Why don’t you come on back to the war? Let’s all get even.</em>"
           }
         ]
       ]
@@ -4451,7 +4451,7 @@
             "text": "common trial? Who in your merry, merry month of"
           },
           {
-            "text": "May? Who by very slow decay? And who shall I say is calling?"
+            "text": "May? Who by very slow decay? <em>And who shall I say is calling?</em>"
           }
         ],
         [
@@ -4465,7 +4465,7 @@
             "text": "by avalanche? Who by powder? Who for his greed?"
           },
           {
-            "text": "Who for his hunger? And who shall I say is calling?"
+            "text": "Who for his hunger? <em>And who shall I say is calling?</em>"
           }
         ],
         [
@@ -4479,7 +4479,7 @@
             "text": "Who by his own hand? Who in mortal chains? Who in"
           },
           {
-            "text": "power? And who shall I say is calling?"
+            "text": "power? <em>And who shall I say is calling?</em>"
           }
         ]
       ]
@@ -4704,19 +4704,19 @@
         ],
         [
           {
-            "text": "O chosen love, O frozen love"
+            "text": "<em>O chosen love, O frozen love</em>"
           },
           {
-            "text": "O tangle of matter and ghost."
+            "text": "<em>O tangle of matter and ghost.</em>"
           },
           {
-            "text": "O darling of angels, demons and saints"
+            "text": "<em>O darling of angels, demons and saints</em>"
           },
           {
-            "text": "and the whole broken-hearted host –"
+            "text": "<em>and the whole broken-hearted host –</em>"
           },
           {
-            "text": "Gentle this soul."
+            "text": "<em><span style='padding-left:1.5em'>Gentle this soul.</span></em>"
           }
         ],
         [
@@ -4773,22 +4773,22 @@
         ],
         [
           {
-            "text": "O chosen love, O frozen love"
+            "text": "<em>O chosen love, O frozen love</em>"
           },
           {
-            "text": "O tangle of matter and ghost."
+            "text": "<em>O tangle of matter and ghost.</em>"
           },
           {
-            "text": "O darling of angels, demons and saints"
+            "text": "<em>O darling of angels, demons and saints</em>"
           },
           {
-            "text": "and the whole broken-hearted host –"
+            "text": "<em>and the whole broken-hearted host –</em>"
           },
           {
-            "text": "Gentle this soul,"
+            "text": "<em><span style='padding-left:1.5em'>Gentle this soul,</span></em>"
           },
           {
-            "text": "gentle this soul."
+            "text": "<em><span style='padding-left:1.5em'>gentle this soul.</span></em>"
           }
         ]
       ]
@@ -4867,16 +4867,16 @@
         ],
         [
           {
-            "text": "And the light came from her body"
+            "text": "<em>And the light came from her body</em>"
           },
           {
-            "text": "And the night went through her grace"
+            "text": "<em>And the night went through her grace</em>"
           },
           {
-            "text": "All summer long she touched me"
+            "text": "<em>All summer long she touched me</em>"
           },
           {
-            "text": "And I knew her, I knew her face to face"
+            "text": "<em>And I knew her, I knew her face to face</em>"
           }
         ]
       ]
@@ -5109,7 +5109,7 @@
         ],
         [
           {
-            "text": "(Additional verses)"
+            "text": "<em>(Additional verses)</em>"
           }
         ],
         [
@@ -5639,7 +5639,7 @@
             "indent": 5.0
           },
           {
-            "text": "as if he is the king cat",
+            "text": "as if he is the <u>king cat</u>",
             "indent": 1.0
           },
           {
@@ -6342,7 +6342,7 @@
             "text": "from Lookout Mountain"
           },
           {
-            "text": "and see the Ode to the Confederate Dead"
+            "text": "and see the <u>Ode to the Confederate Dead</u>"
           },
           {
             "text": "as a real farce"
@@ -7090,7 +7090,7 @@
             "text": "I release her. It's as if I release her"
           },
           {
-            "text": "because I know."
+            "text": "<em>because</em> I know."
           }
         ]
       ]

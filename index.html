@@ -502,7 +502,7 @@ document.getElementById('capture-file').addEventListener('change', async e => {
         model:'claude-haiku-4-5-20251001', max_tokens:2000,
         messages:[{role:'user',content:[
           {type:'image',source:{type:'base64',media_type:file.type,data:b64}},
-          {type:'text',text:'Extract the poem from this image. Return JSON only, no markdown fences: {"title":"...","poet":"...","dates":"...","tags":[...],"text":"..."} where text uses \\n for line breaks and \\n\\n for stanza breaks. Preserve any indentation with leading spaces. Tags from: longing grief joy desire tenderness melancholy defiance wonder resignation mortality nature time war faith identity embodiment beauty memory sonnet ode lyric free-verse rhymed classical translation ancient renaissance romantic-era victorian modernist contemporary erotic conjugal romantic.'}
+          {type:'text',text:'Extract the poem from this image. Return JSON only, no markdown fences: {"title":"...","poet":"...","dates":"...","tags":[...],"text":"..."} where text uses \\n for line breaks and \\n\\n for stanza breaks. Preserve any indentation with leading spaces. Use <em> for italic text and <strong> for bold text inline within lines. Tags from: longing grief joy desire tenderness melancholy defiance wonder resignation mortality nature time war faith identity embodiment beauty memory sonnet ode lyric free-verse rhymed classical translation ancient renaissance romantic-era victorian modernist contemporary erotic conjugal romantic.'}
         ]}]
       })
     });
