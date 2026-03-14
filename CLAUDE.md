@@ -15,9 +15,10 @@ A personal poetry anthology — poems collected over decades — in one place, s
 
 **Host:** GitHub Pages at `https://trillnjoy.github.io/Claude_Artifacts/`  
 **Repo:** `trillnjoy/Claude_Artifacts` — branch `main` is live production  
-**Files:** `index.html`, `poems_seed.json`, `sw.js`, `manifest.json`  
+**Files:** `index.html`, `poems_seed.json`, `sw.js`, `manifest.json`, `CLAUDE.md`  
 **Data store:** IndexedDB (`poetry-archive`, store: `poems`) keyed by poem `id`  
-**Seed:** `poems_seed.json` — `{ "version": N, "poems": [...] }` — fetched on every load, reseeds if fingerprint differs  
+**Seed:** `poems_seed.json` — `{ "poems": [...] }` — fetched on every load, reseeds if fingerprint differs  
+**Fingerprint:** `{count}:{newest added date}` — stored in localStorage as `pa_seed_fp`. No manual version bump needed.  
 **Offline:** IndexedDB handles all reading/browsing offline. Network required only for acquisition.  
 **PWA:** Installed to home screen. `manifest.json` requires `start_url` and `scope` both = `"/Claude_Artifacts/"`
 
@@ -29,68 +30,117 @@ A personal poetry anthology — poems collected over decades — in one place, s
 
 - Browse, search, filter by tag — fully offline
 - Tag filter: four chiclet-style group buttons (Emotional / Thematic / Formal / Era), single-row, one open at a time
-- Versioned seed sync: reseed triggers on count mismatch or version bump
+- Fingerprint-based seed sync: reseeds automatically when poem count or newest date changes
 - PWA installs to iOS home screen and launches correctly
+- **Tag display:** Single-row, overflow hidden, `+N` badge reveals hidden tags on tap. Higher contrast tag colors.
+- **Poem data:** Stored as `stanzas` arrays (not HTML strings). Each line is `{text, indent?}` with inline `<em>`/`<strong>` preserved. `renderStanzas()` generates HTML at display time.
+- **Fan menu:** `+` button fans three options up-left — 📷 Capture, ✎ Manual, 📂 Import. Translucent scrim overlay. Bold white labels.
+- **Import:** 📂 Import in fan menu opens Files picker. Select `poetry-inbox.json` from iCloud Drive. Imports all valid poems into IndexedDB. Confirms count via alert.
+- **iOS Shortcut pipeline:** Photo → Convert to JPEG → Base64 Encode (no line breaks) → Anthropic API (claude-sonnet-4-6) → structured JSON → saved as `poetry-inbox.json` in iCloud Drive → PWA import.
 
 ---
 
 ## What Does Not Work
 
-- **In-app photo capture:** WebKit CORS permanently blocks browser-to-Anthropic API calls on iOS. This is architectural, not fixable without a proxy. Do not attempt to re-solve this in the browser.
+- **In-app photo capture via browser:** WebKit CORS permanently blocks browser-to-Anthropic API calls on iOS. This is architectural, not fixable without a proxy. Do not attempt to re-solve this in the browser.
 - **Cloudflare Workers as proxy:** Rejected — known cybersecurity vector, out of scope.
 - **Any proxy solution:** Out of scope by design.
 
 ---
 
-## Acquisition Workflow (Current)
+## Acquisition Workflows
 
-Photos → Claude chat OCR → JSON string → paste into `poems_seed.json` → bump version → commit to GitHub → PWA reseeds on next load.
+### Chat-based (legacy, still functional)
+Photos → Claude chat OCR → JSON string → paste into `poems_seed.json` → commit to GitHub → PWA reseeds on next load.  
+**Limit:** ~15-20 poem photos per chat thread before upload limit is hit.
 
-**Limit:** ~15-20 poem photos per chat thread before upload limit is hit. Thread retirement is the primary bottleneck.
+### iOS Shortcut (preferred)
+1. Run **Poetry Capture** shortcut
+2. Select photo from library (HEIC auto-converted to JPEG)
+3. Shortcut calls Anthropic API, receives structured JSON
+4. JSON saved as `poetry-inbox.json` in iCloud Drive
+5. Open PWA → tap `+` → 📂 Import → select `poetry-inbox.json`
+6. Poem added to IndexedDB immediately
 
 ---
 
-## The Whiteboard — 5 Fragilities (Prioritized)
+## iOS Shortcut — Poetry Capture
 
-### 1. HTML-in-JSON breaks on unescaped quotes
-**Problem:** Poems stored as pre-rendered HTML inside JSON strings. Unescaped `"` in poem text (dialog, titles) silently corrupts the entire archive.  
-**Solution:** Store poem text as structured data — array of stanzas, each an array of line objects with text and optional indent/italic flags. Generate HTML at render time via a pure function in `index.html`. Eliminates the format collision entirely.
+**Actions in order:**
+1. `Select Photos` — single photo
+2. `Convert Image` → JPEG, quality ~60%
+3. `Base64 Encode` → Line Breaks: None
+4. `Get Details of Images` → Media Type (from converted image)
+5. `Get Date` → Current Date
+6. `Format Date` → Custom, `yyyy-MM-dd`
+7. `Text` — JSON request body with variables inserted (see below)
+8. `Get Contents of URL` → POST to `https://api.anthropic.com/v1/messages`, headers: `Content-Type: application/json`, `x-api-key: sk-ant-...`, `anthropic-version: 2023-06-01`, Request Body: File → Text
+9. `Get Dictionary Value` → key: `content`
+10. `Get First Item from List`
+11. `Get Dictionary Value` → key: `text`
+12. `Save File` → iCloud Drive, Subpath: `poetry-inbox.json`, Overwrite: on
 
-### 2. Manual version bumping is a single point of failure
-**Problem:** Human must remember to increment version integer on every commit. Miss it = silent stale archive.  
-**Solution:** Replace version integer with content fingerprint: `poem count + newest poem's added date`. Browser computes this from fetched seed and compares to stored value. No human involvement required.
+**Text block template:**
+```
+{"model":"claude-sonnet-4-6","max_tokens":2000,"messages":[{"role":"user","content":[{"type":"image","source":{"type":"base64","media_type":"image/jpeg","data":"[Base64 Encoded token]"}},{"type":"text","text":"Return only a raw JSON object. No backticks. No code blocks. No markdown. No explanation. Only the JSON object itself: {\"id\":\"poet-title-slug\",\"title\":\"...\",\"poet\":\"...\",\"dates\":\"...\",\"tags\":[...],\"stanzas\":[[{\"text\":\"line\"}]],\"added\":\"[Formatted Date token]\"} where stanzas is an array of stanza arrays, each line is {\"text\":\"...\"} optionally with inline <em> for italics. Tags from: longing grief joy desire tenderness melancholy defiance wonder resignation mortality nature time war faith identity embodiment beauty memory sonnet ode lyric free-verse rhymed classical translation ancient renaissance romantic-era victorian modernist contemporary erotic conjugal romantic beat prose-poem refrain litany."}]}]}
+```
 
-### 3. Institutional knowledge lost at thread end
-**Problem:** Architecture decisions, failed paths, human constraints, established principles exist only in chat context. New threads start from zero and reliably derail.  
-**Solution:** This `CLAUDE.md` file, committed to the repo, updated each session. Every new thread opens with: upload `CLAUDE.md` + `index.html` + one-sentence task + poem photos. No preamble.
+**Critical lessons from Shortcut build:**
+- `Encode Media` is for video/audio — use `Base64 Encode` instead
+- HEIC is not supported by Anthropic API — always convert to JPEG first
+- `media_type` must be hardcoded as `image/jpeg` — do not construct dynamically
+- No spaces before or after variable tokens in the Text block — causes invalid base64 or empty fields
+- `added` date: use `Get Date` (Current Date) → `Format Date` (Custom, yyyy-MM-dd) — do not rely on the date being passed through other actions
+- Haiku refuses to transcribe recognizable copyrighted poems — use Sonnet or Opus
+- `poetry-inbox.json` Subpath must be set explicitly in Save File — placeholder text is not a filename
 
-### 4. No backups, no rollback, no recovery path
-**Problem:** Every commit goes directly to production. A bad deploy breaks the live archive immediately. No tested restore path exists.  
-**Solution:**  
-- Create `dev` branch; all changes go there first; merge to `main` deliberately  
-- Named seed snapshots every 50 poems: `poems_seed_backup_v{N}.json` in repo  
-- Build in-app export: downloads full IndexedDB contents as JSON at any time
+---
 
-### 5. Chat-based capture is unsustainable at scale
-**Problem:** Claude chat was never designed as a batch image pipeline. 15-20 image limit per thread, handoff friction, context loss. At 5,000 poems this means hundreds of thread retirements.  
-**Solution:** iOS Shortcut as dedicated capture app:
-- Shortcut captures photo, base64-encodes it
-- Posts directly to Anthropic API (no CORS — Shortcuts run outside browser sandbox)
-- Receives structured JSON poem object
-- Writes to iCloud Drive file
-- PWA import function reads that file and adds poem to IndexedDB
-- Decouples acquisition from Claude chat entirely
+## Poem Data Structure
+
+```json
+{
+  "id": "cohen-suzanne",
+  "title": "Suzanne",
+  "poet": "Leonard Cohen",
+  "dates": "1934–2016",
+  "tags": ["longing", "desire", "contemporary", "lyric"],
+  "stanzas": [
+    [
+      {"text": "Suzanne takes you down"},
+      {"text": "to her place near the river"}
+    ]
+  ],
+  "added": "2026-03-14"
+}
+```
+
+- `text` field holds inner content HTML — `<em>`, `<strong>` preserved, no attribute quotes
+- `indent` field optional: `{"text": "indented line", "indent": 1.5}`
+- No `text` (HTML string) field — that format is retired
+- `source` field on some Kerouac poems is non-standard but harmless — preserve it
+
+---
+
+## Fragilities — Status
+
+| # | Fragility | Status |
+|---|-----------|--------|
+| 1 | HTML-in-JSON quote corruption | ✅ Closed — stanzas structure, inline HTML in text content only |
+| 2 | Manual version bump | ✅ Closed — content fingerprint auto-detects changes |
+| 3 | Institutional knowledge lost at thread end | ✅ Closed — this CLAUDE.md in repo |
+| 4 | No backups, no rollback | ⬜ Open |
+| 5 | Chat-based capture unsustainable | ✅ Closed — iOS Shortcut pipeline working |
 
 ---
 
 ## Next Development Priorities (In Order)
 
-1. **CLAUDE.md in repo** — commit this file *(do first, enables everything else)*
-2. **Dev branch** — create `dev` branch, establish merge-to-main discipline
-3. **Poem data structure refactor** — stanza/line arrays, HTML generated at render time
-4. **Content fingerprint sync** — replace version integer
-5. **In-app export** — download IndexedDB as JSON backup
-6. **iOS Shortcut capture** — dedicated acquisition pipeline
+1. **Dev branch** — create `dev` branch, establish merge-to-main discipline
+2. **Backups** — named seed snapshots every 50 poems; in-app export (download IndexedDB as JSON)
+3. **Batch capture** — Shortcut appends to inbox file rather than overwriting (requires numbering scheme or newline-delimited JSON)
+4. **Tag ontology update** — add `beat`, `prose-poem`, `refrain`, `litany` to Era or Formal group in UI
+5. **Fit and finish** — ongoing
 
 ---
 
@@ -101,9 +151,14 @@ Photos → Claude chat OCR → JSON string → paste into `poems_seed.json` → 
 - **Artifact renderer ceiling:** ~46 poems before the Claude artifact renderer freezes. Architecture, not capacity. PWA on GitHub Pages is the correct solution.
 - **iOS file:// origin:** Blocks IndexedDB and localStorage. Served origin (GitHub Pages) required.
 - **manifest.json:** `start_url` AND `scope` must both be `"/Claude_Artifacts/"` — missing either breaks PWA launch from home screen.
-- **GitHub file naming:** Upload as `index_pwa.html`, rename to `index.html` via GitHub editor rename function. Or: edit `index.html` directly in GitHub, select all, paste new content.
+- **GitHub file naming:** Edit `index.html` directly in GitHub, select all, paste new content.
 - **IndexedDB is device-local:** Each device (iPhone, Mac Safari, Chrome) has its own independent IndexedDB. Sync is via seed file only.
-- **The `source` field:** Some Kerouac poems have a `source` field (e.g., "Mexico City Blues") — this is a non-standard schema addition, harmless but worth preserving.
+- **The `source` field:** Some Kerouac poems have a `source` field (e.g., "Mexico City Blues") — non-standard but harmless, preserve it.
+- **Stanzas refactor:** Attempted full structured refactor (stanza/line arrays, no HTML). Lost italics and changed line wrapping for prose-style stanzas (e.g. Cohen's litany form). Resolved by storing inline HTML fragments as line text content — `<em>` preserved, no attribute quotes. Line wrapping compromise accepted for prose-style stanzas.
+- **Fan menu z-index:** Scrim must be below fan items. Scrim: z-index 198, fan items: 201, + button: 202. Scrim above fan = buttons never fire.
+- **iOS programmatic .click() on file inputs:** Calling `.click()` on a file input inside a chained event handler is blocked by iOS Safari. Fix: overlay a transparent `<input type="file">` directly on the button so the tap is a direct user gesture.
+- **Haiku copyright refusals:** Haiku refuses to transcribe recognizable published poems. Sonnet and Opus do not. Use Sonnet (claude-sonnet-4-6) for the Shortcut.
+- **Base64 in Shortcuts:** Use `Base64 Encode` action (not `Encode Media`). Set Line Breaks to None. No spaces around the variable token in the Text block.
 
 ---
 
@@ -116,7 +171,7 @@ Photos → Claude chat OCR → JSON string → paste into `poems_seed.json` → 
 | Formal | sonnet, ode, lyric, free-verse, rhymed, classical, translation, erotic, conjugal, romantic |
 | Era | ancient, renaissance, romantic-era, victorian, modernist, contemporary |
 
-New tags appearing in acquisitions (Beat poets): beat, prose-poem, refrain, litany — add to Era or Formal as appropriate in next refactor.
+**Pending addition** (Beat poets, next refactor): beat, prose-poem, refrain, litany — add to Era or Formal as appropriate.
 
 ---
 
@@ -124,6 +179,18 @@ New tags appearing in acquisitions (Beat poets): beat, prose-poem, refrain, lita
 
 `{surname-or-shortname}-{title-slug}` — lowercase, hyphens, no special characters.  
 Examples: `cohen-suzanne`, `kerouac-34th-chorus`, `ferlinghetti-i-am-waiting`
+
+---
+
+## Thread Handoff Protocol
+
+Every new thread opens with:
+1. Upload `CLAUDE.md` from repo
+2. Upload current `index.html`
+3. One-sentence task statement
+4. Poem photos if OCR is the task
+
+No preamble. No re-explanation. Each thread is a sprint. Claude will over-plan without a file to act on immediately.
 
 ---
 
@@ -138,3 +205,4 @@ Troy Lawrence McGuire, MD. Pediatrician. Reader, writer, printmaker, genealogist
 - Diagnose before implementing
 - When something fails, say so clearly and say why before proposing a fix
 - Do not recommend Cloudflare Workers
+- Do not give recommendations based on files or context not yet in hand
