@@ -247,12 +247,15 @@ function dbCount() {
   });
 }
 
-// ── Seed (versioned merge) ─────────────────────────────────────────────────
-// poems_seed.json must be either a plain array (legacy) or
-// { "version": N, "poems": [...] }
-// On every load we compare seed version to stored version.
-// If seed is newer, we merge: add new poems, never delete existing ones.
-const SEED_VERSION_KEY = 'pa_seed_version';
+// ── Seed sync (fingerprint-based) ─────────────────────────────────────────
+// Fingerprint = "{count}:{newest added date}" — computed from seed content.
+// Reseed triggers automatically when fingerprint changes. No manual version bump needed.
+const SEED_FP_KEY = 'pa_seed_fp';
+
+function seedFingerprint(poems) {
+  const newest = poems.reduce((a, p) => (p.added||'') > a ? (p.added||'') : a, '');
+  return `${poems.length}:${newest}`;
+}
 
 async function syncSeed() {
   try {
@@ -261,22 +264,20 @@ async function syncSeed() {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const raw = await resp.json();
 
-    const isVersioned = !Array.isArray(raw) && raw.version !== undefined;
-    const seedVersion = isVersioned ? raw.version : 1;
-    const seedPoems = isVersioned ? raw.poems : raw;
-
-    const storedVersion = parseInt(localStorage.getItem(SEED_VERSION_KEY) || '0', 10);
+    const seedPoems = Array.isArray(raw) ? raw : raw.poems;
+    const seedFP = seedFingerprint(seedPoems);
+    const storedFP = localStorage.getItem(SEED_FP_KEY) || '';
     const count = await dbCount();
 
-    // Reseed if: empty, version bump, OR count mismatch (catches stale/orphaned state)
-    if (count === 0 || seedVersion > storedVersion || count !== seedPoems.length) {
+    // Reseed if: empty, fingerprint changed, or count mismatch
+    if (count === 0 || seedFP !== storedFP || count !== seedPoems.length) {
       await new Promise((res, rej) => {
         const req = db.transaction(STORE, 'readwrite').objectStore(STORE).clear();
         req.onsuccess = res; req.onerror = e => rej(e.target.error);
       });
       for (const p of seedPoems) await dbPut(p);
-      localStorage.setItem(SEED_VERSION_KEY, seedVersion);
-      console.log(`Seed v${seedVersion}: loaded ${seedPoems.length} poems (was ${count})`);
+      localStorage.setItem(SEED_FP_KEY, seedFP);
+      console.log(`Seed resynced [${seedFP}]: loaded ${seedPoems.length} poems (was ${count})`);
     }
   } catch(e) {
     console.warn('Seed sync failed:', e.message);
