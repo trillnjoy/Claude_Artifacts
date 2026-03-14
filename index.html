@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
-  :root{--ink:#1a1a1a;--ink-light:#555;--ink-faint:#999;--paper:#faf9f7;--paper-warm:#f3f1ed;--rule:#ddd8d0;--accent:#8b3a3a;--tag-bg:#ede9e3;--tag-text:#555}
+  :root{--ink:#1a1a1a;--ink-light:#555;--ink-faint:#999;--paper:#faf9f7;--paper-warm:#f3f1ed;--rule:#ddd8d0;--accent:#8b3a3a;--tag-bg:#e0dbd3;--tag-text:#3a3a3a}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;font-weight:300;min-height:100vh}
   header{padding:1.25rem 1.25rem 0;background:var(--paper);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--rule)}
@@ -47,8 +47,11 @@
   .cp{width:42%}.cp-name{font-size:.88rem;color:var(--ink);font-weight:400;line-height:1.4}
   .cp-dates{font-size:.73rem;color:var(--ink-faint);font-style:italic;margin-top:.1rem}
   .ct{width:58%}.ct-name{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:400;color:var(--ink);line-height:1.4}
-  .ct-tags{display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.35rem}
-  .tag{font-family:'Source Sans 3',sans-serif;font-size:.62rem;letter-spacing:.03em;padding:.12rem .4rem;border-radius:2px;background:var(--tag-bg);color:var(--tag-text)}
+  .ct-tags{display:flex;flex-wrap:nowrap;gap:.2rem;margin-top:.35rem;overflow:hidden;max-height:1.45rem;align-items:center}
+  .tag{font-family:'Source Sans 3',sans-serif;font-size:.62rem;letter-spacing:.03em;padding:.12rem .4rem;border-radius:2px;background:var(--tag-bg);color:var(--tag-text);white-space:nowrap;flex-shrink:0}
+  .tag-more{font-family:'Source Sans 3',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.03em;padding:.12rem .4rem;border-radius:2px;background:transparent;color:var(--accent);border:1px solid var(--accent);white-space:nowrap;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent;line-height:inherit}
+  .ct-tags.expanded{flex-wrap:wrap;max-height:none;overflow:visible}
+  .ct-tags.expanded .tag-more{display:none}
   .empty-row td{padding:2.5rem 1.25rem;text-align:center;color:var(--ink-faint);font-size:.88rem;cursor:default}
   #poem-view{display:none;min-height:100vh}
   .pvh{padding:1rem 1.25rem .85rem;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:.85rem;position:sticky;top:0;background:var(--paper);z-index:100}
@@ -312,6 +315,26 @@ function render() {
   document.getElementById('header-count').textContent = `${poems.length} poem${poems.length!==1?'s':''}`;
   renderTags();
   tbody.querySelectorAll('tr[data-id]').forEach(r => r.addEventListener('click', () => openPoem(r.dataset.id)));
+  // After paint: measure overflow and inject +N badges
+  requestAnimationFrame(() => {
+    tbody.querySelectorAll('.ct-tags').forEach(ct => {
+      const tags = Array.from(ct.querySelectorAll('.tag'));
+      if (!tags.length) return;
+      const rowTop = Math.round(tags[0].getBoundingClientRect().top);
+      const hidden = tags.filter(t => Math.round(t.getBoundingClientRect().top) > rowTop);
+      if (hidden.length) {
+        const badge = document.createElement('button');
+        badge.className = 'tag-more';
+        badge.textContent = `+${hidden.length}`;
+        badge.addEventListener('click', e => {
+          e.stopPropagation();
+          const expanded = ct.classList.toggle('expanded');
+          if (!expanded) ct.appendChild(badge);
+        });
+        ct.appendChild(badge);
+      }
+    });
+  });
 }
 
 const TAG_GROUPS = [
