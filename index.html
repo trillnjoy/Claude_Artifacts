@@ -21,19 +21,10 @@
   .search-row{margin-bottom:.75rem}
   #search{width:100%;border:1px solid var(--rule);border-radius:2px;padding:.45rem .65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:300;background:white;color:var(--ink);outline:none;-webkit-appearance:none}
   #search:focus{border-color:var(--accent)}
-  .filters{padding-bottom:.4rem}
-  .tag-group-row{display:flex;gap:.35rem;flex-wrap:nowrap;overflow-x:auto;padding:.4rem 0 .3rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .tag-group-row::-webkit-scrollbar{display:none}
-  .tag-group-btn{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .65rem;border-radius:2px;border:1px solid var(--rule);background:white;color:var(--ink-light);cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap;flex-shrink:0}
-  .tag-group-btn.open{background:var(--paper-warm);border-color:var(--ink-light);color:var(--ink)}
-  .tag-group-btn.has-active{border-color:var(--accent);color:var(--accent)}
-  .tag-group-pills{display:none;flex-wrap:wrap;gap:.3rem;padding:.45rem 0 .55rem;border-bottom:1px solid var(--rule)}
-  .tag-group-pills.open{display:flex}
+  .filters{display:flex;flex-wrap:wrap;gap:.3rem;padding-bottom:.75rem}
   .filter-pill{font-size:.68rem;letter-spacing:.04em;padding:.2rem .55rem;border-radius:2px;border:1px solid var(--rule);background:white;color:var(--ink-light);cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap}
   .filter-pill.active{background:var(--accent);color:white;border-color:var(--accent)}
-  .tag-clear-row{padding:.3rem 0 .2rem;display:none}
-  .tag-clear-row.visible{display:block}
-  .clear-pill{font-size:.68rem;color:var(--accent);background:transparent;border:none;cursor:pointer;padding:0;font-weight:600;-webkit-tap-highlight-color:transparent}
+  .filter-pill.clear-pill{border-color:transparent;color:var(--accent);background:transparent;font-weight:600}
   table{width:100%;border-collapse:collapse}
   thead tr{border-bottom:2px solid var(--rule);background:var(--paper-warm)}
   th{font-family:'Source Sans 3',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);padding:.55rem .75rem;text-align:left;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;white-space:nowrap}
@@ -253,11 +244,11 @@ const SEED_VERSION_KEY = 'pa_seed_version';
 
 async function syncSeed() {
   try {
-    const seedUrl = 'https://trillnjoy.github.io/Claude_Artifacts/poems_seed.json?nocache=' + Date.now();
-    const resp = await fetch(seedUrl, { cache: 'no-store' });
+    const resp = await fetch('poems_seed.json?v=' + Date.now()); // bypass SW cache
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const raw = await resp.json();
 
+    // Support both plain array and versioned object
     const isVersioned = !Array.isArray(raw) && raw.version !== undefined;
     const seedVersion = isVersioned ? raw.version : 1;
     const seedPoems = isVersioned ? raw.poems : raw;
@@ -265,15 +256,19 @@ async function syncSeed() {
     const storedVersion = parseInt(localStorage.getItem(SEED_VERSION_KEY) || '0', 10);
     const count = await dbCount();
 
-    // Reseed if: empty, version bump, OR count mismatch (catches stale/orphaned state)
-    if (count === 0 || seedVersion > storedVersion || count !== seedPoems.length) {
-      await new Promise((res, rej) => {
-        const req = db.transaction(STORE, 'readwrite').objectStore(STORE).clear();
-        req.onsuccess = res; req.onerror = e => rej(e.target.error);
-      });
-      for (const p of seedPoems) await dbPut(p);
+    if (count === 0 || seedVersion > storedVersion) {
+      // Merge: get existing IDs, only add poems not already present
+      const existing = await dbGetAll();
+      const existingIds = new Set(existing.map(p => p.id));
+      let added = 0;
+      for (const p of seedPoems) {
+        if (!existingIds.has(p.id)) {
+          await dbPut(p);
+          added++;
+        }
+      }
       localStorage.setItem(SEED_VERSION_KEY, seedVersion);
-      console.log(`Seed v${seedVersion}: loaded ${seedPoems.length} poems (was ${count})`);
+      console.log(`Seed v${seedVersion}: added ${added} new poems (${existing.length + added} total)`);
     }
   } catch(e) {
     console.warn('Seed sync failed:', e.message);
@@ -314,65 +309,16 @@ function render() {
   tbody.querySelectorAll('tr[data-id]').forEach(r => r.addEventListener('click', () => openPoem(r.dataset.id)));
 }
 
-const TAG_GROUPS = [
-  { label: 'Emotional',  tags: ['longing','grief','joy','desire','tenderness','melancholy','defiance','wonder','resignation'] },
-  { label: 'Thematic',   tags: ['mortality','nature','time','war','faith','identity','embodiment','beauty','memory'] },
-  { label: 'Formal',     tags: ['sonnet','ode','lyric','free-verse','rhymed','classical','translation','erotic','conjugal','romantic'] },
-  { label: 'Era',        tags: ['ancient','renaissance','romantic-era','victorian','modernist','contemporary'] }
-];
-// Track which groups are open
-let openGroup = null; // only one open at a time
-
 function renderTags() {
   const counts = {};
   allPoems.forEach(p => (p.tags||[]).forEach(t => counts[t]=(counts[t]||0)+1));
-
+  const tags = Object.keys(counts).sort();
   const el = document.getElementById('tag-filters');
-
-  // Clear row
-  const clearRow = `<div class="tag-clear-row${activeTag?' visible':''}" id="tag-clear-row">
-    <button class="clear-pill">✕ Clear filter</button>
-  </div>`;
-
-  // Single row of group buttons
-  const btnRow = `<div class="tag-group-row">${TAG_GROUPS.map(g => {
-    const hasActive = g.tags.includes(activeTag);
-    const isOpen = openGroup === g.label;
-    return `<button class="tag-group-btn${isOpen?' open':''}${hasActive?' has-active':''}" data-group="${g.label}">${g.label}</button>`;
-  }).join('')}</div>`;
-
-  // Pill panels — only the open one shows
-  const panels = TAG_GROUPS.map(g => {
-    const present = g.tags.filter(t => counts[t]);
-    const isOpen = openGroup === g.label;
-    const pills = present.length
-      ? present.map(t => `<button class="filter-pill${activeTag===t?' active':''}" data-tag="${t}">${t} <span style="opacity:.5">${counts[t]}</span></button>`).join('')
-      : `<span style="font-size:.75rem;color:var(--ink-faint)">No poems tagged yet</span>`;
-    return `<div class="tag-group-pills${isOpen?' open':''}" data-panel="${g.label}">${pills}</div>`;
-  }).join('');
-
-  el.innerHTML = clearRow + btnRow + panels;
-
-  // Clear
-  const clrBtn = el.querySelector('.clear-pill');
-  if (clrBtn) clrBtn.addEventListener('click', () => { activeTag=null; render(); });
-
-  // Group buttons
-  el.querySelectorAll('.tag-group-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      openGroup = openGroup === b.dataset.group ? null : b.dataset.group;
-      render();
-    });
-  });
-
-  // Tag pills
-  el.querySelectorAll('.filter-pill[data-tag]').forEach(b => {
-    b.addEventListener('click', e => {
-      e.stopPropagation();
-      activeTag = activeTag === b.dataset.tag ? null : b.dataset.tag;
-      render();
-    });
-  });
+  el.innerHTML = (activeTag?`<button class="filter-pill clear-pill">✕ Clear</button>`:'')+
+    tags.map(t=>`<button class="filter-pill${activeTag===t?' active':''}" data-tag="${t}">${t}</button>`).join('');
+  el.querySelectorAll('[data-tag]').forEach(b => b.addEventListener('click', () => { activeTag = activeTag===b.dataset.tag?null:b.dataset.tag; render(); }));
+  const clr = el.querySelector('.clear-pill');
+  if (clr) clr.addEventListener('click', () => { activeTag=null; render(); });
 }
 
 async function reload() { allPoems = await dbGetAll(); render(); }
@@ -532,12 +478,7 @@ document.getElementById('save-settings').addEventListener('click', ()=>{
 
 // ── Service worker ─────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
-// Unregister any existing service worker — seed caching caused sync failures
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(regs => {
-    regs.forEach(r => r.unregister());
-  });
-}
+  navigator.serviceWorker.register('sw.js').catch(e=>console.warn('SW failed:',e));
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────
