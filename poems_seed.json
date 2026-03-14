@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "poems": [
   {
     "id": "laux-the-lovers",
@@ -1015,6 +1015,22 @@
   ],
   "added": "2026-03-13",
   "text": "<div class='stanza'><p><span style='padding-left:3em'>The world is a beautiful place</span></p><p><span style='padding-left:7em'>to be born into</span></p><p>if you don't mind happiness</p><p><span style='padding-left:5em'>not always being</span></p><p><span style='padding-left:8em'>so very much fun</span></p><p><span style='padding-left:1em'>if you don't mind a touch of hell</span></p><p><span style='padding-left:6em'>now and then</span></p><p><span style='padding-left:3em'>just when everything is fine</span></p><p><span style='padding-left:7em'>because even in heaven</span></p><p><span style='padding-left:4em'>they don't sing</span></p><p><span style='padding-left:6em'>all the time</span></p></div><div class='stanza'><p><span style='padding-left:3em'>The world is a beautiful place</span></p><p><span style='padding-left:7em'>to be born into</span></p><p>if you don't mind some people dying</p><p><span style='padding-left:7em'>all the time</span></p><p><span style='padding-left:4em'>or maybe only starving</span></p><p><span style='padding-left:7em'>some of the time</span></p><p><span style='padding-left:3em'>which isn't half so bad</span></p><p><span style='padding-left:6em'>if it isn't you</span></p></div><div class='stanza'><p>Oh the world is a beautiful place</p><p><span style='padding-left:7em'>to be born into</span></p><p><span style='padding-left:3em'>if you don't much mind</span></p><p><span style='padding-left:6em'>a few dead minds</span></p><p><span style='padding-left:2em'>in the higher places</span></p><p><span style='padding-left:5em'>or a bomb or two</span></p><p><span style='padding-left:3em'>now and then</span></p><p><span style='padding-left:6em'>in your upturned faces</span></p><p>or such other improprieties</p><p><span style='padding-left:7em'>as our Name Brand society</span></p><p><span style='padding-left:4em'>is prey to</span></p><p><span style='padding-left:6em'>with its men of distinction</span></p><p><span style='padding-left:1em'>and its men of extinction</span></p><p><span style='padding-left:6em'>and its priests</span></p><p><span style='padding-left:3em'>and other patrolmen</span></p><p><span style='padding-left:7em'>and its various segregations</span></p><p><span style='padding-left:1em'>and congressional investigations</span></p><p><span style='padding-left:6em'>and other constipations</span></p><p><span style='padding-left:3em'>that our fool flesh</span></p><p><span style='padding-left:5em'>is heir to</span></p></div><div class='stanza'><p>Yes the world is the best place of all</p><p><span style='padding-left:7em'>for a lot of such things as</span></p><p><span style='padding-left:2em'>making the fun scene</span></p><p><span style='padding-left:5em'>and making the love scene</span></p><p>and making the sad scene</p><p><span style='padding-left:5em'>and singing low songs and having inspirations</span></p><p><span style='padding-left:2em'>and walking around</span></p><p><span style='padding-left:5em'>looking at everything</span></p><p><span style='padding-left:8em'>and smelling flowers</span></p><p>and goosing statues</p><p><span style='padding-left:4em'>and even thinking</span></p><p><span style='padding-left:7em'>and kissing people and</span></p><p>making babies and wearing pants</p><p><span style='padding-left:6em'>and waving hats and</span></p><p><span style='padding-left:4em'>dancing</span></p><p><span style='padding-left:6em'>and going swimming in rivers</span></p><p><span style='padding-left:3em'>on picnics</span></p><p><span style='padding-left:5em'>in the middle of the summer</span></p><p><span style='padding-left:2em'>and just generally</span></p><p><span style='padding-left:4em'>'living it up'</span></p></div><div class='stanza'><p>Yes</p><p><span style='padding-left:1em'>but then right in the middle of it</span></p><p><span style='padding-left:6em'>comes the smiling</span></p></div><div class='stanza'><p><span style='padding-left:5em'>mortician</span></p></div>"
+},
+{
+  "id": "phillips-white-dog",
+  "title": "White Dog",
+  "poet": "Carl Phillips",
+  "dates": "b. 1959",
+  "tags": [
+    "loss",
+    "love",
+    "grief",
+    "nature",
+    "lyric",
+    "contemporary"
+  ],
+  "added": "2026-03-13",
+  "text": "<div class='stanza'><p>First snow—I release her into it—</p><p>I know, released, she won't come back.</p><p>This is different from letting what,</p></div><div class='stanza'><p>already, we count as lost go. It is nothing</p><p>like that. Also, it is not like wanting to learn what</p><p>losing a thing we love feels like. Oh yes:</p></div><div class='stanza'><p>I love her.</p><p>Released, she seems for a moment as if</p><p>some part of me that, almost,</p></div><div class='stanza'><p>I wouldn't mind</p><p>understanding better, is that</p><p>not love? She seems a part of me,</p></div><div class='stanza'><p>and then she seems entirely like what she is:</p><p>a white dog,</p><p>less white suddenly, against the snow,</p></div><div class='stanza'><p>who won't come back. I know that; and, knowing it,</p><p>I release her. It's as if I release her</p><p><em>because</em> I know.</p></div>"
 }
 ]
 }
