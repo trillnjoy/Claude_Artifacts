@@ -401,13 +401,24 @@ function renderTags() {
 async function reload() { allPoems = await dbGetAll(); render(); }
 
 // ── Poem view ──────────────────────────────────────────────────────────────
+function renderStanzas(stanzas) {
+  if (!stanzas || !stanzas.length) return '';
+  return stanzas.map(s =>
+    `<div class="stanza">${s.map(l =>
+      l.indent
+        ? `<p><span style="padding-left:${l.indent}em">${l.text}</span></p>`
+        : `<p>${l.text}</p>`
+    ).join('')}</div>`
+  ).join('');
+}
+
 function openPoem(id) {
   const p = allPoems.find(x => x.id===id); if (!p) return;
   document.getElementById('view-title').textContent = p.title;
   document.getElementById('view-poet').textContent = p.poet;
   document.getElementById('view-dates').textContent = p.dates||'';
   document.getElementById('view-tags').innerHTML = (p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
-  document.getElementById('view-body').innerHTML = p.text||'';
+  document.getElementById('view-body').innerHTML = renderStanzas(p.stanzas);
   document.getElementById('list-view').style.display='none';
   document.getElementById('poem-view').style.display='block';
   window.scrollTo(0,0);
@@ -446,10 +457,10 @@ document.getElementById('save-manual').addEventListener('click', async ()=>{
   if (!poet||!title) return alert('Poet and title required.');
   const raw=document.getElementById('new-text').value;
   const tags=document.getElementById('new-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  const html=raw.split(/\n\n+/).map(s=>`<div class='stanza'>${s.split('\n').map(l=>`<p>${l}</p>`).join('')}</div>`).join('');
+  const stanzas=raw.split(/\n\n+/).map(s=>s.split('\n').filter(l=>l.trim()).map(l=>({text:l})));
   await dbPut({ id:`${poet.toLowerCase().replace(/\s+/g,'-')}-${Date.now()}`, title, poet,
     dates:document.getElementById('new-dates').value.trim(), tags,
-    added:new Date().toISOString().slice(0,10), text:html });
+    added:new Date().toISOString().slice(0,10), stanzas });
   closeSheet('manual-sheet');
   ['new-poet','new-title','new-dates','new-tags','new-text'].forEach(id=>document.getElementById(id).value='');
   await reload();
@@ -521,16 +532,13 @@ document.getElementById('cap-save').addEventListener('click', async ()=>{
   if (!poet||!title) return alert('Poet and title required.');
   const raw=document.getElementById('cap-text').value;
   const tags=document.getElementById('cap-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  // Convert \n-delimited text with optional leading spaces to HTML
-  const html = raw.split(/\n\n+/).map(s => {
-    return `<div class='stanza'>${s.split('\n').map(l => {
-      const m = l.match(/^(\s+)(.*)/);
-      return m ? `<p><span style="padding-left:${m[1].length*0.5}em">${m[2]}</span></p>` : `<p>${l}</p>`;
-    }).join('')}</div>`;
-  }).join('');
+  const stanzas=raw.split(/\n\n+/).map(s=>s.split('\n').filter(l=>l.trim()).map(l=>{
+    const m=l.match(/^(\s+)(.*)/);
+    return m ? {text:m[2],indent:m[1].length*0.5} : {text:l};
+  }));
   await dbPut({ id:`${poet.toLowerCase().replace(/\s+/g,'-')}-${Date.now()}`, title, poet,
     dates:document.getElementById('cap-dates').value.trim(), tags,
-    added:new Date().toISOString().slice(0,10), text:html });
+    added:new Date().toISOString().slice(0,10), stanzas });
   resetCapture();
   closeSheet('capture-sheet');
   await reload();
