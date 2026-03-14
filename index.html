@@ -65,9 +65,11 @@
   .poem-body p{font-family:'Libre Baskerville',serif;font-size:.96rem;line-height:1.78;color:var(--ink)}
   .poem-body em{font-style:italic}
   .add-btn{position:fixed;bottom:1.5rem;right:1.25rem;width:3rem;height:3rem;border-radius:50%;background:var(--accent);color:white;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:200;line-height:1}
-  .mode-menu{position:fixed;bottom:5.2rem;right:1.25rem;z-index:201;display:none;flex-direction:column;gap:.5rem;align-items:flex-end}
-  .mode-menu.open{display:flex}
-  .mode-btn{display:flex;align-items:center;gap:.6rem;background:var(--paper);border:1px solid var(--rule);border-radius:24px;padding:.55rem 1rem .55rem .8rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:400;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .mode-menu{position:fixed;bottom:1.5rem;right:1.25rem;z-index:199;pointer-events:none}
+  .fan-item{position:absolute;bottom:0;right:0;display:flex;align-items:center;gap:.5rem;pointer-events:none;opacity:0;transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .18s ease}
+  .fan-item.open{opacity:1;pointer-events:auto}
+  .mode-btn{display:flex;align-items:center;gap:.45rem;background:var(--paper);border:1px solid var(--rule);border-radius:24px;padding:.5rem .9rem .5rem .7rem;font-family:'Source Sans 3',sans-serif;font-size:.82rem;font-weight:400;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .mode-btn .fan-icon{font-size:1rem}
   .menu-scrim{position:fixed;inset:0;z-index:200;display:none}
   .menu-scrim.open{display:block}
   .sheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:300;align-items:flex-end}
@@ -139,8 +141,18 @@
 <button class="settings-btn" id="settings-btn" title="Settings">⚙︎</button>
 <div class="menu-scrim" id="menu-scrim"></div>
 <div class="mode-menu" id="mode-menu">
-  <button class="mode-btn" id="btn-capture"><span class="icon">📷</span> Capture photo</button>
-  <button class="mode-btn" id="btn-manual"><span class="icon">✎</span> Enter manually</button>
+  <div class="fan-item" id="fan-import" style="transform:translate(0,0)">
+    <span style="font-size:.78rem;font-family:'Source Sans 3',sans-serif;color:var(--ink-light);font-weight:400">Import</span>
+    <button class="mode-btn" id="btn-import"><span class="fan-icon">📂</span></button>
+  </div>
+  <div class="fan-item" id="fan-manual" style="transform:translate(0,0)">
+    <span style="font-size:.78rem;font-family:'Source Sans 3',sans-serif;color:var(--ink-light);font-weight:400">Manual</span>
+    <button class="mode-btn" id="btn-manual"><span class="fan-icon">✎</span></button>
+  </div>
+  <div class="fan-item" id="fan-capture" style="transform:translate(0,0)">
+    <span style="font-size:.78rem;font-family:'Source Sans 3',sans-serif;color:var(--ink-light);font-weight:400">Capture</span>
+    <button class="mode-btn" id="btn-capture"><span class="fan-icon">📷</span></button>
+  </div>
 </div>
 <button class="add-btn" id="add-btn">+</button>
 
@@ -152,6 +164,7 @@
       <div class="cz-label">Tap to take photo or choose from library</div>
     </div>
     <input type="file" id="capture-file" accept="image/*" capture="environment">
+  <input type="file" id="import-file" accept=".json,application/json" style="display:none">
     <img class="capture-preview" id="capture-preview">
     <div class="ocr-status" id="ocr-status"></div>
     <div id="capture-form" style="display:none">
@@ -194,13 +207,6 @@
     <div class="fg">
       <label>Archive</label>
       <div id="db-info" style="font-size:.8rem;color:var(--ink-faint);padding:.3rem 0"></div>
-    </div>
-    <div class="fg">
-      <label>Import from iCloud</label>
-      <p style="font-size:.75rem;color:var(--ink-faint);margin-bottom:.5rem">Select a <code>poetry-inbox.json</code> file written by the iOS Shortcut.</p>
-      <input type="file" id="import-file" accept=".json,application/json" style="display:none">
-      <button class="btn-s" id="import-btn" style="width:100%">Choose File…</button>
-      <div id="import-status" style="font-size:.8rem;margin-top:.4rem;min-height:1.2rem"></div>
     </div>
     <div class="sheet-actions">
       <button class="btn-s" id="cancel-settings">Cancel</button>
@@ -450,14 +456,41 @@ document.getElementById('search').addEventListener('input', e => { query=e.targe
 
 // ── Menu / sheets ──────────────────────────────────────────────────────────
 const addBtn=document.getElementById('add-btn'), modeMenu=document.getElementById('mode-menu'), menuScrim=document.getElementById('menu-scrim');
-const closeMenu=()=>{ modeMenu.classList.remove('open'); menuScrim.classList.remove('open'); };
-addBtn.addEventListener('click', ()=>{ modeMenu.classList.toggle('open'); menuScrim.classList.toggle('open'); });
+
+// Fan positions: translate each item from origin (bottom-right) outward
+// Items ordered in HTML: import (farthest arc), manual (mid), capture (closest up)
+// Arc: up-left, spread ~70deg. btn width ~3rem = 48px.
+const FAN = [
+  { id:'fan-capture', tx:-4,  ty:-78  },
+  { id:'fan-manual',  tx:-52, ty:-58  },
+  { id:'fan-import',  tx:-84, ty:-22  },
+];
+
+function openMenu() {
+  FAN.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.style.transform = `translate(${f.tx}px,${f.ty}px)`;
+    el.classList.add('open');
+  });
+  addBtn.textContent = '×';
+  menuScrim.classList.add('open');
+}
+function closeMenu() {
+  FAN.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.style.transform = 'translate(0,0)';
+    el.classList.remove('open');
+  });
+  addBtn.textContent = '+';
+  menuScrim.classList.remove('open');
+}
+addBtn.addEventListener('click', ()=>{ modeMenu.classList.contains('open') ? closeMenu() : (modeMenu.classList.add('open'), openMenu()); });
 menuScrim.addEventListener('click', closeMenu);
 const openSheet=id=>document.getElementById(id).classList.add('open');
 const closeSheet=id=>document.getElementById(id).classList.remove('open');
 
 // ── Manual entry ───────────────────────────────────────────────────────────
-document.getElementById('btn-manual').addEventListener('click', ()=>{ closeMenu(); openSheet('manual-sheet'); });
+document.getElementById('btn-manual').addEventListener('click', ()=>{ closeMenu(); modeMenu.classList.remove('open'); openSheet('manual-sheet'); });
 document.getElementById('cancel-manual').addEventListener('click', ()=>closeSheet('manual-sheet'));
 document.getElementById('save-manual').addEventListener('click', async ()=>{
   const poet=document.getElementById('new-poet').value.trim();
@@ -475,7 +508,8 @@ document.getElementById('save-manual').addEventListener('click', async ()=>{
 });
 
 // ── Capture ────────────────────────────────────────────────────────────────
-document.getElementById('btn-capture').addEventListener('click', ()=>{ closeMenu(); openSheet('capture-sheet'); });
+document.getElementById('btn-capture').addEventListener('click', ()=>{ closeMenu(); modeMenu.classList.remove('open'); openSheet('capture-sheet'); });
+document.getElementById('btn-import').addEventListener('click', ()=>{ closeMenu(); modeMenu.classList.remove('open'); document.getElementById('import-file').click(); });
 const resetCapture = () => {
   document.getElementById('capture-file').value='';
   document.getElementById('capture-preview').style.display='none';
@@ -570,36 +604,25 @@ document.getElementById('save-settings').addEventListener('click', ()=>{
 });
 
 // ── iCloud import ──────────────────────────────────────────────────────────
-document.getElementById('import-btn').addEventListener('click', ()=>{
-  document.getElementById('import-file').click();
-});
-
 document.getElementById('import-file').addEventListener('change', async e => {
   const file = e.target.files[0];
   if (!file) return;
-  const status = document.getElementById('import-status');
-  status.style.color = 'var(--ink-faint)';
-  status.textContent = 'Reading file…';
   try {
     const text = await file.text();
     const raw = JSON.parse(text);
     const poems = Array.isArray(raw) ? raw : raw.poems || [];
-    if (!poems.length) { status.textContent = 'No poems found in file.'; return; }
+    if (!poems.length) { alert('No poems found in file.'); return; }
     let added = 0, skipped = 0;
     for (const p of poems) {
       if (!p.id || !p.title || !p.poet) { skipped++; continue; }
       await dbPut(p);
       added++;
     }
-    status.style.color = added > 0 ? '#4a7c4a' : 'var(--ink-faint)';
-    status.textContent = `Imported ${added} poem${added!==1?'s':''}${skipped?`, skipped ${skipped} invalid`:''}. `;
-    const n = await dbCount();
-    document.getElementById('db-info').textContent = `${n} poems in IndexedDB`;
     e.target.value = '';
+    alert(`Imported ${added} poem${added!==1?'s':''}${skipped?`, skipped ${skipped} invalid`:''}. `);
     if (added > 0) await reload();
   } catch(err) {
-    status.style.color = '#c0392b';
-    status.textContent = `Error: ${err.message}`;
+    alert(`Import error: ${err.message}`);
   }
 });
 
