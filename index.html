@@ -195,6 +195,13 @@
       <label>Archive</label>
       <div id="db-info" style="font-size:.8rem;color:var(--ink-faint);padding:.3rem 0"></div>
     </div>
+    <div class="fg">
+      <label>Import from iCloud</label>
+      <p style="font-size:.75rem;color:var(--ink-faint);margin-bottom:.5rem">Select a <code>poetry-inbox.json</code> file written by the iOS Shortcut.</p>
+      <input type="file" id="import-file" accept=".json,application/json" style="display:none">
+      <button class="btn-s" id="import-btn" style="width:100%">Choose File…</button>
+      <div id="import-status" style="font-size:.8rem;margin-top:.4rem;min-height:1.2rem"></div>
+    </div>
     <div class="sheet-actions">
       <button class="btn-s" id="cancel-settings">Cancel</button>
       <button class="btn-p" id="save-settings">Save</button>
@@ -560,6 +567,40 @@ document.getElementById('save-settings').addEventListener('click', ()=>{
   if (k) localStorage.setItem('pa_api_key',k); else localStorage.removeItem('pa_api_key');
   document.getElementById('key-status').className='key-status'+(k?' set':'');
   closeSheet('settings-sheet');
+});
+
+// ── iCloud import ──────────────────────────────────────────────────────────
+document.getElementById('import-btn').addEventListener('click', ()=>{
+  document.getElementById('import-file').click();
+});
+
+document.getElementById('import-file').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const status = document.getElementById('import-status');
+  status.style.color = 'var(--ink-faint)';
+  status.textContent = 'Reading file…';
+  try {
+    const text = await file.text();
+    const raw = JSON.parse(text);
+    const poems = Array.isArray(raw) ? raw : raw.poems || [];
+    if (!poems.length) { status.textContent = 'No poems found in file.'; return; }
+    let added = 0, skipped = 0;
+    for (const p of poems) {
+      if (!p.id || !p.title || !p.poet) { skipped++; continue; }
+      await dbPut(p);
+      added++;
+    }
+    status.style.color = added > 0 ? '#4a7c4a' : 'var(--ink-faint)';
+    status.textContent = `Imported ${added} poem${added!==1?'s':''}${skipped?`, skipped ${skipped} invalid`:''}. `;
+    const n = await dbCount();
+    document.getElementById('db-info').textContent = `${n} poems in IndexedDB`;
+    e.target.value = '';
+    if (added > 0) await reload();
+  } catch(err) {
+    status.style.color = '#c0392b';
+    status.textContent = `Error: ${err.message}`;
+  }
 });
 
 // ── Service worker ─────────────────────────────────────────────────────────
