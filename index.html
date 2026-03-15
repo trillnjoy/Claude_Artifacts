@@ -149,7 +149,7 @@
     <span class="fan-label">Import</span>
     <div class="fan-import-wrap">
       <button class="mode-btn"><span class="fan-icon">📂</span></button>
-      <input type="file" id="import-file" accept=".json,application/json">
+      <input type="file" id="import-file" accept=".json,application/json" multiple>
     </div>
   </div>
   <div class="fan-item" id="fan-manual" style="transform:translate(0,0)">
@@ -611,21 +611,30 @@ document.getElementById('save-settings').addEventListener('click', ()=>{
 
 // ── iCloud import ──────────────────────────────────────────────────────────
 document.getElementById('import-file').addEventListener('change', async e => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  let added = 0, skipped = 0, errors = [];
   try {
-    const text = await file.text();
-    const raw = JSON.parse(text);
-    const poems = Array.isArray(raw) ? raw : raw.poems || [];
-    if (!poems.length) { alert('No poems found in file.'); return; }
-    let added = 0, skipped = 0;
-    for (const p of poems) {
-      if (!p.id || !p.title || !p.poet) { skipped++; continue; }
-      await dbPut(p);
-      added++;
+    for (const file of files) {
+      try {
+        const text = await file.text();
+        const raw = JSON.parse(text);
+        // Each file is either a single poem object or an array or {poems:[]}
+        const poems = Array.isArray(raw) ? raw : raw.poems ? raw.poems : [raw];
+        for (const p of poems) {
+          if (!p.id || !p.title || !p.poet) { skipped++; continue; }
+          await dbPut(p);
+          added++;
+        }
+      } catch(err) {
+        errors.push(file.name);
+      }
     }
     e.target.value = '';
-    alert(`Imported ${added} poem${added!==1?'s':''}${skipped?`, skipped ${skipped} invalid`:''}. `);
+    let msg = `Imported ${added} poem${added!==1?'s':''}`;
+    if (skipped) msg += `, skipped ${skipped} invalid`;
+    if (errors.length) msg += `, failed to read: ${errors.join(', ')}`;
+    alert(msg);
     if (added > 0) await reload();
   } catch(err) {
     alert(`Import error: ${err.message}`);
