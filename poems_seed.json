@@ -7629,6 +7629,98 @@
           }
         ]
       ]
+    },
+    {
+      "id": "kerouac-88th-chorus",
+      "title": "88th Chorus",
+      "poet": "Jack Kerouac",
+      "dates": "1959",
+      "tags": [
+        "identity",
+        "memory",
+        "wonder",
+        "longing",
+        "beat",
+        "free-verse"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "\"I wanted to marry a lovegirl,"
+          },
+          {
+            "text": "A girl-only-interested-in-love girl,\""
+          },
+          {
+            "text": "that would be the first sentence"
+          },
+          {
+            "text": "of this masterpiece"
+          },
+          {
+            "text": "Of golden litteratur —"
+          },
+          {
+            "text": "Brap. All the crazy people"
+          },
+          {
+            "text": "I've known since I was 4 years old"
+          },
+          {
+            "text": "— 6 years old I saw the sun red"
+          },
+          {
+            "text": "on windows of snowy centralville,"
+          },
+          {
+            "text": "and wondered \"Who am I?\""
+          },
+          {
+            "text": "with truthful little eyes"
+          },
+          {
+            "text": "turned to the skies of paradise —"
+          },
+          {
+            "text": "no answer came."
+          }
+        ],
+        [
+          {
+            "text": "I was the first crazy person"
+          },
+          {
+            "text": "I'd known."
+          }
+        ],
+        [
+          {
+            "text": "Had bundles and scarves a hundred miles long"
+          },
+          {
+            "text": "Wrapt in my heart of the library,"
+          },
+          {
+            "text": "I had bottles and barts, & Xmas Trees,"
+          },
+          {
+            "text": "and every thing known to man,"
+          },
+          {
+            "text": "including 6 year old ache pains"
+          },
+          {
+            "text": "in the Poxy back."
+          },
+          {
+            "text": "Was afraid of myself simply,"
+          },
+          {
+            "text": "And afraid a everyone else."
+          }
+        ]
+      ],
+      "added": "2026-03-15"
     }
   ]
 }
