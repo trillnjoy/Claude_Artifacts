@@ -214,6 +214,11 @@
       <label>Archive</label>
       <div id="db-info" style="font-size:.8rem;color:var(--ink-faint);padding:.3rem 0"></div>
     </div>
+    <div class="fg">
+      <label>Export</label>
+      <p style="font-size:.75rem;color:var(--ink-faint);margin-bottom:.5rem">Download all poems from IndexedDB as a JSON backup.</p>
+      <button class="btn-s" id="export-btn" style="width:100%">Export Archive…</button>
+    </div>
     <div class="sheet-actions">
       <button class="btn-s" id="cancel-settings">Cancel</button>
       <button class="btn-p" id="save-settings">Save</button>
@@ -607,6 +612,19 @@ document.getElementById('save-settings').addEventListener('click', ()=>{
   if (k) localStorage.setItem('pa_api_key',k); else localStorage.removeItem('pa_api_key');
   document.getElementById('key-status').className='key-status'+(k?' set':'');
   closeSheet('settings-sheet');
+});
+
+// ── Export ─────────────────────────────────────────────────────────────────
+document.getElementById('export-btn').addEventListener('click', async () => {
+  const poems = await dbGetAll();
+  const payload = JSON.stringify({ poems }, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `poetry-archive-export-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 });
 
 // ── iCloud import ──────────────────────────────────────────────────────────
