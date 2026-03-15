@@ -64,6 +64,7 @@
   .poem-body .stanza{margin-bottom:1.5em}
   .poem-body p{font-family:'Libre Baskerville',serif;font-size:.96rem;line-height:1.78;color:var(--ink)}
   .poem-body em{font-style:italic}
+  .poem-body strong{font-weight:700}
   .add-btn{position:fixed;bottom:1.5rem;right:1.25rem;width:3rem;height:3rem;border-radius:50%;background:var(--accent);color:white;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:202;line-height:1}
   .mode-menu{position:fixed;bottom:1.5rem;right:1.25rem;z-index:201;pointer-events:none}
   .fan-item{position:absolute;bottom:0;right:0;display:flex;align-items:center;gap:.6rem;pointer-events:none;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .18s ease}
@@ -260,6 +261,20 @@ function dbPut(poem) {
     const req = tx('readwrite').put(poem);
     req.onsuccess = () => res();
     req.onerror = e => rej(e.target.error);
+  });
+}
+
+function dbPutMany(poems) {
+  return new Promise((res, rej) => {
+    const store = db.transaction(STORE, 'readwrite').objectStore(STORE);
+    let done = 0;
+    const next = () => { if (++done === poems.length) res(); };
+    for (const p of poems) {
+      const req = store.put(p);
+      req.onsuccess = next;
+      req.onerror = e => rej(e.target.error);
+    }
+    if (!poems.length) res();
   });
 }
 
@@ -639,11 +654,10 @@ document.getElementById('import-file').addEventListener('change', async e => {
         const raw = JSON.parse(text);
         // Each file is either a single poem object or an array or {poems:[]}
         const poems = Array.isArray(raw) ? raw : raw.poems ? raw.poems : [raw];
-        for (const p of poems) {
-          if (!p.id || !p.title || !p.poet) { skipped++; continue; }
-          await dbPut(p);
-          added++;
-        }
+        const valid = poems.filter(p => p.id && p.title && p.poet);
+        skipped += poems.length - valid.length;
+        await dbPutMany(valid);
+        added += valid.length;
       } catch(err) {
         errors.push(file.name);
       }
