@@ -128,6 +128,134 @@
       ]
     },
     {
+      "poet": "Barbara Helfgott Hyett",
+      "id": "barbara-helfgott-hyett-love-poem-for-my-husband",
+      "title": "Love Poem for My Husband",
+      "stanzas": [
+        [
+          {
+            "text": "I recognize the need of water—"
+          },
+          {
+            "text": "how a rock, long buried, emerging now,"
+          },
+          {
+            "text": "can bend a river. Last night you cried."
+          },
+          {
+            "text": "I climbed your back, smoothed your hair"
+          },
+          {
+            "text": "the way I pet the cat, and you"
+          },
+          {
+            "text": "rolled from under me to show your eyes"
+          },
+          {
+            "text": "so that you and I, continents,"
+          },
+          {
+            "text": "could find the seas in all that blue."
+          }
+        ],
+        [
+          {
+            "text": "Leaves accumulate. I have loved you"
+          },
+          {
+            "text": "half of my life, and still you"
+          },
+          {
+            "text": "build, all day in the woods behind"
+          },
+          {
+            "text": "the house, a stairway to nowhere:"
+          },
+          {
+            "text": "rough-hewn, the redundancy of stones,"
+          },
+          {
+            "text": "thick slugs whose iridescence"
+          },
+          {
+            "text": "only you admire. What draws you"
+          },
+          {
+            "text": "to such silent things?"
+          }
+        ],
+        [
+          {
+            "text": "It is late afternoon. Dusk"
+          },
+          {
+            "text": "informs the blue at the window."
+          },
+          {
+            "text": "We have been talking"
+          },
+          {
+            "text": "at the kitchen table for hours."
+          },
+          {
+            "text": "I drift into the landscape"
+          },
+          {
+            "text": "receding from words—"
+          },
+          {
+            "text": "<em>at lunch, you touched my breast</em>"
+          },
+          {
+            "text": "<em>as if I were a girl.</em>"
+          }
+        ],
+        [
+          {
+            "text": "I try to resurrect the mystery"
+          },
+          {
+            "text": "of first love, its coarse grace,"
+          },
+          {
+            "text": "the man whose hands I cannot name."
+          },
+          {
+            "text": "I have seen you lasso a falling tree,"
+          },
+          {
+            "text": "hold it, bend your breath to root it"
+          },
+          {
+            "text": "in air. You wrestled it gently down,"
+          },
+          {
+            "text": "knuckles raw, vulnerable as the flesh"
+          },
+          {
+            "text": "of a sea turtle, just below the shell."
+          },
+          {
+            "text": "That's where I want to sting."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "desire",
+        "tenderness",
+        "conjugal",
+        "nature",
+        "memory",
+        "time",
+        "embodiment",
+        "contemporary",
+        "free-verse",
+        "lyric"
+      ]
+    },
+    {
       "id": "browning-if-thou-must-love-me",
       "title": "If Thou Must Love Me",
       "poet": "Elizabeth Barrett Browning",
@@ -4871,6 +4999,196 @@
       ]
     },
     {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-103rd-chorus",
+      "title": "103rd Chorus",
+      "stanzas": [
+        [
+          {
+            "text": "My father in downtown red"
+          },
+          {
+            "text": "Walked around like a shadow"
+          },
+          {
+            "text": "Of ink black, with hat, nodding,"
+          },
+          {
+            "text": "In the immemorial lights of my dreams."
+          },
+          {
+            "text": "For I have since dreamt of Lowell"
+          },
+          {
+            "text": "And the image of my father,"
+          },
+          {
+            "text": "Straw hat, newspaper in pocket,"
+          },
+          {
+            "text": "Liquor on the breath, barber shopshines,"
+          },
+          {
+            "text": "Is the image of Ignorant Man"
+          },
+          {
+            "text": "Hurrying to his destiny which is Death"
+          },
+          {
+            "text": "Even though he knows it."
+          },
+          {
+            "text": "'S why they call Cheer,"
+          },
+          {
+            "text": "a bottle, a glass, a drink,"
+          },
+          {
+            "text": "<em>A Cup of Courage</em> —"
+          }
+        ],
+        [
+          {
+            "text": "Men know the mist is not their friend —"
+          },
+          {
+            "text": "They come out of fields & put coats on"
+          },
+          {
+            "text": "And become businessmen & die stale"
+          },
+          {
+            "text": "The same loathsome stale death"
+          },
+          {
+            "text": "They mighta died in countryside"
+          },
+          {
+            "text": "Hills of dung."
+          },
+          {
+            "text": "My remembrance of my father"
+          },
+          {
+            "text": "in downtown Lowell"
+          },
+          {
+            "text": "walking like cardboard cut"
+          },
+          {
+            "text": "across the lost lights"
+          },
+          {
+            "text": "is the same empty material"
+          },
+          {
+            "text": "as my father in the grave."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1959",
+      "tags": [
+        "grief",
+        "memory",
+        "mortality",
+        "melancholy",
+        "identity",
+        "beat",
+        "prose-poem"
+      ]
+    },
+    {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-124th-chorus",
+      "title": "124th Chorus",
+      "stanzas": [
+        [
+          {
+            "text": "The tall thin rawboned fellow"
+          },
+          {
+            "text": "Come up to Paw and me"
+          },
+          {
+            "text": "On the misty racetrack."
+          },
+          {
+            "text": "“Got a good one in the fourth.”"
+          },
+          {
+            "text": "“How do YOU know”"
+          },
+          {
+            "text": "says my Dad"
+          },
+          {
+            "text": "“I’m a jockey”"
+          },
+          {
+            "text": "His hat waved over his eyes"
+          },
+          {
+            "text": "In the rain."
+          },
+          {
+            "text": "I saw Arkansaw"
+          },
+          {
+            "text": "behind him."
+          },
+          {
+            "text": "He looked too big to be a jockey"
+          },
+          {
+            "text": "to me —"
+          },
+          {
+            "text": "“Just put 4 dollars to win"
+          },
+          {
+            "text": "And give me half"
+          },
+          {
+            "text": "the winnings.”"
+          },
+          {
+            "text": "I dont remember now"
+          },
+          {
+            "text": "whether my father fell"
+          },
+          {
+            "text": "And got laid by that line,"
+          },
+          {
+            "text": "But “too big"
+          },
+          {
+            "text": "man"
+          },
+          {
+            "text": "he too big"
+          },
+          {
+            "text": "to be a jockey”"
+          },
+          {
+            "text": "was my thought"
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1959",
+      "tags": [
+        "memory",
+        "identity",
+        "beat",
+        "free-verse",
+        "tenderness"
+      ]
+    },
+    {
       "id": "kerouac-13th-chorus",
       "title": "13th Chorus",
       "poet": "Jack Kerouac",
@@ -4978,6 +5296,240 @@
             "text": "Hungry mouth"
           }
         ]
+      ]
+    },
+    {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-143rd-chorus",
+      "title": "143rd Chorus",
+      "stanzas": [
+        [
+          {
+            "text": "(pause)"
+          }
+        ],
+        [
+          {
+            "text": "Junkies"
+          },
+          {
+            "text": "Should be practical nurses"
+          },
+          {
+            "text": "And be given permits"
+          },
+          {
+            "text": "To get 3 to 5 grains a day"
+          },
+          {
+            "text": "Every day,"
+          },
+          {
+            "text": "The older addicts need more."
+          },
+          {
+            "text": "Drug Addicts"
+          },
+          {
+            "text": "Are human beings"
+          },
+          {
+            "text": "Less dangerous"
+          },
+          {
+            "text": "Than alcoholics"
+          }
+        ],
+        [
+          {
+            "text": "And alcoholics arent so bad"
+          },
+          {
+            "text": "Look at the speed drivers"
+          },
+          {
+            "text": "Look at the sex fiends"
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1959",
+      "tags": [
+        "defiance",
+        "identity",
+        "free-verse",
+        "beat",
+        "modernist"
+      ]
+    },
+    {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-174th-chorus",
+      "title": "174th Chorus",
+      "dates": "1959",
+      "tags": [
+        "nature",
+        "mortality",
+        "wonder",
+        "melancholy",
+        "free-verse",
+        "beat"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "The freshwater eels of Europe"
+          },
+          {
+            "text": "That climb up their rivers"
+          },
+          {
+            "text": "And presumably raid fjords"
+          },
+          {
+            "text": "And eat up pools, curious"
+          },
+          {
+            "text": "Proustian visitors from up the mountain"
+          },
+          {
+            "text": "Of the sea, which, when they die,"
+          },
+          {
+            "text": "they re-cross, to Bermuda,"
+          },
+          {
+            "text": "from whence they came, to die."
+          }
+        ],
+        [
+          {
+            "text": "Must be that these eel"
+          },
+          {
+            "text": "Have a yen to explore"
+          },
+          {
+            "text": "The veins of Old Atlantis"
+          },
+          {
+            "text": "From their sunken mountaintop"
+          },
+          {
+            "text": "This side Canaryas"
+          },
+          {
+            "text": "But no — they slide"
+          },
+          {
+            "text": "From Europe to Ukraine"
+          },
+          {
+            "text": "And down the Belgian Rivers,"
+          },
+          {
+            "text": "And blankly in the void"
+          },
+          {
+            "text": "Swim back to spawn"
+          },
+          {
+            "text": "And die with longfaced pouts"
+          },
+          {
+            "text": "— Poor fish."
+          }
+        ]
+      ]
+    },
+    {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-184th-chorus",
+      "title": "184th Chorus",
+      "stanzas": [
+        [
+          {
+            "text": "“Men are afraid to forget"
+          },
+          {
+            "text": "their own minds,"
+          },
+          {
+            "text": "Fearing to fall thru the void"
+          },
+          {
+            "text": "With nothing to which they can cling."
+          }
+        ],
+        [
+          {
+            "text": "They do not know"
+          },
+          {
+            "text": "that the void"
+          },
+          {
+            "text": "is not really void"
+          },
+          {
+            "text": "but the real realm"
+          },
+          {
+            "text": "of the Dharma”—"
+          }
+        ],
+        [
+          {
+            "text": "Wow, I thought reading that,"
+          },
+          {
+            "text": "when I start falling"
+          },
+          {
+            "text": "in that inhuman pit"
+          },
+          {
+            "text": "of dizzy death"
+          },
+          {
+            "text": "I’ll know (if"
+          },
+          {
+            "text": "smart enough t’remember)"
+          },
+          {
+            "text": "that all the black"
+          },
+          {
+            "text": "tunnels of hate"
+          },
+          {
+            "text": "or love I’m falling"
+          },
+          {
+            "text": "through, are"
+          },
+          {
+            "text": "really radiant"
+          },
+          {
+            "text": "right eternities"
+          },
+          {
+            "text": "for me"
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1959",
+      "tags": [
+        "faith",
+        "mortality",
+        "wonder",
+        "defiance",
+        "beat",
+        "free-verse",
+        "identity"
       ]
     },
     {
@@ -5499,6 +6051,191 @@
       "added": "2026-03-15"
     },
     {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-90th-chorus",
+      "title": "90th Chorus",
+      "stanzas": [
+        [
+          {
+            "text": "I thought I was a phantom,"
+          },
+          {
+            "text": "me, myself,"
+          },
+          {
+            "text": "Suffering. One night I saw"
+          },
+          {
+            "text": "my older brother Gerard"
+          },
+          {
+            "text": "Standing over my crib with wild"
+          },
+          {
+            "text": "hair, as if he had just"
+          },
+          {
+            "text": "pee-visited the pail"
+          },
+          {
+            "text": "in the hall of snores"
+          },
+          {
+            "text": "and headed back for his room"
+          },
+          {
+            "text": "was investigatin the Grail,"
+          },
+          {
+            "text": "Nin & Ma's bedroom,"
+          },
+          {
+            "text": "Who slept in the same bed"
+          },
+          {
+            "text": "and in the crib alongside."
+          },
+          {
+            "text": "Oily is the moment so"
+          },
+          {
+            "text": "that phantom was my brother"
+          },
+          {
+            "text": "only in the sense that cotton"
+          },
+          {
+            "text": "is soft,"
+          },
+          {
+            "text": "Only in the sense that"
+          },
+          {
+            "text": "when you die"
+          },
+          {
+            "text": "you muffle"
+          },
+          {
+            "text": "in your sigh"
+          },
+          {
+            "text": "the thorny hard"
+          },
+          {
+            "text": "regret of rocks"
+          },
+          {
+            "text": "of life-belief."
+          },
+          {
+            "text": "I knew, I hoped, to go be saved."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "memory",
+        "identity",
+        "mortality",
+        "melancholy",
+        "beat",
+        "free-verse",
+        "grief"
+      ]
+    },
+    {
+      "poet": "Jack Kerouac",
+      "id": "kerouac-96th-chorus",
+      "title": "96th Chorus",
+      "dates": "1959",
+      "tags": [
+        "grief",
+        "mortality",
+        "memory",
+        "beat",
+        "free-verse",
+        "litany"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "I tumbled down the street"
+          },
+          {
+            "text": "On a tricycle, very fast,"
+          },
+          {
+            "text": "I coulda kept going"
+          },
+          {
+            "text": "And wound up in the river,"
+          },
+          {
+            "text": "— Or across the trolley tracks"
+          },
+          {
+            "text": "And got cobble mashed"
+          },
+          {
+            "text": "And all smashed so that later on"
+          },
+          {
+            "text": "I cant have grit dreams"
+          },
+          {
+            "text": "Of Lakeview Avenue,"
+          },
+          {
+            "text": "And see my father die,"
+          },
+          {
+            "text": "Had I died at two —"
+          },
+          {
+            "text": "But I saw my father die,"
+          },
+          {
+            "text": "I saw my brother die,"
+          },
+          {
+            "text": "I saw my mother die"
+          },
+          {
+            "text": "my mother my mother my mother"
+          },
+          {
+            "text": "inside me —"
+          },
+          {
+            "text": "Saw the pear trees die,"
+          },
+          {
+            "text": "the grapes, pearls, penny trees —"
+          },
+          {
+            "text": "Saw little while collar girl"
+          },
+          {
+            "text": "with little black dress"
+          },
+          {
+            "text": "And spots of rose on each cheek,"
+          },
+          {
+            "text": "die, in her glasses"
+          },
+          {
+            "text": "In a coffin."
+          },
+          {
+            "text": "But I raced my bicycle safely."
+          }
+        ]
+      ]
+    },
+    {
       "id": "kingsley-the-old-song",
       "title": "The Old Song",
       "poet": "Charles Kingsley",
@@ -5951,6 +6688,139 @@
       ]
     },
     {
+      "poet": "Linda Pastan",
+      "id": "linda-pastan-after-an-absence",
+      "title": "After an Absence",
+      "stanzas": [
+        [
+          {
+            "text": "After an absence that was no one's fault"
+          },
+          {
+            "text": "we are shy with each other,"
+          },
+          {
+            "text": "and our words seem younger than we are,"
+          },
+          {
+            "text": "as if we must return to the time we met"
+          },
+          {
+            "text": "and work ourselves back to the present,"
+          },
+          {
+            "text": "the way you never read a story"
+          },
+          {
+            "text": "from the place you stopped"
+          },
+          {
+            "text": "but always start each book all over again."
+          },
+          {
+            "text": "Perhaps we should have stayed"
+          },
+          {
+            "text": "tied like mountain climbers"
+          },
+          {
+            "text": "by the safe cord of the phone,"
+          },
+          {
+            "text": "its dial our own small prayer wheel,"
+          },
+          {
+            "text": "our voices less ghostly across the miles,"
+          },
+          {
+            "text": "less awkward than they are now."
+          },
+          {
+            "text": "I had forgotten the grey in your curls,"
+          },
+          {
+            "text": "that splash of winter over your face,"
+          },
+          {
+            "text": "remembering the younger man"
+          },
+          {
+            "text": "you used to be."
+          }
+        ],
+        [
+          {
+            "text": "And I feel myself turn old and ordinary,"
+          },
+          {
+            "text": "having to think again of food for supper,"
+          },
+          {
+            "text": "the animals to be tended, the whole riptide"
+          },
+          {
+            "text": "of daily life hidden but perilous"
+          },
+          {
+            "text": "pulling both of us under so fast."
+          },
+          {
+            "text": "I have dreamed of our bed"
+          },
+          {
+            "text": "as if it were a shore where we would be washed up,"
+          },
+          {
+            "text": "not this striped mattress"
+          },
+          {
+            "text": "we must cover with sheets. I had forgotten"
+          },
+          {
+            "text": "all the old business between us,"
+          },
+          {
+            "text": "like mail unanswered so long that silence"
+          },
+          {
+            "text": "becomes eloquent, a message of its own."
+          },
+          {
+            "text": "I had even forgotten how married love"
+          },
+          {
+            "text": "is a territory more mysterious"
+          },
+          {
+            "text": "the more it is explored, like one of those terrains"
+          },
+          {
+            "text": "you read about, a garden in the desert"
+          },
+          {
+            "text": "where you stoop to drink, never knowing"
+          },
+          {
+            "text": "if your mouth will fill with water or sand."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "memory",
+        "longing",
+        "tenderness",
+        "melancholy",
+        "time",
+        "conjugal",
+        "contemporary",
+        "free-verse",
+        "desire",
+        "mortality"
+      ]
+    },
+    {
       "poet": "Lisel Mueller",
       "id": "lisel-mueller-blind-leading-blind",
       "title": "The Blind Leading the Blind",
@@ -6077,6 +6947,114 @@
           },
           {
             "text": "To wound myself upon the sharp edges of the night?"
+          }
+        ]
+      ]
+    },
+    {
+      "poet": "Archibald MacLeish",
+      "id": "macleish-old-gray-couple-2",
+      "title": "The Old Gray Couple (2)",
+      "dates": "",
+      "tags": [
+        "love",
+        "memory",
+        "time",
+        "mortality",
+        "tenderness",
+        "conjugal",
+        "modernist",
+        "lyric",
+        "beauty"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "She: Love, says the poet, has no reasons."
+          },
+          {
+            "text": "He: Not even after fifty years?"
+          },
+          {
+            "text": "She: Particularly after fifty years."
+          },
+          {
+            "text": "He: What was it, then, that lured us, that still teases?"
+          },
+          {
+            "text": "She: You used to say my plaited hair!"
+          },
+          {
+            "text": "He: And then you'd laugh."
+          },
+          {
+            "text": "She: Because it wasn't plaited."
+          },
+          {
+            "text": "      Love had no reasons so you made one up"
+          },
+          {
+            "text": "      to laugh at. Look! The old, gray couple!"
+          },
+          {
+            "text": "He: No, to prove the adage true:"
+          },
+          {
+            "text": "      Love has no reasons but old lovers do."
+          },
+          {
+            "text": "She: And they can't tell."
+          },
+          {
+            "text": "He: I can and so can you."
+          },
+          {
+            "text": "      Fifty years ago we drew each other,"
+          },
+          {
+            "text": "      magnetized needle toward the longing north."
+          },
+          {
+            "text": "      It was your naked presence that so moved me."
+          },
+          {
+            "text": "      It was your absolute presence that was love."
+          },
+          {
+            "text": "She: Ah, <em>was!</em>"
+          },
+          {
+            "text": "He: And now, years older, we begin to see"
+          },
+          {
+            "text": "      absence not presence: what the world would be"
+          },
+          {
+            "text": "      without your footstep in the world—the garden"
+          },
+          {
+            "text": "      empty of the radiance where you are."
+          },
+          {
+            "text": "She: And that's your reason?—that old lovers see"
+          },
+          {
+            "text": "      their love because they know now what its loss will be?"
+          },
+          {
+            "text": "He: Because, like Cleopatra in the play,"
+          },
+          {
+            "text": "      they know there's nothing left once love's away . . ."
+          },
+          {
+            "text": "She: Nothing remarkable beneath the visiting moon . . ."
+          },
+          {
+            "text": "He: Ours is the late, last wisdom of the afternoon."
+          },
+          {
+            "text": "      We know that love, like light, grows dearer toward the dark."
           }
         ]
       ]
@@ -7004,6 +7982,76 @@
       ]
     },
     {
+      "poet": "Pablo Neruda",
+      "id": "neruda-love-crosses-its-islands",
+      "title": "Love crosses its islands, from grief to grief",
+      "stanzas": [
+        [
+          {
+            "text": "Love crosses its islands, from grief to grief,"
+          },
+          {
+            "text": "it sets its roots, watered with tears,"
+          },
+          {
+            "text": "and no one—no one—can escape the heart's progress"
+          },
+          {
+            "text": "as it runs, silent and carnivorous."
+          }
+        ],
+        [
+          {
+            "text": "You and I searched for a wide valley, for another planet"
+          },
+          {
+            "text": "where the salt wouldn't touch your hair,"
+          },
+          {
+            "text": "where sorrows couldn't grow because of anything I did,"
+          },
+          {
+            "text": "where bread could live and not grow old."
+          }
+        ],
+        [
+          {
+            "text": "A planet entwined with vistas and foliage,"
+          },
+          {
+            "text": "a plain, a rock, hard and unoccupied:"
+          },
+          {
+            "text": "we wanted to build a strong nest"
+          }
+        ],
+        [
+          {
+            "text": "with our own hands, without hurt or harm or speech,"
+          },
+          {
+            "text": "but love was not like that: love was a lunatic city"
+          },
+          {
+            "text": "with crowds of people blanching on their porches."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1904–1973",
+      "tags": [
+        "love",
+        "grief",
+        "longing",
+        "melancholy",
+        "desire",
+        "nature",
+        "translation",
+        "modernist",
+        "free-verse"
+      ]
+    },
+    {
       "id": "oshaughnessy-ode",
       "title": "Ode",
       "poet": "Arthur O’Shaughnessy",
@@ -7109,6 +8157,70 @@
             "indent": 1.5
           }
         ]
+      ]
+    },
+    {
+      "poet": "Paul Durcan",
+      "id": "paul-durcan-hymn-to-a-broken-marriage",
+      "title": "Hymn to a Broken Marriage",
+      "stanzas": [
+        [
+          {
+            "text": "Dear Nessa—Now that our marriage is over"
+          },
+          {
+            "text": "I would like you to know that, if I could put back the clock"
+          },
+          {
+            "text": "Fifteen years to the cold March day of our wedding,"
+          },
+          {
+            "text": "I would wed you again and, if that marriage also broke,"
+          },
+          {
+            "text": "I would wed you yet again and, if it a third time broke,"
+          },
+          {
+            "text": "Wed you again, and again, and again, and again, and again:"
+          },
+          {
+            "text": "If you would have me which, of course, you would not"
+          },
+          {
+            "text": "For, even you—in spite of your patience and your innocence"
+          },
+          {
+            "text": "(Strange characteristics in an age such as our own)—"
+          },
+          {
+            "text": "Even you require to shake off the addiction of romantic love"
+          },
+          {
+            "text": "And seek, instead, the herbal remedy of a sane affection"
+          },
+          {
+            "text": "In which are mixed in profuse and fair proportion"
+          },
+          {
+            "text": "Loverliness, brotherliness, fatherliness:"
+          },
+          {
+            "text": "A sane man could not espouse a more intimate friend than you."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "grief",
+        "memory",
+        "tenderness",
+        "conjugal",
+        "longing",
+        "resignation",
+        "contemporary",
+        "free-verse",
+        "identity"
       ]
     },
     {
@@ -7783,6 +8895,171 @@
       ]
     },
     {
+      "id": "shelton-three-poems-twenty-fifth-anniversary",
+      "title": "Three Poems for a Twenty-fifth Anniversary",
+      "poet": "Richard Shelton",
+      "dates": "",
+      "tags": [
+        "conjugal",
+        "tenderness",
+        "memory",
+        "joy",
+        "lyric",
+        "contemporary"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "<strong>1. Housecleaning</strong>"
+          }
+        ],
+        [
+          {
+            "text": "after returning"
+          },
+          {
+            "text": "all the tools I borrowed"
+          },
+          {
+            "text": "from neighbors and friends"
+          },
+          {
+            "text": "and the books to the library"
+          }
+        ],
+        [
+          {
+            "text": "I am amazed to find"
+          },
+          {
+            "text": "so many things around the house"
+          },
+          {
+            "text": "like you"
+          },
+          {
+            "text": "that really belong here"
+          }
+        ],
+        [
+          {
+            "text": "I had thought"
+          },
+          {
+            "text": "you were on loan and overdue"
+          },
+          {
+            "text": "the fines were mounting into millions"
+          },
+          {
+            "text": "I could never pay them"
+          }
+        ],
+        [
+          {
+            "text": "so for twenty-five years"
+          },
+          {
+            "text": "I looked everyone straight in the eyes"
+          },
+          {
+            "text": "pretending you were mine"
+          },
+          {
+            "text": "and I kept you"
+          }
+        ],
+        [
+          {
+            "text": "<strong>2. Building</strong>"
+          }
+        ],
+        [
+          {
+            "text": "you built your house"
+          },
+          {
+            "text": "on my wavering sands"
+          }
+        ],
+        [
+          {
+            "text": "I built my house on yours"
+          },
+          {
+            "text": "and we abide"
+          }
+        ],
+        [
+          {
+            "text": "you are afraid of water"
+          },
+          {
+            "text": "I am afraid of winds"
+          }
+        ],
+        [
+          {
+            "text": "you hold me during hurricanes"
+          },
+          {
+            "text": "I keep you from the tide"
+          }
+        ],
+        [
+          {
+            "text": "<strong>3. Grandfathering</strong>"
+          }
+        ],
+        [
+          {
+            "text": "it is time for grandfathering"
+          },
+          {
+            "text": "and I don’t know how"
+          },
+          {
+            "text": "<em>leave me alone I have served my turn</em>"
+          },
+          {
+            "text": "<em>I will run away</em>"
+          },
+          {
+            "text": "<em>(break)</em>"
+          }
+        ],
+        [
+          {
+            "text": "then I see your hand"
+          },
+          {
+            "text": "after so many years still pale"
+          },
+          {
+            "text": "and slender as a wand"
+          },
+          {
+            "text": "reach out to touch a child"
+          }
+        ],
+        [
+          {
+            "text": "and I hear you say"
+          },
+          {
+            "text": "<em>when it was time for fathering</em>"
+          },
+          {
+            "text": "<em>you found the way</em>"
+          },
+          {
+            "text": "<em>as you will now</em>"
+          }
+        ]
+      ],
+      "added": "2026-03-15"
+    },
+    {
       "id": "sidney-my-true-love",
       "title": "My True Love Hath My Heart …",
       "poet": "Sir Philip Sidney",
@@ -7839,6 +9116,76 @@
             "text": "My true love hath my heart, and I have his."
           }
         ]
+      ]
+    },
+    {
+      "poet": "L. E. Sissman",
+      "id": "sissman-man-and-wife",
+      "title": "Man and Wife",
+      "stanzas": [
+        [
+          {
+            "text": "You were a unit when I saw you last:"
+          },
+          {
+            "text": "The handsome husband and the happy wife,"
+          },
+          {
+            "text": "Which was an act; but tissue of the past"
+          },
+          {
+            "text": "Between you, unseen, made you one for life,"
+          }
+        ],
+        [
+          {
+            "text": "Or so I thought. It seems that I was wrong."
+          },
+          {
+            "text": "Seeing you ten years later, the kids grown"
+          },
+          {
+            "text": "And gone, the still light of the long"
+          },
+          {
+            "text": "Living room coming between you, I should have known"
+          }
+        ],
+        [
+          {
+            "text": "The lines were down. Your life went on with such"
+          },
+          {
+            "text": "Attention to unchange: each “darling” fell"
+          },
+          {
+            "text": "With metered carelessness; each “please” with much"
+          },
+          {
+            "text": "Conviction; each “thanks” rang true as a bell."
+          }
+        ],
+        [
+          {
+            "text": "But when you walked me to the door to go,"
+          },
+          {
+            "text": "I saw the fault between your faces. Oh."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "memory",
+        "melancholy",
+        "marriage",
+        "observation",
+        "conjugal",
+        "rhymed",
+        "contemporary",
+        "grief",
+        "time"
       ]
     },
     {
@@ -7958,6 +9305,147 @@
           }
         ]
       ]
+    },
+    {
+      "id": "vanduyn-late-loving",
+      "title": "Late Loving",
+      "poet": "Mona Van Duyn",
+      "dates": "1921–2004",
+      "tags": [
+        "conjugal",
+        "love",
+        "time",
+        "mortality",
+        "memory",
+        "contemporary",
+        "lyric",
+        "tenderness"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "What Christ was saying, what he meant [in the story of Mary and Martha] was that the pleasures of that hair, that ointment, must be taken. Because the accidents of death would deprive us soon enough. We must not deprive ourselves, our loved ones, of the luxury of our extravagant affections. We must not try to second-guess death by refusing to love the ones we loved . . ."
+          },
+          {
+            "text": "Mary Gordon, <em>Final Payments</em>",
+            "indent": 8
+          }
+        ],
+        [
+          {
+            "text": "If in my mind I marry you every year"
+          },
+          {
+            "text": "it is to calm an extravagance of love"
+          },
+          {
+            "text": "with dousing custom, for it flames up fierce"
+          },
+          {
+            "text": "and wild whenever I forget that we live"
+          },
+          {
+            "text": "in double rooms whose temperature’s controlled"
+          },
+          {
+            "text": "by matrimony’s turned-down thermostat."
+          },
+          {
+            "text": "I need the mnemonics, now that we are old,"
+          },
+          {
+            "text": "of oath and law in re-memorizing that."
+          },
+          {
+            "text": "Our dogs are dead, our child never came true."
+          },
+          {
+            "text": "I might use up, in my weak-mindedness,"
+          },
+          {
+            "text": "the whole human supply of warmth on you"
+          },
+          {
+            "text": "before I could think of others and digress."
+          },
+          {
+            "text": "“Love” is finding the familiar dear."
+          },
+          {
+            "text": "“In Love” is to be taken by surprise."
+          },
+          {
+            "text": "Over, in the shifty face you wear,"
+          },
+          {
+            "text": "and over, in the assessments of your eyes,"
+          },
+          {
+            "text": "you change, and with new sweet or barbed word"
+          },
+          {
+            "text": "find out new entrances to my inmost nerve."
+          },
+          {
+            "text": "When you stand at the stove it’s I who am most stirred."
+          },
+          {
+            "text": "When you finish work I rest without reserve."
+          },
+          {
+            "text": "Daytimes, sometimes, our three-legged race seems slow."
+          },
+          {
+            "text": "Squabbling onward, we chafe from being so near."
+          },
+          {
+            "text": "But all night long we lie like crescents of Velcro,"
+          },
+          {
+            "text": "turning together till we re-adhere."
+          },
+          {
+            "text": "Since you, with longer stride and better vision,"
+          },
+          {
+            "text": "more clearly see the finish line, I stoke"
+          },
+          {
+            "text": "my hurrying self, to keep it in condition,"
+          },
+          {
+            "text": "with light and life-renouncing meals of smoke."
+          },
+          {
+            "text": "As when a collector scoops two Monarchs in"
+          },
+          {
+            "text": "at once, whose fresh flights to and from each other"
+          },
+          {
+            "text": "are netted down, so in vows I re-imagine"
+          },
+          {
+            "text": "I re-invoke what keeps us stale together."
+          }
+        ],
+        [
+          {
+            "text": "What you try to give is more than I want to receive,"
+          },
+          {
+            "text": "yet each month when you pick up scissors for our appointment"
+          },
+          {
+            "text": "and my cut hair falls and covers your feet I believe"
+          },
+          {
+            "text": "that the house is filled again with the odor of ointment."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "source": "unknown"
     },
     {
       "id": "wilcox-i-love-you",
