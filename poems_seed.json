@@ -1,6 +1,107 @@
 {
   "poems": [
     {
+      "poet": "Adrian Mitchell",
+      "id": "adrian-mitchell-back-in-the-playground-blues",
+      "title": "Back in the Playground Blues",
+      "stanzas": [
+        [
+          {
+            "text": "Dreamed I was in a school playground, I was about four feet high"
+          },
+          {
+            "text": "Yes dreamed I was back in the playground, and standing about four feet high"
+          },
+          {
+            "text": "The playground was three miles long and the playground was five miles wide"
+          }
+        ],
+        [
+          {
+            "text": "It was broken black tarmac with a high fence all around"
+          },
+          {
+            "text": "Broken black dusty tarmac with a high fence running all around"
+          },
+          {
+            "text": "And it had a special name to it, they called it The Killing Ground."
+          }
+        ],
+        [
+          {
+            "text": "Got a mother and a father, they're a thousand miles away"
+          },
+          {
+            "text": "The Rulers of the Killing Ground are coming out to play"
+          },
+          {
+            "text": "Everyone thinking: who they going to play with today?"
+          }
+        ],
+        [
+          {
+            "text": "You get it for being Jewish"
+          },
+          {
+            "text": "Get it for being black"
+          },
+          {
+            "text": "Get it for being chicken"
+          },
+          {
+            "text": "Get it for fighting back"
+          },
+          {
+            "text": "You get it for being big and fat"
+          },
+          {
+            "text": "Get it for being small"
+          },
+          {
+            "text": "O those who get it get it and get it"
+          },
+          {
+            "text": "For any damn thing at all"
+          }
+        ],
+        [
+          {
+            "text": "Sometimes they take a beetle, tear off its six legs one by one"
+          },
+          {
+            "text": "Beetle on its black back rocking in the lunchtime sun"
+          },
+          {
+            "text": "But a beetle can't beg for mercy, a beetle's not half the fun"
+          }
+        ],
+        [
+          {
+            "text": "Heard a deep voice talking, it had that iceberg sound;"
+          },
+          {
+            "text": "“It prepares them for Life” – but I have never found"
+          },
+          {
+            "text": "Any place in my life that’s worse than The Killing Ground."
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "",
+      "tags": [
+        "memory",
+        "identity",
+        "defiance",
+        "melancholy",
+        "grief",
+        "war",
+        "refrain",
+        "rhymed",
+        "contemporary"
+      ]
+    },
+    {
       "poet": "Alan Dugan",
       "id": "alan-dugan-love-song-i-and-thou",
       "title": "Love Song: I and Thou",
@@ -243,6 +344,95 @@
       ]
     },
     {
+      "poet": "W. H. Auden",
+      "id": "auden-cork-and-work-and-card-and-ward",
+      "title": "Cork and Work and Card and Ward",
+      "dates": "",
+      "tags": [
+        "wonder",
+        "defiance",
+        "joy",
+        "rhymed",
+        "modernist"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "I take it you already know"
+          },
+          {
+            "text": "Of tough and bough and cough and dough?"
+          },
+          {
+            "text": "Others may stumble, but not you"
+          },
+          {
+            "text": "On hiccough, thorough, laugh, and through?"
+          },
+          {
+            "text": "I write in case you wish perhaps"
+          },
+          {
+            "text": "To learn of less familiar traps:"
+          },
+          {
+            "text": "Beware of heard, a dreadful word"
+          },
+          {
+            "text": "That looks like beard, and sounds like bird."
+          },
+          {
+            "text": "And dead: it's said like bed, not bead;"
+          },
+          {
+            "text": "For goodness' sake, don't call it \"deed\"!"
+          },
+          {
+            "text": "Watch out for meat and great and threat"
+          },
+          {
+            "text": "(They rhyme with suite and straight and debt)."
+          },
+          {
+            "text": "A moth is not a moth in mother,"
+          },
+          {
+            "text": "Nor both in bother, broth in brother."
+          },
+          {
+            "text": "And here is not a match for there,"
+          },
+          {
+            "text": "Nor dear for bear, or fear for pear."
+          },
+          {
+            "text": "There's dose and rose, there's also lose"
+          },
+          {
+            "text": "(Just look them up), and goose, and choose,"
+          },
+          {
+            "text": "And cork and work, and card and ward,"
+          },
+          {
+            "text": "And font and front, and word and sword,"
+          },
+          {
+            "text": "And do and go and thwart and cart –"
+          },
+          {
+            "text": "Come come, I've barely made a start!"
+          },
+          {
+            "text": "A dreadful language? Man alive,"
+          },
+          {
+            "text": "I'd mastered it when I was five!"
+          }
+        ]
+      ]
+    },
+    {
       "poet": "Barbara Helfgott Hyett",
       "id": "barbara-helfgott-hyett-love-poem-for-my-husband",
       "title": "Love Poem for My Husband",
@@ -428,6 +618,56 @@
             "text": "Thou mayest love on, through love’s eternity."
           }
         ]
+      ]
+    },
+    {
+      "poet": "Carl Sandburg",
+      "id": "carl-sandburg-wars",
+      "title": "Wars",
+      "stanzas": [
+        [
+          {
+            "text": "In the old wars drum of hoofs and the beat of shod feet."
+          },
+          {
+            "text": "In the new wars hum of motors and the tread of rubber tires."
+          },
+          {
+            "text": "In the wars to come silent wheels and whirr of rods not yet dreamed out in the heads of men."
+          }
+        ],
+        [
+          {
+            "text": "In the old wars clutches of short swords and jabs into faces with spears."
+          },
+          {
+            "text": "In the new wars long-range guns and smashed walls, guns running a spit of metal and men falling in tens and twenties."
+          },
+          {
+            "text": "In the wars to come new silent deaths, new silent hurlers not yet dreamed out in the heads of men."
+          }
+        ],
+        [
+          {
+            "text": "In the old wars kings quarreling and thousands of men following."
+          },
+          {
+            "text": "In the new wars kings quarreling and millions of men following."
+          },
+          {
+            "text": "In the wars to come kings kicked under the dust and millions of men following great causes not yet dreamed out in the heads of men."
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "",
+      "tags": [
+        "war",
+        "time",
+        "modernist",
+        "free-verse",
+        "litany",
+        "mortality"
       ]
     },
     {
@@ -3247,6 +3487,73 @@
       ]
     },
     {
+      "poet": "e. e. cummings",
+      "id": "cummings-maggie-and-milly-and-molly-and-may",
+      "title": "maggie and milly and molly and may",
+      "stanzas": [
+        [
+          {
+            "text": "maggie and milly and molly and may"
+          },
+          {
+            "text": "went down to the beach(to play one day)"
+          }
+        ],
+        [
+          {
+            "text": "and maggie discovered a shell that sang"
+          },
+          {
+            "text": "so sweetly she couldn't remember her troubles,and"
+          }
+        ],
+        [
+          {
+            "text": "milly befriended a stranded star"
+          },
+          {
+            "text": "whose rays five languid fingers were;"
+          }
+        ],
+        [
+          {
+            "text": "and molly was chased by a horrible thing"
+          },
+          {
+            "text": "which raced sideways while blowing bubbles:and"
+          }
+        ],
+        [
+          {
+            "text": "may came home with a smooth round stone"
+          },
+          {
+            "text": "as small as a world and as large as alone."
+          }
+        ],
+        [
+          {
+            "text": "For whatever we lose(like a you or a me)"
+          },
+          {
+            "text": "it's always ourselves we find in the sea"
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1894–1962",
+      "tags": [
+        "joy",
+        "wonder",
+        "identity",
+        "nature",
+        "memory",
+        "lyric",
+        "rhymed",
+        "modernist"
+      ]
+    },
+    {
       "id": "dickinson-apparently-no-surprise",
       "title": "Apparently with No Surprise",
       "poet": "Emily Dickinson",
@@ -3348,6 +3655,150 @@
             "text": "Until she smiled, approached, and touched his hand!"
           }
         ]
+      ]
+    },
+    {
+      "poet": "Edgar Allan Poe",
+      "id": "edgar-allan-poe-a-dream-within-a-dream",
+      "title": "A Dream Within a Dream",
+      "stanzas": [
+        [
+          {
+            "text": "I stand amid the roar"
+          },
+          {
+            "text": "Of a surf-tormented shore,"
+          },
+          {
+            "text": "And I hold within my hand"
+          },
+          {
+            "text": "Grains of the golden sand –"
+          },
+          {
+            "text": "How few! yet how they creep"
+          },
+          {
+            "text": "Through my fingers to the deep,"
+          },
+          {
+            "text": "While I weep – while I weep!"
+          },
+          {
+            "text": "Oh God! can I not grasp"
+          },
+          {
+            "text": "Them with a tighter clasp?"
+          },
+          {
+            "text": "O God! can I not save"
+          },
+          {
+            "text": "<em>One</em> from the pitiless wave?"
+          },
+          {
+            "text": "Is <em>all</em> that we see or seem"
+          },
+          {
+            "text": "But a dream within a dream?"
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "1849",
+      "tags": [
+        "melancholy",
+        "grief",
+        "mortality",
+        "time",
+        "longing",
+        "wonder",
+        "resignation",
+        "rhymed",
+        "romantic-era"
+      ]
+    },
+    {
+      "poet": "Eve Merriam",
+      "id": "eve-merriam-teevee",
+      "title": "Teevee",
+      "stanzas": [
+        [
+          {
+            "text": "In the house"
+          },
+          {
+            "text": "of Mr and Mrs Spouse"
+          },
+          {
+            "text": "he and she"
+          },
+          {
+            "text": "would watch teevee"
+          },
+          {
+            "text": "and never a word"
+          },
+          {
+            "text": "between them spoken"
+          },
+          {
+            "text": "until the day"
+          },
+          {
+            "text": "the set was broken."
+          }
+        ],
+        [
+          {
+            "text": "Then “How do you do?”"
+          },
+          {
+            "text": "said he to she,"
+          },
+          {
+            "text": "“I don’t believe"
+          },
+          {
+            "text": "that we’ve met yet."
+          },
+          {
+            "text": "Spouse is my name."
+          },
+          {
+            "text": "What’s yours?” he asked."
+          }
+        ],
+        [
+          {
+            "text": "“Why, mine’s the same!”"
+          },
+          {
+            "text": "said she to he,"
+          },
+          {
+            "text": "“Do you suppose that we could be –?”"
+          }
+        ],
+        [
+          {
+            "text": "But the set came suddenly right about,"
+          },
+          {
+            "text": "and so they never did find out."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "melancholy",
+        "joy",
+        "rhymed",
+        "contemporary",
+        "conjugal",
+        "memory",
+        "identity"
       ]
     },
     {
@@ -5022,6 +5473,94 @@
       ]
     },
     {
+      "poet": "Robert Frost",
+      "id": "frost-the-road-not-taken",
+      "title": "The Road Not Taken",
+      "stanzas": [
+        [
+          {
+            "text": "Two roads diverged in a yellow wood,"
+          },
+          {
+            "text": "And sorry I could not travel both"
+          },
+          {
+            "text": "And be one traveler, long I stood"
+          },
+          {
+            "text": "And looked down one as far as I could"
+          },
+          {
+            "text": "To where it bent in the undergrowth;"
+          }
+        ],
+        [
+          {
+            "text": "Then took the other, as just as fair,"
+          },
+          {
+            "text": "And having perhaps the better claim,"
+          },
+          {
+            "text": "Because it was grassy and wanted wear;"
+          },
+          {
+            "text": "Though as for that the passing there"
+          },
+          {
+            "text": "Had worn them really about the same,"
+          }
+        ],
+        [
+          {
+            "text": "And both that morning equally lay"
+          },
+          {
+            "text": "In leaves no step had trodden black."
+          },
+          {
+            "text": "Oh, I kept the first for another day!"
+          },
+          {
+            "text": "Yet knowing how way leads on to way,"
+          },
+          {
+            "text": "I doubted if I should ever come back."
+          }
+        ],
+        [
+          {
+            "text": "I shall be telling this with a sigh"
+          },
+          {
+            "text": "Somewhere ages and ages hence:"
+          },
+          {
+            "text": "Two roads diverged in a wood, and I –"
+          },
+          {
+            "text": "I took the one less traveled by,"
+          },
+          {
+            "text": "And that has made all the difference."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1916",
+      "tags": [
+        "nature",
+        "memory",
+        "time",
+        "melancholy",
+        "resignation",
+        "longing",
+        "identity",
+        "modernist",
+        "rhymed"
+      ]
+    },
+    {
       "poet": "Galway Kinnell",
       "id": "galway-kinnell-after-making-love-we-hear-footsteps",
       "title": "After Making Love We Hear Footsteps",
@@ -5204,6 +5743,87 @@
             "text": "Have stood aside and watched yourself go by."
           }
         ]
+      ]
+    },
+    {
+      "poet": "Grace Nichols",
+      "id": "grace-nichols-granny-granny-please-comb-my-hair",
+      "title": "Granny Granny Please Comb My Hair",
+      "stanzas": [
+        [
+          {
+            "text": "Granny Granny"
+          },
+          {
+            "text": "please comb my hair"
+          },
+          {
+            "text": "you always take your time"
+          },
+          {
+            "text": "you always take such care"
+          }
+        ],
+        [
+          {
+            "text": "You put me to sit on a cushion"
+          },
+          {
+            "text": "between your knees"
+          },
+          {
+            "text": "you rub a little coconut oil"
+          },
+          {
+            "text": "parting gentle as a breeze"
+          }
+        ],
+        [
+          {
+            "text": "Mummy Mummy"
+          },
+          {
+            "text": "she's always in a hurry – hurry"
+          },
+          {
+            "text": "rush"
+          },
+          {
+            "text": "she pulls my hair"
+          },
+          {
+            "text": "sometimes she tugs"
+          }
+        ],
+        [
+          {
+            "text": "But Granny"
+          },
+          {
+            "text": "you have all the time in the world"
+          },
+          {
+            "text": "and when you're finished"
+          },
+          {
+            "text": "you always turn my head and say"
+          },
+          {
+            "text": "“Now who's a nice girl.”"
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "",
+      "tags": [
+        "tenderness",
+        "memory",
+        "joy",
+        "identity",
+        "embodiment",
+        "contemporary",
+        "free-verse",
+        "refrain"
       ]
     },
     {
@@ -6420,6 +7040,105 @@
       ]
     },
     {
+      "poet": "Langston Hughes",
+      "id": "langston-hughes-madam-and-her-madam",
+      "title": "Madam and Her Madam",
+      "stanzas": [
+        [
+          {
+            "text": "I worked for a woman,"
+          },
+          {
+            "text": "She wasn't mean –"
+          },
+          {
+            "text": "But she had a twelve-room"
+          },
+          {
+            "text": "House to clean."
+          }
+        ],
+        [
+          {
+            "text": "Had to get breakfast,"
+          },
+          {
+            "text": "Dinner, and supper, too –"
+          },
+          {
+            "text": "Then take care of her children"
+          },
+          {
+            "text": "When I got through."
+          }
+        ],
+        [
+          {
+            "text": "Wash, iron, and scrub,"
+          },
+          {
+            "text": "Walk the dog around –"
+          },
+          {
+            "text": "It was too much,"
+          },
+          {
+            "text": "Nearly broke me down."
+          }
+        ],
+        [
+          {
+            "text": "I said, Madam,"
+          },
+          {
+            "text": "Can it be"
+          },
+          {
+            "text": "You trying to make a"
+          },
+          {
+            "text": "Pack-horse out of me?"
+          }
+        ],
+        [
+          {
+            "text": "She opened her mouth."
+          },
+          {
+            "text": "She cried, Oh, no!"
+          },
+          {
+            "text": "You know, Alberta,"
+          },
+          {
+            "text": "I love you so!"
+          }
+        ],
+        [
+          {
+            "text": "I said, Madam,"
+          },
+          {
+            "text": "That may be true –"
+          },
+          {
+            "text": "But I'll be dogged"
+          },
+          {
+            "text": "If I love you!"
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "defiance",
+        "identity",
+        "modernist",
+        "rhymed"
+      ]
+    },
+    {
       "id": "laux-the-lovers",
       "title": "The Lovers",
       "poet": "Dorianne Laux",
@@ -7168,6 +7887,65 @@
       ]
     },
     {
+      "poet": "Margaret Walker",
+      "id": "margaret-walker-lineage",
+      "title": "Lineage",
+      "stanzas": [
+        [
+          {
+            "text": "My grandmothers were strong."
+          },
+          {
+            "text": "They followed plows and bent to toil."
+          },
+          {
+            "text": "They moved through fields sowing seed."
+          },
+          {
+            "text": "They touched earth and grain grew."
+          },
+          {
+            "text": "They were full of sturdiness and singing."
+          },
+          {
+            "text": "My grandmothers were strong."
+          }
+        ],
+        [
+          {
+            "text": "My grandmothers are full of memories"
+          },
+          {
+            "text": "Smelling of soap and onions and wet clay"
+          },
+          {
+            "text": "With veins rolling roughly over quick hands"
+          },
+          {
+            "text": "They have many clean words to say."
+          },
+          {
+            "text": "My grandmothers were strong."
+          },
+          {
+            "text": "Why am I not as they?"
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "1915–1998",
+      "tags": [
+        "identity",
+        "memory",
+        "longing",
+        "defiance",
+        "nature",
+        "modernist",
+        "free-verse",
+        "refrain"
+      ]
+    },
+    {
       "poet": "Marge Piercy",
       "id": "marge-piercy-witnessing-a-wedding",
       "title": "Witnessing a Wedding",
@@ -7748,6 +8526,447 @@
       ]
     },
     {
+      "poet": "Michael Blumenthal",
+      "id": "michael-blumenthal-a-marriage",
+      "title": "A Marriage",
+      "stanzas": [
+        [
+          {
+            "text": "You are holding up a ceiling"
+          },
+          {
+            "text": "with both arms. It is very heavy,"
+          },
+          {
+            "text": "but you must hold it up, or else"
+          },
+          {
+            "text": "it will fall down on you. Your arms"
+          },
+          {
+            "text": "are tired, terribly tired,"
+          },
+          {
+            "text": "and, as the day goes on, it feels"
+          },
+          {
+            "text": "as if either your arms or the ceiling"
+          },
+          {
+            "text": "will soon collapse."
+          }
+        ],
+        [
+          {
+            "text": "But then,"
+          },
+          {
+            "text": "unexpectedly,"
+          },
+          {
+            "text": "something wonderful happens:"
+          },
+          {
+            "text": "Someone,"
+          },
+          {
+            "text": "a man or a woman,"
+          },
+          {
+            "text": "walks into the room"
+          },
+          {
+            "text": "and holds their arms up"
+          },
+          {
+            "text": "to the ceiling beside you."
+          }
+        ],
+        [
+          {
+            "text": "So you finally get"
+          },
+          {
+            "text": "to take down your arms."
+          },
+          {
+            "text": "You feel the relief of respite,"
+          },
+          {
+            "text": "the blood flowing back"
+          },
+          {
+            "text": "to your fingers and arms."
+          },
+          {
+            "text": "And when your partner's arms tire,"
+          },
+          {
+            "text": "you hold up your own"
+          },
+          {
+            "text": "to relieve him again."
+          }
+        ],
+        [
+          {
+            "text": "And it can go on like this"
+          },
+          {
+            "text": "for many years"
+          },
+          {
+            "text": "without the house falling."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "conjugal",
+        "tenderness",
+        "joy",
+        "wonder",
+        "free-verse",
+        "contemporary"
+      ]
+    },
+    {
+      "poet": "Michael Blumenthal",
+      "id": "michael-blumenthal-doubled",
+      "title": "Doubled",
+      "dates": "",
+      "tags": [
+        "desire",
+        "joy",
+        "embodiment",
+        "beauty",
+        "erotic",
+        "conjugal",
+        "contemporary",
+        "free-verse",
+        "litany"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "It may be that it is not, in fact, Billie Holiday"
+          },
+          {
+            "text": "floating into the bedroom from the living room speakers,"
+          },
+          {
+            "text": "and it may be that we are not the beautiful horses"
+          },
+          {
+            "text": "we seem like in this long mirror beside the bed,"
+          },
+          {
+            "text": "riding each other with the grace of skaters"
+          },
+          {
+            "text": "in the soft lumens the flame wafts over us,"
+          },
+          {
+            "text": "seeming so perfect here, as if pleasure itself"
+          },
+          {
+            "text": "were a kind of artistry, as if the soft cries flesh thrusts"
+          },
+          {
+            "text": "into the late-light were a litany, a prayer"
+          },
+          {
+            "text": "only the infidels have access to but which grants"
+          },
+          {
+            "text": "its good grace to the body's singleness. Yes, it may be"
+          },
+          {
+            "text": "that this is not love at all, though it seems—"
+          },
+          {
+            "text": "in the warmth that soothes all weather into"
+          },
+          {
+            "text": "a single season—almost a likelihood, it may be"
+          },
+          {
+            "text": "that all these things are true or untrue, possible"
+          },
+          {
+            "text": "or impossible, but we are nonetheless rich, love,"
+          },
+          {
+            "text": "in the illusion of perfection light casts on us"
+          },
+          {
+            "text": "as I crane my neck to scan this double-pleasure"
+          },
+          {
+            "text": "of ours, pretzeled together in the mock-fusions"
+          },
+          {
+            "text": "love lends the lucky some nights, in the thrusts"
+          },
+          {
+            "text": "and counterthrusts bodies speak when speech has said"
+          },
+          {
+            "text": "all it is capable of and two people have found,"
+          },
+          {
+            "text": "once more, the peace of their animal selves,"
+          },
+          {
+            "text": "crying out whatever sounds first come to them,"
+          },
+          {
+            "text": "viewing themselves, at last, as their own masterpiece,"
+          },
+          {
+            "text": "fucking their way ever-so-gently toward sleep"
+          },
+          {
+            "text": "as the flame flickers from above the bookcase"
+          },
+          {
+            "text": "and some voice, I know not whose, wafts jazz"
+          },
+          {
+            "text": "into the slow dance of what they see and what they are"
+          },
+          {
+            "text": "as if the two were merely frames of a single vision,"
+          },
+          {
+            "text": "as if Billie Holliday were singing just for them."
+          }
+        ]
+      ]
+    },
+    {
+      "poet": "Michael Blumenthal",
+      "id": "michael-blumenthal-renovations",
+      "title": "Renovations",
+      "dates": "",
+      "tags": [
+        "longing",
+        "desire",
+        "identity",
+        "embodiment",
+        "memory",
+        "contemporary",
+        "free-verse",
+        "melancholy",
+        "tenderness"
+      ],
+      "stanzas": [
+        [
+          {
+            "text": "Because you have wanted both a woman and a house"
+          },
+          {
+            "text": "that are in move-in condition, you have lived,"
+          },
+          {
+            "text": "for many years now, alone, in rented apartments,"
+          },
+          {
+            "text": "and you are tired of them. You are tired"
+          },
+          {
+            "text": "of the deep perfection of other people's walls,"
+          },
+          {
+            "text": "you are tired of the impeccable woman"
+          },
+          {
+            "text": "your mind wakes up to, but your body lacks,"
+          },
+          {
+            "text": "you are tired, in fact, of the whole world"
+          },
+          {
+            "text": "of the other thing, the perfected structures"
+          },
+          {
+            "text": "which are never in need of repair because"
+          },
+          {
+            "text": "they are never there, and you are tired,"
+          },
+          {
+            "text": "in the end, of your own relentless demands"
+          },
+          {
+            "text": "for a better life. So you have come now"
+          },
+          {
+            "text": "to a house of embellishable walls, a woman"
+          },
+          {
+            "text": "of imperfect skin, you have seen in the mirror"
+          },
+          {
+            "text": "your own imperfect face, the cracked image"
+          },
+          {
+            "text": "of your own illusions. Slovenly with dirt,"
+          },
+          {
+            "text": "you rise into the whole house of what is"
+          },
+          {
+            "text": "imperfectly yours, grit-covered in the half light,"
+          },
+          {
+            "text": "and you scrape from its improvable walls"
+          },
+          {
+            "text": "the old paint, the green stuccoed swirls"
+          },
+          {
+            "text": "of some previous possession. <em>Darling,</em>"
+          },
+          {
+            "text": "you say to yourself, <em>this is the thing you own,</em>"
+          },
+          {
+            "text": "and you are grateful for it. And, as you climb down"
+          },
+          {
+            "text": "from the ladder that has lifted you"
+          },
+          {
+            "text": "into your own small version of heaven, the door opens,"
+          },
+          {
+            "text": "and a woman who is almost beautiful, but somewhat"
+          },
+          {
+            "text": "in need of repair, walks into the house: merely a part"
+          },
+          {
+            "text": "of the old half-happiness that is yours, now,"
+          },
+          {
+            "text": "for the duration—as long, that is, as paint holds,"
+          },
+          {
+            "text": "and mortar, and such vulnerable stone."
+          }
+        ]
+      ]
+    },
+    {
+      "poet": "Michael Blumenthal",
+      "id": "michael-blumenthal-the-man-who-needed-no-one",
+      "title": "The Man Who Needed No One",
+      "stanzas": [
+        [
+          {
+            "text": "He wanted to need no one, not"
+          },
+          {
+            "text": "love or thirst, not even sunrise"
+          },
+          {
+            "text": "and the sweet amulets of water"
+          },
+          {
+            "text": "that fall from the heavens."
+          }
+        ],
+        [
+          {
+            "text": "No, he wanted to be an island"
+          },
+          {
+            "text": "of self-sufficiency, to sleep"
+          },
+          {
+            "text": "with his arms around the pillow,"
+          },
+          {
+            "text": "a jack-in-the-pulpit alone on his throne"
+          },
+          {
+            "text": "in the damp woods, singing to himself"
+          },
+          {
+            "text": "beneath his curled umbrella."
+          }
+        ],
+        [
+          {
+            "text": "And this is how he lived for many years—"
+          },
+          {
+            "text": "a solitary song, a soliloquy"
+          },
+          {
+            "text": "spoken into the small mirror"
+          },
+          {
+            "text": "that hung above the wash basin,"
+          },
+          {
+            "text": "with its blue towel and basket of dead flowers."
+          }
+        ],
+        [
+          {
+            "text": "But something remained wrong—"
+          },
+          {
+            "text": "a dull ache whispered from below his voice"
+          },
+          {
+            "text": "where his heart should have been, a seed"
+          },
+          {
+            "text": "rumbled in the pit of his stomach as if to suggest"
+          },
+          {
+            "text": "a tree that had never grown, a stone skimming"
+          },
+          {
+            "text": "the surface of water once and then sinking."
+          }
+        ],
+        [
+          {
+            "text": "He grew old this way, never knowing"
+          },
+          {
+            "text": "it had been need he had needed all along—"
+          },
+          {
+            "text": "the sound of his own small voice"
+          },
+          {
+            "text": "asking for a light to see by, a match"
+          },
+          {
+            "text": "to retrieve his heart with from the widening dark."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "longing",
+        "melancholy",
+        "mortality",
+        "identity",
+        "memory",
+        "free-verse",
+        "contemporary",
+        "resignation"
+      ]
+    },
+    {
       "id": "millay-dirge-without-music",
       "title": "Dirge without Music",
       "poet": "Edna St. Vincent Millay",
@@ -7834,6 +9053,70 @@
             "text": "I know. But I do not approve. And I am not resigned."
           }
         ]
+      ]
+    },
+    {
+      "poet": "Edna St. Vincent Millay",
+      "id": "millay-hearing-your-words",
+      "title": "Hearing Your Words, and Not a Word Among Them",
+      "stanzas": [
+        [
+          {
+            "text": "Hearing your words, and not a word among them"
+          },
+          {
+            "text": "Tuned to my liking, on a salty day"
+          },
+          {
+            "text": "When inland woods were pushed by winds that flung them"
+          },
+          {
+            "text": "Hissing to leeward like a ton of spray,"
+          },
+          {
+            "text": "I thought how off Matinicus the tide"
+          },
+          {
+            "text": "Came pounding in, came running through the Gut,"
+          },
+          {
+            "text": "While from the Rock the warning whistle cried,"
+          },
+          {
+            "text": "And children whimpered, and the doors blew shut;"
+          },
+          {
+            "text": "There in the autumn when the men go forth,"
+          },
+          {
+            "text": "With slapping skirts the island women stand"
+          },
+          {
+            "text": "In gardens stripped and scattered, peering north,"
+          },
+          {
+            "text": "With dahlia tubers dripping from the hand:"
+          },
+          {
+            "text": "The wind of their endurance, driving south,"
+          },
+          {
+            "text": "Flattened your words against your speaking mouth."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "1892–1950",
+      "tags": [
+        "longing",
+        "desire",
+        "nature",
+        "memory",
+        "melancholy",
+        "sonnet",
+        "rhymed",
+        "modernist",
+        "embodiment"
       ]
     },
     {
@@ -9081,6 +10364,69 @@
       ]
     },
     {
+      "poet": "Percy Bysshe Shelley",
+      "id": "shelley-ozymandias",
+      "title": "Ozymandias",
+      "stanzas": [
+        [
+          {
+            "text": "I met a traveller from an antique land"
+          },
+          {
+            "text": "Who said: Two vast and trunkless legs of stone"
+          },
+          {
+            "text": "Stand in the desert. Near them, on the sand,"
+          },
+          {
+            "text": "Half sunk, a shatter'd visage lies, whose frown,"
+          },
+          {
+            "text": "And wrinkled lip, and sneer of cold command,"
+          },
+          {
+            "text": "Tell that its sculptor well those passions read"
+          },
+          {
+            "text": "Which yet survive, stamp'd on these lifeless things,"
+          },
+          {
+            "text": "The hand that mock'd them and the heart that fed:"
+          },
+          {
+            "text": "And on the pedestal these words appear:"
+          },
+          {
+            "text": "“My name is Ozymandias, king of kings:"
+          },
+          {
+            "text": "Look on my works, ye Mighty, and despair!”"
+          },
+          {
+            "text": "Nothing beside remains. Round the decay"
+          },
+          {
+            "text": "Of that colossal wreck, boundless and bare"
+          },
+          {
+            "text": "The lone and level sands stretch far away."
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "1818",
+      "tags": [
+        "mortality",
+        "time",
+        "defiance",
+        "melancholy",
+        "wonder",
+        "nature",
+        "sonnet",
+        "romantic-era"
+      ]
+    },
+    {
       "id": "shelton-three-poems-twenty-fifth-anniversary",
       "title": "Three Poems for a Twenty-fifth Anniversary",
       "poet": "Richard Shelton",
@@ -9513,6 +10859,74 @@
       ]
     },
     {
+      "poet": "Leo Tolstoy",
+      "id": "tolstoy-duck-and-the-moon",
+      "title": "The Duck and the Moon",
+      "stanzas": [
+        [
+          {
+            "text": "A duck was once swimming along the river"
+          },
+          {
+            "text": "looking for fish."
+          },
+          {
+            "text": "The whole day passed"
+          },
+          {
+            "text": "without her finding a single one."
+          }
+        ],
+        [
+          {
+            "text": "When night came"
+          },
+          {
+            "text": "she saw the moon reflected on the water,"
+          },
+          {
+            "text": "and thinking it was a fish"
+          },
+          {
+            "text": "she dived down to catch it."
+          },
+          {
+            "text": "The other ducks saw her,"
+          },
+          {
+            "text": "and they all made fun of her."
+          }
+        ],
+        [
+          {
+            "text": "From that day"
+          },
+          {
+            "text": "the duck was so ashamed and so timid,"
+          },
+          {
+            "text": "that even when she did see a fish under water"
+          },
+          {
+            "text": "she would not try to catch it,"
+          },
+          {
+            "text": "and before long she died of hunger."
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "1828–1910",
+      "tags": [
+        "mortality",
+        "melancholy",
+        "resignation",
+        "nature",
+        "free-verse",
+        "prose-poem"
+      ]
+    },
+    {
       "id": "towne-nightfall",
       "title": "Nightfall",
       "poet": "Charles Hanson Towne",
@@ -9628,6 +11042,126 @@
             "indent": 1.5
           }
         ]
+      ]
+    },
+    {
+      "poet": "Unknown",
+      "id": "unknown-lovers-sleep-late-sunday",
+      "title": "The Lovers Sleep Late on Sunday. It Is Good.",
+      "stanzas": [
+        [
+          {
+            "text": "Why should they not share"
+          },
+          {
+            "text": "their pleasures"
+          },
+          {
+            "text": "with the sheets? The jays"
+          },
+          {
+            "text": "caw. Grackles flutter"
+          },
+          {
+            "text": "like tinsel onto the grass."
+          },
+          {
+            "text": "Tupelos blush"
+          }
+        ],
+        [
+          {
+            "text": "In the brisk air of autumn"
+          },
+          {
+            "text": "and, deep in their"
+          },
+          {
+            "text": "mulched-over dens, foxes"
+          },
+          {
+            "text": "flame like lust"
+          },
+          {
+            "text": "into the dark. O indolence,"
+          },
+          {
+            "text": "whoever gave you"
+          }
+        ],
+        [
+          {
+            "text": "Your bad name, what did they"
+          },
+          {
+            "text": "know about the body?"
+          },
+          {
+            "text": "Against ash, against melancholy"
+          },
+          {
+            "text": "they climb one another"
+          },
+          {
+            "text": "like good vines and rise, finally,"
+          },
+          {
+            "text": "toward the windows,"
+          }
+        ],
+        [
+          {
+            "text": "The women brushing their hair,"
+          },
+          {
+            "text": "the men planning,"
+          },
+          {
+            "text": "already, their wild escapes"
+          },
+          {
+            "text": "though, for a moment,"
+          },
+          {
+            "text": "all is the seeming peace of clutch"
+          },
+          {
+            "text": "and kiss. And now the world"
+          }
+        ],
+        [
+          {
+            "text": "Echoes to a cacophony of lips"
+          },
+          {
+            "text": "as, trembling, the bodies"
+          },
+          {
+            "text": "turn for a final time between"
+          },
+          {
+            "text": "the sheets—like a prayer"
+          },
+          {
+            "text": "on an infidel's lips, a flame"
+          },
+          {
+            "text": "that is about to go out."
+          }
+        ]
+      ],
+      "added": "2026-03-15",
+      "dates": "",
+      "tags": [
+        "desire",
+        "joy",
+        "tenderness",
+        "nature",
+        "embodiment",
+        "erotic",
+        "conjugal",
+        "contemporary",
+        "free-verse"
       ]
     },
     {
@@ -10237,6 +11771,55 @@
         "faith",
         "modernist",
         "free-verse"
+      ]
+    },
+    {
+      "poet": "Walt Whitman",
+      "id": "whitman-the-runaway-slave",
+      "title": "The Runaway Slave",
+      "stanzas": [
+        [
+          {
+            "text": "The runaway slave came to my house and stopt outside,"
+          },
+          {
+            "text": "I heard his motions crackling the twigs of the woodpile,"
+          },
+          {
+            "text": "Through the swung half-door of the kitchen I saw him limpsy and weak,"
+          },
+          {
+            "text": "And went where he sat on a log and led him in and assured him,"
+          },
+          {
+            "text": "And brought water and fill'd a tub for his sweated body and bruis'd feet,"
+          },
+          {
+            "text": "And gave him a room that enter'd from my own, and gave him some"
+          },
+          {
+            "text": "coarse clean clothes,"
+          },
+          {
+            "text": "And remember perfectly well his revolving eyes and his awkwardness,"
+          },
+          {
+            "text": "He staid with me a week before he was recuperated and pass'd north."
+          },
+          {
+            "text": "I had him sit next me at table, my fire-lock lean'd in the corner."
+          }
+        ]
+      ],
+      "added": "2026-03-16",
+      "dates": "1819–1892",
+      "tags": [
+        "identity",
+        "tenderness",
+        "defiance",
+        "memory",
+        "free-verse",
+        "romantic-era"
       ]
     },
     {
