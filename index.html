@@ -67,11 +67,12 @@
   .poem-body strong{font-weight:700}
   .add-btn{position:fixed;bottom:1.5rem;right:1.25rem;width:3rem;height:3rem;border-radius:50%;background:var(--accent);color:white;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:202;line-height:1}
   .mode-menu{position:fixed;bottom:1.5rem;right:1.25rem;z-index:201;pointer-events:none}
-  .fan-item{position:absolute;bottom:0;right:0;display:flex;align-items:center;gap:.6rem;pointer-events:none;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .18s ease}
+  .fan-item{position:absolute;bottom:0;right:0;width:3.4rem;height:3.4rem;pointer-events:none;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .18s ease}
   .fan-item.open{opacity:1;pointer-events:auto}
-  .mode-btn{width:3.4rem;height:3.4rem;display:flex;align-items:center;justify-content:center;background:var(--paper);border:1px solid var(--rule);border-radius:50%;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.15);-webkit-tap-highlight-color:transparent;flex-shrink:0;position:relative}
+  .mode-btn{width:3.4rem;height:3.4rem;display:flex;align-items:center;justify-content:center;background:var(--paper);border:1px solid var(--rule);border-radius:50%;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.15);-webkit-tap-highlight-color:transparent;flex-shrink:0;position:absolute;top:0;left:0}
   .mode-btn .fan-icon{font-size:1.25rem;pointer-events:none}
-  .fan-label{font-size:.8rem;font-family:'Source Sans 3',sans-serif;color:white;font-weight:600;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.5);letter-spacing:.02em}
+  a.mode-btn{text-decoration:none}
+  .fan-label{position:absolute;top:50%;transform:translateY(-50%);right:calc(3.4rem + .6rem);font-size:.8rem;font-family:'Source Sans 3',sans-serif;color:white;font-weight:600;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.5);letter-spacing:.02em;text-align:right}
   .fan-import-wrap{position:relative;width:3.4rem;height:3.4rem;flex-shrink:0}
   .fan-import-wrap .mode-btn{position:absolute;inset:0;width:100%;height:100%}
   .fan-import-wrap input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2}
@@ -154,12 +155,16 @@
     </div>
   </div>
   <div class="fan-item" id="fan-manual" style="transform:translate(0,0)">
-    <span class="fan-label">Manual</span>
+    <span class="fan-label" style="right:auto;left:50%;transform:translate(-50%,-100%);top:-.4rem;text-align:center">Manual</span>
     <button class="mode-btn" id="btn-manual"><span class="fan-icon">✎</span></button>
   </div>
-  <div class="fan-item" id="fan-capture" style="transform:translate(0,0)">
-    <span class="fan-label" style="opacity:.45">iOS only</span>
-    <button class="mode-btn" id="btn-capture" style="opacity:.4;filter:grayscale(1)"><span class="fan-icon">📷</span></button>
+  <div class="fan-item" id="fan-camera" style="transform:translate(0,0)">
+    <span class="fan-label">Camera</span>
+    <a class="mode-btn" href="shortcuts://run-shortcut?name=Poem%20Camera" onclick="closeMenu()"><span class="fan-icon">📷</span></a>
+  </div>
+  <div class="fan-item" id="fan-photos" style="transform:translate(0,0)">
+    <span class="fan-label">Photos</span>
+    <a class="mode-btn" href="shortcuts://run-shortcut?name=Poem%20Photos" onclick="closeMenu()"><span class="fan-icon">🖼</span></a>
   </div>
 </div>
 <button class="add-btn" id="add-btn">+</button>
@@ -484,11 +489,12 @@ document.getElementById('search').addEventListener('input', e => { query=e.targe
 const addBtn=document.getElementById('add-btn'), modeMenu=document.getElementById('mode-menu'), menuScrim=document.getElementById('menu-scrim');
 let menuOpen = false;
 
-// Fan positions — larger radius, wider arc up-left
+// Fan positions — Camera(9), Photos(10), Import(11), Manual(12)
 const FAN = [
-  { id:'fan-capture', tx:-6,   ty:-110 },
-  { id:'fan-manual',  tx:-80,  ty:-80  },
-  { id:'fan-import',  tx:-118, ty:-14  },
+  { id:'fan-camera',  tx:-122, ty:-4   },
+  { id:'fan-photos',  tx:-106, ty:-61  },
+  { id:'fan-import',  tx:-61,  ty:-106 },
+  { id:'fan-manual',  tx:-4,   ty:-122 },
 ];
 
 function openMenu() {
@@ -535,7 +541,6 @@ document.getElementById('save-manual').addEventListener('click', async ()=>{
 });
 
 // ── Capture ────────────────────────────────────────────────────────────────
-document.getElementById('btn-capture').addEventListener('click', ()=>{ closeMenu(); openSheet('capture-sheet'); });
 const resetCapture = () => {
   document.getElementById('capture-file').value='';
   document.getElementById('capture-preview').style.display='none';
