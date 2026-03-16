@@ -1137,9 +1137,7 @@
       "dates": "1934–2016",
       "tags": [
         "faith",
-        "prayer",
-        "brokenness",
-        "mysticism",
+        "grief",
         "modernist",
         "prose-poem"
       ],
@@ -1160,7 +1158,7 @@
       "tags": [
         "love",
         "desire",
-        "marriage",
+        "conjugal",
         "refrain",
         "modernist",
         "lyric"
@@ -1555,8 +1553,7 @@
       "tags": [
         "faith",
         "love",
-        "brokenness",
-        "scripture",
+        "grief",
         "refrain",
         "modernist",
         "lyric"
@@ -1933,7 +1930,7 @@
       "tags": [
         "love",
         "desire",
-        "devotion",
+        "faith",
         "refrain",
         "modernist",
         "lyric"
@@ -2099,8 +2096,7 @@
       "dates": "1934–2016",
       "tags": [
         "faith",
-        "spirituality",
-        "paradox",
+        "identity",
         "modernist",
         "prose-poem"
       ],
@@ -2121,8 +2117,6 @@
       "tags": [
         "faith",
         "love",
-        "mysticism",
-        "Marian",
         "modernist",
         "rhymed",
         "refrain"
@@ -2328,8 +2322,8 @@
       "dates": "1934–2016",
       "tags": [
         "love",
-        "marriage",
-        "ambivalence",
+        "conjugal",
+        "melancholy",
         "modernist",
         "free-verse"
       ],
@@ -3124,8 +3118,7 @@
       "dates": "1934–2016",
       "tags": [
         "faith",
-        "vision",
-        "grace",
+        "wonder",
         "modernist",
         "prose-poem"
       ],
@@ -3425,7 +3418,6 @@
       "tags": [
         "faith",
         "love",
-        "mysticism",
         "modernist",
         "free-verse",
         "refrain"
@@ -3634,9 +3626,8 @@
       "poet": "Leonard Cohen",
       "dates": "1934–2016",
       "tags": [
-        "conflict",
+        "war",
         "love",
-        "politics",
         "defiance",
         "modernist",
         "prose-poem"
@@ -3672,7 +3663,6 @@
       "dates": "1934–2016",
       "tags": [
         "mortality",
-        "fate",
         "litany",
         "modernist",
         "rhymed"
@@ -4246,9 +4236,8 @@
       "poet": "Lawrence Ferlinghetti",
       "dates": "1919–2021",
       "tags": [
-        "America",
         "mortality",
-        "irony",
+        "defiance",
         "joy",
         "beat",
         "free-verse",
@@ -4519,10 +4508,7 @@
       "poet": "Lawrence Ferlinghetti",
       "dates": "1919–2021",
       "tags": [
-        "art",
-        "surrealism",
-        "Chagall",
-        "playful",
+        "joy",
         "beat",
         "free-verse",
         "modernist"
@@ -4613,9 +4599,7 @@
       "poet": "Lawrence Ferlinghetti",
       "dates": "1919–2021",
       "tags": [
-        "art",
-        "poetry",
-        "absurdity",
+        "defiance",
         "beauty",
         "beat",
         "free-verse",
@@ -4762,9 +4746,7 @@
       "poet": "Lawrence Ferlinghetti",
       "dates": "1919–2021",
       "tags": [
-        "America",
-        "surrealism",
-        "vision",
+        "wonder",
         "beat",
         "free-verse",
         "modernist"
@@ -4873,8 +4855,7 @@
       "dates": "1919–2021",
       "tags": [
         "faith",
-        "Christ",
-        "irony",
+        "defiance",
         "beat",
         "free-verse",
         "modernist"
@@ -5119,10 +5100,7 @@
       "dates": "1919–2021",
       "tags": [
         "faith",
-        "Christ",
-        "Christmas",
-        "America",
-        "irony",
+        "defiance",
         "beat",
         "free-verse",
         "modernist"
@@ -5374,10 +5352,9 @@
       "poet": "Lawrence Ferlinghetti",
       "dates": "1919–2021",
       "tags": [
-        "America",
         "longing",
-        "irony",
-        "politics",
+        "defiance",
+        "war",
         "faith",
         "beat",
         "free-verse",
@@ -6361,10 +6338,7 @@
       "poet": "Jack Kerouac",
       "dates": "1922–1969",
       "tags": [
-        "Mexico",
-        "surrealism",
-        "mythology",
-        "jazz",
+        "wonder",
         "beat",
         "free-verse",
         "modernist"
@@ -6705,10 +6679,8 @@
       "poet": "Jack Kerouac",
       "dates": "1922–1969",
       "tags": [
-        "cosmos",
-        "surrealism",
-        "Buddhism",
-        "jazz",
+        "wonder",
+        "faith",
         "beat",
         "free-verse",
         "modernist"
@@ -6816,10 +6788,9 @@
       "poet": "Jack Kerouac",
       "dates": "1922–1969",
       "tags": [
-        "freedom",
-        "politics",
+        "defiance",
+        "war",
         "identity",
-        "jazz",
         "beat",
         "free-verse",
         "modernist"
@@ -6923,9 +6894,7 @@
       "dates": "1922–1969",
       "tags": [
         "memory",
-        "humor",
-        "literature",
-        "jazz",
+        "joy",
         "beat",
         "free-verse",
         "modernist"
@@ -7029,9 +6998,6 @@
       "dates": "1922–1969",
       "tags": [
         "faith",
-        "sin",
-        "forgiveness",
-        "jazz",
         "beat",
         "free-verse",
         "modernist"
@@ -8470,7 +8436,7 @@
         "memory",
         "tenderness",
         "grief",
-        "family",
+        "conjugal",
         "contemporary",
         "free-verse"
       ]
@@ -10209,9 +10175,8 @@
       "poet": "Carl Phillips",
       "dates": "b. 1959",
       "tags": [
-        "loss",
-        "love",
         "grief",
+        "love",
         "nature",
         "lyric",
         "contemporary"
@@ -10829,7 +10794,7 @@
       "poet": "Ian Serraillier",
       "dates": "",
       "tags": [
-        "humor",
+        "joy",
         "conjugal",
         "defiance",
         "rhymed",
@@ -11642,9 +11607,8 @@
       "tags": [
         "memory",
         "melancholy",
-        "marriage",
-        "observation",
         "conjugal",
+        "identity",
         "rhymed",
         "contemporary",
         "grief",
@@ -12425,7 +12389,7 @@
       "tags": [
         "wonder",
         "memory",
-        "silence",
+        "melancholy",
         "modernist",
         "refrain",
         "beauty",
@@ -13640,7 +13604,7 @@
         "mortality",
         "wonder",
         "time",
-        "classical",
+        "ancient",
         "modernist",
         "faith",
         "war",
