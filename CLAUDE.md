@@ -22,7 +22,7 @@ A personal poetry anthology — poems collected over decades — in one place, s
 **Offline:** IndexedDB handles all reading/browsing offline. Network required only for acquisition.  
 **PWA:** Installed to home screen with custom icon (192px and 512px PNGs in repo root). `manifest.json` requires `start_url` and `scope` both = `"/Claude_Artifacts/"`
 
-**Current poem count:** 72 poems (as of 2026-03-15)
+**Current poem count:** 92 poems (as of 2026-03-15)
 
 ---
 
@@ -35,7 +35,7 @@ A personal poetry anthology — poems collected over decades — in one place, s
 - **Tag display:** Single-row, overflow hidden, `+N` badge reveals hidden tags on tap. Higher contrast tag colors.
 - **Poem data:** Stored as `stanzas` arrays. Each line is `{text, indent?}` with inline `<em>`/`<strong>` preserved. `renderStanzas()` generates HTML at display time.
 - **Fan menu:** `+` button fans three options up-left — 📷 Capture (dithered, non-functional on iOS), ✎ Manual, 📂 Import. Translucent scrim overlay. Bold white labels.
-- **Import:** 📂 Import opens Files picker (multi-select). Select one or more `poetry-inbox-N.json` files from iCloud Drive. Imports all valid poems into IndexedDB.
+- **Import:** 📂 Import opens Files picker (multi-select). Select one or more `poetry-inbox-N.json` files from iCloud Drive. Imports all valid poems in a single IndexedDB transaction. Confirms count via alert.
 - **Export:** ⚙︎ Settings → "Export Archive…" downloads full IndexedDB as `poetry-archive-export-YYYY-MM-DD.json`. Valid as seed file and import source.
 - **iOS Shortcut pipeline:** Photo → Convert to JPEG → Base64 Encode → Anthropic API (claude-sonnet-4-6) → numbered JSON file in iCloud Drive → PWA import.
 
@@ -46,6 +46,7 @@ A personal poetry anthology — poems collected over decades — in one place, s
 - **In-app photo capture via browser:** WebKit CORS permanently blocks browser-to-Anthropic API calls on iOS. Architectural, not fixable without a proxy. Capture button intentionally dithered. Do not attempt to re-solve in the browser.
 - **Cloudflare Workers as proxy:** Rejected — known cybersecurity vector, out of scope.
 - **Any proxy solution:** Out of scope by design.
+- **Settings sheet intermittently unresponsive:** Occasionally after heavy use the Settings sheet won't open, requiring a force quit. Cause unknown — likely a z-index or event listener issue. Not yet diagnosed.
 
 ---
 
@@ -58,9 +59,9 @@ A personal poetry anthology — poems collected over decades — in one place, s
 4. Open PWA → tap `+` → 📂 Import → select one or more inbox files
 5. Poems added to IndexedDB immediately
 
-### Chat-based (legacy, still functional)
-Photos → Claude chat OCR → paste JSON into `poems_seed.json` → commit to GitHub → PWA reseeds on next load.  
-**Limit:** ~15-20 poem photos per chat thread before upload limit is hit.
+### Chat-based (for complex poems)
+Photos → Claude chat OCR → Claude outputs a ready-to-import `.json` file via `present_files` → download → drop in iCloud Drive → import via PWA.  
+Use this path for: two-page poems, poems with complex formatting, poems where Shortcut OCR is likely to fail.
 
 ---
 
@@ -70,10 +71,10 @@ Poems added via Shortcut → import live only in device IndexedDB until committe
 
 **Safe workflow:**
 1. Capture poems via Shortcut, import to IndexedDB
-2. Periodically (every ~10-20 poems, or before any GitHub deploy): ⚙︎ → Export Archive
+2. Periodically (every ~10 poems, or before any GitHub deploy): ⚙︎ → Export Archive
 3. Exported `{poems:[...]}` file is already valid `poems_seed.json` format
 4. Rename to `poems_seed.json`, commit to GitHub — fingerprint auto-triggers reseed
-5. Optionally keep named snapshots in repo: `poems_seed_backup_072.json` etc.
+5. Optionally keep named snapshots in repo: `poems_seed_backup_092.json` etc.
 
 **Critical:** Always export before deploying changes to GitHub. A deploy can trigger a reseed.
 
@@ -157,9 +158,32 @@ Poems added via Shortcut → import live only in device IndexedDB until committe
 
 ## Next Development Priorities (In Order)
 
-1. **Dev branch** — create `dev` branch, establish merge-to-main discipline
-2. **Tag ontology update** — add `beat`, `prose-poem`, `refrain`, `litany` to Era or Formal group in UI chiclets
-3. **Fit and finish** — ongoing
+1. **Multi-page poem capture** — Shortcut currently handles one photo. Two-page poems need either: (a) Shortcut modification to select and send multiple photos in one API call, or (b) chat-based OCR with stitch/merge workflow. Neither fully designed yet.
+2. **Poet identification** — When poet name is not visible in photo (e.g. from an anthology with attribution elsewhere), neither Shortcut nor chat OCR can reliably identify the poet. Need an efficient, non-obtrusive identification step — possibly a stored "current poet" file in iCloud checked at Shortcut runtime, or a review/correction step in the PWA import flow.
+3. **Settings sheet bug** — intermittently unresponsive after heavy use; requires force quit. Diagnose and fix.
+4. **Tag ontology update** — add `beat`, `prose-poem`, `refrain`, `litany` to Era or Formal group in UI chiclets
+5. **Dev branch** — create `dev` branch, establish merge-to-main discipline
+6. **Fit and finish** — ongoing
+
+---
+
+## Future Ideas
+
+### Poet Portraits (Option B — GitHub-hosted assets)
+Display a small circular portrait (48×48px) in the upper-right corner of the poem reading view, visible only when a portrait is available for that poet. Not on the browse/search page.
+
+**Architecture:**
+- Store portrait images in `/portraits/` folder in repo as small JPEGs named by poet slug (e.g., `whitman.jpg`, `cohen.jpg`)
+- Served by GitHub Pages, cached by service worker — works offline after first load
+- Derive portrait path automatically from poet name slug rather than storing per-poem
+- No IndexedDB changes required
+- Source: Wikimedia Commons has public domain portraits for nearly every poet in the archive; better quality than photographing the frontispiece
+
+**Poem view change:** Minor — add optional portrait display logic to the poem header. Image only renders if the file exists at the expected path.
+
+**Seed change:** None required if path is derived. Optional: add `poet_slug` field to poem records for poets whose names don't slug predictably.
+
+**Scale:** ~40 poets, ~3–5KB per portrait JPEG = negligible repo size.
 
 ---
 
@@ -174,12 +198,14 @@ Poems added via Shortcut → import live only in device IndexedDB until committe
 - **GitHub file editing:** Edit `index.html` directly in GitHub, select all, paste new content.
 - **IndexedDB is device-local:** Each device has its own independent IndexedDB. Sync is via seed file only.
 - **Reseed wipes uncommitted poems:** Any poem added via import but not yet in `poems_seed.json` will be lost on reseed. Export before deploying.
+- **Batch import transaction:** Multiple rapid `dbPut` calls silently fail on iOS Safari. Fixed with `dbPutMany` — all poems in a batch write in a single transaction.
 - **The `source` field:** Some Kerouac poems have a `source` field — non-standard but harmless, preserve it.
 - **Stanzas refactor:** Full structured refactor lost italics and changed line wrapping for prose-style stanzas. Resolved by storing inline HTML fragments as line text content. Line wrapping compromise accepted for prose-style stanzas.
 - **Fan menu z-index:** Scrim: z-index 198, fan items: 201, + button: 202. Scrim above fan = buttons never fire.
 - **iOS programmatic .click() on file inputs:** Blocked by iOS Safari in chained handlers. Fix: overlay transparent `<input type="file">` directly on the button.
 - **Haiku copyright refusals:** Use Sonnet (claude-sonnet-4-6) for Shortcut OCR.
 - **Base64 in Shortcuts:** Use `Base64 Encode`. Line Breaks: None. No spaces around variable tokens.
+- **Chat OCR output format:** Claude outputs poem JSON as a downloadable `.json` file via `present_files`, not a code block. File is dropped in iCloud Drive and imported via PWA.
 
 ---
 
