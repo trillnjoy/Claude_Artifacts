@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>PokéPal</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  #app { min-height: 100vh; display: flex; flex-direction: column; transition: background 0.6s ease; }
+  #header { display: flex; justify-content: space-between; align-items: center; padding: 52px 20px 14px; }
+  #logo { font-size: 1.8rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+  #controls { display: flex; gap: 10px; }
+  .ctrl-btn { border: none; border-radius: 22px; padding: 10px 16px; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+  #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 24px 30px; text-align: center; }
+  #poke-number { font-size: 1rem; font-weight: 900; color: rgba(255,255,255,0.75); margin-bottom: 4px; letter-spacing: 0.05em; }
+  #poke-img { width: 210px; height: 210px; object-fit: contain; transition: filter 0.5s ease; }
+  #poke-name { font-size: 3rem; font-weight: 900; margin: 12px 0 8px; line-height: 1.05; transition: all 0.4s ease; }
+  #types { margin-bottom: 10px; min-height: 36px; }
+  .type-badge { display: inline-block; padding: 7px 20px; border-radius: 999px; font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 4px; color: white; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+  #fact-box { background: rgba(255,255,255,0.72); border-radius: 18px; padding: 12px 22px; font-size: 1.1rem; font-weight: 700; color: #444; max-width: 310px; margin: 0 auto 6px; backdrop-filter: blur(6px); }
+  #btn-area { display: flex; gap: 16px; margin-top: 20px; align-items: center; }
+  #surprise-btn { border: none; border-radius: 30px; padding: 24px 48px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; flex: 1; max-width: 260px; transition: transform 0.1s; }
+  #surprise-btn:active { transform: scale(0.95); }
+  #reveal-btn { border: none; border-radius: 30px; padding: 24px 56px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
+  #fav-btn { background: white; border: none; border-radius: 50%; width: 68px; height: 68px; font-size: 2.1rem; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
+  #next-btn { margin-top: 18px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 15px 36px; font-size: 1.35rem; font-weight: 800; cursor: pointer; color: #333; display: none; }
+  #hint { text-align: center; padding: 10px 20px 40px; color: rgba(0,0,0,0.32); font-size: 0.88rem; font-weight: 600; }
+  /* FAVORITES SCREEN */
+  #favs-screen { display: none; min-height: 100vh; background: #FFF5EE; }
+  #favs-header { background: #FF6B35; padding: 52px 20px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  #back-btn { background: white; border: none; border-radius: 14px; padding: 12px 20px; font-size: 1.1rem; font-weight: 900; cursor: pointer; color: #FF6B35; }
+  #favs-title { color: white; font-size: 1.9rem; font-weight: 900; }
+  #favs-empty { text-align: center; padding: 80px 20px; }
+  #favs-empty div { font-size: 5rem; }
+  #favs-empty p { font-size: 1.4rem; font-weight: 800; color: #bbb; margin-top: 16px; }
+  #favs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; padding: 20px; }
+  .fav-card { border-radius: 22px; padding: 18px 12px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.09); border-width: 3px; border-style: solid; }
+  .fav-card img { width: 88px; height: 88px; object-fit: contain; }
+  .fav-name { font-weight: 900; font-size: 1.05rem; color: #222; margin-top: 8px; }
+  .fav-num { font-size: 0.82rem; font-weight: 800; margin-top: 2px; }
+  /* CONFETTI */
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; display: none; }
+  .piece { position: absolute; top: -16px; width: 13px; height: 13px; animation: cffall 1.6s ease-in forwards; }
+  /* LOADING */
+  #spinner { font-size: 3rem; animation: spin 0.8s linear infinite; display: none; }
+  @keyframes cffall { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(105vh) rotate(600deg);opacity:0} }
+  @keyframes popIn { 0%{transform:scale(0.15) rotate(-15deg);opacity:0} 65%{transform:scale(1.12) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .popin { animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="confetti"></div>
+
+<!-- MAIN SCREEN -->
+<div id="app">
+  <div id="header">
+    <div id="logo">🎮 PokéPal</div>
+    <div id="controls">
+      <button class="ctrl-btn" id="guess-btn" onclick="toggleMode()">👁️ Guess</button>
+      <button class="ctrl-btn" id="favs-btn" onclick="showFavs()" style="background:rgba(255,255,255,0.28);color:white;">❤️ <span id="fav-count">0</span></button>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="spinner">⚙️</div>
+    <div id="poke-number"></div>
+    <img id="poke-img" src="" alt="Pokemon" class="popin">
+    <h1 id="poke-name"></h1>
+    <div id="types"></div>
+    <div id="fact-box"></div>
+    <div id="btn-area">
+      <button id="fav-btn" onclick="toggleFav()">🤍</button>
+      <button id="surprise-btn" onclick="handleSurprise()">🎲 Surprise Me!</button>
+      <button id="reveal-btn" onclick="handleReveal()" class="hidden">🎉 Reveal!</button>
+    </div>
+    <button id="next-btn" onclick="handleNext()">Next Pokémon ➡️</button>
+  </div>
+
+  <div id="hint">Tap 🎲 to discover a new Pokémon!</div>
+</div>
+
+<!-- FAVORITES SCREEN -->
+<div id="favs-screen">
+  <div id="favs-header">
+    <button id="back-btn" onclick="hideFavs()">← Back</button>
+    <div id="favs-title">❤️ My Pokémon</div>
+  </div>
+  <div id="favs-empty"><div>🤍</div><p>Tap ❤️ to save favorites!</p></div>
+  <div id="favs-grid"></div>
+</div>
+
+<script>
+const TYPE_COLORS = {
+  fire:     { bg: "#FF6B35", light: "#FFE4D6", emoji: "🔥" },
+  water:    { bg: "#4A90D9", light: "#D6EAFF", emoji: "💧" },
+  grass:    { bg: "#5DBB63", light: "#D6F5D6", emoji: "🌿" },
+  electric: { bg: "#F7C948", light: "#FFF9CC", emoji: "⚡" },
+  psychic:  { bg: "#E040A0", light: "#FFD6F0", emoji: "🔮" },
+  ice:      { bg: "#74CCF4", light: "#E0F7FF", emoji: "❄️" },
+  dragon:   { bg: "#5A3E9B", light: "#E8DCFF", emoji: "🐉" },
+  dark:     { bg: "#4A3728", light: "#DDD0C8", emoji: "🌑" },
+  fairy:    { bg: "#F0A0C0", light: "#FFE8F4", emoji: "✨" },
+  fighting: { bg: "#C03028", light: "#FFD6D6", emoji: "👊" },
+  poison:   { bg: "#A040A0", light: "#F0D6F0", emoji: "☠️" },
+  ground:   { bg: "#E0C068", light: "#FFF5D6", emoji: "⛰️" },
+  flying:   { bg: "#A890F0", light: "#EEE8FF", emoji: "🌬️" },
+  bug:      { bg: "#A8B820", light: "#F0F5CC", emoji: "🐛" },
+  rock:     { bg: "#B8A038", light: "#F5EDD6", emoji: "🪨" },
+  ghost:    { bg: "#705898", light: "#E8D6FF", emoji: "👻" },
+  steel:    { bg: "#B8B8D0", light: "#EBEBF5", emoji: "⚙️" },
+  normal:   { bg: "#A8A878", light: "#F0F0E0", emoji: "⭐" },
+};
+
+const FUN_FACTS = {
+  fire:"breathes scorching fire 🔥",water:"loves splashing in the water 💧",
+  grass:"soaks up sunlight to grow strong 🌿",electric:"zaps with lightning bolts ⚡",
+  psychic:"can read your mind 🔮",ice:"makes everything frosty ❄️",
+  dragon:"is a mighty dragon 🐉",dark:"lurks in the shadows 🌑",
+  fairy:"sparkles with magical power ✨",fighting:"has super strong muscles 👊",
+  poison:"is a sneaky trickster ☠️",ground:"loves to dig underground ⛰️",
+  flying:"soars high in the sky 🌬️",bug:"scuttles around on six legs 🐛",
+  rock:"is tough as a rock 🪨",ghost:"can disappear and reappear 👻",
+  steel:"has super hard metal armor ⚙️",normal:"is a fantastic friend ⭐",
+};
+
+const POKEMON = [
+  {id:1,name:"Bulbasaur",types:["grass","poison"]},
+  {id:4,name:"Charmander",types:["fire"]},
+  {id:7,name:"Squirtle",types:["water"]},
+  {id:6,name:"Charizard",types:["fire","flying"]},
+  {id:9,name:"Blastoise",types:["water"]},
+  {id:3,name:"Venusaur",types:["grass","poison"]},
+  {id:25,name:"Pikachu",types:["electric"]},
+  {id:26,name:"Raichu",types:["electric"]},
+  {id:35,name:"Clefairy",types:["fairy"]},
+  {id:39,name:"Jigglypuff",types:["normal","fairy"]},
+  {id:52,name:"Meowth",types:["normal"]},
+  {id:54,name:"Psyduck",types:["water"]},
+  {id:59,name:"Arcanine",types:["fire"]},
+  {id:63,name:"Abra",types:["psychic"]},
+  {id:74,name:"Geodude",types:["rock","ground"]},
+  {id:79,name:"Slowpoke",types:["water","psychic"]},
+  {id:90,name:"Shellder",types:["water"]},
+  {id:92,name:"Gastly",types:["ghost","poison"]},
+  {id:94,name:"Gengar",types:["ghost","poison"]},
+  {id:104,name:"Cubone",types:["ground"]},
+  {id:113,name:"Chansey",types:["normal"]},
+  {id:116,name:"Horsea",types:["water"]},
+  {id:129,name:"Magikarp",types:["water"]},
+  {id:130,name:"Gyarados",types:["water","flying"]},
+  {id:131,name:"Lapras",types:["water","ice"]},
+  {id:133,name:"Eevee",types:["normal"]},
+  {id:134,name:"Vaporeon",types:["water"]},
+  {id:135,name:"Jolteon",types:["electric"]},
+  {id:136,name:"Flareon",types:["fire"]},
+  {id:143,name:"Snorlax",types:["normal"]},
+  {id:147,name:"Dratini",types:["dragon"]},
+  {id:149,name:"Dragonite",types:["dragon","flying"]},
+  {id:150,name:"Mewtwo",types:["psychic"]},
+  {id:151,name:"Mew",types:["psychic"]},
+];
+
+function spriteUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+}
+
+let current = null;
+let mode = "explore"; // explore | silhouette
+let revealed = false;
+let favorites = [];
+
+function getColors(type) {
+  return TYPE_COLORS[type] || TYPE_COLORS.normal;
+}
+
+function setBackground(type) {
+  const c = getColors(type);
+  document.getElementById("app").style.background =
+    `linear-gradient(160deg, ${c.bg} 0%, ${c.light} 52%, #ffffff 100%)`;
+  document.getElementById("surprise-btn").style.background = c.bg;
+  document.getElementById("surprise-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
+  document.getElementById("reveal-btn").style.background = c.bg;
+  document.getElementById("reveal-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
+  const guessBtn = document.getElementById("guess-btn");
+  if (mode === "silhouette") {
+    guessBtn.style.background = "white";
+    guessBtn.style.color = c.bg;
+  } else {
+    guessBtn.style.background = "rgba(255,255,255,0.28)";
+    guessBtn.style.color = "white";
+  }
+}
+
+function renderPokemon(p, forceReveal) {
+  current = p;
+  revealed = forceReveal || false;
+  const mainType = p.types[0];
+  const c = getColors(mainType);
+
+  setBackground(mainType);
+
+  document.getElementById("poke-number").textContent = "#" + String(p.id).padStart(3,"0");
+
+  const img = document.getElementById("poke-img");
+  img.src = spriteUrl(p.id);
+  img.classList.remove("popin");
+  void img.offsetWidth;
+  img.classList.add("popin");
+  img.style.filter = (mode === "silhouette" && !revealed)
+    ? "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))"
+    : "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+
+  const nameEl = document.getElementById("poke-name");
+  nameEl.textContent = p.name;
+  if (mode === "silhouette" && !revealed) {
+    nameEl.style.color = "transparent";
+    nameEl.style.background = "#555";
+    nameEl.style.borderRadius = "12px";
+    nameEl.style.padding = "4px 28px";
+    nameEl.style.textShadow = "none";
+  } else {
+    nameEl.style.color = "#1a1a1a";
+    nameEl.style.background = "transparent";
+    nameEl.style.borderRadius = "0";
+    nameEl.style.padding = "0";
+    nameEl.style.textShadow = "0 2px 8px rgba(0,0,0,0.08)";
+  }
+
+  const typesEl = document.getElementById("types");
+  const factEl = document.getElementById("fact-box");
+  if (mode === "silhouette" && !revealed) {
+    typesEl.innerHTML = "";
+    factEl.style.display = "none";
+  } else {
+    typesEl.innerHTML = p.types.map(t => {
+      const tc = getColors(t);
+      return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
+    }).join("");
+    factEl.style.display = "block";
+    factEl.textContent = `${p.name} ${FUN_FACTS[mainType] || "is an amazing Pokémon!"}`;
+  }
+
+  // Buttons
+  const isFav = favorites.some(f => f.id === p.id);
+  document.getElementById("fav-btn").textContent = isFav ? "❤️" : "🤍";
+  document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
+
+  if (mode === "silhouette" && !revealed) {
+    document.getElementById("fav-btn").classList.add("hidden");
+    document.getElementById("surprise-btn").classList.add("hidden");
+    document.getElementById("reveal-btn").classList.remove("hidden");
+    document.getElementById("next-btn").style.display = "none";
+  } else {
+    document.getElementById("fav-btn").classList.remove("hidden");
+    document.getElementById("surprise-btn").classList.remove("hidden");
+    document.getElementById("reveal-btn").classList.add("hidden");
+    if (mode === "silhouette" && revealed) {
+      document.getElementById("next-btn").style.display = "block";
+    } else {
+      document.getElementById("next-btn").style.display = "none";
+    }
+  }
+
+  document.getElementById("hint").textContent = mode === "silhouette"
+    ? "👁️ Who's that Pokémon?"
+    : "Tap 🎲 to discover a new Pokémon!";
+}
+
+function randomPokemon() {
+  return POKEMON[Math.floor(Math.random() * POKEMON.length)];
+}
+
+function handleSurprise() {
+  burst();
+  renderPokemon(randomPokemon());
+}
+
+function handleReveal() {
+  revealed = true;
+  burst();
+  renderPokemon(current, true);
+}
+
+function handleNext() {
+  renderPokemon(randomPokemon());
+}
+
+function toggleMode() {
+  mode = mode === "silhouette" ? "explore" : "silhouette";
+  renderPokemon(current || randomPokemon());
+}
+
+function toggleFav() {
+  if (!current) return;
+  const idx = favorites.findIndex(f => f.id === current.id);
+  if (idx >= 0) {
+    favorites.splice(idx, 1);
+  } else {
+    favorites.push(current);
+    burst();
+  }
+  document.getElementById("fav-count").textContent = favorites.length;
+  document.getElementById("fav-btn").textContent = favorites.some(f => f.id === current.id) ? "❤️" : "🤍";
+  document.getElementById("fav-btn").style.transform = favorites.some(f => f.id === current.id) ? "scale(1.18)" : "scale(1)";
+}
+
+function showFavs() {
+  document.getElementById("app").style.display = "none";
+  document.getElementById("favs-screen").style.display = "block";
+  renderFavs();
+}
+
+function hideFavs() {
+  document.getElementById("favs-screen").style.display = "none";
+  document.getElementById("app").style.display = "flex";
+}
+
+function renderFavs() {
+  const empty = document.getElementById("favs-empty");
+  const grid = document.getElementById("favs-grid");
+  if (favorites.length === 0) {
+    empty.style.display = "block";
+    grid.innerHTML = "";
+  } else {
+    empty.style.display = "none";
+    grid.innerHTML = favorites.map(p => {
+      const c = getColors(p.types[0]);
+      return `<div class="fav-card" style="background:${c.light};border-color:${c.bg}">
+        <img src="${spriteUrl(p.id)}" alt="${p.name}">
+        <div class="fav-name">${p.name}</div>
+        <div class="fav-num" style="color:${c.bg}">#${String(p.id).padStart(3,"0")}</div>
+        <div style="margin-top:8px">${p.types.map(t=>{const tc=getColors(t);return`<span class="type-badge" style="background:${tc.bg};font-size:0.72rem;padding:3px 10px">${tc.emoji} ${t}</span>`}).join("")}</div>
+      </div>`;
+    }).join("");
+  }
+}
+
+// CONFETTI
+function burst() {
+  const el = document.getElementById("confetti");
+  el.innerHTML = "";
+  el.style.display = "block";
+  const colors = ["#FF6B35","#4A90D9","#F7C948","#5DBB63","#E040A0","#A890F0","#74CCF4"];
+  for (let i = 0; i < 24; i++) {
+    const piece = document.createElement("div");
+    piece.className = "piece";
+    piece.style.left = `${(i/24)*100}%`;
+    piece.style.background = colors[i % colors.length];
+    piece.style.borderRadius = i % 3 === 0 ? "50%" : "2px";
+    piece.style.animationDuration = `${1.1 + (i%5)*0.22}s`;
+    piece.style.animationDelay = `${(i%6)*0.06}s`;
+    piece.style.transform = `rotate(${i*23}deg)`;
+    el.appendChild(piece);
+  }
+  setTimeout(() => { el.style.display = "none"; el.innerHTML = ""; }, 2400);
+}
+
+// INIT
+renderPokemon(randomPokemon());
+</script>
+</body>
+</html>
