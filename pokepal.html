@@ -5,44 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>PokéPal</title>
+<title>Nate's PokéPal Game</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; }
   #app { min-height: 100vh; display: flex; flex-direction: column; transition: background 0.6s ease; }
-  #header { display: flex; justify-content: space-between; align-items: center; padding: 52px 20px 14px; }
-  #logo { font-size: 1.8rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.25); }
-  #controls { display: flex; gap: 10px; }
-  .ctrl-btn { border: none; border-radius: 22px; padding: 10px 16px; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
-  #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 24px 30px; text-align: center; }
+  #header { display: flex; justify-content: space-between; align-items: center; padding: 52px 20px 14px; flex-wrap: wrap; gap: 8px; }
+  #logo { font-size: 1.4rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.25); line-height: 1.2; }
+  #controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .ctrl-btn { border: none; border-radius: 22px; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 24px 20px; text-align: center; }
   #poke-number { font-size: 1rem; font-weight: 900; color: rgba(255,255,255,0.75); margin-bottom: 4px; letter-spacing: 0.05em; }
-  #poke-img { width: 210px; height: 210px; object-fit: contain; transition: filter 0.5s ease; }
-  #poke-name { font-size: 3rem; font-weight: 900; margin: 12px 0 8px; line-height: 1.05; transition: all 0.4s ease; }
-  #types { margin-bottom: 10px; min-height: 36px; }
-  .type-badge { display: inline-block; padding: 7px 20px; border-radius: 999px; font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 4px; color: white; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
-  #fact-box { background: rgba(255,255,255,0.72); border-radius: 18px; padding: 12px 22px; font-size: 1.1rem; font-weight: 700; color: #444; max-width: 310px; margin: 0 auto 6px; backdrop-filter: blur(6px); }
-  #btn-area { display: flex; gap: 16px; margin-top: 20px; align-items: center; }
-  #surprise-btn { border: none; border-radius: 30px; padding: 24px 48px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
+  #poke-img { width: 190px; height: 190px; object-fit: contain; transition: filter 0.5s ease; }
+  #poke-name { font-size: 2.6rem; font-weight: 900; margin: 10px 0 6px; line-height: 1.05; transition: all 0.4s ease; }
+  #types { margin-bottom: 8px; min-height: 36px; }
+  .type-badge { display: inline-block; padding: 6px 16px; border-radius: 999px; font-weight: 900; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 3px; color: white; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+  #fact-box { background: rgba(255,255,255,0.72); border-radius: 18px; padding: 10px 20px; font-size: 1.05rem; font-weight: 700; color: #444; max-width: 310px; margin: 0 auto 6px; backdrop-filter: blur(6px); }
+
+  /* WHO'S THAT CHOICES */
+  #who-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; width: 100%; max-width: 340px; }
+  .who-choice { border: none; border-radius: 20px; padding: 16px 10px; font-size: 1.05rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.85); color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  .who-choice:active { transform: scale(0.95); }
+  .who-choice.correct { background: #5DBB63; color: white; }
+  .who-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
+  #who-result { font-size: 1.15rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 12px; min-height: 28px; }
+
+  #btn-area { display: flex; gap: 14px; margin-top: 16px; align-items: center; }
+  #surprise-btn { border: none; border-radius: 30px; padding: 20px 40px; font-size: 1.6rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
   #surprise-btn:active { transform: scale(0.95); }
-  #reveal-btn { border: none; border-radius: 30px; padding: 24px 56px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
-  #fav-btn { background: white; border: none; border-radius: 50%; width: 68px; height: 68px; font-size: 2.1rem; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
-  #next-btn { margin-top: 18px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 15px 36px; font-size: 1.35rem; font-weight: 800; cursor: pointer; color: #333; display: none; }
-  #hint { text-align: center; padding: 10px 20px 40px; color: rgba(0,0,0,0.32); font-size: 0.88rem; font-weight: 600; }
+  #reveal-btn { border: none; border-radius: 30px; padding: 20px 48px; font-size: 1.6rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
+  #fav-btn { background: white; border: none; border-radius: 50%; width: 64px; height: 64px; font-size: 2rem; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
+  #next-btn { margin-top: 14px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 14px 32px; font-size: 1.25rem; font-weight: 800; cursor: pointer; color: #333; display: none; }
+  #hint { text-align: center; padding: 8px 20px 36px; color: rgba(0,0,0,0.32); font-size: 0.88rem; font-weight: 600; }
 
   /* EVOLUTION GAME */
   #evo-game { display: none; flex-direction: column; align-items: center; padding: 10px 24px 30px; text-align: center; }
-  #evo-question { font-size: 1.4rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 12px; }
-  #evo-img { width: 180px; height: 180px; object-fit: contain; filter: brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.35)); transition: filter 0.5s ease; }
-  #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; width: 100%; max-width: 340px; }
-  .evo-choice { border: none; border-radius: 20px; padding: 18px 10px; font-size: 1.1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.85); color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  #evo-question { font-size: 1.3rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 12px; max-width: 320px; line-height: 1.3; }
+  #evo-img { width: 170px; height: 170px; object-fit: contain; transition: filter 0.5s ease; }
+  #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; width: 100%; max-width: 340px; }
+  .evo-choice { border: none; border-radius: 20px; padding: 16px 10px; font-size: 1.05rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.85); color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.1s; }
   .evo-choice:active { transform: scale(0.95); }
   .evo-choice.correct { background: #5DBB63; color: white; }
   .evo-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
-  #evo-result { font-size: 1.2rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 16px; min-height: 32px; }
-  #evo-next-btn { display: none; margin-top: 14px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 15px 36px; font-size: 1.3rem; font-weight: 800; cursor: pointer; color: #333; }
+  #evo-result { font-size: 1.15rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 14px; min-height: 28px; }
+  #evo-next-btn { display: none; margin-top: 14px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 14px 32px; font-size: 1.25rem; font-weight: 800; cursor: pointer; color: #333; }
   #evo-btn { border: none; border-radius: 22px; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: rgba(255,255,255,0.28); color: white; transition: all 0.2s; }
 
-  /* FAVORITES SCREEN */
+  /* FAVORITES */
   #favs-screen { display: none; min-height: 100vh; background: #FFF5EE; }
   #favs-header { background: #FF6B35; padding: 52px 20px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
   #back-btn { background: white; border: none; border-radius: 14px; padding: 12px 20px; font-size: 1.1rem; font-weight: 900; cursor: pointer; color: #FF6B35; }
@@ -72,10 +81,9 @@
 
 <div id="confetti"></div>
 
-<!-- MAIN SCREEN -->
 <div id="app">
   <div id="header">
-    <div id="logo">🎮 PokéPal</div>
+    <div id="logo">🎮 Nate's PokéPal Game</div>
     <div id="controls">
       <button class="ctrl-btn" id="guess-btn" onclick="toggleMode()">👁️ Guess</button>
       <button id="evo-btn" onclick="startEvoGame()">🥚 Evolve!</button>
@@ -83,13 +91,14 @@
     </div>
   </div>
 
-  <!-- EXPLORE / SILHOUETTE VIEW -->
   <div id="main">
     <div id="poke-number"></div>
     <img id="poke-img" src="" alt="Pokemon">
     <h1 id="poke-name"></h1>
     <div id="types"></div>
     <div id="fact-box"></div>
+    <div id="who-choices"></div>
+    <div id="who-result"></div>
     <div id="btn-area">
       <button id="fav-btn" onclick="toggleFav()">🤍</button>
       <button id="surprise-btn" onclick="handleSurprise()">🎲 Surprise Me!</button>
@@ -98,9 +107,8 @@
     <button id="next-btn" onclick="handleNext()">Next Pokémon ➡️</button>
   </div>
 
-  <!-- EVOLUTION GAME VIEW -->
   <div id="evo-game">
-    <div id="evo-question">Who does this Pokémon evolve into? 🥚</div>
+    <div id="evo-question"></div>
     <img id="evo-img" src="" alt="Evolution">
     <div id="evo-choices"></div>
     <div id="evo-result"></div>
@@ -108,10 +116,9 @@
     <button onclick="exitEvoGame()" style="margin-top:14px;background:rgba(255,255,255,0.4);border:none;border-radius:22px;padding:12px 28px;font-size:1.1rem;font-weight:800;cursor:pointer;color:#333;">← Back</button>
   </div>
 
-  <div id="hint">Tap 🎲 to discover a new Pokémon!</div>
+  <div id="hint"></div>
 </div>
 
-<!-- FAVORITES SCREEN -->
 <div id="favs-screen">
   <div id="favs-header">
     <button id="back-btn" onclick="hideFavs()">← Back</button>
@@ -123,24 +130,24 @@
 
 <script>
 const TYPE_COLORS = {
-  fire:     { bg: "#FF6B35", light: "#FFE4D6", emoji: "🔥" },
-  water:    { bg: "#4A90D9", light: "#D6EAFF", emoji: "💧" },
-  grass:    { bg: "#5DBB63", light: "#D6F5D6", emoji: "🌿" },
-  electric: { bg: "#F7C948", light: "#FFF9CC", emoji: "⚡" },
-  psychic:  { bg: "#E040A0", light: "#FFD6F0", emoji: "🔮" },
-  ice:      { bg: "#74CCF4", light: "#E0F7FF", emoji: "❄️" },
-  dragon:   { bg: "#5A3E9B", light: "#E8DCFF", emoji: "🐉" },
-  dark:     { bg: "#4A3728", light: "#DDD0C8", emoji: "🌑" },
-  fairy:    { bg: "#F0A0C0", light: "#FFE8F4", emoji: "✨" },
-  fighting: { bg: "#C03028", light: "#FFD6D6", emoji: "👊" },
-  poison:   { bg: "#A040A0", light: "#F0D6F0", emoji: "☠️" },
-  ground:   { bg: "#E0C068", light: "#FFF5D6", emoji: "⛰️" },
-  flying:   { bg: "#A890F0", light: "#EEE8FF", emoji: "🌬️" },
-  bug:      { bg: "#A8B820", light: "#F0F5CC", emoji: "🐛" },
-  rock:     { bg: "#B8A038", light: "#F5EDD6", emoji: "🪨" },
-  ghost:    { bg: "#705898", light: "#E8D6FF", emoji: "👻" },
-  steel:    { bg: "#B8B8D0", light: "#EBEBF5", emoji: "⚙️" },
-  normal:   { bg: "#A8A878", light: "#F0F0E0", emoji: "⭐" },
+  fire:     {bg:"#FF6B35",light:"#FFE4D6",emoji:"🔥"},
+  water:    {bg:"#4A90D9",light:"#D6EAFF",emoji:"💧"},
+  grass:    {bg:"#5DBB63",light:"#D6F5D6",emoji:"🌿"},
+  electric: {bg:"#F7C948",light:"#FFF9CC",emoji:"⚡"},
+  psychic:  {bg:"#E040A0",light:"#FFD6F0",emoji:"🔮"},
+  ice:      {bg:"#74CCF4",light:"#E0F7FF",emoji:"❄️"},
+  dragon:   {bg:"#5A3E9B",light:"#E8DCFF",emoji:"🐉"},
+  dark:     {bg:"#4A3728",light:"#DDD0C8",emoji:"🌑"},
+  fairy:    {bg:"#F0A0C0",light:"#FFE8F4",emoji:"✨"},
+  fighting: {bg:"#C03028",light:"#FFD6D6",emoji:"👊"},
+  poison:   {bg:"#A040A0",light:"#F0D6F0",emoji:"☠️"},
+  ground:   {bg:"#E0C068",light:"#FFF5D6",emoji:"⛰️"},
+  flying:   {bg:"#A890F0",light:"#EEE8FF",emoji:"🌬️"},
+  bug:      {bg:"#A8B820",light:"#F0F5CC",emoji:"🐛"},
+  rock:     {bg:"#B8A038",light:"#F5EDD6",emoji:"🪨"},
+  ghost:    {bg:"#705898",light:"#E8D6FF",emoji:"👻"},
+  steel:    {bg:"#B8B8D0",light:"#EBEBF5",emoji:"⚙️"},
+  normal:   {bg:"#A8A878",light:"#F0F0E0",emoji:"⭐"},
 };
 
 const FUN_FACTS = {
@@ -155,56 +162,116 @@ const FUN_FACTS = {
   steel:"has super hard metal armor ⚙️",normal:"is a fantastic friend ⭐",
 };
 
+// evolvesTo supports arrays for branching evolutions (Eevee, etc.)
+// specialEvo: true = show a note about how it evolves
 const POKEMON = [
-  {id:1, name:"Bulbasaur",  types:["grass","poison"], evolvesTo:2},
-  {id:2, name:"Ivysaur",    types:["grass","poison"], evolvesTo:3},
-  {id:3, name:"Venusaur",   types:["grass","poison"], evolvesTo:null},
-  {id:4, name:"Charmander", types:["fire"],           evolvesTo:5},
-  {id:5, name:"Charmeleon", types:["fire"],           evolvesTo:6},
-  {id:6, name:"Charizard",  types:["fire","flying"],  evolvesTo:null},
-  {id:7, name:"Squirtle",   types:["water"],          evolvesTo:8},
-  {id:8, name:"Wartortle",  types:["water"],          evolvesTo:9},
-  {id:9, name:"Blastoise",  types:["water"],          evolvesTo:null},
-  {id:25,name:"Pikachu",    types:["electric"],       evolvesTo:26},
-  {id:26,name:"Raichu",     types:["electric"],       evolvesTo:null},
-  {id:35,name:"Clefairy",   types:["fairy"],          evolvesTo:36},
-  {id:36,name:"Clefable",   types:["fairy"],          evolvesTo:null},
-  {id:39,name:"Jigglypuff", types:["normal","fairy"], evolvesTo:40},
-  {id:40,name:"Wigglytuff", types:["normal","fairy"], evolvesTo:null},
-  {id:52,name:"Meowth",     types:["normal"],         evolvesTo:53},
-  {id:53,name:"Persian",    types:["normal"],         evolvesTo:null},
-  {id:54,name:"Psyduck",    types:["water"],          evolvesTo:55},
-  {id:55,name:"Golduck",    types:["water"],          evolvesTo:null},
-  {id:59,name:"Arcanine",   types:["fire"],           evolvesTo:null},
-  {id:63,name:"Abra",       types:["psychic"],        evolvesTo:64},
-  {id:64,name:"Kadabra",    types:["psychic"],        evolvesTo:65},
-  {id:65,name:"Alakazam",   types:["psychic"],        evolvesTo:null},
-  {id:74,name:"Geodude",    types:["rock","ground"],  evolvesTo:75},
-  {id:75,name:"Graveler",   types:["rock","ground"],  evolvesTo:76},
-  {id:76,name:"Golem",      types:["rock","ground"],  evolvesTo:null},
-  {id:79,name:"Slowpoke",   types:["water","psychic"],evolvesTo:80},
-  {id:80,name:"Slowbro",    types:["water","psychic"],evolvesTo:null},
-  {id:92,name:"Gastly",     types:["ghost","poison"], evolvesTo:93},
-  {id:93,name:"Haunter",    types:["ghost","poison"], evolvesTo:94},
-  {id:94,name:"Gengar",     types:["ghost","poison"], evolvesTo:null},
-  {id:104,name:"Cubone",    types:["ground"],         evolvesTo:105},
-  {id:105,name:"Marowak",   types:["ground"],         evolvesTo:null},
-  {id:113,name:"Chansey",   types:["normal"],         evolvesTo:null},
-  {id:116,name:"Horsea",    types:["water"],          evolvesTo:117},
-  {id:117,name:"Seadra",    types:["water"],          evolvesTo:null},
-  {id:129,name:"Magikarp",  types:["water"],          evolvesTo:130},
-  {id:130,name:"Gyarados",  types:["water","flying"], evolvesTo:null},
-  {id:131,name:"Lapras",    types:["water","ice"],    evolvesTo:null},
-  {id:133,name:"Eevee",     types:["normal"],         evolvesTo:134},
-  {id:134,name:"Vaporeon",  types:["water"],          evolvesTo:null},
-  {id:135,name:"Jolteon",   types:["electric"],       evolvesTo:null},
-  {id:136,name:"Flareon",   types:["fire"],           evolvesTo:null},
-  {id:143,name:"Snorlax",   types:["normal"],         evolvesTo:null},
-  {id:147,name:"Dratini",   types:["dragon"],         evolvesTo:148},
-  {id:148,name:"Dragonair", types:["dragon"],         evolvesTo:149},
-  {id:149,name:"Dragonite", types:["dragon","flying"],evolvesTo:null},
-  {id:150,name:"Mewtwo",    types:["psychic"],        evolvesTo:null},
-  {id:151,name:"Mew",       types:["psychic"],        evolvesTo:null},
+  // Bulbasaur line
+  {id:1,  name:"Bulbasaur",  types:["grass","poison"],  evolvesTo:2},
+  {id:2,  name:"Ivysaur",    types:["grass","poison"],  evolvesTo:3},
+  {id:3,  name:"Venusaur",   types:["grass","poison"],  evolvesTo:null},
+  // Charmander line
+  {id:4,  name:"Charmander", types:["fire"],            evolvesTo:5},
+  {id:5,  name:"Charmeleon", types:["fire"],            evolvesTo:6},
+  {id:6,  name:"Charizard",  types:["fire","flying"],   evolvesTo:null},
+  // Squirtle line
+  {id:7,  name:"Squirtle",   types:["water"],           evolvesTo:8},
+  {id:8,  name:"Wartortle",  types:["water"],           evolvesTo:9},
+  {id:9,  name:"Blastoise",  types:["water"],           evolvesTo:null},
+  // Caterpie line
+  {id:10, name:"Caterpie",   types:["bug"],             evolvesTo:11},
+  {id:11, name:"Metapod",    types:["bug"],             evolvesTo:12},
+  {id:12, name:"Butterfree", types:["bug","flying"],    evolvesTo:null},
+  // Weedle line
+  {id:13, name:"Weedle",     types:["bug","poison"],    evolvesTo:14},
+  {id:14, name:"Kakuna",     types:["bug","poison"],    evolvesTo:15},
+  {id:15, name:"Beedrill",   types:["bug","poison"],    evolvesTo:null},
+  // Pidgey line
+  {id:16, name:"Pidgey",     types:["normal","flying"], evolvesTo:17},
+  {id:17, name:"Pidgeotto",  types:["normal","flying"], evolvesTo:18},
+  {id:18, name:"Pidgeot",    types:["normal","flying"], evolvesTo:null},
+  // Rattata line
+  {id:19, name:"Rattata",    types:["normal"],          evolvesTo:20},
+  {id:20, name:"Raticate",   types:["normal"],          evolvesTo:null},
+  // Pikachu line
+  {id:25, name:"Pikachu",    types:["electric"],        evolvesTo:26, specialEvo:"Uses a Thunder Stone ⚡"},
+  {id:26, name:"Raichu",     types:["electric"],        evolvesTo:null},
+  // Clefairy line
+  {id:35, name:"Clefairy",   types:["fairy"],           evolvesTo:36, specialEvo:"Uses a Moon Stone 🌙"},
+  {id:36, name:"Clefable",   types:["fairy"],           evolvesTo:null},
+  // Vulpix line
+  {id:37, name:"Vulpix",     types:["fire"],            evolvesTo:38, specialEvo:"Uses a Fire Stone 🔥"},
+  {id:38, name:"Ninetales",  types:["fire"],            evolvesTo:null},
+  // Jigglypuff line
+  {id:39, name:"Jigglypuff", types:["normal","fairy"],  evolvesTo:40, specialEvo:"Uses a Moon Stone 🌙"},
+  {id:40, name:"Wigglytuff", types:["normal","fairy"],  evolvesTo:null},
+  // Meowth line
+  {id:52, name:"Meowth",     types:["normal"],          evolvesTo:53},
+  {id:53, name:"Persian",    types:["normal"],          evolvesTo:null},
+  // Psyduck line
+  {id:54, name:"Psyduck",    types:["water"],           evolvesTo:55},
+  {id:55, name:"Golduck",    types:["water"],           evolvesTo:null},
+  // Growlithe line
+  {id:58, name:"Growlithe",  types:["fire"],            evolvesTo:59, specialEvo:"Uses a Fire Stone 🔥"},
+  {id:59, name:"Arcanine",   types:["fire"],            evolvesTo:null},
+  // Abra line
+  {id:63, name:"Abra",       types:["psychic"],         evolvesTo:64},
+  {id:64, name:"Kadabra",    types:["psychic"],         evolvesTo:65},
+  {id:65, name:"Alakazam",   types:["psychic"],         evolvesTo:null},
+  // Machop line
+  {id:66, name:"Machop",     types:["fighting"],        evolvesTo:67},
+  {id:67, name:"Machoke",    types:["fighting"],        evolvesTo:68},
+  {id:68, name:"Machamp",    types:["fighting"],        evolvesTo:null},
+  // Geodude line
+  {id:74, name:"Geodude",    types:["rock","ground"],   evolvesTo:75},
+  {id:75, name:"Graveler",   types:["rock","ground"],   evolvesTo:76},
+  {id:76, name:"Golem",      types:["rock","ground"],   evolvesTo:null},
+  // Slowpoke line
+  {id:79, name:"Slowpoke",   types:["water","psychic"], evolvesTo:80},
+  {id:80, name:"Slowbro",    types:["water","psychic"], evolvesTo:null},
+  // Gastly line
+  {id:92, name:"Gastly",     types:["ghost","poison"],  evolvesTo:93},
+  {id:93, name:"Haunter",    types:["ghost","poison"],  evolvesTo:94},
+  {id:94, name:"Gengar",     types:["ghost","poison"],  evolvesTo:null},
+  // Cubone line
+  {id:104,name:"Cubone",     types:["ground"],          evolvesTo:105},
+  {id:105,name:"Marowak",    types:["ground"],          evolvesTo:null},
+  // Chansey
+  {id:113,name:"Chansey",    types:["normal"],          evolvesTo:null},
+  // Horsea line
+  {id:116,name:"Horsea",     types:["water"],           evolvesTo:117},
+  {id:117,name:"Seadra",     types:["water"],           evolvesTo:null},
+  // Staryu line
+  {id:120,name:"Staryu",     types:["water"],           evolvesTo:121, specialEvo:"Uses a Water Stone 💧"},
+  {id:121,name:"Starmie",    types:["water","psychic"], evolvesTo:null},
+  // Magikarp line
+  {id:129,name:"Magikarp",   types:["water"],           evolvesTo:130},
+  {id:130,name:"Gyarados",   types:["water","flying"],  evolvesTo:null},
+  // Lapras
+  {id:131,name:"Lapras",     types:["water","ice"],     evolvesTo:null},
+  // Eevee — branching evolution
+  {id:133,name:"Eevee",      types:["normal"],          evolvesTo:[134,135,136], specialEvo:"Uses a Water, Thunder, or Fire Stone!"},
+  {id:134,name:"Vaporeon",   types:["water"],           evolvesTo:null},
+  {id:135,name:"Jolteon",    types:["electric"],        evolvesTo:null},
+  {id:136,name:"Flareon",    types:["fire"],            evolvesTo:null},
+  // Porygon
+  {id:137,name:"Porygon",    types:["normal"],          evolvesTo:null},
+  // Omanyte line
+  {id:138,name:"Omanyte",    types:["rock","water"],    evolvesTo:139},
+  {id:139,name:"Omastar",    types:["rock","water"],    evolvesTo:null},
+  // Kabuto line
+  {id:140,name:"Kabuto",     types:["rock","water"],    evolvesTo:141},
+  {id:141,name:"Kabutops",   types:["rock","water"],    evolvesTo:null},
+  // Aerodactyl
+  {id:142,name:"Aerodactyl", types:["rock","flying"],   evolvesTo:null},
+  // Snorlax
+  {id:143,name:"Snorlax",    types:["normal"],          evolvesTo:null},
+  // Dratini line
+  {id:147,name:"Dratini",    types:["dragon"],          evolvesTo:148},
+  {id:148,name:"Dragonair",  types:["dragon"],          evolvesTo:149},
+  {id:149,name:"Dragonite",  types:["dragon","flying"], evolvesTo:null},
+  // Mewtwo & Mew
+  {id:150,name:"Mewtwo",     types:["psychic"],         evolvesTo:null},
+  {id:151,name:"Mew",        types:["psychic"],         evolvesTo:null},
 ];
 
 const POKEMON_BY_ID = {};
@@ -217,6 +284,7 @@ function spriteUrl(id) {
 let current = null;
 let mode = "explore";
 let revealed = false;
+let whoAnswered = false;
 let favorites = [];
 
 function getColors(type) { return TYPE_COLORS[type] || TYPE_COLORS.normal; }
@@ -225,10 +293,14 @@ function setBackground(type) {
   const c = getColors(type);
   document.getElementById("app").style.background =
     `linear-gradient(160deg, ${c.bg} 0%, ${c.light} 52%, #ffffff 100%)`;
-  document.getElementById("surprise-btn").style.background = c.bg;
-  document.getElementById("surprise-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
-  document.getElementById("reveal-btn").style.background = c.bg;
-  document.getElementById("reveal-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
+  if (document.getElementById("surprise-btn")) {
+    document.getElementById("surprise-btn").style.background = c.bg;
+    document.getElementById("surprise-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
+  }
+  if (document.getElementById("reveal-btn")) {
+    document.getElementById("reveal-btn").style.background = c.bg;
+    document.getElementById("reveal-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
+  }
   const guessBtn = document.getElementById("guess-btn");
   if (mode === "silhouette") {
     guessBtn.style.background = "white";
@@ -239,17 +311,68 @@ function setBackground(type) {
   }
 }
 
+function buildWhoChoices(p) {
+  // 3 random wrong + correct, shuffled
+  const wrong = POKEMON
+    .filter(x => x.id !== p.id)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+  const choices = [...wrong, p].sort(() => Math.random() - 0.5);
+  const el = document.getElementById("who-choices");
+  el.innerHTML = choices.map(c =>
+    `<button class="who-choice" onclick="checkWhoGuess(${c.id}, this)">${c.name}</button>`
+  ).join("");
+}
+
+function checkWhoGuess(id, btn) {
+  if (whoAnswered) return;
+  whoAnswered = true;
+  document.querySelectorAll(".who-choice").forEach(b => b.onclick = null);
+  // Reveal the image
+  document.getElementById("poke-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+  // Reveal name
+  const nameEl = document.getElementById("poke-name");
+  nameEl.textContent = current.name;
+  nameEl.style.color = "#1a1a1a";
+  nameEl.style.background = "transparent";
+  nameEl.style.borderRadius = "0";
+  nameEl.style.padding = "0";
+  // Show types + fact
+  const c = getColors(current.types[0]);
+  document.getElementById("types").innerHTML = current.types.map(t => {
+    const tc = getColors(t); return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
+  }).join("");
+  document.getElementById("fact-box").style.display = "block";
+  document.getElementById("fact-box").textContent = `${current.name} ${FUN_FACTS[current.types[0]] || "is an amazing Pokémon!"}`;
+
+  if (id === current.id) {
+    btn.classList.add("correct");
+    document.getElementById("who-result").textContent = "🎉 You got it!";
+    burst();
+  } else {
+    btn.classList.add("wrong");
+    document.querySelectorAll(".who-choice").forEach(b => {
+      if (parseInt(b.getAttribute("onclick").match(/\d+/)[0]) === current.id) b.classList.add("correct");
+    });
+    document.getElementById("who-result").textContent = `It was ${current.name}! Try again!`;
+  }
+  document.getElementById("surprise-btn").classList.remove("hidden");
+  document.getElementById("fav-btn").classList.remove("hidden");
+  document.getElementById("reveal-btn").classList.add("hidden");
+}
+
 function renderPokemon(p, forceReveal) {
   current = p;
   revealed = forceReveal || false;
+  whoAnswered = false;
   const mainType = p.types[0];
-  const c = getColors(mainType);
   const isSilhouette = (mode === "silhouette" && !revealed);
 
   setBackground(mainType);
   document.getElementById("poke-number").textContent = "#" + String(p.id).padStart(3,"0");
+  document.getElementById("who-result").textContent = "";
 
-  // FIX: set filter BEFORE setting src so image is never visible unfiltered
+  // Set filter BEFORE src
   const img = document.getElementById("poke-img");
   img.style.filter = isSilhouette
     ? "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))"
@@ -280,40 +403,34 @@ function renderPokemon(p, forceReveal) {
   if (isSilhouette) {
     typesEl.innerHTML = "";
     factEl.style.display = "none";
+    // Show choices
+    buildWhoChoices(p);
+    document.getElementById("fav-btn").classList.add("hidden");
+    document.getElementById("surprise-btn").classList.add("hidden");
+    document.getElementById("reveal-btn").classList.add("hidden");
+    document.getElementById("next-btn").style.display = "none";
   } else {
     typesEl.innerHTML = p.types.map(t => {
-      const tc = getColors(t);
-      return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
+      const tc = getColors(t); return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
     }).join("");
     factEl.style.display = "block";
     factEl.textContent = `${p.name} ${FUN_FACTS[mainType] || "is an amazing Pokémon!"}`;
+    document.getElementById("who-choices").innerHTML = "";
+    document.getElementById("fav-btn").classList.remove("hidden");
+    document.getElementById("surprise-btn").classList.remove("hidden");
+    document.getElementById("reveal-btn").classList.add("hidden");
+    document.getElementById("next-btn").style.display = "none";
   }
 
   const isFav = favorites.some(f => f.id === p.id);
   document.getElementById("fav-btn").textContent = isFav ? "❤️" : "🤍";
   document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
-
-  if (isSilhouette) {
-    document.getElementById("fav-btn").classList.add("hidden");
-    document.getElementById("surprise-btn").classList.add("hidden");
-    document.getElementById("reveal-btn").classList.remove("hidden");
-    document.getElementById("next-btn").style.display = "none";
-  } else {
-    document.getElementById("fav-btn").classList.remove("hidden");
-    document.getElementById("surprise-btn").classList.remove("hidden");
-    document.getElementById("reveal-btn").classList.add("hidden");
-    document.getElementById("next-btn").style.display = (mode === "silhouette" && revealed) ? "block" : "none";
-  }
-
   document.getElementById("hint").textContent = mode === "silhouette"
     ? "👁️ Who's that Pokémon?"
     : "Tap 🎲 to discover a new Pokémon!";
 }
 
-function randomPokemon() {
-  return POKEMON[Math.floor(Math.random() * POKEMON.length)];
-}
-
+function randomPokemon() { return POKEMON[Math.floor(Math.random() * POKEMON.length)]; }
 function handleSurprise() { burst(); renderPokemon(randomPokemon()); }
 function handleReveal() { revealed = true; burst(); renderPokemon(current, true); }
 function handleNext() { renderPokemon(randomPokemon()); }
@@ -324,11 +441,12 @@ function toggleMode() {
 function toggleFav() {
   if (!current) return;
   const idx = favorites.findIndex(f => f.id === current.id);
-  if (idx >= 0) { favorites.splice(idx, 1); }
+  if (idx >= 0) favorites.splice(idx, 1);
   else { favorites.push(current); burst(); }
   document.getElementById("fav-count").textContent = favorites.length;
-  document.getElementById("fav-btn").textContent = favorites.some(f => f.id === current.id) ? "❤️" : "🤍";
-  document.getElementById("fav-btn").style.transform = favorites.some(f => f.id === current.id) ? "scale(1.18)" : "scale(1)";
+  const isFav = favorites.some(f => f.id === current.id);
+  document.getElementById("fav-btn").textContent = isFav ? "❤️" : "🤍";
+  document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
 }
 
 // ── EVOLUTION GAME ──────────────────────────────────────────
@@ -357,49 +475,51 @@ function nextEvoRound() {
 
   const pool = pokemonWithEvolution();
   const base = pool[Math.floor(Math.random() * pool.length)];
-  evoAnswer = POKEMON_BY_ID[base.evolvesTo];
 
-  // Set background to base pokemon's color
+  // Handle branching evolutions (Eevee)
+  let evoId;
+  if (Array.isArray(base.evolvesTo)) {
+    evoId = base.evolvesTo[Math.floor(Math.random() * base.evolvesTo.length)];
+  } else {
+    evoId = base.evolvesTo;
+  }
+  evoAnswer = POKEMON_BY_ID[evoId];
+
   setBackground(base.types[0]);
 
-  document.getElementById("evo-question").textContent = `Who does ${base.name} evolve into? 🥚`;
+  let questionText = `Who does ${base.name} evolve into?`;
+  if (base.specialEvo) questionText += `\n✨ ${base.specialEvo}`;
+  document.getElementById("evo-question").textContent = questionText;
 
   // Set silhouette filter BEFORE src
   const img = document.getElementById("evo-img");
   img.style.filter = "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.35))";
   img.src = spriteUrl(evoAnswer.id);
 
-  // Build 4 choices: correct + 3 random wrong
+  // 3 wrong + correct
   const wrong = POKEMON
     .filter(p => p.id !== evoAnswer.id)
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
   const choices = [...wrong, evoAnswer].sort(() => Math.random() - 0.5);
 
-  const choicesEl = document.getElementById("evo-choices");
-  choicesEl.innerHTML = choices.map(p =>
+  document.getElementById("evo-choices").innerHTML = choices.map(p =>
     `<button class="evo-choice" onclick="checkEvoGuess(${p.id}, this)">${p.name}</button>`
   ).join("");
 }
 
 function checkEvoGuess(id, btn) {
-  // Disable all buttons
   document.querySelectorAll(".evo-choice").forEach(b => b.onclick = null);
-
   const img = document.getElementById("evo-img");
+  img.style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
   if (id === evoAnswer.id) {
     btn.classList.add("correct");
-    img.style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
     document.getElementById("evo-result").textContent = "🎉 Yes! That's right!";
     burst();
   } else {
     btn.classList.add("wrong");
-    img.style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-    // Highlight correct answer
     document.querySelectorAll(".evo-choice").forEach(b => {
-      if (parseInt(b.getAttribute("onclick").match(/\d+/)[0]) === evoAnswer.id) {
-        b.classList.add("correct");
-      }
+      if (parseInt(b.getAttribute("onclick").match(/\d+/)[0]) === evoAnswer.id) b.classList.add("correct");
     });
     document.getElementById("evo-result").textContent = `It was ${evoAnswer.name}! Try again!`;
   }
@@ -438,8 +558,7 @@ function renderFavs() {
 // ── CONFETTI ────────────────────────────────────────────────
 function burst() {
   const el = document.getElementById("confetti");
-  el.innerHTML = "";
-  el.style.display = "block";
+  el.innerHTML = ""; el.style.display = "block";
   const colors = ["#FF6B35","#4A90D9","#F7C948","#5DBB63","#E040A0","#A890F0","#74CCF4"];
   for (let i = 0; i < 24; i++) {
     const piece = document.createElement("div");
@@ -447,7 +566,7 @@ function burst() {
     piece.style.left = `${(i/24)*100}%`;
     piece.style.background = colors[i % colors.length];
     piece.style.borderRadius = i % 3 === 0 ? "50%" : "2px";
-    piece.style.animationDuration = `${1.1 + (i%5)*0.22}s`;
+    piece.style.animationDuration = `${1.1+(i%5)*0.22}s`;
     piece.style.animationDelay = `${(i%6)*0.06}s`;
     piece.style.transform = `rotate(${i*23}deg)`;
     el.appendChild(piece);
