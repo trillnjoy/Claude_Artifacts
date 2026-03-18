@@ -22,12 +22,26 @@
   .type-badge { display: inline-block; padding: 7px 20px; border-radius: 999px; font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 4px; color: white; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
   #fact-box { background: rgba(255,255,255,0.72); border-radius: 18px; padding: 12px 22px; font-size: 1.1rem; font-weight: 700; color: #444; max-width: 310px; margin: 0 auto 6px; backdrop-filter: blur(6px); }
   #btn-area { display: flex; gap: 16px; margin-top: 20px; align-items: center; }
-  #surprise-btn { border: none; border-radius: 30px; padding: 24px 48px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; flex: 1; max-width: 260px; transition: transform 0.1s; }
+  #surprise-btn { border: none; border-radius: 30px; padding: 24px 48px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
   #surprise-btn:active { transform: scale(0.95); }
   #reveal-btn { border: none; border-radius: 30px; padding: 24px 56px; font-size: 1.8rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
   #fav-btn { background: white; border: none; border-radius: 50%; width: 68px; height: 68px; font-size: 2.1rem; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
   #next-btn { margin-top: 18px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 15px 36px; font-size: 1.35rem; font-weight: 800; cursor: pointer; color: #333; display: none; }
   #hint { text-align: center; padding: 10px 20px 40px; color: rgba(0,0,0,0.32); font-size: 0.88rem; font-weight: 600; }
+
+  /* EVOLUTION GAME */
+  #evo-game { display: none; flex-direction: column; align-items: center; padding: 10px 24px 30px; text-align: center; }
+  #evo-question { font-size: 1.4rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 12px; }
+  #evo-img { width: 180px; height: 180px; object-fit: contain; filter: brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.35)); transition: filter 0.5s ease; }
+  #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; width: 100%; max-width: 340px; }
+  .evo-choice { border: none; border-radius: 20px; padding: 18px 10px; font-size: 1.1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.85); color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  .evo-choice:active { transform: scale(0.95); }
+  .evo-choice.correct { background: #5DBB63; color: white; }
+  .evo-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
+  #evo-result { font-size: 1.2rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 16px; min-height: 32px; }
+  #evo-next-btn { display: none; margin-top: 14px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 15px 36px; font-size: 1.3rem; font-weight: 800; cursor: pointer; color: #333; }
+  #evo-btn { border: none; border-radius: 22px; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: rgba(255,255,255,0.28); color: white; transition: all 0.2s; }
+
   /* FAVORITES SCREEN */
   #favs-screen { display: none; min-height: 100vh; background: #FFF5EE; }
   #favs-header { background: #FF6B35; padding: 52px 20px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -41,15 +55,15 @@
   .fav-card img { width: 88px; height: 88px; object-fit: contain; }
   .fav-name { font-weight: 900; font-size: 1.05rem; color: #222; margin-top: 8px; }
   .fav-num { font-size: 0.82rem; font-weight: 800; margin-top: 2px; }
+
   /* CONFETTI */
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; display: none; }
   .piece { position: absolute; top: -16px; width: 13px; height: 13px; animation: cffall 1.6s ease-in forwards; }
-  /* LOADING */
-  #spinner { font-size: 3rem; animation: spin 0.8s linear infinite; display: none; }
+
   @keyframes cffall { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(105vh) rotate(600deg);opacity:0} }
   @keyframes popIn { 0%{transform:scale(0.15) rotate(-15deg);opacity:0} 65%{transform:scale(1.12) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
   @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
-  @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes wiggle { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
   .popin { animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
   .hidden { display: none !important; }
 </style>
@@ -64,14 +78,15 @@
     <div id="logo">🎮 PokéPal</div>
     <div id="controls">
       <button class="ctrl-btn" id="guess-btn" onclick="toggleMode()">👁️ Guess</button>
+      <button id="evo-btn" onclick="startEvoGame()">🥚 Evolve!</button>
       <button class="ctrl-btn" id="favs-btn" onclick="showFavs()" style="background:rgba(255,255,255,0.28);color:white;">❤️ <span id="fav-count">0</span></button>
     </div>
   </div>
 
+  <!-- EXPLORE / SILHOUETTE VIEW -->
   <div id="main">
-    <div id="spinner">⚙️</div>
     <div id="poke-number"></div>
-    <img id="poke-img" src="" alt="Pokemon" class="popin">
+    <img id="poke-img" src="" alt="Pokemon">
     <h1 id="poke-name"></h1>
     <div id="types"></div>
     <div id="fact-box"></div>
@@ -81,6 +96,16 @@
       <button id="reveal-btn" onclick="handleReveal()" class="hidden">🎉 Reveal!</button>
     </div>
     <button id="next-btn" onclick="handleNext()">Next Pokémon ➡️</button>
+  </div>
+
+  <!-- EVOLUTION GAME VIEW -->
+  <div id="evo-game">
+    <div id="evo-question">Who does this Pokémon evolve into? 🥚</div>
+    <img id="evo-img" src="" alt="Evolution">
+    <div id="evo-choices"></div>
+    <div id="evo-result"></div>
+    <button id="evo-next-btn" onclick="nextEvoRound()">Try Another ➡️</button>
+    <button onclick="exitEvoGame()" style="margin-top:14px;background:rgba(255,255,255,0.4);border:none;border-radius:22px;padding:12px 28px;font-size:1.1rem;font-weight:800;cursor:pointer;color:#333;">← Back</button>
   </div>
 
   <div id="hint">Tap 🎲 to discover a new Pokémon!</div>
@@ -131,54 +156,70 @@ const FUN_FACTS = {
 };
 
 const POKEMON = [
-  {id:1,name:"Bulbasaur",types:["grass","poison"]},
-  {id:4,name:"Charmander",types:["fire"]},
-  {id:7,name:"Squirtle",types:["water"]},
-  {id:6,name:"Charizard",types:["fire","flying"]},
-  {id:9,name:"Blastoise",types:["water"]},
-  {id:3,name:"Venusaur",types:["grass","poison"]},
-  {id:25,name:"Pikachu",types:["electric"]},
-  {id:26,name:"Raichu",types:["electric"]},
-  {id:35,name:"Clefairy",types:["fairy"]},
-  {id:39,name:"Jigglypuff",types:["normal","fairy"]},
-  {id:52,name:"Meowth",types:["normal"]},
-  {id:54,name:"Psyduck",types:["water"]},
-  {id:59,name:"Arcanine",types:["fire"]},
-  {id:63,name:"Abra",types:["psychic"]},
-  {id:74,name:"Geodude",types:["rock","ground"]},
-  {id:79,name:"Slowpoke",types:["water","psychic"]},
-  {id:90,name:"Shellder",types:["water"]},
-  {id:92,name:"Gastly",types:["ghost","poison"]},
-  {id:94,name:"Gengar",types:["ghost","poison"]},
-  {id:104,name:"Cubone",types:["ground"]},
-  {id:113,name:"Chansey",types:["normal"]},
-  {id:116,name:"Horsea",types:["water"]},
-  {id:129,name:"Magikarp",types:["water"]},
-  {id:130,name:"Gyarados",types:["water","flying"]},
-  {id:131,name:"Lapras",types:["water","ice"]},
-  {id:133,name:"Eevee",types:["normal"]},
-  {id:134,name:"Vaporeon",types:["water"]},
-  {id:135,name:"Jolteon",types:["electric"]},
-  {id:136,name:"Flareon",types:["fire"]},
-  {id:143,name:"Snorlax",types:["normal"]},
-  {id:147,name:"Dratini",types:["dragon"]},
-  {id:149,name:"Dragonite",types:["dragon","flying"]},
-  {id:150,name:"Mewtwo",types:["psychic"]},
-  {id:151,name:"Mew",types:["psychic"]},
+  {id:1, name:"Bulbasaur",  types:["grass","poison"], evolvesTo:2},
+  {id:2, name:"Ivysaur",    types:["grass","poison"], evolvesTo:3},
+  {id:3, name:"Venusaur",   types:["grass","poison"], evolvesTo:null},
+  {id:4, name:"Charmander", types:["fire"],           evolvesTo:5},
+  {id:5, name:"Charmeleon", types:["fire"],           evolvesTo:6},
+  {id:6, name:"Charizard",  types:["fire","flying"],  evolvesTo:null},
+  {id:7, name:"Squirtle",   types:["water"],          evolvesTo:8},
+  {id:8, name:"Wartortle",  types:["water"],          evolvesTo:9},
+  {id:9, name:"Blastoise",  types:["water"],          evolvesTo:null},
+  {id:25,name:"Pikachu",    types:["electric"],       evolvesTo:26},
+  {id:26,name:"Raichu",     types:["electric"],       evolvesTo:null},
+  {id:35,name:"Clefairy",   types:["fairy"],          evolvesTo:36},
+  {id:36,name:"Clefable",   types:["fairy"],          evolvesTo:null},
+  {id:39,name:"Jigglypuff", types:["normal","fairy"], evolvesTo:40},
+  {id:40,name:"Wigglytuff", types:["normal","fairy"], evolvesTo:null},
+  {id:52,name:"Meowth",     types:["normal"],         evolvesTo:53},
+  {id:53,name:"Persian",    types:["normal"],         evolvesTo:null},
+  {id:54,name:"Psyduck",    types:["water"],          evolvesTo:55},
+  {id:55,name:"Golduck",    types:["water"],          evolvesTo:null},
+  {id:59,name:"Arcanine",   types:["fire"],           evolvesTo:null},
+  {id:63,name:"Abra",       types:["psychic"],        evolvesTo:64},
+  {id:64,name:"Kadabra",    types:["psychic"],        evolvesTo:65},
+  {id:65,name:"Alakazam",   types:["psychic"],        evolvesTo:null},
+  {id:74,name:"Geodude",    types:["rock","ground"],  evolvesTo:75},
+  {id:75,name:"Graveler",   types:["rock","ground"],  evolvesTo:76},
+  {id:76,name:"Golem",      types:["rock","ground"],  evolvesTo:null},
+  {id:79,name:"Slowpoke",   types:["water","psychic"],evolvesTo:80},
+  {id:80,name:"Slowbro",    types:["water","psychic"],evolvesTo:null},
+  {id:92,name:"Gastly",     types:["ghost","poison"], evolvesTo:93},
+  {id:93,name:"Haunter",    types:["ghost","poison"], evolvesTo:94},
+  {id:94,name:"Gengar",     types:["ghost","poison"], evolvesTo:null},
+  {id:104,name:"Cubone",    types:["ground"],         evolvesTo:105},
+  {id:105,name:"Marowak",   types:["ground"],         evolvesTo:null},
+  {id:113,name:"Chansey",   types:["normal"],         evolvesTo:null},
+  {id:116,name:"Horsea",    types:["water"],          evolvesTo:117},
+  {id:117,name:"Seadra",    types:["water"],          evolvesTo:null},
+  {id:129,name:"Magikarp",  types:["water"],          evolvesTo:130},
+  {id:130,name:"Gyarados",  types:["water","flying"], evolvesTo:null},
+  {id:131,name:"Lapras",    types:["water","ice"],    evolvesTo:null},
+  {id:133,name:"Eevee",     types:["normal"],         evolvesTo:134},
+  {id:134,name:"Vaporeon",  types:["water"],          evolvesTo:null},
+  {id:135,name:"Jolteon",   types:["electric"],       evolvesTo:null},
+  {id:136,name:"Flareon",   types:["fire"],           evolvesTo:null},
+  {id:143,name:"Snorlax",   types:["normal"],         evolvesTo:null},
+  {id:147,name:"Dratini",   types:["dragon"],         evolvesTo:148},
+  {id:148,name:"Dragonair", types:["dragon"],         evolvesTo:149},
+  {id:149,name:"Dragonite", types:["dragon","flying"],evolvesTo:null},
+  {id:150,name:"Mewtwo",    types:["psychic"],        evolvesTo:null},
+  {id:151,name:"Mew",       types:["psychic"],        evolvesTo:null},
 ];
+
+const POKEMON_BY_ID = {};
+POKEMON.forEach(p => { POKEMON_BY_ID[p.id] = p; });
 
 function spriteUrl(id) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 }
 
 let current = null;
-let mode = "explore"; // explore | silhouette
+let mode = "explore";
 let revealed = false;
 let favorites = [];
 
-function getColors(type) {
-  return TYPE_COLORS[type] || TYPE_COLORS.normal;
-}
+function getColors(type) { return TYPE_COLORS[type] || TYPE_COLORS.normal; }
 
 function setBackground(type) {
   const c = getColors(type);
@@ -203,23 +244,24 @@ function renderPokemon(p, forceReveal) {
   revealed = forceReveal || false;
   const mainType = p.types[0];
   const c = getColors(mainType);
+  const isSilhouette = (mode === "silhouette" && !revealed);
 
   setBackground(mainType);
-
   document.getElementById("poke-number").textContent = "#" + String(p.id).padStart(3,"0");
 
+  // FIX: set filter BEFORE setting src so image is never visible unfiltered
   const img = document.getElementById("poke-img");
-  img.src = spriteUrl(p.id);
-  img.classList.remove("popin");
-  void img.offsetWidth;
-  img.classList.add("popin");
-  img.style.filter = (mode === "silhouette" && !revealed)
+  img.style.filter = isSilhouette
     ? "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))"
     : "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+  img.classList.remove("popin");
+  void img.offsetWidth;
+  img.src = spriteUrl(p.id);
+  img.classList.add("popin");
 
   const nameEl = document.getElementById("poke-name");
   nameEl.textContent = p.name;
-  if (mode === "silhouette" && !revealed) {
+  if (isSilhouette) {
     nameEl.style.color = "transparent";
     nameEl.style.background = "#555";
     nameEl.style.borderRadius = "12px";
@@ -235,7 +277,7 @@ function renderPokemon(p, forceReveal) {
 
   const typesEl = document.getElementById("types");
   const factEl = document.getElementById("fact-box");
-  if (mode === "silhouette" && !revealed) {
+  if (isSilhouette) {
     typesEl.innerHTML = "";
     factEl.style.display = "none";
   } else {
@@ -247,12 +289,11 @@ function renderPokemon(p, forceReveal) {
     factEl.textContent = `${p.name} ${FUN_FACTS[mainType] || "is an amazing Pokémon!"}`;
   }
 
-  // Buttons
   const isFav = favorites.some(f => f.id === p.id);
   document.getElementById("fav-btn").textContent = isFav ? "❤️" : "🤍";
   document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
 
-  if (mode === "silhouette" && !revealed) {
+  if (isSilhouette) {
     document.getElementById("fav-btn").classList.add("hidden");
     document.getElementById("surprise-btn").classList.add("hidden");
     document.getElementById("reveal-btn").classList.remove("hidden");
@@ -261,11 +302,7 @@ function renderPokemon(p, forceReveal) {
     document.getElementById("fav-btn").classList.remove("hidden");
     document.getElementById("surprise-btn").classList.remove("hidden");
     document.getElementById("reveal-btn").classList.add("hidden");
-    if (mode === "silhouette" && revealed) {
-      document.getElementById("next-btn").style.display = "block";
-    } else {
-      document.getElementById("next-btn").style.display = "none";
-    }
+    document.getElementById("next-btn").style.display = (mode === "silhouette" && revealed) ? "block" : "none";
   }
 
   document.getElementById("hint").textContent = mode === "silhouette"
@@ -277,57 +314,113 @@ function randomPokemon() {
   return POKEMON[Math.floor(Math.random() * POKEMON.length)];
 }
 
-function handleSurprise() {
-  burst();
-  renderPokemon(randomPokemon());
-}
-
-function handleReveal() {
-  revealed = true;
-  burst();
-  renderPokemon(current, true);
-}
-
-function handleNext() {
-  renderPokemon(randomPokemon());
-}
-
+function handleSurprise() { burst(); renderPokemon(randomPokemon()); }
+function handleReveal() { revealed = true; burst(); renderPokemon(current, true); }
+function handleNext() { renderPokemon(randomPokemon()); }
 function toggleMode() {
   mode = mode === "silhouette" ? "explore" : "silhouette";
   renderPokemon(current || randomPokemon());
 }
-
 function toggleFav() {
   if (!current) return;
   const idx = favorites.findIndex(f => f.id === current.id);
-  if (idx >= 0) {
-    favorites.splice(idx, 1);
-  } else {
-    favorites.push(current);
-    burst();
-  }
+  if (idx >= 0) { favorites.splice(idx, 1); }
+  else { favorites.push(current); burst(); }
   document.getElementById("fav-count").textContent = favorites.length;
   document.getElementById("fav-btn").textContent = favorites.some(f => f.id === current.id) ? "❤️" : "🤍";
   document.getElementById("fav-btn").style.transform = favorites.some(f => f.id === current.id) ? "scale(1.18)" : "scale(1)";
 }
 
+// ── EVOLUTION GAME ──────────────────────────────────────────
+let evoAnswer = null;
+
+function pokemonWithEvolution() {
+  return POKEMON.filter(p => p.evolvesTo !== null);
+}
+
+function startEvoGame() {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("evo-game").style.display = "flex";
+  document.getElementById("hint").textContent = "🥚 Guess the evolution!";
+  nextEvoRound();
+}
+
+function exitEvoGame() {
+  document.getElementById("evo-game").style.display = "none";
+  document.getElementById("main").style.display = "flex";
+  document.getElementById("hint").textContent = mode === "silhouette" ? "👁️ Who's that Pokémon?" : "Tap 🎲 to discover a new Pokémon!";
+}
+
+function nextEvoRound() {
+  document.getElementById("evo-result").textContent = "";
+  document.getElementById("evo-next-btn").style.display = "none";
+
+  const pool = pokemonWithEvolution();
+  const base = pool[Math.floor(Math.random() * pool.length)];
+  evoAnswer = POKEMON_BY_ID[base.evolvesTo];
+
+  // Set background to base pokemon's color
+  setBackground(base.types[0]);
+
+  document.getElementById("evo-question").textContent = `Who does ${base.name} evolve into? 🥚`;
+
+  // Set silhouette filter BEFORE src
+  const img = document.getElementById("evo-img");
+  img.style.filter = "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.35))";
+  img.src = spriteUrl(evoAnswer.id);
+
+  // Build 4 choices: correct + 3 random wrong
+  const wrong = POKEMON
+    .filter(p => p.id !== evoAnswer.id)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+  const choices = [...wrong, evoAnswer].sort(() => Math.random() - 0.5);
+
+  const choicesEl = document.getElementById("evo-choices");
+  choicesEl.innerHTML = choices.map(p =>
+    `<button class="evo-choice" onclick="checkEvoGuess(${p.id}, this)">${p.name}</button>`
+  ).join("");
+}
+
+function checkEvoGuess(id, btn) {
+  // Disable all buttons
+  document.querySelectorAll(".evo-choice").forEach(b => b.onclick = null);
+
+  const img = document.getElementById("evo-img");
+  if (id === evoAnswer.id) {
+    btn.classList.add("correct");
+    img.style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+    document.getElementById("evo-result").textContent = "🎉 Yes! That's right!";
+    burst();
+  } else {
+    btn.classList.add("wrong");
+    img.style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+    // Highlight correct answer
+    document.querySelectorAll(".evo-choice").forEach(b => {
+      if (parseInt(b.getAttribute("onclick").match(/\d+/)[0]) === evoAnswer.id) {
+        b.classList.add("correct");
+      }
+    });
+    document.getElementById("evo-result").textContent = `It was ${evoAnswer.name}! Try again!`;
+  }
+  document.getElementById("evo-next-btn").style.display = "block";
+}
+
+// ── FAVORITES ───────────────────────────────────────────────
 function showFavs() {
   document.getElementById("app").style.display = "none";
   document.getElementById("favs-screen").style.display = "block";
   renderFavs();
 }
-
 function hideFavs() {
   document.getElementById("favs-screen").style.display = "none";
   document.getElementById("app").style.display = "flex";
 }
-
 function renderFavs() {
   const empty = document.getElementById("favs-empty");
   const grid = document.getElementById("favs-grid");
   if (favorites.length === 0) {
-    empty.style.display = "block";
-    grid.innerHTML = "";
+    empty.style.display = "block"; grid.innerHTML = "";
   } else {
     empty.style.display = "none";
     grid.innerHTML = favorites.map(p => {
@@ -342,7 +435,7 @@ function renderFavs() {
   }
 }
 
-// CONFETTI
+// ── CONFETTI ────────────────────────────────────────────────
 function burst() {
   const el = document.getElementById("confetti");
   el.innerHTML = "";
@@ -362,7 +455,7 @@ function burst() {
   setTimeout(() => { el.style.display = "none"; el.innerHTML = ""; }, 2400);
 }
 
-// INIT
+// ── INIT ────────────────────────────────────────────────────
 renderPokemon(randomPokemon());
 </script>
 </body>
