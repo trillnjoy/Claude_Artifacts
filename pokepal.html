@@ -8,85 +8,88 @@
 <title>Nate's PokéPal Game</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; background: #1a1a2e; }
   #app { min-height: 100vh; display: flex; flex-direction: column; transition: background 0.6s ease; }
-  #header { display: flex; justify-content: space-between; align-items: center; padding: 52px 20px 14px; flex-wrap: wrap; gap: 8px; }
-  #logo { font-size: 1.4rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.25); line-height: 1.2; }
-  #controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-  .ctrl-btn { border: none; border-radius: 22px; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 24px 20px; text-align: center; }
-  #poke-number { font-size: 1rem; font-weight: 900; color: rgba(255,255,255,0.75); margin-bottom: 4px; letter-spacing: 0.05em; }
-  #poke-img { width: 190px; height: 190px; object-fit: contain; transition: filter 0.5s ease; }
-  #poke-name { font-size: 2.6rem; font-weight: 900; margin: 10px 0 6px; line-height: 1.05; transition: all 0.4s ease; }
-  #types { margin-bottom: 8px; min-height: 36px; }
-  .type-badge { display: inline-block; padding: 6px 16px; border-radius: 999px; font-weight: 900; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 3px; color: white; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
-  #fact-box { background: rgba(255,255,255,0.72); border-radius: 18px; padding: 10px 20px; font-size: 1.05rem; font-weight: 700; color: #444; max-width: 310px; margin: 0 auto 6px; backdrop-filter: blur(6px); }
-
-  /* WHO'S THAT CHOICES */
-  #who-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; width: 100%; max-width: 340px; }
-  .who-choice { border: none; border-radius: 20px; padding: 16px 10px; font-size: 1.05rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.85); color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  #header { display: flex; justify-content: space-between; align-items: center; padding: 48px 16px 12px; flex-wrap: wrap; gap: 8px; }
+  #logo { font-size: 1.25rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.2; }
+  #controls { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
+  .ctrl-btn { border: none; border-radius: 20px; padding: 9px 13px; font-size: 0.88rem; font-weight: 800; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 20px 16px; text-align: center; }
+  #poke-number { font-size: 0.95rem; font-weight: 900; color: rgba(255,255,255,0.7); margin-bottom: 2px; letter-spacing: 0.05em; }
+  #poke-img { width: 175px; height: 175px; object-fit: contain; transition: filter 0.5s ease; }
+  #poke-name { font-size: 2.4rem; font-weight: 900; margin: 8px 0 5px; line-height: 1.05; transition: all 0.4s ease; }
+  #types { margin-bottom: 7px; min-height: 34px; }
+  .type-badge { display: inline-block; padding: 5px 14px; border-radius: 999px; font-weight: 900; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 3px; color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  #fact-box { background: rgba(255,255,255,0.72); border-radius: 16px; padding: 9px 18px; font-size: 1rem; font-weight: 700; color: #444; max-width: 300px; margin: 0 auto 5px; backdrop-filter: blur(6px); }
+  #mega-badge { background: linear-gradient(135deg, #FFD700, #FF6B35); color: white; border-radius: 14px; padding: 5px 14px; font-size: 0.85rem; font-weight: 900; margin: 4px auto; display: none; box-shadow: 0 3px 10px rgba(255,107,53,0.4); }
+  #who-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 12px; width: 100%; max-width: 330px; }
+  .who-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s; }
   .who-choice:active { transform: scale(0.95); }
   .who-choice.correct { background: #5DBB63; color: white; }
   .who-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
-  #who-result { font-size: 1.15rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 12px; min-height: 28px; }
-
-  #btn-area { display: flex; gap: 14px; margin-top: 16px; align-items: center; }
-  #surprise-btn { border: none; border-radius: 30px; padding: 20px 40px; font-size: 1.6rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
+  #who-result { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 10px; min-height: 26px; }
+  #btn-area { display: flex; gap: 12px; margin-top: 14px; align-items: center; }
+  #surprise-btn { border: none; border-radius: 28px; padding: 18px 36px; font-size: 1.5rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
   #surprise-btn:active { transform: scale(0.95); }
-  #reveal-btn { border: none; border-radius: 30px; padding: 20px 48px; font-size: 1.6rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
-  #fav-btn { background: white; border: none; border-radius: 50%; width: 64px; height: 64px; font-size: 2rem; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
-  #next-btn { margin-top: 14px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 14px 32px; font-size: 1.25rem; font-weight: 800; cursor: pointer; color: #333; display: none; }
-  #hint { text-align: center; padding: 8px 20px 36px; color: rgba(0,0,0,0.32); font-size: 0.88rem; font-weight: 600; }
-
-  /* EVOLUTION GAME */
-  #evo-game { display: none; flex-direction: column; align-items: center; padding: 10px 24px 30px; text-align: center; }
-  #evo-question { font-size: 1.3rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 12px; max-width: 320px; line-height: 1.3; }
-  #evo-img { width: 170px; height: 170px; object-fit: contain; transition: filter 0.5s ease; }
-  #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; width: 100%; max-width: 340px; }
-  .evo-choice { border: none; border-radius: 20px; padding: 16px 10px; font-size: 1.05rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.85); color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  #reveal-btn { border: none; border-radius: 28px; padding: 18px 44px; font-size: 1.5rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
+  #fav-btn { background: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
+  #hint { text-align: center; padding: 6px 20px 32px; color: rgba(0,0,0,0.3); font-size: 0.85rem; font-weight: 600; }
+  #evo-game { display: none; flex-direction: column; align-items: center; padding: 8px 20px 24px; text-align: center; }
+  #evo-question { font-size: 1.2rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 10px; max-width: 310px; line-height: 1.35; }
+  #evo-special-note { font-size: 0.9rem; font-weight: 800; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 5px 14px; color: white; margin-bottom: 10px; display: none; }
+  #evo-img { width: 155px; height: 155px; object-fit: contain; transition: filter 0.5s ease; }
+  #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 14px; width: 100%; max-width: 330px; }
+  .evo-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s; }
   .evo-choice:active { transform: scale(0.95); }
   .evo-choice.correct { background: #5DBB63; color: white; }
   .evo-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
-  #evo-result { font-size: 1.15rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 14px; min-height: 28px; }
-  #evo-next-btn { display: none; margin-top: 14px; background: rgba(255,255,255,0.6); border: none; border-radius: 22px; padding: 14px 32px; font-size: 1.25rem; font-weight: 800; cursor: pointer; color: #333; }
-  #evo-btn { border: none; border-radius: 22px; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: rgba(255,255,255,0.28); color: white; transition: all 0.2s; }
-
-  /* FAVORITES */
+  #evo-result { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 12px; min-height: 26px; }
+  #evo-next-btn { display: none; margin-top: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 20px; padding: 13px 30px; font-size: 1.2rem; font-weight: 800; cursor: pointer; color: #333; }
+  #splash { position: fixed; inset: 0; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
+  #splash h1 { font-size: 2.2rem; font-weight: 900; color: white; text-align: center; line-height: 1.2; text-shadow: 0 4px 20px rgba(0,0,0,0.5); padding: 0 20px; }
+  #splash p { color: rgba(255,255,255,0.7); font-size: 1.1rem; font-weight: 700; margin-top: 12px; }
+  #start-btn { margin-top: 36px; background: linear-gradient(135deg, #FF6B35, #F7C948); color: white; border: none; border-radius: 30px; padding: 22px 56px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 30px rgba(255,107,53,0.5); animation: pulse 2s ease-in-out infinite; }
+  #pokeball { font-size: 5rem; margin-bottom: 20px; animation: spin 4s linear infinite; }
   #favs-screen { display: none; min-height: 100vh; background: #FFF5EE; }
-  #favs-header { background: #FF6B35; padding: 52px 20px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-  #back-btn { background: white; border: none; border-radius: 14px; padding: 12px 20px; font-size: 1.1rem; font-weight: 900; cursor: pointer; color: #FF6B35; }
-  #favs-title { color: white; font-size: 1.9rem; font-weight: 900; }
+  #favs-header { background: #FF6B35; padding: 50px 20px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  #back-btn { background: white; border: none; border-radius: 12px; padding: 10px 18px; font-size: 1rem; font-weight: 900; cursor: pointer; color: #FF6B35; }
+  #favs-title { color: white; font-size: 1.7rem; font-weight: 900; }
   #favs-empty { text-align: center; padding: 80px 20px; }
   #favs-empty div { font-size: 5rem; }
-  #favs-empty p { font-size: 1.4rem; font-weight: 800; color: #bbb; margin-top: 16px; }
-  #favs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; padding: 20px; }
-  .fav-card { border-radius: 22px; padding: 18px 12px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.09); border-width: 3px; border-style: solid; }
-  .fav-card img { width: 88px; height: 88px; object-fit: contain; }
-  .fav-name { font-weight: 900; font-size: 1.05rem; color: #222; margin-top: 8px; }
-  .fav-num { font-size: 0.82rem; font-weight: 800; margin-top: 2px; }
-
-  /* CONFETTI */
+  #favs-empty p { font-size: 1.3rem; font-weight: 800; color: #bbb; margin-top: 14px; }
+  #favs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; padding: 18px; }
+  .fav-card { border-radius: 20px; padding: 16px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.09); border-width: 3px; border-style: solid; }
+  .fav-card img { width: 80px; height: 80px; object-fit: contain; }
+  .fav-name { font-weight: 900; font-size: 0.95rem; color: #222; margin-top: 6px; }
+  .fav-num { font-size: 0.78rem; font-weight: 800; margin-top: 2px; }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; display: none; }
-  .piece { position: absolute; top: -16px; width: 13px; height: 13px; animation: cffall 1.6s ease-in forwards; }
-
+  .piece { position: absolute; top: -16px; width: 12px; height: 12px; animation: cffall 1.6s ease-in forwards; }
   @keyframes cffall { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(105vh) rotate(600deg);opacity:0} }
-  @keyframes popIn { 0%{transform:scale(0.15) rotate(-15deg);opacity:0} 65%{transform:scale(1.12) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+  @keyframes popIn { 0%{transform:scale(0.15) rotate(-15deg);opacity:0} 65%{transform:scale(1.1) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
   @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
   @keyframes wiggle { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
   .popin { animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
+<div id="splash">
+  <div id="pokeball">⚽</div>
+  <h1>Nate's PokéPal Game</h1>
+  <p>How many can you name?</p>
+  <button id="start-btn" onclick="startGame()">▶ Let's Play!</button>
+</div>
+
 <div id="confetti"></div>
 
 <div id="app">
   <div id="header">
-    <div id="logo">🎮 Nate's PokéPal Game</div>
+    <div id="logo">🎮 Nate's PokéPal</div>
     <div id="controls">
       <button class="ctrl-btn" id="guess-btn" onclick="toggleMode()">👁️ Guess</button>
-      <button id="evo-btn" onclick="startEvoGame()">🥚 Evolve!</button>
+      <button class="ctrl-btn" id="evo-btn" onclick="startEvoGame()" style="background:rgba(255,255,255,0.28);color:white;">🥚 Evolve!</button>
       <button class="ctrl-btn" id="favs-btn" onclick="showFavs()" style="background:rgba(255,255,255,0.28);color:white;">❤️ <span id="fav-count">0</span></button>
     </div>
   </div>
@@ -94,6 +97,7 @@
   <div id="main">
     <div id="poke-number"></div>
     <img id="poke-img" src="" alt="Pokemon">
+    <div id="mega-badge">⚡ MEGA EVOLUTION</div>
     <h1 id="poke-name"></h1>
     <div id="types"></div>
     <div id="fact-box"></div>
@@ -104,16 +108,16 @@
       <button id="surprise-btn" onclick="handleSurprise()">🎲 Surprise Me!</button>
       <button id="reveal-btn" onclick="handleReveal()" class="hidden">🎉 Reveal!</button>
     </div>
-    <button id="next-btn" onclick="handleNext()">Next Pokémon ➡️</button>
   </div>
 
   <div id="evo-game">
     <div id="evo-question"></div>
+    <div id="evo-special-note"></div>
     <img id="evo-img" src="" alt="Evolution">
     <div id="evo-choices"></div>
     <div id="evo-result"></div>
     <button id="evo-next-btn" onclick="nextEvoRound()">Try Another ➡️</button>
-    <button onclick="exitEvoGame()" style="margin-top:14px;background:rgba(255,255,255,0.4);border:none;border-radius:22px;padding:12px 28px;font-size:1.1rem;font-weight:800;cursor:pointer;color:#333;">← Back</button>
+    <button onclick="exitEvoGame()" style="margin-top:12px;background:rgba(255,255,255,0.4);border:none;border-radius:20px;padding:11px 26px;font-size:1rem;font-weight:800;cursor:pointer;color:#333;">← Back</button>
   </div>
 
   <div id="hint"></div>
@@ -129,25 +133,99 @@
 </div>
 
 <script>
+// ── AUDIO ENGINE ─────────────────────────────────────────────
+let audioCtx = null;
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+const CLIPS = {};
+const CLIP_FILES = {
+  right1:'right1.wav', right2:'right2.wav', right3:'right3.wav',
+  right4:'right4.wav', right5:'right5.wav',
+  wrong1:'wrong1.wav', wrong2:'wrong2.wav',
+  winner1:'winner1.wav', winner2:'winner2.wav',
+};
+
+async function preloadClips() {
+  const ctx = getAudio();
+  await Promise.all(Object.entries(CLIP_FILES).map(async ([key, file]) => {
+    try {
+      const res = await fetch(file);
+      const buf = await res.arrayBuffer();
+      CLIPS[key] = await ctx.decodeAudioData(buf);
+    } catch(e) { console.warn('Could not load', file); }
+  }));
+}
+
+function playClip(buffer) {
+  if (!buffer) return;
+  const ctx = getAudio();
+  const src = ctx.createBufferSource();
+  src.buffer = buffer;
+  src.connect(ctx.destination);
+  src.start(0);
+}
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function soundCorrect() {
+  playClip(pick([CLIPS.right1,CLIPS.right2,CLIPS.right3,CLIPS.right4,CLIPS.right5]));
+}
+function soundWrong() {
+  playClip(pick([CLIPS.wrong1,CLIPS.wrong2]));
+}
+function soundModeSwitch(toMode) {
+  playClip(toMode === 'silhouette' ? CLIPS.winner1 : CLIPS.winner2);
+}
+function soundStart() {
+  const ctx = getAudio(); const t = ctx.currentTime;
+  function playTone(freq,type,dur,vol,start){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type=type;o.frequency.setValueAtTime(freq,start);
+    g.gain.setValueAtTime(vol,start);
+    g.gain.exponentialRampToValueAtTime(0.001,start+dur);
+    o.start(start);o.stop(start+dur);
+  }
+  [261,329,392,523].forEach((f,i)=>playTone(f,'triangle',0.18,0.3,t+i*0.1));
+  setTimeout(()=>playTone(784,'triangle',0.4,0.35,getAudio().currentTime),450);
+}
+function soundSurprise() {
+  const ctx = getAudio(); const t = ctx.currentTime;
+  function playTone(freq,type,dur,vol,start){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type=type;o.frequency.setValueAtTime(freq,start);
+    g.gain.setValueAtTime(vol,start);
+    g.gain.exponentialRampToValueAtTime(0.001,start+dur);
+    o.start(start);o.stop(start+dur);
+  }
+  playTone(400,'sine',0.06,0.2,t);
+  playTone(600,'sine',0.1,0.2,t+0.07);
+}
+
+// ── DATA ─────────────────────────────────────────────────────
 const TYPE_COLORS = {
-  fire:     {bg:"#FF6B35",light:"#FFE4D6",emoji:"🔥"},
-  water:    {bg:"#4A90D9",light:"#D6EAFF",emoji:"💧"},
-  grass:    {bg:"#5DBB63",light:"#D6F5D6",emoji:"🌿"},
-  electric: {bg:"#F7C948",light:"#FFF9CC",emoji:"⚡"},
-  psychic:  {bg:"#E040A0",light:"#FFD6F0",emoji:"🔮"},
-  ice:      {bg:"#74CCF4",light:"#E0F7FF",emoji:"❄️"},
-  dragon:   {bg:"#5A3E9B",light:"#E8DCFF",emoji:"🐉"},
-  dark:     {bg:"#4A3728",light:"#DDD0C8",emoji:"🌑"},
-  fairy:    {bg:"#F0A0C0",light:"#FFE8F4",emoji:"✨"},
-  fighting: {bg:"#C03028",light:"#FFD6D6",emoji:"👊"},
-  poison:   {bg:"#A040A0",light:"#F0D6F0",emoji:"☠️"},
-  ground:   {bg:"#E0C068",light:"#FFF5D6",emoji:"⛰️"},
-  flying:   {bg:"#A890F0",light:"#EEE8FF",emoji:"🌬️"},
-  bug:      {bg:"#A8B820",light:"#F0F5CC",emoji:"🐛"},
-  rock:     {bg:"#B8A038",light:"#F5EDD6",emoji:"🪨"},
-  ghost:    {bg:"#705898",light:"#E8D6FF",emoji:"👻"},
-  steel:    {bg:"#B8B8D0",light:"#EBEBF5",emoji:"⚙️"},
-  normal:   {bg:"#A8A878",light:"#F0F0E0",emoji:"⭐"},
+  fire:{bg:"#FF6B35",light:"#FFE4D6",emoji:"🔥"},
+  water:{bg:"#4A90D9",light:"#D6EAFF",emoji:"💧"},
+  grass:{bg:"#5DBB63",light:"#D6F5D6",emoji:"🌿"},
+  electric:{bg:"#F7C948",light:"#FFF9CC",emoji:"⚡"},
+  psychic:{bg:"#E040A0",light:"#FFD6F0",emoji:"🔮"},
+  ice:{bg:"#74CCF4",light:"#E0F7FF",emoji:"❄️"},
+  dragon:{bg:"#5A3E9B",light:"#E8DCFF",emoji:"🐉"},
+  dark:{bg:"#4A3728",light:"#DDD0C8",emoji:"🌑"},
+  fairy:{bg:"#F0A0C0",light:"#FFE8F4",emoji:"✨"},
+  fighting:{bg:"#C03028",light:"#FFD6D6",emoji:"👊"},
+  poison:{bg:"#A040A0",light:"#F0D6F0",emoji:"☠️"},
+  ground:{bg:"#E0C068",light:"#FFF5D6",emoji:"⛰️"},
+  flying:{bg:"#A890F0",light:"#EEE8FF",emoji:"🌬️"},
+  bug:{bg:"#A8B820",light:"#F0F5CC",emoji:"🐛"},
+  rock:{bg:"#B8A038",light:"#F5EDD6",emoji:"🪨"},
+  ghost:{bg:"#705898",light:"#E8D6FF",emoji:"👻"},
+  steel:{bg:"#B8B8D0",light:"#EBEBF5",emoji:"⚙️"},
+  normal:{bg:"#A8A878",light:"#F0F0E0",emoji:"⭐"},
 };
 
 const FUN_FACTS = {
@@ -162,165 +240,341 @@ const FUN_FACTS = {
   steel:"has super hard metal armor ⚙️",normal:"is a fantastic friend ⭐",
 };
 
-// evolvesTo supports arrays for branching evolutions (Eevee, etc.)
-// specialEvo: true = show a note about how it evolves
 const POKEMON = [
-  // Bulbasaur line
-  {id:1,  name:"Bulbasaur",  types:["grass","poison"],  evolvesTo:2},
-  {id:2,  name:"Ivysaur",    types:["grass","poison"],  evolvesTo:3},
-  {id:3,  name:"Venusaur",   types:["grass","poison"],  evolvesTo:null},
-  // Charmander line
-  {id:4,  name:"Charmander", types:["fire"],            evolvesTo:5},
-  {id:5,  name:"Charmeleon", types:["fire"],            evolvesTo:6},
-  {id:6,  name:"Charizard",  types:["fire","flying"],   evolvesTo:null},
-  // Squirtle line
-  {id:7,  name:"Squirtle",   types:["water"],           evolvesTo:8},
-  {id:8,  name:"Wartortle",  types:["water"],           evolvesTo:9},
-  {id:9,  name:"Blastoise",  types:["water"],           evolvesTo:null},
-  // Caterpie line
-  {id:10, name:"Caterpie",   types:["bug"],             evolvesTo:11},
-  {id:11, name:"Metapod",    types:["bug"],             evolvesTo:12},
-  {id:12, name:"Butterfree", types:["bug","flying"],    evolvesTo:null},
-  // Weedle line
-  {id:13, name:"Weedle",     types:["bug","poison"],    evolvesTo:14},
-  {id:14, name:"Kakuna",     types:["bug","poison"],    evolvesTo:15},
-  {id:15, name:"Beedrill",   types:["bug","poison"],    evolvesTo:null},
-  // Pidgey line
-  {id:16, name:"Pidgey",     types:["normal","flying"], evolvesTo:17},
-  {id:17, name:"Pidgeotto",  types:["normal","flying"], evolvesTo:18},
-  {id:18, name:"Pidgeot",    types:["normal","flying"], evolvesTo:null},
-  // Rattata line
-  {id:19, name:"Rattata",    types:["normal"],          evolvesTo:20},
-  {id:20, name:"Raticate",   types:["normal"],          evolvesTo:null},
-  // Pikachu line
-  {id:25, name:"Pikachu",    types:["electric"],        evolvesTo:26, specialEvo:"Uses a Thunder Stone ⚡"},
-  {id:26, name:"Raichu",     types:["electric"],        evolvesTo:null},
-  // Clefairy line
-  {id:35, name:"Clefairy",   types:["fairy"],           evolvesTo:36, specialEvo:"Uses a Moon Stone 🌙"},
-  {id:36, name:"Clefable",   types:["fairy"],           evolvesTo:null},
-  // Vulpix line
-  {id:37, name:"Vulpix",     types:["fire"],            evolvesTo:38, specialEvo:"Uses a Fire Stone 🔥"},
-  {id:38, name:"Ninetales",  types:["fire"],            evolvesTo:null},
-  // Jigglypuff line
-  {id:39, name:"Jigglypuff", types:["normal","fairy"],  evolvesTo:40, specialEvo:"Uses a Moon Stone 🌙"},
-  {id:40, name:"Wigglytuff", types:["normal","fairy"],  evolvesTo:null},
-  // Meowth line
-  {id:52, name:"Meowth",     types:["normal"],          evolvesTo:53},
-  {id:53, name:"Persian",    types:["normal"],          evolvesTo:null},
-  // Psyduck line
-  {id:54, name:"Psyduck",    types:["water"],           evolvesTo:55},
-  {id:55, name:"Golduck",    types:["water"],           evolvesTo:null},
-  // Growlithe line
-  {id:58, name:"Growlithe",  types:["fire"],            evolvesTo:59, specialEvo:"Uses a Fire Stone 🔥"},
-  {id:59, name:"Arcanine",   types:["fire"],            evolvesTo:null},
-  // Abra line
-  {id:63, name:"Abra",       types:["psychic"],         evolvesTo:64},
-  {id:64, name:"Kadabra",    types:["psychic"],         evolvesTo:65},
-  {id:65, name:"Alakazam",   types:["psychic"],         evolvesTo:null},
-  // Machop line
-  {id:66, name:"Machop",     types:["fighting"],        evolvesTo:67},
-  {id:67, name:"Machoke",    types:["fighting"],        evolvesTo:68},
-  {id:68, name:"Machamp",    types:["fighting"],        evolvesTo:null},
-  // Geodude line
-  {id:74, name:"Geodude",    types:["rock","ground"],   evolvesTo:75},
-  {id:75, name:"Graveler",   types:["rock","ground"],   evolvesTo:76},
-  {id:76, name:"Golem",      types:["rock","ground"],   evolvesTo:null},
-  // Slowpoke line
-  {id:79, name:"Slowpoke",   types:["water","psychic"], evolvesTo:80},
-  {id:80, name:"Slowbro",    types:["water","psychic"], evolvesTo:null},
-  // Gastly line
-  {id:92, name:"Gastly",     types:["ghost","poison"],  evolvesTo:93},
-  {id:93, name:"Haunter",    types:["ghost","poison"],  evolvesTo:94},
-  {id:94, name:"Gengar",     types:["ghost","poison"],  evolvesTo:null},
-  // Cubone line
-  {id:104,name:"Cubone",     types:["ground"],          evolvesTo:105},
-  {id:105,name:"Marowak",    types:["ground"],          evolvesTo:null},
-  // Chansey
-  {id:113,name:"Chansey",    types:["normal"],          evolvesTo:null},
-  // Horsea line
-  {id:116,name:"Horsea",     types:["water"],           evolvesTo:117},
-  {id:117,name:"Seadra",     types:["water"],           evolvesTo:null},
-  // Staryu line
-  {id:120,name:"Staryu",     types:["water"],           evolvesTo:121, specialEvo:"Uses a Water Stone 💧"},
-  {id:121,name:"Starmie",    types:["water","psychic"], evolvesTo:null},
-  // Magikarp line
-  {id:129,name:"Magikarp",   types:["water"],           evolvesTo:130},
-  {id:130,name:"Gyarados",   types:["water","flying"],  evolvesTo:null},
-  // Lapras
-  {id:131,name:"Lapras",     types:["water","ice"],     evolvesTo:null},
-  // Eevee — branching evolution
-  {id:133,name:"Eevee",      types:["normal"],          evolvesTo:[134,135,136], specialEvo:"Uses a Water, Thunder, or Fire Stone!"},
-  {id:134,name:"Vaporeon",   types:["water"],           evolvesTo:null},
-  {id:135,name:"Jolteon",    types:["electric"],        evolvesTo:null},
-  {id:136,name:"Flareon",    types:["fire"],            evolvesTo:null},
-  // Porygon
-  {id:137,name:"Porygon",    types:["normal"],          evolvesTo:null},
-  // Omanyte line
-  {id:138,name:"Omanyte",    types:["rock","water"],    evolvesTo:139},
-  {id:139,name:"Omastar",    types:["rock","water"],    evolvesTo:null},
-  // Kabuto line
-  {id:140,name:"Kabuto",     types:["rock","water"],    evolvesTo:141},
-  {id:141,name:"Kabutops",   types:["rock","water"],    evolvesTo:null},
-  // Aerodactyl
-  {id:142,name:"Aerodactyl", types:["rock","flying"],   evolvesTo:null},
-  // Snorlax
-  {id:143,name:"Snorlax",    types:["normal"],          evolvesTo:null},
-  // Dratini line
-  {id:147,name:"Dratini",    types:["dragon"],          evolvesTo:148},
-  {id:148,name:"Dragonair",  types:["dragon"],          evolvesTo:149},
-  {id:149,name:"Dragonite",  types:["dragon","flying"], evolvesTo:null},
-  // Mewtwo & Mew
-  {id:150,name:"Mewtwo",     types:["psychic"],         evolvesTo:null},
-  {id:151,name:"Mew",        types:["psychic"],         evolvesTo:null},
+  // ═══ GEN 1 — ALL 151 ═══
+  {id:1,  name:"Bulbasaur",   types:["grass","poison"],  evolvesTo:2},
+  {id:2,  name:"Ivysaur",     types:["grass","poison"],  evolvesTo:3},
+  {id:3,  name:"Venusaur",    types:["grass","poison"],  evolvesTo:"mega-3",    specialEvo:"Mega Evolves with Venusaurite 💎"},
+  {id:4,  name:"Charmander",  types:["fire"],             evolvesTo:5},
+  {id:5,  name:"Charmeleon",  types:["fire"],             evolvesTo:6},
+  {id:6,  name:"Charizard",   types:["fire","flying"],   evolvesTo:["mega-6x","mega-6y"], specialEvo:"Mega Evolves into Mega Charizard X or Y! 🔥"},
+  {id:7,  name:"Squirtle",    types:["water"],            evolvesTo:8},
+  {id:8,  name:"Wartortle",   types:["water"],            evolvesTo:9},
+  {id:9,  name:"Blastoise",   types:["water"],            evolvesTo:"mega-9",   specialEvo:"Mega Evolves with Blastoisinite 💎"},
+  {id:10, name:"Caterpie",    types:["bug"],              evolvesTo:11},
+  {id:11, name:"Metapod",     types:["bug"],              evolvesTo:12},
+  {id:12, name:"Butterfree",  types:["bug","flying"],    evolvesTo:null},
+  {id:13, name:"Weedle",      types:["bug","poison"],    evolvesTo:14},
+  {id:14, name:"Kakuna",      types:["bug","poison"],    evolvesTo:15},
+  {id:15, name:"Beedrill",    types:["bug","poison"],    evolvesTo:"mega-15",   specialEvo:"Mega Evolves with Beedrillite 💎"},
+  {id:16, name:"Pidgey",      types:["normal","flying"], evolvesTo:17},
+  {id:17, name:"Pidgeotto",   types:["normal","flying"], evolvesTo:18},
+  {id:18, name:"Pidgeot",     types:["normal","flying"], evolvesTo:"mega-18",   specialEvo:"Mega Evolves with Pidgeotite 💎"},
+  {id:19, name:"Rattata",     types:["normal"],           evolvesTo:20},
+  {id:20, name:"Raticate",    types:["normal"],           evolvesTo:null},
+  {id:21, name:"Spearow",     types:["normal","flying"], evolvesTo:22},
+  {id:22, name:"Fearow",      types:["normal","flying"], evolvesTo:null},
+  {id:23, name:"Ekans",       types:["poison"],           evolvesTo:24},
+  {id:24, name:"Arbok",       types:["poison"],           evolvesTo:null},
+  {id:25, name:"Pikachu",     types:["electric"],         evolvesTo:26,          specialEvo:"Thunder Stone ⚡"},
+  {id:26, name:"Raichu",      types:["electric"],         evolvesTo:null},
+  {id:27, name:"Sandshrew",   types:["ground"],           evolvesTo:28},
+  {id:28, name:"Sandslash",   types:["ground"],           evolvesTo:null},
+  {id:29, name:"Nidoran♀",   types:["poison"],           evolvesTo:30},
+  {id:30, name:"Nidorina",    types:["poison"],           evolvesTo:31,          specialEvo:"Moon Stone 🌙"},
+  {id:31, name:"Nidoqueen",   types:["poison","ground"], evolvesTo:null},
+  {id:32, name:"Nidoran♂",   types:["poison"],           evolvesTo:33},
+  {id:33, name:"Nidorino",    types:["poison"],           evolvesTo:34,          specialEvo:"Moon Stone 🌙"},
+  {id:34, name:"Nidoking",    types:["poison","ground"], evolvesTo:null},
+  {id:35, name:"Clefairy",    types:["fairy"],            evolvesTo:36,          specialEvo:"Moon Stone 🌙"},
+  {id:36, name:"Clefable",    types:["fairy"],            evolvesTo:null},
+  {id:37, name:"Vulpix",      types:["fire"],             evolvesTo:38,          specialEvo:"Fire Stone 🔥"},
+  {id:38, name:"Ninetales",   types:["fire"],             evolvesTo:null},
+  {id:39, name:"Jigglypuff",  types:["normal","fairy"],  evolvesTo:40,          specialEvo:"Moon Stone 🌙"},
+  {id:40, name:"Wigglytuff",  types:["normal","fairy"],  evolvesTo:null},
+  {id:41, name:"Zubat",       types:["poison","flying"], evolvesTo:42},
+  {id:42, name:"Golbat",      types:["poison","flying"], evolvesTo:null},
+  {id:43, name:"Oddish",      types:["grass","poison"],  evolvesTo:44},
+  {id:44, name:"Gloom",       types:["grass","poison"],  evolvesTo:45,          specialEvo:"Leaf Stone 🍃 or Sun Stone ☀️"},
+  {id:45, name:"Vileplume",   types:["grass","poison"],  evolvesTo:null},
+  {id:46, name:"Paras",       types:["bug","grass"],     evolvesTo:47},
+  {id:47, name:"Parasect",    types:["bug","grass"],     evolvesTo:null},
+  {id:48, name:"Venonat",     types:["bug","poison"],    evolvesTo:49},
+  {id:49, name:"Venomoth",    types:["bug","poison"],    evolvesTo:null},
+  {id:50, name:"Diglett",     types:["ground"],           evolvesTo:51},
+  {id:51, name:"Dugtrio",     types:["ground"],           evolvesTo:null},
+  {id:52, name:"Meowth",      types:["normal"],           evolvesTo:53},
+  {id:53, name:"Persian",     types:["normal"],           evolvesTo:null},
+  {id:54, name:"Psyduck",     types:["water"],            evolvesTo:55},
+  {id:55, name:"Golduck",     types:["water"],            evolvesTo:null},
+  {id:56, name:"Mankey",      types:["fighting"],         evolvesTo:57},
+  {id:57, name:"Primeape",    types:["fighting"],         evolvesTo:null},
+  {id:58, name:"Growlithe",   types:["fire"],             evolvesTo:59,          specialEvo:"Fire Stone 🔥"},
+  {id:59, name:"Arcanine",    types:["fire"],             evolvesTo:null},
+  {id:60, name:"Poliwag",     types:["water"],            evolvesTo:61},
+  {id:61, name:"Poliwhirl",   types:["water"],            evolvesTo:62,          specialEvo:"Water Stone 💧"},
+  {id:62, name:"Poliwrath",   types:["water","fighting"],evolvesTo:null},
+  {id:63, name:"Abra",        types:["psychic"],          evolvesTo:64},
+  {id:64, name:"Kadabra",     types:["psychic"],          evolvesTo:65},
+  {id:65, name:"Alakazam",    types:["psychic"],          evolvesTo:"mega-65",   specialEvo:"Mega Evolves with Alakazite 💎"},
+  {id:66, name:"Machop",      types:["fighting"],         evolvesTo:67},
+  {id:67, name:"Machoke",     types:["fighting"],         evolvesTo:68},
+  {id:68, name:"Machamp",     types:["fighting"],         evolvesTo:null},
+  {id:69, name:"Bellsprout",  types:["grass","poison"],  evolvesTo:70},
+  {id:70, name:"Weepinbell",  types:["grass","poison"],  evolvesTo:71,          specialEvo:"Leaf Stone 🍃"},
+  {id:71, name:"Victreebel",  types:["grass","poison"],  evolvesTo:null},
+  {id:72, name:"Tentacool",   types:["water","poison"],  evolvesTo:73},
+  {id:73, name:"Tentacruel",  types:["water","poison"],  evolvesTo:null},
+  {id:74, name:"Geodude",     types:["rock","ground"],   evolvesTo:75},
+  {id:75, name:"Graveler",    types:["rock","ground"],   evolvesTo:76},
+  {id:76, name:"Golem",       types:["rock","ground"],   evolvesTo:null},
+  {id:77, name:"Ponyta",      types:["fire"],             evolvesTo:78},
+  {id:78, name:"Rapidash",    types:["fire"],             evolvesTo:null},
+  {id:79, name:"Slowpoke",    types:["water","psychic"], evolvesTo:80},
+  {id:80, name:"Slowbro",     types:["water","psychic"], evolvesTo:"mega-80",   specialEvo:"Mega Evolves with Slowbronite 💎"},
+  {id:81, name:"Magnemite",   types:["electric","steel"],evolvesTo:82},
+  {id:82, name:"Magneton",    types:["electric","steel"],evolvesTo:null},
+  {id:83, name:"Farfetch'd",  types:["normal","flying"], evolvesTo:null},
+  {id:84, name:"Doduo",       types:["normal","flying"], evolvesTo:85},
+  {id:85, name:"Dodrio",      types:["normal","flying"], evolvesTo:null},
+  {id:86, name:"Seel",        types:["water"],            evolvesTo:87},
+  {id:87, name:"Dewgong",     types:["water","ice"],     evolvesTo:null},
+  {id:88, name:"Grimer",      types:["poison"],           evolvesTo:89},
+  {id:89, name:"Muk",         types:["poison"],           evolvesTo:null},
+  {id:90, name:"Shellder",    types:["water"],            evolvesTo:91,          specialEvo:"Water Stone 💧"},
+  {id:91, name:"Cloyster",    types:["water","ice"],     evolvesTo:null},
+  {id:92, name:"Gastly",      types:["ghost","poison"],  evolvesTo:93},
+  {id:93, name:"Haunter",     types:["ghost","poison"],  evolvesTo:94},
+  {id:94, name:"Gengar",      types:["ghost","poison"],  evolvesTo:"mega-94",   specialEvo:"Mega Evolves with Gengarite 💎"},
+  {id:95, name:"Onix",        types:["rock","ground"],   evolvesTo:null},
+  {id:96, name:"Drowzee",     types:["psychic"],          evolvesTo:97},
+  {id:97, name:"Hypno",       types:["psychic"],          evolvesTo:null},
+  {id:98, name:"Krabby",      types:["water"],            evolvesTo:99},
+  {id:99, name:"Kingler",     types:["water"],            evolvesTo:null},
+  {id:100,name:"Voltorb",     types:["electric"],         evolvesTo:101},
+  {id:101,name:"Electrode",   types:["electric"],         evolvesTo:null},
+  {id:102,name:"Exeggcute",   types:["grass","psychic"], evolvesTo:103,         specialEvo:"Leaf Stone 🍃"},
+  {id:103,name:"Exeggutor",   types:["grass","psychic"], evolvesTo:null},
+  {id:104,name:"Cubone",      types:["ground"],           evolvesTo:105},
+  {id:105,name:"Marowak",     types:["ground"],           evolvesTo:null},
+  {id:106,name:"Hitmonlee",   types:["fighting"],         evolvesTo:null},
+  {id:107,name:"Hitmonchan",  types:["fighting"],         evolvesTo:null},
+  {id:108,name:"Lickitung",   types:["normal"],           evolvesTo:null},
+  {id:109,name:"Koffing",     types:["poison"],           evolvesTo:110},
+  {id:110,name:"Weezing",     types:["poison"],           evolvesTo:null},
+  {id:111,name:"Rhyhorn",     types:["ground","rock"],   evolvesTo:112},
+  {id:112,name:"Rhydon",      types:["ground","rock"],   evolvesTo:null},
+  {id:113,name:"Chansey",     types:["normal"],           evolvesTo:null},
+  {id:114,name:"Tangela",     types:["grass"],            evolvesTo:null},
+  {id:115,name:"Kangaskhan",  types:["normal"],           evolvesTo:"mega-115", specialEvo:"Mega Evolves with Kangaskhanite 💎"},
+  {id:116,name:"Horsea",      types:["water"],            evolvesTo:117},
+  {id:117,name:"Seadra",      types:["water"],            evolvesTo:null},
+  {id:118,name:"Goldeen",     types:["water"],            evolvesTo:119},
+  {id:119,name:"Seaking",     types:["water"],            evolvesTo:null},
+  {id:120,name:"Staryu",      types:["water"],            evolvesTo:121,         specialEvo:"Water Stone 💧"},
+  {id:121,name:"Starmie",     types:["water","psychic"], evolvesTo:null},
+  {id:122,name:"Mr. Mime",    types:["psychic","fairy"], evolvesTo:null},
+  {id:123,name:"Scyther",     types:["bug","flying"],    evolvesTo:null},
+  {id:124,name:"Jynx",        types:["ice","psychic"],   evolvesTo:null},
+  {id:125,name:"Electabuzz",  types:["electric"],         evolvesTo:null},
+  {id:126,name:"Magmar",      types:["fire"],             evolvesTo:null},
+  {id:127,name:"Pinsir",      types:["bug"],              evolvesTo:"mega-127", specialEvo:"Mega Evolves with Pinsirite 💎"},
+  {id:128,name:"Tauros",      types:["normal"],           evolvesTo:null},
+  {id:129,name:"Magikarp",    types:["water"],            evolvesTo:130},
+  {id:130,name:"Gyarados",    types:["water","flying"],  evolvesTo:"mega-130", specialEvo:"Mega Evolves with Gyaradosite 💎"},
+  {id:131,name:"Lapras",      types:["water","ice"],     evolvesTo:null},
+  {id:132,name:"Ditto",       types:["normal"],           evolvesTo:null},
+  {id:133,name:"Eevee",       types:["normal"],           evolvesTo:[134,135,136], specialEvo:"Uses Water, Thunder, or Fire Stone!"},
+  {id:134,name:"Vaporeon",    types:["water"],            evolvesTo:null},
+  {id:135,name:"Jolteon",     types:["electric"],         evolvesTo:null},
+  {id:136,name:"Flareon",     types:["fire"],             evolvesTo:null},
+  {id:137,name:"Porygon",     types:["normal"],           evolvesTo:null},
+  {id:138,name:"Omanyte",     types:["rock","water"],    evolvesTo:139},
+  {id:139,name:"Omastar",     types:["rock","water"],    evolvesTo:null},
+  {id:140,name:"Kabuto",      types:["rock","water"],    evolvesTo:141},
+  {id:141,name:"Kabutops",    types:["rock","water"],    evolvesTo:null},
+  {id:142,name:"Aerodactyl",  types:["rock","flying"],   evolvesTo:"mega-142", specialEvo:"Mega Evolves with Aerodactylite 💎"},
+  {id:143,name:"Snorlax",     types:["normal"],           evolvesTo:null},
+  {id:144,name:"Articuno",    types:["ice","flying"],    evolvesTo:null},
+  {id:145,name:"Zapdos",      types:["electric","flying"],evolvesTo:null},
+  {id:146,name:"Moltres",     types:["fire","flying"],   evolvesTo:null},
+  {id:147,name:"Dratini",     types:["dragon"],           evolvesTo:148},
+  {id:148,name:"Dragonair",   types:["dragon"],           evolvesTo:149},
+  {id:149,name:"Dragonite",   types:["dragon","flying"], evolvesTo:null},
+  {id:150,name:"Mewtwo",      types:["psychic"],          evolvesTo:["mega-150x","mega-150y"], specialEvo:"Mega Evolves into Mega Mewtwo X or Y! 🔮"},
+  {id:151,name:"Mew",         types:["psychic"],          evolvesTo:null},
+  // ═══ MEGA EVOLUTIONS — GEN 1 ═══
+  {id:"mega-3",   name:"Mega Venusaur",    types:["grass","poison"],    evolvesTo:null, mega:true},
+  {id:"mega-6x",  name:"Mega Charizard X", types:["fire","dragon"],     evolvesTo:null, mega:true},
+  {id:"mega-6y",  name:"Mega Charizard Y", types:["fire","flying"],     evolvesTo:null, mega:true},
+  {id:"mega-9",   name:"Mega Blastoise",   types:["water"],              evolvesTo:null, mega:true},
+  {id:"mega-15",  name:"Mega Beedrill",    types:["bug","poison"],      evolvesTo:null, mega:true},
+  {id:"mega-18",  name:"Mega Pidgeot",     types:["normal","flying"],   evolvesTo:null, mega:true},
+  {id:"mega-65",  name:"Mega Alakazam",    types:["psychic"],            evolvesTo:null, mega:true},
+  {id:"mega-80",  name:"Mega Slowbro",     types:["water","psychic"],   evolvesTo:null, mega:true},
+  {id:"mega-94",  name:"Mega Gengar",      types:["ghost","poison"],    evolvesTo:null, mega:true},
+  {id:"mega-115", name:"Mega Kangaskhan",  types:["normal"],             evolvesTo:null, mega:true},
+  {id:"mega-127", name:"Mega Pinsir",      types:["bug","flying"],      evolvesTo:null, mega:true},
+  {id:"mega-130", name:"Mega Gyarados",    types:["water","dark"],      evolvesTo:null, mega:true},
+  {id:"mega-142", name:"Mega Aerodactyl",  types:["rock","flying"],     evolvesTo:null, mega:true},
+  {id:"mega-150x",name:"Mega Mewtwo X",    types:["psychic","fighting"],evolvesTo:null, mega:true},
+  {id:"mega-150y",name:"Mega Mewtwo Y",    types:["psychic"],            evolvesTo:null, mega:true},
+  // ═══ GEN 2 ═══
+  {id:152,name:"Chikorita",   types:["grass"],            evolvesTo:153},
+  {id:153,name:"Bayleef",     types:["grass"],            evolvesTo:154},
+  {id:154,name:"Meganium",    types:["grass"],            evolvesTo:null},
+  {id:155,name:"Cyndaquil",   types:["fire"],             evolvesTo:156},
+  {id:156,name:"Quilava",     types:["fire"],             evolvesTo:157},
+  {id:157,name:"Typhlosion",  types:["fire"],             evolvesTo:null},
+  {id:158,name:"Totodile",    types:["water"],            evolvesTo:159},
+  {id:159,name:"Croconaw",    types:["water"],            evolvesTo:160},
+  {id:160,name:"Feraligatr",  types:["water"],            evolvesTo:null},
+  {id:172,name:"Pichu",       types:["electric"],         evolvesTo:25,  specialEvo:"Levels up with high friendship 💛"},
+  {id:173,name:"Cleffa",      types:["fairy"],            evolvesTo:35,  specialEvo:"Levels up with high friendship 💛"},
+  {id:174,name:"Igglybuff",   types:["normal","fairy"],  evolvesTo:39,  specialEvo:"Levels up with high friendship 💛"},
+  {id:175,name:"Togepi",      types:["fairy"],            evolvesTo:176, specialEvo:"Levels up with high friendship 💛"},
+  {id:176,name:"Togetic",     types:["fairy","flying"],  evolvesTo:null},
+  {id:196,name:"Espeon",      types:["psychic"],          evolvesTo:null},
+  {id:197,name:"Umbreon",     types:["dark"],             evolvesTo:null},
+  {id:245,name:"Suicune",     types:["water"],            evolvesTo:null},
+  {id:249,name:"Lugia",       types:["psychic","flying"],evolvesTo:null},
+  {id:250,name:"Ho-Oh",       types:["fire","flying"],   evolvesTo:null},
+  {id:251,name:"Celebi",      types:["psychic","grass"], evolvesTo:null},
+  // ═══ GEN 3 ═══
+  {id:252,name:"Treecko",     types:["grass"],            evolvesTo:253},
+  {id:253,name:"Grovyle",     types:["grass"],            evolvesTo:254},
+  {id:254,name:"Sceptile",    types:["grass"],            evolvesTo:"mega-254", specialEvo:"Mega Evolves with Sceptilite 💎"},
+  {id:255,name:"Torchic",     types:["fire"],             evolvesTo:256},
+  {id:256,name:"Combusken",   types:["fire","fighting"],  evolvesTo:257},
+  {id:257,name:"Blaziken",    types:["fire","fighting"],  evolvesTo:"mega-257", specialEvo:"Mega Evolves with Blazikenite 💎"},
+  {id:258,name:"Mudkip",      types:["water"],            evolvesTo:259},
+  {id:259,name:"Marshtomp",   types:["water","ground"],   evolvesTo:260},
+  {id:260,name:"Swampert",    types:["water","ground"],   evolvesTo:"mega-260", specialEvo:"Mega Evolves with Swampertite 💎"},
+  {id:282,name:"Gardevoir",   types:["psychic","fairy"],  evolvesTo:"mega-282", specialEvo:"Mega Evolves with Gardevoirite 💎"},
+  {id:302,name:"Sableye",     types:["dark","ghost"],     evolvesTo:"mega-302", specialEvo:"Mega Evolves with Sablenite 💎"},
+  {id:334,name:"Altaria",     types:["dragon","flying"],  evolvesTo:"mega-334", specialEvo:"Mega Evolves with Altarianite 💎"},
+  {id:350,name:"Milotic",     types:["water"],            evolvesTo:null},
+  {id:359,name:"Absol",       types:["dark"],             evolvesTo:"mega-359", specialEvo:"Mega Evolves with Absolite 💎"},
+  {id:373,name:"Salamence",   types:["dragon","flying"],  evolvesTo:"mega-373", specialEvo:"Mega Evolves with Salamencite 💎"},
+  {id:376,name:"Metagross",   types:["steel","psychic"],  evolvesTo:"mega-376", specialEvo:"Mega Evolves with Metagrossite 💎"},
+  {id:380,name:"Latias",      types:["dragon","psychic"], evolvesTo:"mega-380", specialEvo:"Mega Evolves with Latiasite 💎"},
+  {id:381,name:"Latios",      types:["dragon","psychic"], evolvesTo:"mega-381", specialEvo:"Mega Evolves with Latiosite 💎"},
+  {id:382,name:"Kyogre",      types:["water"],            evolvesTo:null},
+  {id:383,name:"Groudon",     types:["ground"],           evolvesTo:null},
+  {id:384,name:"Rayquaza",    types:["dragon","flying"],  evolvesTo:null},
+  {id:385,name:"Jirachi",     types:["steel","psychic"],  evolvesTo:null},
+  {id:386,name:"Deoxys",      types:["psychic"],          evolvesTo:null},
+  // ═══ MEGA EVOLUTIONS — GEN 3 ═══
+  {id:"mega-254", name:"Mega Sceptile",  types:["grass","dragon"],   evolvesTo:null, mega:true},
+  {id:"mega-257", name:"Mega Blaziken",  types:["fire","fighting"],  evolvesTo:null, mega:true},
+  {id:"mega-260", name:"Mega Swampert",  types:["water","ground"],   evolvesTo:null, mega:true},
+  {id:"mega-282", name:"Mega Gardevoir", types:["psychic","fairy"],  evolvesTo:null, mega:true},
+  {id:"mega-302", name:"Mega Sableye",   types:["dark","ghost"],     evolvesTo:null, mega:true},
+  {id:"mega-334", name:"Mega Altaria",   types:["dragon","fairy"],   evolvesTo:null, mega:true},
+  {id:"mega-359", name:"Mega Absol",     types:["dark"],             evolvesTo:null, mega:true},
+  {id:"mega-373", name:"Mega Salamence", types:["dragon","flying"],  evolvesTo:null, mega:true},
+  {id:"mega-376", name:"Mega Metagross", types:["steel","psychic"],  evolvesTo:null, mega:true},
+  {id:"mega-380", name:"Mega Latias",    types:["dragon","psychic"], evolvesTo:null, mega:true},
+  {id:"mega-381", name:"Mega Latios",    types:["dragon","psychic"], evolvesTo:null, mega:true},
 ];
+
+function spriteUrl(id) {
+  if (typeof id === "string" && id.startsWith("mega-")) {
+    const megaMap = {
+      "mega-3":"10033","mega-6x":"10034","mega-6y":"10035","mega-9":"10036",
+      "mega-15":"10090","mega-18":"10073","mega-65":"10044","mega-80":"10045",
+      "mega-94":"10046","mega-115":"10047","mega-127":"10048","mega-130":"10049",
+      "mega-142":"10051","mega-150x":"10052","mega-150y":"10053",
+      "mega-254":"10065","mega-257":"10066","mega-260":"10067","mega-282":"10068",
+      "mega-302":"10069","mega-334":"10070","mega-359":"10071","mega-373":"10072",
+      "mega-376":"10074","mega-380":"10075","mega-381":"10076",
+    };
+    const n = megaMap[id];
+    return n
+      ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${n}.png`
+      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id.replace("mega-","")}.png`;
+  }
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+}
 
 const POKEMON_BY_ID = {};
 POKEMON.forEach(p => { POKEMON_BY_ID[p.id] = p; });
 
-function spriteUrl(id) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-}
-
+// ── STATE ────────────────────────────────────────────────────
 let current = null;
 let mode = "explore";
 let revealed = false;
 let whoAnswered = false;
 let favorites = [];
 
+// ── HELPERS ──────────────────────────────────────────────────
 function getColors(type) { return TYPE_COLORS[type] || TYPE_COLORS.normal; }
 
 function setBackground(type) {
   const c = getColors(type);
   document.getElementById("app").style.background =
     `linear-gradient(160deg, ${c.bg} 0%, ${c.light} 52%, #ffffff 100%)`;
-  if (document.getElementById("surprise-btn")) {
-    document.getElementById("surprise-btn").style.background = c.bg;
-    document.getElementById("surprise-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
-  }
-  if (document.getElementById("reveal-btn")) {
-    document.getElementById("reveal-btn").style.background = c.bg;
-    document.getElementById("reveal-btn").style.boxShadow = `0 8px 28px ${c.bg}bb`;
-  }
-  const guessBtn = document.getElementById("guess-btn");
-  if (mode === "silhouette") {
-    guessBtn.style.background = "white";
-    guessBtn.style.color = c.bg;
-  } else {
-    guessBtn.style.background = "rgba(255,255,255,0.28)";
-    guessBtn.style.color = "white";
-  }
+  ["surprise-btn","reveal-btn"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.background = c.bg; el.style.boxShadow = `0 8px 28px ${c.bg}bb`; }
+  });
+  const gb = document.getElementById("guess-btn");
+  if (mode === "silhouette") { gb.style.background="white"; gb.style.color=c.bg; }
+  else { gb.style.background="rgba(255,255,255,0.28)"; gb.style.color="white"; }
 }
 
+// ── MAIN RENDER ──────────────────────────────────────────────
+function renderPokemon(p, forceReveal) {
+  current = p; revealed = forceReveal || false; whoAnswered = false;
+  const mainType = p.types[0];
+  const isSilhouette = (mode === "silhouette" && !revealed);
+  setBackground(mainType);
+
+  document.getElementById("poke-number").textContent =
+    typeof p.id === "number" ? "#" + String(p.id).padStart(3,"0") : "";
+  document.getElementById("mega-badge").style.display = p.mega ? "inline-block" : "none";
+
+  const img = document.getElementById("poke-img");
+  img.style.filter = isSilhouette
+    ? "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))"
+    : "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+  img.classList.remove("popin"); void img.offsetWidth;
+  img.src = spriteUrl(p.id); img.classList.add("popin");
+
+  const nameEl = document.getElementById("poke-name");
+  nameEl.textContent = p.name;
+  if (isSilhouette) {
+    Object.assign(nameEl.style,{color:"transparent",background:"#555",borderRadius:"12px",padding:"4px 28px",textShadow:"none"});
+  } else {
+    Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0",textShadow:"0 2px 8px rgba(0,0,0,0.08)"});
+  }
+
+  const typesEl = document.getElementById("types");
+  const factEl  = document.getElementById("fact-box");
+  document.getElementById("who-result").textContent = "";
+
+  if (isSilhouette) {
+    typesEl.innerHTML = ""; factEl.style.display = "none";
+    buildWhoChoices(p);
+    document.getElementById("fav-btn").classList.add("hidden");
+    document.getElementById("surprise-btn").classList.add("hidden");
+    document.getElementById("reveal-btn").classList.add("hidden");
+  } else {
+    typesEl.innerHTML = p.types.map(t => {
+      const tc = getColors(t);
+      return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
+    }).join("");
+    factEl.style.display = "block";
+    factEl.textContent = `${p.name} ${p.mega ? "is a powerful Mega Evolution! 💎" : (FUN_FACTS[mainType] || "is an amazing Pokémon!")}`;
+    document.getElementById("who-choices").innerHTML = "";
+    document.getElementById("fav-btn").classList.remove("hidden");
+    document.getElementById("surprise-btn").classList.remove("hidden");
+    document.getElementById("reveal-btn").classList.add("hidden");
+  }
+
+  const isFav = favorites.some(f => f.id === p.id);
+  document.getElementById("fav-btn").textContent = isFav ? "❤️" : "🤍";
+  document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
+  document.getElementById("hint").textContent = mode === "silhouette"
+    ? "👁️ Who's that Pokémon?" : "Tap 🎲 to discover a new Pokémon!";
+}
+
+// ── WHO CHOICES ──────────────────────────────────────────────
 function buildWhoChoices(p) {
-  // 3 random wrong + correct, shuffled
-  const wrong = POKEMON
-    .filter(x => x.id !== p.id)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
-  const choices = [...wrong, p].sort(() => Math.random() - 0.5);
-  const el = document.getElementById("who-choices");
-  el.innerHTML = choices.map(c =>
-    `<button class="who-choice" onclick="checkWhoGuess(${c.id}, this)">${c.name}</button>`
+  const wrong = POKEMON.filter(x => x.id !== p.id).sort(()=>Math.random()-0.5).slice(0,3);
+  const choices = [...wrong, p].sort(()=>Math.random()-0.5);
+  document.getElementById("who-choices").innerHTML = choices.map(c =>
+    `<button class="who-choice" onclick="checkWhoGuess('${c.id}',this)">${c.name}</button>`
   ).join("");
 }
 
@@ -328,120 +582,49 @@ function checkWhoGuess(id, btn) {
   if (whoAnswered) return;
   whoAnswered = true;
   document.querySelectorAll(".who-choice").forEach(b => b.onclick = null);
-  // Reveal the image
   document.getElementById("poke-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-  // Reveal name
   const nameEl = document.getElementById("poke-name");
   nameEl.textContent = current.name;
-  nameEl.style.color = "#1a1a1a";
-  nameEl.style.background = "transparent";
-  nameEl.style.borderRadius = "0";
-  nameEl.style.padding = "0";
-  // Show types + fact
-  const c = getColors(current.types[0]);
+  Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0"});
   document.getElementById("types").innerHTML = current.types.map(t => {
-    const tc = getColors(t); return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
+    const tc = getColors(t);
+    return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
   }).join("");
   document.getElementById("fact-box").style.display = "block";
-  document.getElementById("fact-box").textContent = `${current.name} ${FUN_FACTS[current.types[0]] || "is an amazing Pokémon!"}`;
+  document.getElementById("fact-box").textContent =
+    `${current.name} ${current.mega ? "is a powerful Mega Evolution! 💎" : (FUN_FACTS[current.types[0]] || "is amazing!")}`;
 
-  if (id === current.id) {
+  if (String(id) === String(current.id)) {
     btn.classList.add("correct");
     document.getElementById("who-result").textContent = "🎉 You got it!";
-    burst();
+    soundCorrect(); burst();
   } else {
     btn.classList.add("wrong");
     document.querySelectorAll(".who-choice").forEach(b => {
-      if (parseInt(b.getAttribute("onclick").match(/\d+/)[0]) === current.id) b.classList.add("correct");
+      const m = b.getAttribute("onclick").match(/'([^']+)'/);
+      if (m && m[1] === String(current.id)) b.classList.add("correct");
     });
     document.getElementById("who-result").textContent = `It was ${current.name}! Try again!`;
+    soundWrong();
   }
   document.getElementById("surprise-btn").classList.remove("hidden");
   document.getElementById("fav-btn").classList.remove("hidden");
-  document.getElementById("reveal-btn").classList.add("hidden");
 }
 
-function renderPokemon(p, forceReveal) {
-  current = p;
-  revealed = forceReveal || false;
-  whoAnswered = false;
-  const mainType = p.types[0];
-  const isSilhouette = (mode === "silhouette" && !revealed);
+function randomPokemon() { return POKEMON[Math.floor(Math.random()*POKEMON.length)]; }
+function handleSurprise() { soundSurprise(); burst(); renderPokemon(randomPokemon()); }
+function handleReveal()   { revealed = true; burst(); renderPokemon(current, true); }
 
-  setBackground(mainType);
-  document.getElementById("poke-number").textContent = "#" + String(p.id).padStart(3,"0");
-  document.getElementById("who-result").textContent = "";
-
-  // Set filter BEFORE src
-  const img = document.getElementById("poke-img");
-  img.style.filter = isSilhouette
-    ? "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))"
-    : "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-  img.classList.remove("popin");
-  void img.offsetWidth;
-  img.src = spriteUrl(p.id);
-  img.classList.add("popin");
-
-  const nameEl = document.getElementById("poke-name");
-  nameEl.textContent = p.name;
-  if (isSilhouette) {
-    nameEl.style.color = "transparent";
-    nameEl.style.background = "#555";
-    nameEl.style.borderRadius = "12px";
-    nameEl.style.padding = "4px 28px";
-    nameEl.style.textShadow = "none";
-  } else {
-    nameEl.style.color = "#1a1a1a";
-    nameEl.style.background = "transparent";
-    nameEl.style.borderRadius = "0";
-    nameEl.style.padding = "0";
-    nameEl.style.textShadow = "0 2px 8px rgba(0,0,0,0.08)";
-  }
-
-  const typesEl = document.getElementById("types");
-  const factEl = document.getElementById("fact-box");
-  if (isSilhouette) {
-    typesEl.innerHTML = "";
-    factEl.style.display = "none";
-    // Show choices
-    buildWhoChoices(p);
-    document.getElementById("fav-btn").classList.add("hidden");
-    document.getElementById("surprise-btn").classList.add("hidden");
-    document.getElementById("reveal-btn").classList.add("hidden");
-    document.getElementById("next-btn").style.display = "none";
-  } else {
-    typesEl.innerHTML = p.types.map(t => {
-      const tc = getColors(t); return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
-    }).join("");
-    factEl.style.display = "block";
-    factEl.textContent = `${p.name} ${FUN_FACTS[mainType] || "is an amazing Pokémon!"}`;
-    document.getElementById("who-choices").innerHTML = "";
-    document.getElementById("fav-btn").classList.remove("hidden");
-    document.getElementById("surprise-btn").classList.remove("hidden");
-    document.getElementById("reveal-btn").classList.add("hidden");
-    document.getElementById("next-btn").style.display = "none";
-  }
-
-  const isFav = favorites.some(f => f.id === p.id);
-  document.getElementById("fav-btn").textContent = isFav ? "❤️" : "🤍";
-  document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
-  document.getElementById("hint").textContent = mode === "silhouette"
-    ? "👁️ Who's that Pokémon?"
-    : "Tap 🎲 to discover a new Pokémon!";
-}
-
-function randomPokemon() { return POKEMON[Math.floor(Math.random() * POKEMON.length)]; }
-function handleSurprise() { burst(); renderPokemon(randomPokemon()); }
-function handleReveal() { revealed = true; burst(); renderPokemon(current, true); }
-function handleNext() { renderPokemon(randomPokemon()); }
 function toggleMode() {
   mode = mode === "silhouette" ? "explore" : "silhouette";
+  soundModeSwitch(mode);
   renderPokemon(current || randomPokemon());
 }
+
 function toggleFav() {
   if (!current) return;
   const idx = favorites.findIndex(f => f.id === current.id);
-  if (idx >= 0) favorites.splice(idx, 1);
+  if (idx >= 0) favorites.splice(idx,1);
   else { favorites.push(current); burst(); }
   document.getElementById("fav-count").textContent = favorites.length;
   const isFav = favorites.some(f => f.id === current.id);
@@ -449,14 +632,11 @@ function toggleFav() {
   document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
 }
 
-// ── EVOLUTION GAME ──────────────────────────────────────────
+// ── EVOLUTION GAME ───────────────────────────────────────────
 let evoAnswer = null;
 
-function pokemonWithEvolution() {
-  return POKEMON.filter(p => p.evolvesTo !== null);
-}
-
 function startEvoGame() {
+  soundModeSwitch('explore');
   document.getElementById("main").style.display = "none";
   document.getElementById("evo-game").style.display = "flex";
   document.getElementById("hint").textContent = "🥚 Guess the evolution!";
@@ -466,67 +646,62 @@ function startEvoGame() {
 function exitEvoGame() {
   document.getElementById("evo-game").style.display = "none";
   document.getElementById("main").style.display = "flex";
-  document.getElementById("hint").textContent = mode === "silhouette" ? "👁️ Who's that Pokémon?" : "Tap 🎲 to discover a new Pokémon!";
+  document.getElementById("hint").textContent = mode === "silhouette"
+    ? "👁️ Who's that Pokémon?" : "Tap 🎲 to discover a new Pokémon!";
 }
 
 function nextEvoRound() {
   document.getElementById("evo-result").textContent = "";
   document.getElementById("evo-next-btn").style.display = "none";
 
-  const pool = pokemonWithEvolution();
-  const base = pool[Math.floor(Math.random() * pool.length)];
+  const pool = POKEMON.filter(p => p.evolvesTo !== null);
+  const base = pool[Math.floor(Math.random()*pool.length)];
 
-  // Handle branching evolutions (Eevee)
-  let evoId;
-  if (Array.isArray(base.evolvesTo)) {
-    evoId = base.evolvesTo[Math.floor(Math.random() * base.evolvesTo.length)];
-  } else {
-    evoId = base.evolvesTo;
-  }
+  let evoId = Array.isArray(base.evolvesTo)
+    ? base.evolvesTo[Math.floor(Math.random()*base.evolvesTo.length)]
+    : base.evolvesTo;
+
   evoAnswer = POKEMON_BY_ID[evoId];
+  if (!evoAnswer) { nextEvoRound(); return; }
 
   setBackground(base.types[0]);
+  document.getElementById("evo-question").textContent = `Who does ${base.name} evolve into?`;
 
-  let questionText = `Who does ${base.name} evolve into?`;
-  if (base.specialEvo) questionText += `\n✨ ${base.specialEvo}`;
-  document.getElementById("evo-question").textContent = questionText;
+  const note = document.getElementById("evo-special-note");
+  if (base.specialEvo) { note.textContent = "✨ " + base.specialEvo; note.style.display = "block"; }
+  else { note.style.display = "none"; }
 
-  // Set silhouette filter BEFORE src
   const img = document.getElementById("evo-img");
   img.style.filter = "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.35))";
   img.src = spriteUrl(evoAnswer.id);
 
-  // 3 wrong + correct
-  const wrong = POKEMON
-    .filter(p => p.id !== evoAnswer.id)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
-  const choices = [...wrong, evoAnswer].sort(() => Math.random() - 0.5);
-
+  const wrong = POKEMON.filter(p => p.id !== evoAnswer.id).sort(()=>Math.random()-0.5).slice(0,3);
+  const choices = [...wrong, evoAnswer].sort(()=>Math.random()-0.5);
   document.getElementById("evo-choices").innerHTML = choices.map(p =>
-    `<button class="evo-choice" onclick="checkEvoGuess(${p.id}, this)">${p.name}</button>`
+    `<button class="evo-choice" onclick="checkEvoGuess('${p.id}',this)">${p.name}</button>`
   ).join("");
 }
 
 function checkEvoGuess(id, btn) {
   document.querySelectorAll(".evo-choice").forEach(b => b.onclick = null);
-  const img = document.getElementById("evo-img");
-  img.style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-  if (id === evoAnswer.id) {
+  document.getElementById("evo-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+  if (String(id) === String(evoAnswer.id)) {
     btn.classList.add("correct");
-    document.getElementById("evo-result").textContent = "🎉 Yes! That's right!";
-    burst();
+    document.getElementById("evo-result").textContent = "🎉 That's right!";
+    soundCorrect(); burst();
   } else {
     btn.classList.add("wrong");
     document.querySelectorAll(".evo-choice").forEach(b => {
-      if (parseInt(b.getAttribute("onclick").match(/\d+/)[0]) === evoAnswer.id) b.classList.add("correct");
+      const m = b.getAttribute("onclick").match(/'([^']+)'/);
+      if (m && m[1] === String(evoAnswer.id)) b.classList.add("correct");
     });
-    document.getElementById("evo-result").textContent = `It was ${evoAnswer.name}! Try again!`;
+    document.getElementById("evo-result").textContent = `It was ${evoAnswer.name}!`;
+    soundWrong();
   }
   document.getElementById("evo-next-btn").style.display = "block";
 }
 
-// ── FAVORITES ───────────────────────────────────────────────
+// ── FAVORITES ────────────────────────────────────────────────
 function showFavs() {
   document.getElementById("app").style.display = "none";
   document.getElementById("favs-screen").style.display = "block";
@@ -538,44 +713,47 @@ function hideFavs() {
 }
 function renderFavs() {
   const empty = document.getElementById("favs-empty");
-  const grid = document.getElementById("favs-grid");
-  if (favorites.length === 0) {
-    empty.style.display = "block"; grid.innerHTML = "";
-  } else {
-    empty.style.display = "none";
-    grid.innerHTML = favorites.map(p => {
-      const c = getColors(p.types[0]);
-      return `<div class="fav-card" style="background:${c.light};border-color:${c.bg}">
-        <img src="${spriteUrl(p.id)}" alt="${p.name}">
-        <div class="fav-name">${p.name}</div>
-        <div class="fav-num" style="color:${c.bg}">#${String(p.id).padStart(3,"0")}</div>
-        <div style="margin-top:8px">${p.types.map(t=>{const tc=getColors(t);return`<span class="type-badge" style="background:${tc.bg};font-size:0.72rem;padding:3px 10px">${tc.emoji} ${t}</span>`}).join("")}</div>
-      </div>`;
-    }).join("");
-  }
+  const grid  = document.getElementById("favs-grid");
+  if (!favorites.length) { empty.style.display="block"; grid.innerHTML=""; return; }
+  empty.style.display = "none";
+  grid.innerHTML = favorites.map(p => {
+    const c = getColors(p.types[0]);
+    return `<div class="fav-card" style="background:${c.light};border-color:${c.bg}">
+      <img src="${spriteUrl(p.id)}" alt="${p.name}">
+      <div class="fav-name">${p.name}</div>
+      <div class="fav-num" style="color:${c.bg}">${typeof p.id==="number"?"#"+String(p.id).padStart(3,"0"):"⚡ MEGA"}</div>
+      <div style="margin-top:6px">${p.types.map(t=>{const tc=getColors(t);return`<span class="type-badge" style="background:${tc.bg};font-size:0.72rem;padding:3px 10px">${tc.emoji} ${t}</span>`}).join("")}</div>
+    </div>`;
+  }).join("");
 }
 
-// ── CONFETTI ────────────────────────────────────────────────
+// ── CONFETTI ─────────────────────────────────────────────────
 function burst() {
   const el = document.getElementById("confetti");
-  el.innerHTML = ""; el.style.display = "block";
-  const colors = ["#FF6B35","#4A90D9","#F7C948","#5DBB63","#E040A0","#A890F0","#74CCF4"];
-  for (let i = 0; i < 24; i++) {
-    const piece = document.createElement("div");
-    piece.className = "piece";
-    piece.style.left = `${(i/24)*100}%`;
-    piece.style.background = colors[i % colors.length];
-    piece.style.borderRadius = i % 3 === 0 ? "50%" : "2px";
-    piece.style.animationDuration = `${1.1+(i%5)*0.22}s`;
-    piece.style.animationDelay = `${(i%6)*0.06}s`;
-    piece.style.transform = `rotate(${i*23}deg)`;
-    el.appendChild(piece);
+  el.innerHTML=""; el.style.display="block";
+  const cols=["#FF6B35","#4A90D9","#F7C948","#5DBB63","#E040A0","#A890F0","#74CCF4"];
+  for(let i=0;i<26;i++){
+    const p=document.createElement("div"); p.className="piece";
+    p.style.left=`${(i/26)*100}%`;
+    p.style.background=cols[i%cols.length];
+    p.style.borderRadius=i%3===0?"50%":"2px";
+    p.style.animationDuration=`${1.1+(i%5)*0.22}s`;
+    p.style.animationDelay=`${(i%6)*0.06}s`;
+    p.style.transform=`rotate(${i*23}deg)`;
+    el.appendChild(p);
   }
-  setTimeout(() => { el.style.display = "none"; el.innerHTML = ""; }, 2400);
+  setTimeout(()=>{el.style.display="none";el.innerHTML="";},2500);
 }
 
-// ── INIT ────────────────────────────────────────────────────
-renderPokemon(randomPokemon());
+// ── SPLASH / START ───────────────────────────────────────────
+function startGame() {
+  soundStart();
+  preloadClips();
+  const splash = document.getElementById("splash");
+  splash.style.opacity = "0";
+  setTimeout(() => { splash.style.display = "none"; }, 600);
+  renderPokemon(randomPokemon());
+}
 </script>
 </body>
 </html>
