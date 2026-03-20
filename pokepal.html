@@ -17,39 +17,47 @@
   #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 20px 16px; text-align: center; }
   #poke-number { font-size: 0.95rem; font-weight: 900; color: rgba(255,255,255,0.7); margin-bottom: 2px; letter-spacing: 0.05em; }
   #poke-img { width: 175px; height: 175px; object-fit: contain; transition: filter 0.5s ease; }
+  #poke-clue { font-size: 0.95rem; font-weight: 700; color: white; background: rgba(0,0,0,0.22); border-radius: 14px; padding: 6px 16px; margin: 6px auto 2px; max-width: 300px; display: none; backdrop-filter: blur(4px); }
   #poke-name { font-size: 2.4rem; font-weight: 900; margin: 8px 0 5px; line-height: 1.05; transition: all 0.4s ease; }
   #types { margin-bottom: 7px; min-height: 34px; }
   .type-badge { display: inline-block; padding: 5px 14px; border-radius: 999px; font-weight: 900; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 3px; color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   #fact-box { background: rgba(255,255,255,0.72); border-radius: 16px; padding: 9px 18px; font-size: 1rem; font-weight: 700; color: #444; max-width: 300px; margin: 0 auto 5px; backdrop-filter: blur(6px); }
   #mega-badge { background: linear-gradient(135deg, #FFD700, #FF6B35); color: white; border-radius: 14px; padding: 5px 14px; font-size: 0.85rem; font-weight: 900; margin: 4px auto; display: none; box-shadow: 0 3px 10px rgba(255,107,53,0.4); }
   #who-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 12px; width: 100%; max-width: 330px; }
-  .who-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  .who-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; }
   .who-choice:active { transform: scale(0.95); }
   .who-choice.correct { background: #5DBB63; color: white; }
   .who-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
+  .who-choice.dimmed { opacity: 0.28; pointer-events: none; }
   #who-result { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 10px; min-height: 26px; }
   #btn-area { display: flex; gap: 12px; margin-top: 14px; align-items: center; }
   #surprise-btn { border: none; border-radius: 28px; padding: 18px 36px; font-size: 1.5rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
   #surprise-btn:active { transform: scale(0.95); }
-  #reveal-btn { border: none; border-radius: 28px; padding: 18px 44px; font-size: 1.5rem; font-weight: 900; cursor: pointer; color: white; animation: pulse 2s ease-in-out infinite; }
   #fav-btn { background: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
   #hint { text-align: center; padding: 6px 20px 32px; color: rgba(0,0,0,0.3); font-size: 0.85rem; font-weight: 600; }
+  /* EVO GAME */
   #evo-game { display: none; flex-direction: column; align-items: center; padding: 8px 20px 24px; text-align: center; }
-  #evo-question { font-size: 1.2rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 10px; max-width: 310px; line-height: 1.35; }
-  #evo-special-note { font-size: 0.9rem; font-weight: 800; background: rgba(255,255,255,0.25); border-radius: 12px; padding: 5px 14px; color: white; margin-bottom: 10px; display: none; }
+  #evo-question { font-size: 1.15rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 6px; max-width: 310px; line-height: 1.4; }
+  #evo-question .spell-name { background: rgba(255,255,255,0.25); border-radius: 8px; padding: 2px 10px; cursor: pointer; border-bottom: 2px solid rgba(255,255,255,0.7); transition: background 0.15s; display: inline-block; }
+  #evo-question .spell-name:active { background: rgba(255,255,255,0.45); }
+  #spell-hint { font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.65); margin-bottom: 8px; }
+  #evo-special-note { font-size: 0.88rem; font-weight: 800; background: rgba(255,255,255,0.22); border-radius: 12px; padding: 5px 14px; color: white; margin-bottom: 8px; display: none; }
   #evo-img { width: 155px; height: 155px; object-fit: contain; transition: filter 0.5s ease; }
   #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 14px; width: 100%; max-width: 330px; }
-  .evo-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s; }
+  .evo-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; }
   .evo-choice:active { transform: scale(0.95); }
   .evo-choice.correct { background: #5DBB63; color: white; }
   .evo-choice.wrong { background: #e05050; color: white; animation: wiggle 0.4s ease; }
+  .evo-choice.dimmed { opacity: 0.28; pointer-events: none; }
   #evo-result { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 12px; min-height: 26px; }
   #evo-next-btn { display: none; margin-top: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 20px; padding: 13px 30px; font-size: 1.2rem; font-weight: 800; cursor: pointer; color: #333; }
+  /* SPLASH */
   #splash { position: fixed; inset: 0; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
   #splash h1 { font-size: 2.2rem; font-weight: 900; color: white; text-align: center; line-height: 1.2; text-shadow: 0 4px 20px rgba(0,0,0,0.5); padding: 0 20px; }
   #splash p { color: rgba(255,255,255,0.7); font-size: 1.1rem; font-weight: 700; margin-top: 12px; }
   #start-btn { margin-top: 36px; background: linear-gradient(135deg, #FF6B35, #F7C948); color: white; border: none; border-radius: 30px; padding: 22px 56px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 30px rgba(255,107,53,0.5); animation: pulse 2s ease-in-out infinite; }
   #pokeball { font-size: 5rem; margin-bottom: 20px; animation: spin 4s linear infinite; }
+  /* FAVORITES */
   #favs-screen { display: none; min-height: 100vh; background: #FFF5EE; }
   #favs-header { background: #FF6B35; padding: 50px 20px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
   #back-btn { background: white; border: none; border-radius: 12px; padding: 10px 18px; font-size: 1rem; font-weight: 900; cursor: pointer; color: #FF6B35; }
@@ -62,6 +70,7 @@
   .fav-card img { width: 80px; height: 80px; object-fit: contain; }
   .fav-name { font-weight: 900; font-size: 0.95rem; color: #222; margin-top: 6px; }
   .fav-num { font-size: 0.78rem; font-weight: 800; margin-top: 2px; }
+  /* CONFETTI */
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; display: none; }
   .piece { position: absolute; top: -16px; width: 12px; height: 12px; animation: cffall 1.6s ease-in forwards; }
   @keyframes cffall { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(105vh) rotate(600deg);opacity:0} }
@@ -98,6 +107,7 @@
     <div id="poke-number"></div>
     <img id="poke-img" src="" alt="Pokemon">
     <div id="mega-badge">⚡ MEGA EVOLUTION</div>
+    <div id="poke-clue"></div>
     <h1 id="poke-name"></h1>
     <div id="types"></div>
     <div id="fact-box"></div>
@@ -106,12 +116,12 @@
     <div id="btn-area">
       <button id="fav-btn" onclick="toggleFav()">🤍</button>
       <button id="surprise-btn" onclick="handleSurprise()">🎲 Surprise Me!</button>
-      <button id="reveal-btn" onclick="handleReveal()" class="hidden">🎉 Reveal!</button>
     </div>
   </div>
 
   <div id="evo-game">
     <div id="evo-question"></div>
+    <div id="spell-hint">👆 Tap the name to hear it spelled out!</div>
     <div id="evo-special-note"></div>
     <img id="evo-img" src="" alt="Evolution">
     <div id="evo-choices"></div>
@@ -139,7 +149,6 @@ function getAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-
 const CLIPS = {};
 const CLIP_FILES = {
   right1:'right1.wav', right2:'right2.wav', right3:'right3.wav',
@@ -147,7 +156,6 @@ const CLIP_FILES = {
   wrong1:'wrong1.wav', wrong2:'wrong2.wav',
   winner1:'winner1.wav', winner2:'winner2.wav',
 };
-
 async function preloadClips() {
   const ctx = getAudio();
   await Promise.all(Object.entries(CLIP_FILES).map(async ([key, file]) => {
@@ -158,52 +166,46 @@ async function preloadClips() {
     } catch(e) { console.warn('Could not load', file); }
   }));
 }
-
 function playClip(buffer) {
   if (!buffer) return;
   const ctx = getAudio();
   const src = ctx.createBufferSource();
-  src.buffer = buffer;
-  src.connect(ctx.destination);
-  src.start(0);
+  src.buffer = buffer; src.connect(ctx.destination); src.start(0);
 }
-
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-function soundCorrect() {
-  playClip(pick([CLIPS.right1,CLIPS.right2,CLIPS.right3,CLIPS.right4,CLIPS.right5]));
-}
-function soundWrong() {
-  playClip(pick([CLIPS.wrong1,CLIPS.wrong2]));
-}
-function soundModeSwitch(toMode) {
-  playClip(toMode === 'silhouette' ? CLIPS.winner1 : CLIPS.winner2);
-}
+function soundCorrect() { playClip(pick([CLIPS.right1,CLIPS.right2,CLIPS.right3,CLIPS.right4,CLIPS.right5])); }
+function soundWrong()   { playClip(CLIPS.wrong1); }
+function soundModeSwitch(toMode) { playClip(toMode === 'silhouette' ? CLIPS.winner1 : CLIPS.winner2); }
 function soundStart() {
   const ctx = getAudio(); const t = ctx.currentTime;
-  function playTone(freq,type,dur,vol,start){
-    const o=ctx.createOscillator(),g=ctx.createGain();
-    o.connect(g);g.connect(ctx.destination);
-    o.type=type;o.frequency.setValueAtTime(freq,start);
-    g.gain.setValueAtTime(vol,start);
-    g.gain.exponentialRampToValueAtTime(0.001,start+dur);
-    o.start(start);o.stop(start+dur);
-  }
-  [261,329,392,523].forEach((f,i)=>playTone(f,'triangle',0.18,0.3,t+i*0.1));
-  setTimeout(()=>playTone(784,'triangle',0.4,0.35,getAudio().currentTime),450);
+  function pt(f,type,d,v,s){const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(0.001,s+d);o.start(s);o.stop(s+d);}
+  [261,329,392,523].forEach((f,i)=>pt(f,'triangle',0.18,0.3,t+i*0.1));
+  setTimeout(()=>pt(784,'triangle',0.4,0.35,getAudio().currentTime),450);
 }
 function soundSurprise() {
   const ctx = getAudio(); const t = ctx.currentTime;
-  function playTone(freq,type,dur,vol,start){
-    const o=ctx.createOscillator(),g=ctx.createGain();
-    o.connect(g);g.connect(ctx.destination);
-    o.type=type;o.frequency.setValueAtTime(freq,start);
-    g.gain.setValueAtTime(vol,start);
-    g.gain.exponentialRampToValueAtTime(0.001,start+dur);
-    o.start(start);o.stop(start+dur);
+  function pt(f,type,d,v,s){const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(0.001,s+d);o.start(s);o.stop(s+d);}
+  pt(400,'sine',0.06,0.2,t); pt(600,'sine',0.1,0.2,t+0.07);
+}
+
+// ── LETTER SPELLING (Web Speech API) ─────────────────────────
+function spellName(name) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  // Clean name for spelling — strip special chars like ♀ ♂
+  const clean = name.replace(/[^a-zA-Z\s\-\.]/g, '');
+  const letters = clean.split('');
+  let i = 0;
+  function speakNext() {
+    if (i >= letters.length) return;
+    const ch = letters[i];
+    if (ch === ' ' || ch === '-' || ch === '.') { i++; speakNext(); return; }
+    const u = new SpeechSynthesisUtterance(ch);
+    u.rate = 0.85; u.pitch = 1.1; u.volume = 1.0;
+    u.onend = () => { i++; setTimeout(speakNext, 80); };
+    window.speechSynthesis.speak(u);
   }
-  playTone(400,'sine',0.06,0.2,t);
-  playTone(600,'sine',0.1,0.2,t+0.07);
+  speakNext();
 }
 
 // ── DATA ─────────────────────────────────────────────────────
@@ -227,7 +229,6 @@ const TYPE_COLORS = {
   steel:{bg:"#B8B8D0",light:"#EBEBF5",emoji:"⚙️"},
   normal:{bg:"#A8A878",light:"#F0F0E0",emoji:"⭐"},
 };
-
 const FUN_FACTS = {
   fire:"breathes scorching fire 🔥",water:"loves splashing in the water 💧",
   grass:"soaks up sunlight to grow strong 🌿",electric:"zaps with lightning bolts ⚡",
@@ -241,231 +242,231 @@ const FUN_FACTS = {
 };
 
 const POKEMON = [
-  // ═══ GEN 1 — ALL 151 ═══
-  {id:1,  name:"Bulbasaur",   types:["grass","poison"],  evolvesTo:2},
-  {id:2,  name:"Ivysaur",     types:["grass","poison"],  evolvesTo:3},
-  {id:3,  name:"Venusaur",    types:["grass","poison"],  evolvesTo:"mega-3",    specialEvo:"Mega Evolves with Venusaurite 💎"},
-  {id:4,  name:"Charmander",  types:["fire"],             evolvesTo:5},
-  {id:5,  name:"Charmeleon",  types:["fire"],             evolvesTo:6},
-  {id:6,  name:"Charizard",   types:["fire","flying"],   evolvesTo:["mega-6x","mega-6y"], specialEvo:"Mega Evolves into Mega Charizard X or Y! 🔥"},
-  {id:7,  name:"Squirtle",    types:["water"],            evolvesTo:8},
-  {id:8,  name:"Wartortle",   types:["water"],            evolvesTo:9},
-  {id:9,  name:"Blastoise",   types:["water"],            evolvesTo:"mega-9",   specialEvo:"Mega Evolves with Blastoisinite 💎"},
-  {id:10, name:"Caterpie",    types:["bug"],              evolvesTo:11},
-  {id:11, name:"Metapod",     types:["bug"],              evolvesTo:12},
-  {id:12, name:"Butterfree",  types:["bug","flying"],    evolvesTo:null},
-  {id:13, name:"Weedle",      types:["bug","poison"],    evolvesTo:14},
-  {id:14, name:"Kakuna",      types:["bug","poison"],    evolvesTo:15},
-  {id:15, name:"Beedrill",    types:["bug","poison"],    evolvesTo:"mega-15",   specialEvo:"Mega Evolves with Beedrillite 💎"},
-  {id:16, name:"Pidgey",      types:["normal","flying"], evolvesTo:17},
-  {id:17, name:"Pidgeotto",   types:["normal","flying"], evolvesTo:18},
-  {id:18, name:"Pidgeot",     types:["normal","flying"], evolvesTo:"mega-18",   specialEvo:"Mega Evolves with Pidgeotite 💎"},
-  {id:19, name:"Rattata",     types:["normal"],           evolvesTo:20},
-  {id:20, name:"Raticate",    types:["normal"],           evolvesTo:null},
-  {id:21, name:"Spearow",     types:["normal","flying"], evolvesTo:22},
-  {id:22, name:"Fearow",      types:["normal","flying"], evolvesTo:null},
-  {id:23, name:"Ekans",       types:["poison"],           evolvesTo:24},
-  {id:24, name:"Arbok",       types:["poison"],           evolvesTo:null},
-  {id:25, name:"Pikachu",     types:["electric"],         evolvesTo:26,          specialEvo:"Thunder Stone ⚡"},
-  {id:26, name:"Raichu",      types:["electric"],         evolvesTo:null},
-  {id:27, name:"Sandshrew",   types:["ground"],           evolvesTo:28},
-  {id:28, name:"Sandslash",   types:["ground"],           evolvesTo:null},
-  {id:29, name:"Nidoran♀",   types:["poison"],           evolvesTo:30},
-  {id:30, name:"Nidorina",    types:["poison"],           evolvesTo:31,          specialEvo:"Moon Stone 🌙"},
-  {id:31, name:"Nidoqueen",   types:["poison","ground"], evolvesTo:null},
-  {id:32, name:"Nidoran♂",   types:["poison"],           evolvesTo:33},
-  {id:33, name:"Nidorino",    types:["poison"],           evolvesTo:34,          specialEvo:"Moon Stone 🌙"},
-  {id:34, name:"Nidoking",    types:["poison","ground"], evolvesTo:null},
-  {id:35, name:"Clefairy",    types:["fairy"],            evolvesTo:36,          specialEvo:"Moon Stone 🌙"},
-  {id:36, name:"Clefable",    types:["fairy"],            evolvesTo:null},
-  {id:37, name:"Vulpix",      types:["fire"],             evolvesTo:38,          specialEvo:"Fire Stone 🔥"},
-  {id:38, name:"Ninetales",   types:["fire"],             evolvesTo:null},
-  {id:39, name:"Jigglypuff",  types:["normal","fairy"],  evolvesTo:40,          specialEvo:"Moon Stone 🌙"},
-  {id:40, name:"Wigglytuff",  types:["normal","fairy"],  evolvesTo:null},
-  {id:41, name:"Zubat",       types:["poison","flying"], evolvesTo:42},
-  {id:42, name:"Golbat",      types:["poison","flying"], evolvesTo:null},
-  {id:43, name:"Oddish",      types:["grass","poison"],  evolvesTo:44},
-  {id:44, name:"Gloom",       types:["grass","poison"],  evolvesTo:45,          specialEvo:"Leaf Stone 🍃 or Sun Stone ☀️"},
-  {id:45, name:"Vileplume",   types:["grass","poison"],  evolvesTo:null},
-  {id:46, name:"Paras",       types:["bug","grass"],     evolvesTo:47},
-  {id:47, name:"Parasect",    types:["bug","grass"],     evolvesTo:null},
-  {id:48, name:"Venonat",     types:["bug","poison"],    evolvesTo:49},
-  {id:49, name:"Venomoth",    types:["bug","poison"],    evolvesTo:null},
-  {id:50, name:"Diglett",     types:["ground"],           evolvesTo:51},
-  {id:51, name:"Dugtrio",     types:["ground"],           evolvesTo:null},
-  {id:52, name:"Meowth",      types:["normal"],           evolvesTo:53},
-  {id:53, name:"Persian",     types:["normal"],           evolvesTo:null},
-  {id:54, name:"Psyduck",     types:["water"],            evolvesTo:55},
-  {id:55, name:"Golduck",     types:["water"],            evolvesTo:null},
-  {id:56, name:"Mankey",      types:["fighting"],         evolvesTo:57},
-  {id:57, name:"Primeape",    types:["fighting"],         evolvesTo:null},
-  {id:58, name:"Growlithe",   types:["fire"],             evolvesTo:59,          specialEvo:"Fire Stone 🔥"},
-  {id:59, name:"Arcanine",    types:["fire"],             evolvesTo:null},
-  {id:60, name:"Poliwag",     types:["water"],            evolvesTo:61},
-  {id:61, name:"Poliwhirl",   types:["water"],            evolvesTo:62,          specialEvo:"Water Stone 💧"},
-  {id:62, name:"Poliwrath",   types:["water","fighting"],evolvesTo:null},
-  {id:63, name:"Abra",        types:["psychic"],          evolvesTo:64},
-  {id:64, name:"Kadabra",     types:["psychic"],          evolvesTo:65},
-  {id:65, name:"Alakazam",    types:["psychic"],          evolvesTo:"mega-65",   specialEvo:"Mega Evolves with Alakazite 💎"},
-  {id:66, name:"Machop",      types:["fighting"],         evolvesTo:67},
-  {id:67, name:"Machoke",     types:["fighting"],         evolvesTo:68},
-  {id:68, name:"Machamp",     types:["fighting"],         evolvesTo:null},
-  {id:69, name:"Bellsprout",  types:["grass","poison"],  evolvesTo:70},
-  {id:70, name:"Weepinbell",  types:["grass","poison"],  evolvesTo:71,          specialEvo:"Leaf Stone 🍃"},
-  {id:71, name:"Victreebel",  types:["grass","poison"],  evolvesTo:null},
-  {id:72, name:"Tentacool",   types:["water","poison"],  evolvesTo:73},
-  {id:73, name:"Tentacruel",  types:["water","poison"],  evolvesTo:null},
-  {id:74, name:"Geodude",     types:["rock","ground"],   evolvesTo:75},
-  {id:75, name:"Graveler",    types:["rock","ground"],   evolvesTo:76},
-  {id:76, name:"Golem",       types:["rock","ground"],   evolvesTo:null},
-  {id:77, name:"Ponyta",      types:["fire"],             evolvesTo:78},
-  {id:78, name:"Rapidash",    types:["fire"],             evolvesTo:null},
-  {id:79, name:"Slowpoke",    types:["water","psychic"], evolvesTo:80},
-  {id:80, name:"Slowbro",     types:["water","psychic"], evolvesTo:"mega-80",   specialEvo:"Mega Evolves with Slowbronite 💎"},
-  {id:81, name:"Magnemite",   types:["electric","steel"],evolvesTo:82},
-  {id:82, name:"Magneton",    types:["electric","steel"],evolvesTo:null},
-  {id:83, name:"Farfetch'd",  types:["normal","flying"], evolvesTo:null},
-  {id:84, name:"Doduo",       types:["normal","flying"], evolvesTo:85},
-  {id:85, name:"Dodrio",      types:["normal","flying"], evolvesTo:null},
-  {id:86, name:"Seel",        types:["water"],            evolvesTo:87},
-  {id:87, name:"Dewgong",     types:["water","ice"],     evolvesTo:null},
-  {id:88, name:"Grimer",      types:["poison"],           evolvesTo:89},
-  {id:89, name:"Muk",         types:["poison"],           evolvesTo:null},
-  {id:90, name:"Shellder",    types:["water"],            evolvesTo:91,          specialEvo:"Water Stone 💧"},
-  {id:91, name:"Cloyster",    types:["water","ice"],     evolvesTo:null},
-  {id:92, name:"Gastly",      types:["ghost","poison"],  evolvesTo:93},
-  {id:93, name:"Haunter",     types:["ghost","poison"],  evolvesTo:94},
-  {id:94, name:"Gengar",      types:["ghost","poison"],  evolvesTo:"mega-94",   specialEvo:"Mega Evolves with Gengarite 💎"},
-  {id:95, name:"Onix",        types:["rock","ground"],   evolvesTo:null},
-  {id:96, name:"Drowzee",     types:["psychic"],          evolvesTo:97},
-  {id:97, name:"Hypno",       types:["psychic"],          evolvesTo:null},
-  {id:98, name:"Krabby",      types:["water"],            evolvesTo:99},
-  {id:99, name:"Kingler",     types:["water"],            evolvesTo:null},
-  {id:100,name:"Voltorb",     types:["electric"],         evolvesTo:101},
-  {id:101,name:"Electrode",   types:["electric"],         evolvesTo:null},
-  {id:102,name:"Exeggcute",   types:["grass","psychic"], evolvesTo:103,         specialEvo:"Leaf Stone 🍃"},
-  {id:103,name:"Exeggutor",   types:["grass","psychic"], evolvesTo:null},
-  {id:104,name:"Cubone",      types:["ground"],           evolvesTo:105},
-  {id:105,name:"Marowak",     types:["ground"],           evolvesTo:null},
-  {id:106,name:"Hitmonlee",   types:["fighting"],         evolvesTo:null},
-  {id:107,name:"Hitmonchan",  types:["fighting"],         evolvesTo:null},
-  {id:108,name:"Lickitung",   types:["normal"],           evolvesTo:null},
-  {id:109,name:"Koffing",     types:["poison"],           evolvesTo:110},
-  {id:110,name:"Weezing",     types:["poison"],           evolvesTo:null},
-  {id:111,name:"Rhyhorn",     types:["ground","rock"],   evolvesTo:112},
-  {id:112,name:"Rhydon",      types:["ground","rock"],   evolvesTo:null},
-  {id:113,name:"Chansey",     types:["normal"],           evolvesTo:null},
-  {id:114,name:"Tangela",     types:["grass"],            evolvesTo:null},
-  {id:115,name:"Kangaskhan",  types:["normal"],           evolvesTo:"mega-115", specialEvo:"Mega Evolves with Kangaskhanite 💎"},
-  {id:116,name:"Horsea",      types:["water"],            evolvesTo:117},
-  {id:117,name:"Seadra",      types:["water"],            evolvesTo:null},
-  {id:118,name:"Goldeen",     types:["water"],            evolvesTo:119},
-  {id:119,name:"Seaking",     types:["water"],            evolvesTo:null},
-  {id:120,name:"Staryu",      types:["water"],            evolvesTo:121,         specialEvo:"Water Stone 💧"},
-  {id:121,name:"Starmie",     types:["water","psychic"], evolvesTo:null},
-  {id:122,name:"Mr. Mime",    types:["psychic","fairy"], evolvesTo:null},
-  {id:123,name:"Scyther",     types:["bug","flying"],    evolvesTo:null},
-  {id:124,name:"Jynx",        types:["ice","psychic"],   evolvesTo:null},
-  {id:125,name:"Electabuzz",  types:["electric"],         evolvesTo:null},
-  {id:126,name:"Magmar",      types:["fire"],             evolvesTo:null},
-  {id:127,name:"Pinsir",      types:["bug"],              evolvesTo:"mega-127", specialEvo:"Mega Evolves with Pinsirite 💎"},
-  {id:128,name:"Tauros",      types:["normal"],           evolvesTo:null},
-  {id:129,name:"Magikarp",    types:["water"],            evolvesTo:130},
-  {id:130,name:"Gyarados",    types:["water","flying"],  evolvesTo:"mega-130", specialEvo:"Mega Evolves with Gyaradosite 💎"},
-  {id:131,name:"Lapras",      types:["water","ice"],     evolvesTo:null},
-  {id:132,name:"Ditto",       types:["normal"],           evolvesTo:null},
-  {id:133,name:"Eevee",       types:["normal"],           evolvesTo:[134,135,136], specialEvo:"Uses Water, Thunder, or Fire Stone!"},
-  {id:134,name:"Vaporeon",    types:["water"],            evolvesTo:null},
-  {id:135,name:"Jolteon",     types:["electric"],         evolvesTo:null},
-  {id:136,name:"Flareon",     types:["fire"],             evolvesTo:null},
-  {id:137,name:"Porygon",     types:["normal"],           evolvesTo:null},
-  {id:138,name:"Omanyte",     types:["rock","water"],    evolvesTo:139},
-  {id:139,name:"Omastar",     types:["rock","water"],    evolvesTo:null},
-  {id:140,name:"Kabuto",      types:["rock","water"],    evolvesTo:141},
-  {id:141,name:"Kabutops",    types:["rock","water"],    evolvesTo:null},
-  {id:142,name:"Aerodactyl",  types:["rock","flying"],   evolvesTo:"mega-142", specialEvo:"Mega Evolves with Aerodactylite 💎"},
-  {id:143,name:"Snorlax",     types:["normal"],           evolvesTo:null},
-  {id:144,name:"Articuno",    types:["ice","flying"],    evolvesTo:null},
-  {id:145,name:"Zapdos",      types:["electric","flying"],evolvesTo:null},
-  {id:146,name:"Moltres",     types:["fire","flying"],   evolvesTo:null},
-  {id:147,name:"Dratini",     types:["dragon"],           evolvesTo:148},
-  {id:148,name:"Dragonair",   types:["dragon"],           evolvesTo:149},
-  {id:149,name:"Dragonite",   types:["dragon","flying"], evolvesTo:null},
-  {id:150,name:"Mewtwo",      types:["psychic"],          evolvesTo:["mega-150x","mega-150y"], specialEvo:"Mega Evolves into Mega Mewtwo X or Y! 🔮"},
-  {id:151,name:"Mew",         types:["psychic"],          evolvesTo:null},
+  // ═══ GEN 1 ═══
+  {id:1,  name:"Bulbasaur",  types:["grass","poison"],  evolvesTo:2,           clue:"🌱 Has a plant bulb on its back"},
+  {id:2,  name:"Ivysaur",   types:["grass","poison"],  evolvesTo:3,           clue:"🌸 Bulbasaur's middle form"},
+  {id:3,  name:"Venusaur",  types:["grass","poison"],  evolvesTo:"mega-3",    specialEvo:"Mega Evolves with Venusaurite 💎", clue:"🌺 Big flower on its back"},
+  {id:4,  name:"Charmander",types:["fire"],             evolvesTo:5,           clue:"🔥 Has a flame on its tail"},
+  {id:5,  name:"Charmeleon",types:["fire"],             evolvesTo:6,           clue:"🔥 Charmander's middle form"},
+  {id:6,  name:"Charizard", types:["fire","flying"],   evolvesTo:["mega-6x","mega-6y"], specialEvo:"Mega Evolves into Mega Charizard X or Y! 🔥", clue:"🐲 Orange dragon — breathes fire"},
+  {id:7,  name:"Squirtle",  types:["water"],            evolvesTo:8,           clue:"💧 Blue turtle with a curly tail"},
+  {id:8,  name:"Wartortle", types:["water"],            evolvesTo:9,           clue:"💧 Squirtle's middle form"},
+  {id:9,  name:"Blastoise", types:["water"],            evolvesTo:"mega-9",    specialEvo:"Mega Evolves with Blastoisinite 💎", clue:"💧 Big turtle with water cannons"},
+  {id:10, name:"Caterpie",  types:["bug"],              evolvesTo:11,          clue:"🐛 Tiny green caterpillar"},
+  {id:11, name:"Metapod",   types:["bug"],              evolvesTo:12,          clue:"🫘 Green cocoon — just hardens"},
+  {id:12, name:"Butterfree",types:["bug","flying"],    evolvesTo:null,        clue:"🦋 Big white butterfly"},
+  {id:13, name:"Weedle",    types:["bug","poison"],    evolvesTo:14,          clue:"🐛 Tiny bug with a horn on its head"},
+  {id:14, name:"Kakuna",    types:["bug","poison"],    evolvesTo:15,          clue:"🟡 Yellow cocoon, like a shell"},
+  {id:15, name:"Beedrill",  types:["bug","poison"],    evolvesTo:"mega-15",   specialEvo:"Mega Evolves with Beedrillite 💎", clue:"🐝 Giant angry bee with drills"},
+  {id:16, name:"Pidgey",    types:["normal","flying"], evolvesTo:17,          clue:"🐦 Common little brown bird"},
+  {id:17, name:"Pidgeotto", types:["normal","flying"], evolvesTo:18,          clue:"🐦 Pidgey's bigger middle form"},
+  {id:18, name:"Pidgeot",   types:["normal","flying"], evolvesTo:"mega-18",   specialEvo:"Mega Evolves with Pidgeotite 💎", clue:"🦅 Big fast bird with a yellow crest"},
+  {id:19, name:"Rattata",   types:["normal"],           evolvesTo:20,          clue:"🐭 Small purple rat"},
+  {id:20, name:"Raticate",  types:["normal"],           evolvesTo:null,        clue:"🐭 Big rat with huge teeth"},
+  {id:21, name:"Spearow",   types:["normal","flying"], evolvesTo:22,          clue:"🐦 Angry little bird, red belly"},
+  {id:22, name:"Fearow",    types:["normal","flying"], evolvesTo:null,        clue:"🦅 Big scary brown bird"},
+  {id:23, name:"Ekans",     types:["poison"],           evolvesTo:24,          clue:"🐍 Purple snake — its name is 'snake' backwards!"},
+  {id:24, name:"Arbok",     types:["poison"],           evolvesTo:null,        clue:"🐍 Big cobra with a scary face on chest"},
+  {id:25, name:"Pikachu",   types:["electric"],         evolvesTo:26,          specialEvo:"Thunder Stone ⚡", clue:"⚡ Yellow with red cheeks — Ash's partner!"},
+  {id:26, name:"Raichu",    types:["electric"],         evolvesTo:null,        clue:"⚡ Pikachu all grown up"},
+  {id:27, name:"Sandshrew", types:["ground"],           evolvesTo:28,          clue:"🏜️ Yellow armadillo that rolls up"},
+  {id:28, name:"Sandslash", types:["ground"],           evolvesTo:null,        clue:"🏜️ Sandshrew with sharp spikes"},
+  {id:29, name:"Nidoran♀", types:["poison"],           evolvesTo:30,          clue:"💜 Small blue/purple girl Pokémon with tiny horn"},
+  {id:30, name:"Nidorina",  types:["poison"],           evolvesTo:31,          specialEvo:"Moon Stone 🌙", clue:"💜 Nidoran girl's middle form"},
+  {id:31, name:"Nidoqueen", types:["poison","ground"], evolvesTo:null,        clue:"💜 Big armored queen Pokémon"},
+  {id:32, name:"Nidoran♂", types:["poison"],           evolvesTo:33,          clue:"💜 Small purple boy Pokémon with horn"},
+  {id:33, name:"Nidorino",  types:["poison"],           evolvesTo:34,          specialEvo:"Moon Stone 🌙", clue:"💜 Nidoran boy's middle form"},
+  {id:34, name:"Nidoking",  types:["poison","ground"], evolvesTo:null,        clue:"💜 Big powerful purple king"},
+  {id:35, name:"Clefairy",  types:["fairy"],            evolvesTo:36,          specialEvo:"Moon Stone 🌙", clue:"🌙 Pink fairy — loves moonlight"},
+  {id:36, name:"Clefable",  types:["fairy"],            evolvesTo:null,        clue:"🌙 Bigger pink fairy with wings"},
+  {id:37, name:"Vulpix",    types:["fire"],             evolvesTo:38,          specialEvo:"Fire Stone 🔥", clue:"🦊 Cute orange fox with six tails"},
+  {id:38, name:"Ninetales", types:["fire"],             evolvesTo:null,        clue:"🦊 Beautiful fox with nine golden tails"},
+  {id:39, name:"Jigglypuff",types:["normal","fairy"],  evolvesTo:40,          specialEvo:"Moon Stone 🌙", clue:"🎤 Round pink singer — puts you to sleep!"},
+  {id:40, name:"Wigglytuff",types:["normal","fairy"],  evolvesTo:null,        clue:"🎵 Jigglypuff all grown up"},
+  {id:41, name:"Zubat",     types:["poison","flying"], evolvesTo:42,          clue:"🦇 Blue bat — no eyes, lives in caves"},
+  {id:42, name:"Golbat",    types:["poison","flying"], evolvesTo:null,        clue:"🦇 Big bat with a huge mouth"},
+  {id:43, name:"Oddish",    types:["grass","poison"],  evolvesTo:44,          clue:"🌿 Blue round blob with leaves on head"},
+  {id:44, name:"Gloom",     types:["grass","poison"],  evolvesTo:45,          specialEvo:"Leaf Stone 🍃 or Sun Stone ☀️", clue:"🌸 Flower on its head, always drooling"},
+  {id:45, name:"Vileplume", types:["grass","poison"],  evolvesTo:null,        clue:"🌸 Giant red flower on top"},
+  {id:46, name:"Paras",     types:["bug","grass"],     evolvesTo:47,          clue:"🍄 Crab with mushrooms on its back"},
+  {id:47, name:"Parasect",  types:["bug","grass"],     evolvesTo:null,        clue:"🍄 Big crab, mushroom controls it!"},
+  {id:48, name:"Venonat",   types:["bug","poison"],    evolvesTo:49,          clue:"🐛 Round fuzzy bug with big red eyes"},
+  {id:49, name:"Venomoth",  types:["bug","poison"],    evolvesTo:null,        clue:"🦋 Purple poisonous moth"},
+  {id:50, name:"Diglett",   types:["ground"],           evolvesTo:51,          clue:"🌱 Tiny brown head poking from ground"},
+  {id:51, name:"Dugtrio",   types:["ground"],           evolvesTo:null,        clue:"🌱 Three Digletts poking up together"},
+  {id:52, name:"Meowth",    types:["normal"],           evolvesTo:53,          clue:"🐱 Team Rocket's talking cat"},
+  {id:53, name:"Persian",   types:["normal"],           evolvesTo:null,        clue:"🐱 Elegant cat — Giovanni's favorite"},
+  {id:54, name:"Psyduck",   types:["water"],            evolvesTo:55,          clue:"🦆 Yellow duck with a headache"},
+  {id:55, name:"Golduck",   types:["water"],            evolvesTo:null,        clue:"🦆 Tall blue duck, fast swimmer"},
+  {id:56, name:"Mankey",    types:["fighting"],         evolvesTo:57,          clue:"🐒 Angry white pig-monkey"},
+  {id:57, name:"Primeape",  types:["fighting"],         evolvesTo:null,        clue:"🐒 Mankey even angrier and evolved"},
+  {id:58, name:"Growlithe", types:["fire"],             evolvesTo:59,          specialEvo:"Fire Stone 🔥", clue:"🐶 Friendly orange puppy with stripes"},
+  {id:59, name:"Arcanine",  types:["fire"],             evolvesTo:null,        clue:"🐕 Majestic big fire dog"},
+  {id:60, name:"Poliwag",   types:["water"],            evolvesTo:61,          clue:"💧 Blue tadpole with a swirl on belly"},
+  {id:61, name:"Poliwhirl", types:["water"],            evolvesTo:62,          specialEvo:"Water Stone 💧", clue:"💧 Poliwag's middle form — bigger swirl"},
+  {id:62, name:"Poliwrath", types:["water","fighting"],evolvesTo:null,        clue:"💧 Big blue frog fighter"},
+  {id:63, name:"Abra",      types:["psychic"],          evolvesTo:64,          clue:"🥄 Always sleeping — teleports away!"},
+  {id:64, name:"Kadabra",   types:["psychic"],          evolvesTo:65,          clue:"🥄 Holds two bent spoons"},
+  {id:65, name:"Alakazam",  types:["psychic"],          evolvesTo:"mega-65",   specialEvo:"Mega Evolves with Alakazite 💎", clue:"🥄 Mustached psychic master"},
+  {id:66, name:"Machop",    types:["fighting"],         evolvesTo:67,          clue:"💪 Small blue wrestler with three ridges on head"},
+  {id:67, name:"Machoke",   types:["fighting"],         evolvesTo:68,          clue:"💪 Machop's bigger middle form"},
+  {id:68, name:"Machamp",   types:["fighting"],         evolvesTo:null,        clue:"💪 Four-armed muscle champion"},
+  {id:69, name:"Bellsprout",types:["grass","poison"],  evolvesTo:70,          clue:"🌿 Skinny plant with a big mouth"},
+  {id:70, name:"Weepinbell",types:["grass","poison"],  evolvesTo:71,          specialEvo:"Leaf Stone 🍃", clue:"🌿 Bell-shaped plant that eats things"},
+  {id:71, name:"Victreebel",types:["grass","poison"],  evolvesTo:null,        clue:"🌿 Big carnivorous plant"},
+  {id:72, name:"Tentacool", types:["water","poison"],  evolvesTo:73,          clue:"🪼 Jellyfish with two red gems"},
+  {id:73, name:"Tentacruel",types:["water","poison"],  evolvesTo:null,        clue:"🪼 Giant jellyfish with many tentacles"},
+  {id:74, name:"Geodude",   types:["rock","ground"],   evolvesTo:75,          clue:"🪨 Floating rock with arms"},
+  {id:75, name:"Graveler",  types:["rock","ground"],   evolvesTo:76,          clue:"🪨 Bigger rock Pokémon with four arms"},
+  {id:76, name:"Golem",     types:["rock","ground"],   evolvesTo:null,        clue:"🪨 Giant boulder with a head"},
+  {id:77, name:"Ponyta",    types:["fire"],             evolvesTo:78,          clue:"🐴 White horse with fire for a mane"},
+  {id:78, name:"Rapidash",  types:["fire"],             evolvesTo:null,        clue:"🐴 Fast fire unicorn"},
+  {id:79, name:"Slowpoke",  types:["water","psychic"], evolvesTo:80,          clue:"🌸 Very slow pink hippo — always daydreaming"},
+  {id:80, name:"Slowbro",   types:["water","psychic"], evolvesTo:"mega-80",   specialEvo:"Mega Evolves with Slowbronite 💎", clue:"🌸 Slowpoke with a Shellder on its tail"},
+  {id:81, name:"Magnemite", types:["electric","steel"],evolvesTo:82,          clue:"🧲 Flying magnet with one big eye"},
+  {id:82, name:"Magneton",  types:["electric","steel"],evolvesTo:null,        clue:"🧲 Three Magnemites stuck together"},
+  {id:83, name:"Farfetch'd",types:["normal","flying"], evolvesTo:null,        clue:"🌿 Duck that carries a leek stalk"},
+  {id:84, name:"Doduo",     types:["normal","flying"], evolvesTo:85,          clue:"🐦 Two-headed brown bird"},
+  {id:85, name:"Dodrio",    types:["normal","flying"], evolvesTo:null,        clue:"🐦 Three-headed bird"},
+  {id:86, name:"Seel",      types:["water"],            evolvesTo:87,          clue:"🦭 White baby seal"},
+  {id:87, name:"Dewgong",   types:["water","ice"],     evolvesTo:null,        clue:"🦭 Seel grown up — loves cold water"},
+  {id:88, name:"Grimer",    types:["poison"],           evolvesTo:89,          clue:"☠️ Purple puddle of sludge"},
+  {id:89, name:"Muk",       types:["poison"],           evolvesTo:null,        clue:"☠️ Bigger pile of purple sludge"},
+  {id:90, name:"Shellder",  types:["water"],            evolvesTo:91,          specialEvo:"Water Stone 💧", clue:"🐚 Blue clam with a tongue sticking out"},
+  {id:91, name:"Cloyster",  types:["water","ice"],     evolvesTo:null,        clue:"🐚 Spiky black shell like a sea urchin"},
+  {id:92, name:"Gastly",    types:["ghost","poison"],  evolvesTo:93,          clue:"👻 Purple floating gas ball"},
+  {id:93, name:"Haunter",   types:["ghost","poison"],  evolvesTo:94,          clue:"👻 Floating purple ghost with hands"},
+  {id:94, name:"Gengar",    types:["ghost","poison"],  evolvesTo:"mega-94",   specialEvo:"Mega Evolves with Gengarite 💎", clue:"👻 Grinning shadow ghost — very mischievous"},
+  {id:95, name:"Onix",      types:["rock","ground"],   evolvesTo:null,        clue:"🐍 Giant snake made of boulders"},
+  {id:96, name:"Drowzee",   types:["psychic"],          evolvesTo:97,          clue:"💤 Weird tapir that eats your dreams"},
+  {id:97, name:"Hypno",     types:["psychic"],          evolvesTo:null,        clue:"💤 Drowzee grown up, swings a pendulum"},
+  {id:98, name:"Krabby",    types:["water"],            evolvesTo:99,          clue:"🦀 Tiny red crab"},
+  {id:99, name:"Kingler",   types:["water"],            evolvesTo:null,        clue:"🦀 Big crab with one huge claw"},
+  {id:100,name:"Voltorb",   types:["electric"],         evolvesTo:101,         clue:"💣 Round red and white ball — looks like a Poké Ball!"},
+  {id:101,name:"Electrode", types:["electric"],         evolvesTo:null,        clue:"💣 Voltorb flipped upside down"},
+  {id:102,name:"Exeggcute", types:["grass","psychic"], evolvesTo:103,         specialEvo:"Leaf Stone 🍃", clue:"🥚 Six eggs that think together"},
+  {id:103,name:"Exeggutor", types:["grass","psychic"], evolvesTo:null,        clue:"🌴 Tall coconut tree with three heads"},
+  {id:104,name:"Cubone",    types:["ground"],           evolvesTo:105,         clue:"💀 Wears its mother's skull as a helmet"},
+  {id:105,name:"Marowak",   types:["ground"],           evolvesTo:null,        clue:"💀 Cubone grown up, swings a bone"},
+  {id:106,name:"Hitmonlee", types:["fighting"],         evolvesTo:null,        clue:"🥊 Kick fighter — no arms, just legs"},
+  {id:107,name:"Hitmonchan",types:["fighting"],         evolvesTo:null,        clue:"🥊 Punch fighter — wears boxing gloves"},
+  {id:108,name:"Lickitung", types:["normal"],           evolvesTo:null,        clue:"👅 Pink blob with a huge long tongue"},
+  {id:109,name:"Koffing",   types:["poison"],           evolvesTo:110,         clue:"💨 Purple gas ball with a skull on it"},
+  {id:110,name:"Weezing",   types:["poison"],           evolvesTo:null,        clue:"💨 Two Koffings joined together"},
+  {id:111,name:"Rhyhorn",   types:["ground","rock"],   evolvesTo:112,         clue:"🦏 Grey rhino covered in rock armor"},
+  {id:112,name:"Rhydon",    types:["ground","rock"],   evolvesTo:null,        clue:"🦏 Big Rhyhorn standing on two legs"},
+  {id:113,name:"Chansey",   types:["normal"],           evolvesTo:null,        clue:"🥚 Pink oval Pokémon that carries an egg"},
+  {id:114,name:"Tangela",   types:["grass"],            evolvesTo:null,        clue:"🌿 Blue blob totally covered in vines"},
+  {id:115,name:"Kangaskhan",types:["normal"],           evolvesTo:"mega-115",  specialEvo:"Mega Evolves with Kangaskhanite 💎", clue:"🦘 Kangaroo mom with baby in pouch"},
+  {id:116,name:"Horsea",    types:["water"],            evolvesTo:117,         clue:"🌀 Tiny blue seahorse"},
+  {id:117,name:"Seadra",    types:["water"],            evolvesTo:null,        clue:"🌀 Horsea's bigger spiky form"},
+  {id:118,name:"Goldeen",   types:["water"],            evolvesTo:119,         clue:"🐟 Fancy goldfish with a horn"},
+  {id:119,name:"Seaking",   types:["water"],            evolvesTo:null,        clue:"🐟 Goldeen grown up, orange and white"},
+  {id:120,name:"Staryu",    types:["water"],            evolvesTo:121,         specialEvo:"Water Stone 💧", clue:"⭐ Brown starfish with a red gem"},
+  {id:121,name:"Starmie",   types:["water","psychic"], evolvesTo:null,        clue:"⭐ Purple double-star with a gem"},
+  {id:122,name:"Mr. Mime",  types:["psychic","fairy"], evolvesTo:null,        clue:"🤡 Clown Pokémon that mimes invisble walls"},
+  {id:123,name:"Scyther",   types:["bug","flying"],    evolvesTo:null,        clue:"🦗 Green mantis with scythe arms"},
+  {id:124,name:"Jynx",      types:["ice","psychic"],   evolvesTo:null,        clue:"❄️ Purple face, blonde hair, always singing"},
+  {id:125,name:"Electabuzz",types:["electric"],         evolvesTo:null,        clue:"⚡ Yellow striped electric tiger"},
+  {id:126,name:"Magmar",    types:["fire"],             evolvesTo:null,        clue:"🔥 Red fire duck with flame head"},
+  {id:127,name:"Pinsir",    types:["bug"],              evolvesTo:"mega-127",  specialEvo:"Mega Evolves with Pinsirite 💎", clue:"🦗 Brown beetle with giant pincer horns"},
+  {id:128,name:"Tauros",    types:["normal"],           evolvesTo:null,        clue:"🐂 Angry brown bull with three tails"},
+  {id:129,name:"Magikarp",  types:["water"],            evolvesTo:130,         clue:"🐟 Orange fish — totally useless but evolves big!"},
+  {id:130,name:"Gyarados",  types:["water","flying"],  evolvesTo:"mega-130",  specialEvo:"Mega Evolves with Gyaradosite 💎", clue:"🐉 Giant angry blue sea dragon"},
+  {id:131,name:"Lapras",    types:["water","ice"],     evolvesTo:null,        clue:"🦕 Big blue sea dinosaur you can ride"},
+  {id:132,name:"Ditto",     types:["normal"],           evolvesTo:null,        clue:"🔵 Purple blob that copies any Pokémon"},
+  {id:133,name:"Eevee",     types:["normal"],           evolvesTo:[134,135,136], specialEvo:"Uses Water, Thunder, or Fire Stone!", clue:"🦊 Fluffy brown fox — evolves many ways!"},
+  {id:134,name:"Vaporeon",  types:["water"],            evolvesTo:null,        clue:"💧 Eevee evolved with Water Stone"},
+  {id:135,name:"Jolteon",   types:["electric"],         evolvesTo:null,        clue:"⚡ Eevee evolved with Thunder Stone"},
+  {id:136,name:"Flareon",   types:["fire"],             evolvesTo:null,        clue:"🔥 Eevee evolved with Fire Stone"},
+  {id:137,name:"Porygon",   types:["normal"],           evolvesTo:null,        clue:"💻 Made of computer code — first digital Pokémon"},
+  {id:138,name:"Omanyte",   types:["rock","water"],    evolvesTo:139,         clue:"🐚 Ancient spiral fossil Pokémon"},
+  {id:139,name:"Omastar",   types:["rock","water"],    evolvesTo:null,        clue:"🐚 Bigger ancient spiral snail"},
+  {id:140,name:"Kabuto",    types:["rock","water"],    evolvesTo:141,         clue:"🦀 Ancient horseshoe crab fossil"},
+  {id:141,name:"Kabutops",  types:["rock","water"],    evolvesTo:null,        clue:"🦀 Kabuto with scythe arms"},
+  {id:142,name:"Aerodactyl",types:["rock","flying"],   evolvesTo:"mega-142",  specialEvo:"Mega Evolves with Aerodactylite 💎", clue:"🦖 Ancient flying dinosaur — pterodactyl!"},
+  {id:143,name:"Snorlax",   types:["normal"],           evolvesTo:null,        clue:"😴 Giant sleepy bear blocking the road"},
+  {id:144,name:"Articuno",  types:["ice","flying"],    evolvesTo:null,        clue:"❄️ Legendary ice bird — blue with long tail"},
+  {id:145,name:"Zapdos",    types:["electric","flying"],evolvesTo:null,       clue:"⚡ Legendary electric bird — spiky yellow"},
+  {id:146,name:"Moltres",   types:["fire","flying"],   evolvesTo:null,        clue:"🔥 Legendary fire bird — flames everywhere"},
+  {id:147,name:"Dratini",   types:["dragon"],           evolvesTo:148,         clue:"🐍 Tiny cute blue dragon serpent"},
+  {id:148,name:"Dragonair", types:["dragon"],           evolvesTo:149,         clue:"🐍 Elegant long blue dragon"},
+  {id:149,name:"Dragonite", types:["dragon","flying"], evolvesTo:null,        clue:"🐉 Friendly orange flying dragon"},
+  {id:150,name:"Mewtwo",    types:["psychic"],          evolvesTo:["mega-150x","mega-150y"], specialEvo:"Mega Evolves into Mega Mewtwo X or Y! 🔮", clue:"🔮 Created in a lab — most powerful Pokémon!"},
+  {id:151,name:"Mew",       types:["psychic"],          evolvesTo:null,        clue:"🌟 Rare pink Pokémon that knows every move"},
   // ═══ MEGA EVOLUTIONS — GEN 1 ═══
-  {id:"mega-3",   name:"Mega Venusaur",    types:["grass","poison"],    evolvesTo:null, mega:true},
-  {id:"mega-6x",  name:"Mega Charizard X", types:["fire","dragon"],     evolvesTo:null, mega:true},
-  {id:"mega-6y",  name:"Mega Charizard Y", types:["fire","flying"],     evolvesTo:null, mega:true},
-  {id:"mega-9",   name:"Mega Blastoise",   types:["water"],              evolvesTo:null, mega:true},
-  {id:"mega-15",  name:"Mega Beedrill",    types:["bug","poison"],      evolvesTo:null, mega:true},
-  {id:"mega-18",  name:"Mega Pidgeot",     types:["normal","flying"],   evolvesTo:null, mega:true},
-  {id:"mega-65",  name:"Mega Alakazam",    types:["psychic"],            evolvesTo:null, mega:true},
-  {id:"mega-80",  name:"Mega Slowbro",     types:["water","psychic"],   evolvesTo:null, mega:true},
-  {id:"mega-94",  name:"Mega Gengar",      types:["ghost","poison"],    evolvesTo:null, mega:true},
-  {id:"mega-115", name:"Mega Kangaskhan",  types:["normal"],             evolvesTo:null, mega:true},
-  {id:"mega-127", name:"Mega Pinsir",      types:["bug","flying"],      evolvesTo:null, mega:true},
-  {id:"mega-130", name:"Mega Gyarados",    types:["water","dark"],      evolvesTo:null, mega:true},
-  {id:"mega-142", name:"Mega Aerodactyl",  types:["rock","flying"],     evolvesTo:null, mega:true},
-  {id:"mega-150x",name:"Mega Mewtwo X",    types:["psychic","fighting"],evolvesTo:null, mega:true},
-  {id:"mega-150y",name:"Mega Mewtwo Y",    types:["psychic"],            evolvesTo:null, mega:true},
+  {id:"mega-3",   name:"Mega Venusaur",    types:["grass","poison"],    evolvesTo:null, mega:true, clue:"🌺 Venusaur with an even bigger flower"},
+  {id:"mega-6x",  name:"Mega Charizard X", types:["fire","dragon"],     evolvesTo:null, mega:true, clue:"🐉 Black dragon Charizard — Fire and Dragon type!"},
+  {id:"mega-6y",  name:"Mega Charizard Y", types:["fire","flying"],     evolvesTo:null, mega:true, clue:"🔥 Classic Charizard but way more powerful"},
+  {id:"mega-9",   name:"Mega Blastoise",   types:["water"],              evolvesTo:null, mega:true, clue:"💧 Blastoise with extra cannons everywhere"},
+  {id:"mega-15",  name:"Mega Beedrill",    types:["bug","poison"],      evolvesTo:null, mega:true, clue:"🐝 Super fast Beedrill with giant stingers"},
+  {id:"mega-18",  name:"Mega Pidgeot",     types:["normal","flying"],   evolvesTo:null, mega:true, clue:"🦅 Pidgeot with massive flowing hair"},
+  {id:"mega-65",  name:"Mega Alakazam",    types:["psychic"],            evolvesTo:null, mega:true, clue:"🥄 Alakazam with even more spoons"},
+  {id:"mega-80",  name:"Mega Slowbro",     types:["water","psychic"],   evolvesTo:null, mega:true, clue:"🌸 Slowbro but the Shellder ate more of it"},
+  {id:"mega-94",  name:"Mega Gengar",      types:["ghost","poison"],    evolvesTo:null, mega:true, clue:"👻 Gengar flattened into the ground"},
+  {id:"mega-115", name:"Mega Kangaskhan",  types:["normal"],             evolvesTo:null, mega:true, clue:"🦘 Now the baby fights alongside mom!"},
+  {id:"mega-127", name:"Mega Pinsir",      types:["bug","flying"],      evolvesTo:null, mega:true, clue:"🦗 Pinsir with giant wings"},
+  {id:"mega-130", name:"Mega Gyarados",    types:["water","dark"],      evolvesTo:null, mega:true, clue:"🐉 Red Gyarados — even scarier"},
+  {id:"mega-142", name:"Mega Aerodactyl",  types:["rock","flying"],     evolvesTo:null, mega:true, clue:"🦖 Aerodactyl covered in rock spikes"},
+  {id:"mega-150x",name:"Mega Mewtwo X",    types:["psychic","fighting"],evolvesTo:null, mega:true, clue:"🔮 Mewtwo — now also a Fighting type!"},
+  {id:"mega-150y",name:"Mega Mewtwo Y",    types:["psychic"],            evolvesTo:null, mega:true, clue:"🔮 Mewtwo with a giant floating tail"},
   // ═══ GEN 2 ═══
-  {id:152,name:"Chikorita",   types:["grass"],            evolvesTo:153},
-  {id:153,name:"Bayleef",     types:["grass"],            evolvesTo:154},
-  {id:154,name:"Meganium",    types:["grass"],            evolvesTo:null},
-  {id:155,name:"Cyndaquil",   types:["fire"],             evolvesTo:156},
-  {id:156,name:"Quilava",     types:["fire"],             evolvesTo:157},
-  {id:157,name:"Typhlosion",  types:["fire"],             evolvesTo:null},
-  {id:158,name:"Totodile",    types:["water"],            evolvesTo:159},
-  {id:159,name:"Croconaw",    types:["water"],            evolvesTo:160},
-  {id:160,name:"Feraligatr",  types:["water"],            evolvesTo:null},
-  {id:172,name:"Pichu",       types:["electric"],         evolvesTo:25,  specialEvo:"Levels up with high friendship 💛"},
-  {id:173,name:"Cleffa",      types:["fairy"],            evolvesTo:35,  specialEvo:"Levels up with high friendship 💛"},
-  {id:174,name:"Igglybuff",   types:["normal","fairy"],  evolvesTo:39,  specialEvo:"Levels up with high friendship 💛"},
-  {id:175,name:"Togepi",      types:["fairy"],            evolvesTo:176, specialEvo:"Levels up with high friendship 💛"},
-  {id:176,name:"Togetic",     types:["fairy","flying"],  evolvesTo:null},
-  {id:196,name:"Espeon",      types:["psychic"],          evolvesTo:null},
-  {id:197,name:"Umbreon",     types:["dark"],             evolvesTo:null},
-  {id:245,name:"Suicune",     types:["water"],            evolvesTo:null},
-  {id:249,name:"Lugia",       types:["psychic","flying"],evolvesTo:null},
-  {id:250,name:"Ho-Oh",       types:["fire","flying"],   evolvesTo:null},
-  {id:251,name:"Celebi",      types:["psychic","grass"], evolvesTo:null},
+  {id:152,name:"Chikorita",  types:["grass"],           evolvesTo:153,  clue:"🍃 Green dinosaur with a leaf on its head"},
+  {id:153,name:"Bayleef",    types:["grass"],           evolvesTo:154,  clue:"🍃 Chikorita's middle form with a neck collar"},
+  {id:154,name:"Meganium",   types:["grass"],           evolvesTo:null, clue:"🌸 Big dinosaur with flower petals around neck"},
+  {id:155,name:"Cyndaquil",  types:["fire"],            evolvesTo:156,  clue:"🔥 Small blue hedgehog with back flames"},
+  {id:156,name:"Quilava",    types:["fire"],            evolvesTo:157,  clue:"🔥 Cyndaquil's faster middle form"},
+  {id:157,name:"Typhlosion", types:["fire"],            evolvesTo:null, clue:"🔥 Big fire badger with ring of flames"},
+  {id:158,name:"Totodile",   types:["water"],           evolvesTo:159,  clue:"💧 Small blue crocodile, loves to bite"},
+  {id:159,name:"Croconaw",   types:["water"],           evolvesTo:160,  clue:"💧 Totodile's middle form — bigger croc"},
+  {id:160,name:"Feraligatr", types:["water"],           evolvesTo:null, clue:"💧 Giant blue alligator"},
+  {id:172,name:"Pichu",      types:["electric"],        evolvesTo:25,   specialEvo:"Levels up with high friendship 💛", clue:"⚡ Tiny baby Pikachu"},
+  {id:173,name:"Cleffa",     types:["fairy"],           evolvesTo:35,   specialEvo:"Levels up with high friendship 💛", clue:"⭐ Tiny baby Clefairy"},
+  {id:174,name:"Igglybuff",  types:["normal","fairy"],  evolvesTo:39,  specialEvo:"Levels up with high friendship 💛", clue:"🎵 Tiny baby Jigglypuff"},
+  {id:175,name:"Togepi",     types:["fairy"],           evolvesTo:176,  specialEvo:"Levels up with high friendship 💛", clue:"🥚 Baby still in a cracked egg shell"},
+  {id:176,name:"Togetic",    types:["fairy","flying"],  evolvesTo:null, clue:"🤍 Togepi finally hatched — white with triangles"},
+  {id:196,name:"Espeon",     types:["psychic"],         evolvesTo:null, clue:"🔮 Purple Eevee evolution — pointy ears and gem"},
+  {id:197,name:"Umbreon",    types:["dark"],            evolvesTo:null, clue:"🌙 Black Eevee evolution with yellow rings"},
+  {id:245,name:"Suicune",    types:["water"],           evolvesTo:null, clue:"💧 Legendary blue dog with purple mane"},
+  {id:249,name:"Lugia",      types:["psychic","flying"],evolvesTo:null, clue:"🤍 Legendary white sea guardian"},
+  {id:250,name:"Ho-Oh",      types:["fire","flying"],   evolvesTo:null, clue:"🌈 Legendary rainbow fire bird"},
+  {id:251,name:"Celebi",     types:["psychic","grass"], evolvesTo:null, clue:"🌿 Tiny green fairy that travels through time"},
   // ═══ GEN 3 ═══
-  {id:252,name:"Treecko",     types:["grass"],            evolvesTo:253},
-  {id:253,name:"Grovyle",     types:["grass"],            evolvesTo:254},
-  {id:254,name:"Sceptile",    types:["grass"],            evolvesTo:"mega-254", specialEvo:"Mega Evolves with Sceptilite 💎"},
-  {id:255,name:"Torchic",     types:["fire"],             evolvesTo:256},
-  {id:256,name:"Combusken",   types:["fire","fighting"],  evolvesTo:257},
-  {id:257,name:"Blaziken",    types:["fire","fighting"],  evolvesTo:"mega-257", specialEvo:"Mega Evolves with Blazikenite 💎"},
-  {id:258,name:"Mudkip",      types:["water"],            evolvesTo:259},
-  {id:259,name:"Marshtomp",   types:["water","ground"],   evolvesTo:260},
-  {id:260,name:"Swampert",    types:["water","ground"],   evolvesTo:"mega-260", specialEvo:"Mega Evolves with Swampertite 💎"},
-  {id:282,name:"Gardevoir",   types:["psychic","fairy"],  evolvesTo:"mega-282", specialEvo:"Mega Evolves with Gardevoirite 💎"},
-  {id:302,name:"Sableye",     types:["dark","ghost"],     evolvesTo:"mega-302", specialEvo:"Mega Evolves with Sablenite 💎"},
-  {id:334,name:"Altaria",     types:["dragon","flying"],  evolvesTo:"mega-334", specialEvo:"Mega Evolves with Altarianite 💎"},
-  {id:350,name:"Milotic",     types:["water"],            evolvesTo:null},
-  {id:359,name:"Absol",       types:["dark"],             evolvesTo:"mega-359", specialEvo:"Mega Evolves with Absolite 💎"},
-  {id:373,name:"Salamence",   types:["dragon","flying"],  evolvesTo:"mega-373", specialEvo:"Mega Evolves with Salamencite 💎"},
-  {id:376,name:"Metagross",   types:["steel","psychic"],  evolvesTo:"mega-376", specialEvo:"Mega Evolves with Metagrossite 💎"},
-  {id:380,name:"Latias",      types:["dragon","psychic"], evolvesTo:"mega-380", specialEvo:"Mega Evolves with Latiasite 💎"},
-  {id:381,name:"Latios",      types:["dragon","psychic"], evolvesTo:"mega-381", specialEvo:"Mega Evolves with Latiosite 💎"},
-  {id:382,name:"Kyogre",      types:["water"],            evolvesTo:null},
-  {id:383,name:"Groudon",     types:["ground"],           evolvesTo:null},
-  {id:384,name:"Rayquaza",    types:["dragon","flying"],  evolvesTo:null},
-  {id:385,name:"Jirachi",     types:["steel","psychic"],  evolvesTo:null},
-  {id:386,name:"Deoxys",      types:["psychic"],          evolvesTo:null},
+  {id:252,name:"Treecko",    types:["grass"],            evolvesTo:253,  clue:"🦎 Cool green gecko lizard"},
+  {id:253,name:"Grovyle",    types:["grass"],            evolvesTo:254,  clue:"🦎 Treecko's faster leaf-armed form"},
+  {id:254,name:"Sceptile",   types:["grass"],            evolvesTo:"mega-254", specialEvo:"Mega Evolves with Sceptilite 💎", clue:"🦎 Big green tree lizard with seed bombs"},
+  {id:255,name:"Torchic",    types:["fire"],             evolvesTo:256,  clue:"🐥 Tiny orange fire chick"},
+  {id:256,name:"Combusken",  types:["fire","fighting"],  evolvesTo:257, clue:"🐓 Torchic's fighting bird form"},
+  {id:257,name:"Blaziken",   types:["fire","fighting"],  evolvesTo:"mega-257", specialEvo:"Mega Evolves with Blazikenite 💎", clue:"🔥 Tall fire chicken that kicks really high"},
+  {id:258,name:"Mudkip",     types:["water"],            evolvesTo:259,  clue:"💧 Blue mud puppy with a fin on its head"},
+  {id:259,name:"Marshtomp",  types:["water","ground"],   evolvesTo:260, clue:"💧 Mudkip's middle form — walks on two legs"},
+  {id:260,name:"Swampert",   types:["water","ground"],   evolvesTo:"mega-260", specialEvo:"Mega Evolves with Swampertite 💎", clue:"💧 Big blue mud monster"},
+  {id:282,name:"Gardevoir",  types:["psychic","fairy"],  evolvesTo:"mega-282", specialEvo:"Mega Evolves with Gardevoirite 💎", clue:"✨ Elegant white dress Pokémon"},
+  {id:302,name:"Sableye",    types:["dark","ghost"],     evolvesTo:"mega-302", specialEvo:"Mega Evolves with Sablenite 💎", clue:"💎 Small purple goblin with gem eyes"},
+  {id:334,name:"Altaria",    types:["dragon","flying"],  evolvesTo:"mega-334", specialEvo:"Mega Evolves with Altarianite 💎", clue:"☁️ Blue bird wrapped in fluffy white clouds"},
+  {id:350,name:"Milotic",    types:["water"],            evolvesTo:null, clue:"🌊 Beautiful long serpent — scales shimmer"},
+  {id:359,name:"Absol",      types:["dark"],             evolvesTo:"mega-359", specialEvo:"Mega Evolves with Absolite 💎", clue:"⚡ White wolf with a curved blade horn"},
+  {id:373,name:"Salamence",  types:["dragon","flying"],  evolvesTo:"mega-373", specialEvo:"Mega Evolves with Salamencite 💎", clue:"🐉 Red and blue dragon with big wings"},
+  {id:376,name:"Metagross",  types:["steel","psychic"],  evolvesTo:"mega-376", specialEvo:"Mega Evolves with Metagrossite 💎", clue:"🤖 Giant steel spider computer brain"},
+  {id:380,name:"Latias",     types:["dragon","psychic"], evolvesTo:"mega-380", specialEvo:"Mega Evolves with Latiasite 💎", clue:"❤️ Red jet plane dragon — the girl one"},
+  {id:381,name:"Latios",     types:["dragon","psychic"], evolvesTo:"mega-381", specialEvo:"Mega Evolves with Latiosite 💎", clue:"💙 Blue jet plane dragon — the boy one"},
+  {id:382,name:"Kyogre",     types:["water"],            evolvesTo:null, clue:"🌊 Legendary giant blue whale"},
+  {id:383,name:"Groudon",    types:["ground"],           evolvesTo:null, clue:"🌋 Legendary giant red dinosaur of the land"},
+  {id:384,name:"Rayquaza",   types:["dragon","flying"],  evolvesTo:null, clue:"🐉 Legendary green serpent living in the sky"},
+  {id:385,name:"Jirachi",    types:["steel","psychic"],  evolvesTo:null, clue:"⭐ Tiny star Pokémon that grants wishes"},
+  {id:386,name:"Deoxys",     types:["psychic"],          evolvesTo:null, clue:"🧬 Alien Pokémon from outer space"},
   // ═══ MEGA EVOLUTIONS — GEN 3 ═══
-  {id:"mega-254", name:"Mega Sceptile",  types:["grass","dragon"],   evolvesTo:null, mega:true},
-  {id:"mega-257", name:"Mega Blaziken",  types:["fire","fighting"],  evolvesTo:null, mega:true},
-  {id:"mega-260", name:"Mega Swampert",  types:["water","ground"],   evolvesTo:null, mega:true},
-  {id:"mega-282", name:"Mega Gardevoir", types:["psychic","fairy"],  evolvesTo:null, mega:true},
-  {id:"mega-302", name:"Mega Sableye",   types:["dark","ghost"],     evolvesTo:null, mega:true},
-  {id:"mega-334", name:"Mega Altaria",   types:["dragon","fairy"],   evolvesTo:null, mega:true},
-  {id:"mega-359", name:"Mega Absol",     types:["dark"],             evolvesTo:null, mega:true},
-  {id:"mega-373", name:"Mega Salamence", types:["dragon","flying"],  evolvesTo:null, mega:true},
-  {id:"mega-376", name:"Mega Metagross", types:["steel","psychic"],  evolvesTo:null, mega:true},
-  {id:"mega-380", name:"Mega Latias",    types:["dragon","psychic"], evolvesTo:null, mega:true},
-  {id:"mega-381", name:"Mega Latios",    types:["dragon","psychic"], evolvesTo:null, mega:true},
+  {id:"mega-254", name:"Mega Sceptile",  types:["grass","dragon"],   evolvesTo:null, mega:true, clue:"🦎 Sceptile — now also a Dragon type!"},
+  {id:"mega-257", name:"Mega Blaziken",  types:["fire","fighting"],  evolvesTo:null, mega:true, clue:"🔥 Blaziken even faster and stronger"},
+  {id:"mega-260", name:"Mega Swampert",  types:["water","ground"],   evolvesTo:null, mega:true, clue:"💧 Swampert gets huge muscles"},
+  {id:"mega-282", name:"Mega Gardevoir", types:["psychic","fairy"],  evolvesTo:null, mega:true, clue:"✨ Gardevoir's dress gets even bigger"},
+  {id:"mega-302", name:"Mega Sableye",   types:["dark","ghost"],     evolvesTo:null, mega:true, clue:"💎 Sableye hides behind a massive gem"},
+  {id:"mega-334", name:"Mega Altaria",   types:["dragon","fairy"],   evolvesTo:null, mega:true, clue:"☁️ Altaria — now a Fairy type with huge clouds"},
+  {id:"mega-359", name:"Mega Absol",     types:["dark"],             evolvesTo:null, mega:true, clue:"⚡ Absol with angel wings and bigger blade"},
+  {id:"mega-373", name:"Mega Salamence", types:["dragon","flying"],  evolvesTo:null, mega:true, clue:"🐉 Salamence's wings merge into one giant wing"},
+  {id:"mega-376", name:"Mega Metagross", types:["steel","psychic"],  evolvesTo:null, mega:true, clue:"🤖 Metagross — extra legs and spikes everywhere"},
+  {id:"mega-380", name:"Mega Latias",    types:["dragon","psychic"], evolvesTo:null, mega:true, clue:"❤️ Mega Latias — faster and more graceful"},
+  {id:"mega-381", name:"Mega Latios",    types:["dragon","psychic"], evolvesTo:null, mega:true, clue:"💙 Mega Latios — fastest dragon in the sky"},
 ];
 
 function spriteUrl(id) {
@@ -493,7 +494,6 @@ POKEMON.forEach(p => { POKEMON_BY_ID[p.id] = p; });
 // ── STATE ────────────────────────────────────────────────────
 let current = null;
 let mode = "explore";
-let revealed = false;
 let whoAnswered = false;
 let favorites = [];
 
@@ -504,20 +504,18 @@ function setBackground(type) {
   const c = getColors(type);
   document.getElementById("app").style.background =
     `linear-gradient(160deg, ${c.bg} 0%, ${c.light} 52%, #ffffff 100%)`;
-  ["surprise-btn","reveal-btn"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.background = c.bg; el.style.boxShadow = `0 8px 28px ${c.bg}bb`; }
-  });
+  const sb = document.getElementById("surprise-btn");
+  if (sb) { sb.style.background = c.bg; sb.style.boxShadow = `0 8px 28px ${c.bg}bb`; }
   const gb = document.getElementById("guess-btn");
   if (mode === "silhouette") { gb.style.background="white"; gb.style.color=c.bg; }
   else { gb.style.background="rgba(255,255,255,0.28)"; gb.style.color="white"; }
 }
 
 // ── MAIN RENDER ──────────────────────────────────────────────
-function renderPokemon(p, forceReveal) {
-  current = p; revealed = forceReveal || false; whoAnswered = false;
+function renderPokemon(p) {
+  current = p; whoAnswered = false;
   const mainType = p.types[0];
-  const isSilhouette = (mode === "silhouette" && !revealed);
+  const isSilhouette = (mode === "silhouette");
   setBackground(mainType);
 
   document.getElementById("poke-number").textContent =
@@ -530,6 +528,14 @@ function renderPokemon(p, forceReveal) {
     : "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
   img.classList.remove("popin"); void img.offsetWidth;
   img.src = spriteUrl(p.id); img.classList.add("popin");
+
+  const clueEl = document.getElementById("poke-clue");
+  if (isSilhouette && p.clue) {
+    clueEl.textContent = "💡 " + p.clue;
+    clueEl.style.display = "block";
+  } else {
+    clueEl.style.display = "none";
+  }
 
   const nameEl = document.getElementById("poke-name");
   nameEl.textContent = p.name;
@@ -548,7 +554,6 @@ function renderPokemon(p, forceReveal) {
     buildWhoChoices(p);
     document.getElementById("fav-btn").classList.add("hidden");
     document.getElementById("surprise-btn").classList.add("hidden");
-    document.getElementById("reveal-btn").classList.add("hidden");
   } else {
     typesEl.innerHTML = p.types.map(t => {
       const tc = getColors(t);
@@ -559,7 +564,6 @@ function renderPokemon(p, forceReveal) {
     document.getElementById("who-choices").innerHTML = "";
     document.getElementById("fav-btn").classList.remove("hidden");
     document.getElementById("surprise-btn").classList.remove("hidden");
-    document.getElementById("reveal-btn").classList.add("hidden");
   }
 
   const isFav = favorites.some(f => f.id === p.id);
@@ -580,40 +584,42 @@ function buildWhoChoices(p) {
 
 function checkWhoGuess(id, btn) {
   if (whoAnswered) return;
-  whoAnswered = true;
-  document.querySelectorAll(".who-choice").forEach(b => b.onclick = null);
-  document.getElementById("poke-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-  const nameEl = document.getElementById("poke-name");
-  nameEl.textContent = current.name;
-  Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0"});
-  document.getElementById("types").innerHTML = current.types.map(t => {
-    const tc = getColors(t);
-    return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
-  }).join("");
-  document.getElementById("fact-box").style.display = "block";
-  document.getElementById("fact-box").textContent =
-    `${current.name} ${current.mega ? "is a powerful Mega Evolution! 💎" : (FUN_FACTS[current.types[0]] || "is amazing!")}`;
 
   if (String(id) === String(current.id)) {
+    // CORRECT
+    whoAnswered = true;
     btn.classList.add("correct");
+    document.querySelectorAll(".who-choice").forEach(b => b.onclick = null);
+
+    // Reveal everything
+    document.getElementById("poke-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
+    document.getElementById("poke-clue").style.display = "none";
+    const nameEl = document.getElementById("poke-name");
+    nameEl.textContent = current.name;
+    Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0"});
+    document.getElementById("types").innerHTML = current.types.map(t => {
+      const tc = getColors(t);
+      return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
+    }).join("");
+    document.getElementById("fact-box").style.display = "block";
+    document.getElementById("fact-box").textContent =
+      `${current.name} ${current.mega ? "is a powerful Mega Evolution! 💎" : (FUN_FACTS[current.types[0]] || "is amazing!")}`;
     document.getElementById("who-result").textContent = "🎉 You got it!";
+    document.getElementById("surprise-btn").classList.remove("hidden");
+    document.getElementById("fav-btn").classList.remove("hidden");
     soundCorrect(); burst();
+
   } else {
-    btn.classList.add("wrong");
-    document.querySelectorAll(".who-choice").forEach(b => {
-      const m = b.getAttribute("onclick").match(/'([^']+)'/);
-      if (m && m[1] === String(current.id)) b.classList.add("correct");
-    });
-    document.getElementById("who-result").textContent = `It was ${current.name}! Try again!`;
+    // WRONG — dim this button only, keep others active
+    btn.classList.add("dimmed");
+    btn.onclick = null;
+    document.getElementById("who-result").textContent = "Not quite — try again!";
     soundWrong();
   }
-  document.getElementById("surprise-btn").classList.remove("hidden");
-  document.getElementById("fav-btn").classList.remove("hidden");
 }
 
 function randomPokemon() { return POKEMON[Math.floor(Math.random()*POKEMON.length)]; }
 function handleSurprise() { soundSurprise(); burst(); renderPokemon(randomPokemon()); }
-function handleReveal()   { revealed = true; burst(); renderPokemon(current, true); }
 
 function toggleMode() {
   mode = mode === "silhouette" ? "explore" : "silhouette";
@@ -634,6 +640,7 @@ function toggleFav() {
 
 // ── EVOLUTION GAME ───────────────────────────────────────────
 let evoAnswer = null;
+let evoBaseName = "";
 
 function startEvoGame() {
   soundModeSwitch('explore');
@@ -644,6 +651,7 @@ function startEvoGame() {
 }
 
 function exitEvoGame() {
+  window.speechSynthesis && window.speechSynthesis.cancel();
   document.getElementById("evo-game").style.display = "none";
   document.getElementById("main").style.display = "flex";
   document.getElementById("hint").textContent = mode === "silhouette"
@@ -651,11 +659,13 @@ function exitEvoGame() {
 }
 
 function nextEvoRound() {
+  window.speechSynthesis && window.speechSynthesis.cancel();
   document.getElementById("evo-result").textContent = "";
   document.getElementById("evo-next-btn").style.display = "none";
 
   const pool = POKEMON.filter(p => p.evolvesTo !== null);
   const base = pool[Math.floor(Math.random()*pool.length)];
+  evoBaseName = base.name;
 
   let evoId = Array.isArray(base.evolvesTo)
     ? base.evolvesTo[Math.floor(Math.random()*base.evolvesTo.length)]
@@ -665,7 +675,10 @@ function nextEvoRound() {
   if (!evoAnswer) { nextEvoRound(); return; }
 
   setBackground(base.types[0]);
-  document.getElementById("evo-question").textContent = `Who does ${base.name} evolve into?`;
+
+  // Tappable name in question
+  document.getElementById("evo-question").innerHTML =
+    `Who does <span class="spell-name" onclick="spellName('${base.name}')">${base.name}</span> evolve into?`;
 
   const note = document.getElementById("evo-special-note");
   if (base.specialEvo) { note.textContent = "✨ " + base.specialEvo; note.style.display = "block"; }
@@ -683,22 +696,21 @@ function nextEvoRound() {
 }
 
 function checkEvoGuess(id, btn) {
-  document.querySelectorAll(".evo-choice").forEach(b => b.onclick = null);
-  document.getElementById("evo-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
   if (String(id) === String(evoAnswer.id)) {
+    // CORRECT
+    document.querySelectorAll(".evo-choice").forEach(b => b.onclick = null);
     btn.classList.add("correct");
+    document.getElementById("evo-img").style.filter = "drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
     document.getElementById("evo-result").textContent = "🎉 That's right!";
+    document.getElementById("evo-next-btn").style.display = "block";
     soundCorrect(); burst();
   } else {
-    btn.classList.add("wrong");
-    document.querySelectorAll(".evo-choice").forEach(b => {
-      const m = b.getAttribute("onclick").match(/'([^']+)'/);
-      if (m && m[1] === String(evoAnswer.id)) b.classList.add("correct");
-    });
-    document.getElementById("evo-result").textContent = `It was ${evoAnswer.name}!`;
+    // WRONG — dim only this button
+    btn.classList.add("dimmed");
+    btn.onclick = null;
+    document.getElementById("evo-result").textContent = "Not quite — try again!";
     soundWrong();
   }
-  document.getElementById("evo-next-btn").style.display = "block";
 }
 
 // ── FAVORITES ────────────────────────────────────────────────
