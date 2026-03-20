@@ -638,7 +638,12 @@ function handleSurprise() { soundSurprise(); burst(); renderPokemon(randomPokemo
 function toggleMode() {
   mode = mode === "silhouette" ? "explore" : "silhouette";
   soundModeSwitch(mode);
-  renderPokemon(current || randomPokemon());
+  // Always ensure main is visible and evo is hidden
+  document.getElementById("evo-game").style.display = "none";
+  document.getElementById("main").style.display = "flex";
+  document.getElementById("hint").style.display = "block";
+  // Load a fresh Pokémon in whatever mode we just entered
+  renderPokemon(randomPokemon());
 }
 
 function toggleFav() {
@@ -775,6 +780,7 @@ function burst() {
 function startGame() {
   soundStart();
   preloadClips();
+  mode = "silhouette";  // always start in guess mode
   const splash = document.getElementById("splash");
   splash.style.opacity = "0";
   setTimeout(() => { splash.style.display = "none"; }, 600);
