@@ -522,6 +522,7 @@ function renderPokemon(p) {
     typeof p.id === "number" ? "#" + String(p.id).padStart(3,"0") : "";
   document.getElementById("mega-badge").style.display = p.mega ? "inline-block" : "none";
 
+  // Image — filter BEFORE src
   const img = document.getElementById("poke-img");
   img.style.filter = isSilhouette
     ? "brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))"
@@ -529,20 +530,30 @@ function renderPokemon(p) {
   img.classList.remove("popin"); void img.offsetWidth;
   img.src = spriteUrl(p.id); img.classList.add("popin");
 
+  // Name — apply mask styles BEFORE setting textContent
+  const nameEl = document.getElementById("poke-name");
+  if (isSilhouette) {
+    Object.assign(nameEl.style, {
+      color:"transparent", background:"#555",
+      borderRadius:"12px", padding:"4px 28px", textShadow:"none"
+    });
+    nameEl.textContent = p.name;  // written while already masked
+  } else {
+    Object.assign(nameEl.style, {
+      color:"#1a1a1a", background:"transparent",
+      borderRadius:"0", padding:"0",
+      textShadow:"0 2px 8px rgba(0,0,0,0.08)"
+    });
+    nameEl.textContent = p.name;
+  }
+
+  // Clue
   const clueEl = document.getElementById("poke-clue");
   if (isSilhouette && p.clue) {
     clueEl.textContent = "💡 " + p.clue;
     clueEl.style.display = "block";
   } else {
     clueEl.style.display = "none";
-  }
-
-  const nameEl = document.getElementById("poke-name");
-  nameEl.textContent = p.name;
-  if (isSilhouette) {
-    Object.assign(nameEl.style,{color:"transparent",background:"#555",borderRadius:"12px",padding:"4px 28px",textShadow:"none"});
-  } else {
-    Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0",textShadow:"0 2px 8px rgba(0,0,0,0.08)"});
   }
 
   const typesEl = document.getElementById("types");
@@ -560,7 +571,9 @@ function renderPokemon(p) {
       return `<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;
     }).join("");
     factEl.style.display = "block";
-    factEl.textContent = `${p.name} ${p.mega ? "is a powerful Mega Evolution! 💎" : (FUN_FACTS[mainType] || "is an amazing Pokémon!")}`;
+    factEl.textContent = `${p.name} ${p.mega
+      ? "is a powerful Mega Evolution! 💎"
+      : (FUN_FACTS[mainType] || "is an amazing Pokémon!")}`;
     document.getElementById("who-choices").innerHTML = "";
     document.getElementById("fav-btn").classList.remove("hidden");
     document.getElementById("surprise-btn").classList.remove("hidden");
@@ -571,6 +584,7 @@ function renderPokemon(p) {
   document.getElementById("fav-btn").style.transform = isFav ? "scale(1.18)" : "scale(1)";
   document.getElementById("hint").textContent = mode === "silhouette"
     ? "👁️ Who's that Pokémon?" : "Tap 🎲 to discover a new Pokémon!";
+}
 }
 
 // ── WHO CHOICES ──────────────────────────────────────────────
