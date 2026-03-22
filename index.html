@@ -2,813 +2,701 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Nate's PokéPal Game</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Poetry">
+<meta name="theme-color" content="#faf9f7">
+<title>Poetry Archive</title>
+<link rel="manifest" href="manifest.json">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; background: #1a1a2e; }
-  #app { min-height: 100vh; display: flex; flex-direction: column; transition: background 0.6s ease; }
-  #header { display: flex; justify-content: space-between; align-items: center; padding: 48px 16px 8px; flex-wrap: wrap; gap: 6px; }
-  #logo { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.2; }
-  #controls { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
-  .ctrl-btn { border: none; border-radius: 20px; padding: 9px 13px; font-size: 0.88rem; font-weight: 800; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  /* SCOREBOARD */
-  #scoreboard { display: flex; justify-content: center; gap: 16px; padding: 6px 16px 2px; }
-  .score-pill { border-radius: 20px; padding: 5px 16px; font-size: 1rem; font-weight: 900; color: white; }
-  #score-right { background: #5DBB63; }
-  #score-wrong { background: #e05050; }
-  #main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px 20px 14px; text-align: center; }
-  #poke-number { font-size: 0.95rem; font-weight: 900; color: rgba(255,255,255,0.7); margin-bottom: 2px; letter-spacing: 0.05em; }
-  #poke-img { width: 165px; height: 165px; object-fit: contain; transition: filter 0.5s ease; }
-  #poke-clue { font-size: 0.95rem; font-weight: 700; color: white; background: rgba(0,0,0,0.22); border-radius: 14px; padding: 6px 16px; margin: 6px auto 2px; max-width: 300px; display: none; backdrop-filter: blur(4px); }
-  #poke-name { font-size: 2.2rem; font-weight: 900; margin: 6px 0 4px; line-height: 1.05; }
-  #types { margin-bottom: 6px; min-height: 32px; }
-  .type-badge { display: inline-block; padding: 5px 14px; border-radius: 999px; font-weight: 900; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.07em; margin: 3px; color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  #fact-box { background: rgba(255,255,255,0.72); border-radius: 16px; padding: 9px 18px; font-size: 1rem; font-weight: 700; color: #444; max-width: 300px; margin: 0 auto 5px; backdrop-filter: blur(6px); }
-  #mega-badge { background: linear-gradient(135deg, #FFD700, #FF6B35); color: white; border-radius: 14px; padding: 5px 14px; font-size: 0.85rem; font-weight: 900; margin: 4px auto; display: none; box-shadow: 0 3px 10px rgba(255,107,53,0.4); }
-  /* COUNTDOWN */
-  #countdown-wrap { margin: 8px auto 4px; display: none; flex-direction: column; align-items: center; gap: 4px; }
-  #read-prompt { font-size: 1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); animation: pulse 1s ease-in-out infinite; }
-  #countdown-bar-bg { width: 220px; height: 10px; background: rgba(255,255,255,0.25); border-radius: 99px; overflow: hidden; }
-  #countdown-bar { height: 100%; background: white; border-radius: 99px; transition: width 0.1s linear; }
-  #countdown-num { font-size: 1.5rem; font-weight: 900; color: white; }
-  /* WHO CHOICES */
-  #who-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; width: 100%; max-width: 330px; }
-  .who-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; animation: popIn 0.3s ease; }
-  .who-choice:active { transform: scale(0.95); }
-  .who-choice.correct { background: #5DBB63; color: white; }
-  .who-choice.dimmed { opacity: 0.28; pointer-events: none; }
-  #who-result { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 8px; min-height: 26px; }
-  #btn-area { display: flex; gap: 12px; margin-top: 12px; align-items: center; }
-  #surprise-btn { border: none; border-radius: 28px; padding: 16px 32px; font-size: 1.4rem; font-weight: 900; cursor: pointer; color: white; transition: transform 0.1s; }
-  #surprise-btn:active { transform: scale(0.95); }
-  #fav-btn { background: white; border: none; border-radius: 50%; width: 58px; height: 58px; font-size: 1.7rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.18s; }
-  #hint { text-align: center; padding: 4px 20px 28px; color: rgba(0,0,0,0.3); font-size: 0.85rem; font-weight: 600; }
-  /* EVO GAME */
-  #evo-game { display: none; flex-direction: column; align-items: center; padding: 8px 20px 20px; text-align: center; }
-  #evo-question { font-size: 1.15rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 6px; max-width: 310px; line-height: 1.4; }
-  #evo-question .spell-name { background: rgba(255,255,255,0.25); border-radius: 8px; padding: 2px 10px; cursor: pointer; border-bottom: 2px solid rgba(255,255,255,0.7); transition: background 0.15s; display: inline-block; }
-  #evo-question .spell-name:active { background: rgba(255,255,255,0.45); }
-  #spell-hint { font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.65); margin-bottom: 6px; }
-  #evo-special-note { font-size: 0.88rem; font-weight: 800; background: rgba(255,255,255,0.22); border-radius: 12px; padding: 5px 14px; color: white; margin-bottom: 8px; display: none; }
-  #evo-img { width: 150px; height: 150px; object-fit: contain; transition: filter 0.5s ease; }
-  /* EVO COUNTDOWN */
-  #evo-countdown-wrap { margin: 6px auto 4px; display: none; flex-direction: column; align-items: center; gap: 4px; }
-  #evo-read-prompt { font-size: 1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); animation: pulse 1s ease-in-out infinite; }
-  #evo-countdown-bar-bg { width: 220px; height: 10px; background: rgba(255,255,255,0.25); border-radius: 99px; overflow: hidden; }
-  #evo-countdown-bar { height: 100%; background: white; border-radius: 99px; transition: width 0.1s linear; }
-  #evo-countdown-num { font-size: 1.5rem; font-weight: 900; color: white; }
-  #evo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 12px; width: 100%; max-width: 330px; }
-  .evo-choice { border: none; border-radius: 18px; padding: 14px 8px; font-size: 1rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.88); color: #333; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; animation: popIn 0.3s ease; }
-  .evo-choice:active { transform: scale(0.95); }
-  .evo-choice.correct { background: #5DBB63; color: white; }
-  .evo-choice.dimmed { opacity: 0.28; pointer-events: none; }
-  #evo-result { font-size: 1.1rem; font-weight: 900; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: 10px; min-height: 26px; }
-  #evo-next-btn { display: none; margin-top: 10px; background: rgba(255,255,255,0.6); border: none; border-radius: 20px; padding: 13px 30px; font-size: 1.2rem; font-weight: 800; cursor: pointer; color: #333; }
-  /* SPLASH */
-  #splash { position: fixed; inset: 0; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
-  #splash h1 { font-size: 2.2rem; font-weight: 900; color: white; text-align: center; line-height: 1.2; text-shadow: 0 4px 20px rgba(0,0,0,0.5); padding: 0 20px; }
-  #splash p { color: rgba(255,255,255,0.7); font-size: 1.1rem; font-weight: 700; margin-top: 12px; }
-  #start-btn { margin-top: 36px; background: linear-gradient(135deg, #FF6B35, #F7C948); color: white; border: none; border-radius: 30px; padding: 22px 56px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 30px rgba(255,107,53,0.5); animation: pulse 2s ease-in-out infinite; -webkit-appearance: none; }
-  #pokeball { font-size: 5rem; margin-bottom: 20px; animation: spin 4s linear infinite; }
-  /* FAVORITES */
-  #favs-screen { display: none; min-height: 100vh; background: #FFF5EE; }
-  #favs-header { background: #FF6B35; padding: 50px 20px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-  #back-btn { background: white; border: none; border-radius: 12px; padding: 10px 18px; font-size: 1rem; font-weight: 900; cursor: pointer; color: #FF6B35; }
-  #favs-title { color: white; font-size: 1.7rem; font-weight: 900; }
-  #favs-empty { text-align: center; padding: 80px 20px; }
-  #favs-empty div { font-size: 5rem; }
-  #favs-empty p { font-size: 1.3rem; font-weight: 800; color: #bbb; margin-top: 14px; }
-  #favs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; padding: 18px; }
-  .fav-card { border-radius: 20px; padding: 16px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.09); border-width: 3px; border-style: solid; }
-  .fav-card img { width: 80px; height: 80px; object-fit: contain; }
-  .fav-name { font-weight: 900; font-size: 0.95rem; color: #222; margin-top: 6px; }
-  .fav-num { font-size: 0.78rem; font-weight: 800; margin-top: 2px; }
-  /* CONFETTI */
-  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; display: none; }
-  .piece { position: absolute; top: -16px; width: 12px; height: 12px; animation: cffall 1.6s ease-in forwards; }
-  @keyframes cffall { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(105vh) rotate(600deg);opacity:0} }
-  @keyframes popIn { 0%{transform:scale(0.15) rotate(-15deg);opacity:0} 65%{transform:scale(1.1) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
-  @keyframes wiggle { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
-  @keyframes spin { to{transform:rotate(360deg)} }
-  .hidden { display: none !important; }
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+  :root{--ink:#1a1a1a;--ink-light:#555;--ink-faint:#999;--paper:#faf9f7;--paper-warm:#f3f1ed;--rule:#ddd8d0;--accent:#8b3a3a;--tag-bg:#e0dbd3;--tag-text:#3a3a3a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;font-weight:300;min-height:100vh}
+  header{padding:1.25rem 1.25rem 0;background:var(--paper);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--rule)}
+  .header-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.85rem}
+  header h1{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase}
+  .header-count{font-size:.75rem;color:var(--ink-faint)}
+  .search-row{margin-bottom:.75rem}
+  #search{width:100%;border:1px solid var(--rule);border-radius:2px;padding:.45rem .65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:300;background:white;color:var(--ink);outline:none;-webkit-appearance:none}
+  #search:focus{border-color:var(--accent)}
+  .filters{padding-bottom:.4rem}
+  .tag-group-row{display:flex;gap:.35rem;flex-wrap:nowrap;overflow-x:auto;padding:.4rem 0 .3rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tag-group-row::-webkit-scrollbar{display:none}
+  .tag-group-btn{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .65rem;border-radius:2px;border:1px solid var(--rule);background:white;color:var(--ink-light);cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap;flex-shrink:0}
+  .tag-group-btn.open{background:var(--paper-warm);border-color:var(--ink-light);color:var(--ink)}
+  .tag-group-btn.has-active{border-color:var(--accent);color:var(--accent)}
+  .tag-group-pills{display:none;flex-wrap:wrap;gap:.3rem;padding:.45rem 0 .55rem;border-bottom:1px solid var(--rule)}
+  .tag-group-pills.open{display:flex}
+  .filter-pill{font-size:.68rem;letter-spacing:.04em;padding:.2rem .55rem;border-radius:2px;border:1px solid var(--rule);background:white;color:var(--ink-light);cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .filter-pill.active{background:var(--accent);color:white;border-color:var(--accent)}
+  .tag-clear-row{padding:.3rem 0 .2rem;display:none}
+  .tag-clear-row.visible{display:block}
+  .clear-pill{font-size:.68rem;color:var(--accent);background:transparent;border:none;cursor:pointer;padding:0;font-weight:600;-webkit-tap-highlight-color:transparent}
+  table{width:100%;border-collapse:collapse}
+  thead tr{border-bottom:2px solid var(--rule);background:var(--paper-warm)}
+  th{font-family:'Source Sans 3',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);padding:.55rem .75rem;text-align:left;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  th:first-child{padding-left:1.25rem}th:last-child{padding-right:1.25rem}
+  th .sa{display:inline-block;margin-left:.3em;opacity:.3;font-size:.62rem}
+  th.sort-active{color:var(--accent)}th.sort-active .sa{opacity:1}
+  tbody tr{border-bottom:1px solid var(--rule);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  tbody tr:active{background:var(--paper-warm)}
+  td{padding:.75rem;vertical-align:top}
+  td:first-child{padding-left:1.25rem}td:last-child{padding-right:1.25rem}
+  .cp{width:42%}.cp-name{font-size:.88rem;color:var(--ink);font-weight:400;line-height:1.4}
+  .cp-dates{font-size:.73rem;color:var(--ink-faint);font-style:italic;margin-top:.1rem}
+  .ct{width:58%}.ct-name{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:400;color:var(--ink);line-height:1.4}
+  .ct-tags{display:flex;flex-wrap:nowrap;gap:.2rem;margin-top:.35rem;overflow:hidden;max-height:1.45rem;align-items:center}
+  .tag{font-family:'Source Sans 3',sans-serif;font-size:.62rem;letter-spacing:.03em;padding:.12rem .4rem;border-radius:2px;background:var(--tag-bg);color:var(--tag-text);white-space:nowrap;flex-shrink:0}
+  .tag-more{font-family:'Source Sans 3',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.03em;padding:.12rem .4rem;border-radius:2px;background:transparent;color:var(--accent);border:1px solid var(--accent);white-space:nowrap;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent;line-height:inherit}
+  .ct-tags.expanded{flex-wrap:wrap;max-height:none;overflow:visible}
+  .ct-tags.expanded .tag-more{display:none}
+  .empty-row td{padding:2.5rem 1.25rem;text-align:center;color:var(--ink-faint);font-size:.88rem;cursor:default}
+  #poem-view{display:none;min-height:100vh}
+  .pvh{padding:1rem 1.25rem .85rem;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:.85rem;position:sticky;top:0;background:var(--paper);z-index:100}
+  .back-btn{font-size:1.5rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0 .2rem;-webkit-tap-highlight-color:transparent;line-height:1.2;flex-shrink:0}
+  .pvm{flex:1}.pv-title{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:400;line-height:1.35}
+  .pv-poet{font-size:.83rem;color:var(--ink-light);margin-top:.2rem}
+  .pv-dates{font-size:.75rem;color:var(--ink-faint);font-style:italic}
+  .pv-tags{padding:.75rem 1.25rem 0;display:flex;flex-wrap:wrap;gap:.28rem}
+  .poem-body{padding:1.75rem 1.75rem 4rem;max-width:520px}
+  .poem-body .stanza{margin-bottom:1.5em}
+  .poem-body p{font-family:'Libre Baskerville',serif;font-size:.96rem;line-height:1.78;color:var(--ink)}
+  .poem-body em{font-style:italic}
+  .poem-body strong{font-weight:700}
+  .add-btn{position:fixed;bottom:1.5rem;right:1.25rem;width:3rem;height:3rem;border-radius:50%;background:var(--accent);color:white;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:202;line-height:1}
+  .mode-menu{position:fixed;bottom:1.5rem;right:1.25rem;z-index:201;pointer-events:none}
+  .fan-item{position:absolute;bottom:0;right:0;width:3.4rem;height:3.4rem;pointer-events:none;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .18s ease}
+  .fan-item.open{opacity:1;pointer-events:auto}
+  .mode-btn{width:3.4rem;height:3.4rem;display:flex;align-items:center;justify-content:center;background:var(--paper);border:1px solid var(--rule);border-radius:50%;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.15);-webkit-tap-highlight-color:transparent;flex-shrink:0;position:absolute;top:0;left:0}
+  .mode-btn .fan-icon{font-size:1.25rem;pointer-events:none}
+  a.mode-btn{text-decoration:none}
+  .fan-label{position:absolute;top:50%;transform:translateY(-50%);right:calc(3.4rem + .6rem);font-size:.8rem;font-family:'Source Sans 3',sans-serif;color:white;font-weight:600;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.5);letter-spacing:.02em;text-align:right}
+  .fan-import-wrap{position:relative;width:3.4rem;height:3.4rem;flex-shrink:0}
+  .fan-import-wrap .mode-btn{position:absolute;inset:0;width:100%;height:100%}
+  .fan-import-wrap input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2}
+  .menu-scrim{position:fixed;inset:0;z-index:198;display:none;background:rgba(0,0,0,0)}
+  .menu-scrim.open{display:block;background:rgba(0,0,0,.35)}
+  .sheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:300;align-items:flex-end}
+  .sheet.open{display:flex}
+  .sheet-inner{background:var(--paper);width:100%;border-radius:12px 12px 0 0;padding:1.5rem 1.25rem;max-height:92vh;overflow-y:auto}
+  .sheet-inner h2{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:400;margin-bottom:1.1rem}
+  .fg{margin-bottom:.85rem}
+  .fg label{display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.25rem}
+  .fg input,.fg textarea{width:100%;border:1px solid var(--rule);border-radius:2px;padding:.45rem .6rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:300;background:white;color:var(--ink);outline:none;-webkit-appearance:none}
+  .fg input:focus,.fg textarea:focus{border-color:var(--accent)}
+  .fg textarea{min-height:110px;resize:vertical;font-family:'Libre Baskerville',serif;font-size:.86rem;line-height:1.65}
+  .sheet-actions{display:flex;gap:.65rem;margin-top:1.1rem}
+  .btn-p{flex:1;background:var(--accent);color:white;border:none;border-radius:2px;padding:.65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer}
+  .btn-s{flex:1;background:none;color:var(--ink-light);border:1px solid var(--rule);border-radius:2px;padding:.65rem;font-family:'Source Sans 3',sans-serif;font-size:.88rem;cursor:pointer}
+  .capture-zone{border:1.5px dashed var(--rule);border-radius:4px;padding:2rem 1rem;text-align:center;cursor:pointer;margin-bottom:1rem;-webkit-tap-highlight-color:transparent}
+  .capture-zone .cz-icon{font-size:2rem;margin-bottom:.4rem}
+  .capture-zone .cz-label{font-size:.85rem;color:var(--ink-light)}
+  #capture-file{display:none}
+  .capture-preview{width:100%;border-radius:4px;margin-bottom:1rem;display:none;max-height:200px;object-fit:contain}
+  .ocr-status{font-size:.8rem;color:var(--ink-faint);text-align:center;padding:.5rem 0;min-height:1.5rem}
+  .ocr-status.working{color:var(--accent)}
+  .ocr-status.done{color:#4a7c4a}
+  .ocr-status.error{color:#c0392b}
+  .settings-btn{position:fixed;bottom:1.5rem;left:1.25rem;width:3rem;height:3rem;border-radius:50%;background:white;border:1px solid var(--rule);color:var(--ink-faint);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .key-status{width:10px;height:10px;border-radius:50%;background:#ccc;display:inline-block;margin-right:.4rem}
+  .key-status.set{background:#4a7c4a}
+  #loading{position:fixed;inset:0;background:var(--paper);display:flex;align-items:center;justify-content:center;z-index:500;font-size:.88rem;color:var(--ink-faint);font-family:'Source Sans 3',sans-serif}
 </style>
 </head>
 <body>
 
-<div id="splash">
-  <div id="pokeball">⚽</div>
-  <h1>Nate's PokéPal Game</h1>
-  <p>How many can you name?</p>
-  <button id="start-btn" onclick="startGame()">▶ Let's Play!</button>
+<div id="loading">Loading archive…</div>
+
+<div id="list-view" style="display:none">
+  <header id="main-header">
+    <div class="header-top">
+      <h1>Poetry Archive</h1>
+      <span class="header-count" id="header-count"></span>
+    </div>
+    <div class="search-row">
+      <input id="search" type="search" placeholder="Search poet, title, or tag…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="filters" id="tag-filters"></div>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th data-col="poet" class="sort-active">Poet <span class="sa">▲</span></th>
+        <th data-col="title">Title <span class="sa">▲</span></th>
+      </tr>
+    </thead>
+    <tbody id="browse-body"></tbody>
+  </table>
 </div>
 
-<div id="confetti"></div>
-
-<div id="app">
-  <div id="header">
-    <div id="logo">🎮 Nate's PokéPal</div>
-    <div id="controls">
-      <button class="ctrl-btn" id="guess-btn" onclick="toggleMode()">👁️ Guess</button>
-      <button class="ctrl-btn" id="evo-btn" onclick="startEvoGame()" style="background:rgba(255,255,255,0.28);color:white;">🥚 Evolve!</button>
-      <button class="ctrl-btn" id="favs-btn" onclick="showFavs()" style="background:rgba(255,255,255,0.28);color:white;">❤️ <span id="fav-count">0</span></button>
+<div id="poem-view">
+  <div class="pvh">
+    <button class="back-btn" id="back-btn">‹</button>
+    <div class="pvm">
+      <div class="pv-title" id="view-title"></div>
+      <div class="pv-poet" id="view-poet"></div>
+      <div class="pv-dates" id="view-dates"></div>
     </div>
   </div>
-
-  <!-- SCOREBOARD -->
-  <div id="scoreboard">
-    <div class="score-pill" id="score-right">✅ Right: 0</div>
-    <div class="score-pill" id="score-wrong">❌ Wrong: 0</div>
-  </div>
-
-  <div id="main">
-    <div id="poke-number"></div>
-    <img id="poke-img" src="" alt="Pokemon">
-    <div id="mega-badge">⚡ MEGA EVOLUTION</div>
-    <div id="poke-clue"></div>
-    <!-- COUNTDOWN shown while buttons are locked -->
-    <div id="countdown-wrap">
-      <div id="read-prompt">📖 Read the clue first!</div>
-      <div id="countdown-bar-bg"><div id="countdown-bar" style="width:100%"></div></div>
-      <div id="countdown-num">4</div>
-    </div>
-    <h1 id="poke-name"></h1>
-    <div id="types"></div>
-    <div id="fact-box"></div>
-    <div id="who-choices"></div>
-    <div id="who-result"></div>
-    <div id="btn-area">
-      <button id="fav-btn" onclick="toggleFav()">🤍</button>
-      <button id="surprise-btn" onclick="handleSurprise()">🎲 Surprise Me!</button>
-    </div>
-  </div>
-
-  <div id="evo-game">
-    <div id="evo-question"></div>
-    <div id="spell-hint">👆 Tap the name to hear it spelled out!</div>
-    <div id="evo-special-note"></div>
-    <img id="evo-img" src="" alt="Evolution">
-    <!-- EVO COUNTDOWN -->
-    <div id="evo-countdown-wrap">
-      <div id="evo-read-prompt">📖 Think about it first!</div>
-      <div id="evo-countdown-bar-bg"><div id="evo-countdown-bar" style="width:100%"></div></div>
-      <div id="evo-countdown-num">4</div>
-    </div>
-    <div id="evo-choices"></div>
-    <div id="evo-result"></div>
-    <button id="evo-next-btn" onclick="nextEvoRound()">Try Another ➡️</button>
-    <button onclick="exitEvoGame()" style="margin-top:12px;background:rgba(255,255,255,0.4);border:none;border-radius:20px;padding:11px 26px;font-size:1rem;font-weight:800;cursor:pointer;color:#333;">← Back</button>
-  </div>
-
-  <div id="hint"></div>
+  <div class="pv-tags" id="view-tags"></div>
+  <div class="poem-body" id="view-body"></div>
 </div>
 
-<div id="favs-screen">
-  <div id="favs-header">
-    <button id="back-btn" onclick="hideFavs()">← Back</button>
-    <div id="favs-title">❤️ My Pokémon</div>
+<button class="settings-btn" id="settings-btn" title="Settings">⚙︎</button>
+<div class="menu-scrim" id="menu-scrim"></div>
+<div class="mode-menu" id="mode-menu">
+  <div class="fan-item" id="fan-import" style="transform:translate(0,0)">
+    <span class="fan-label">Import</span>
+    <div class="fan-import-wrap">
+      <button class="mode-btn"><span class="fan-icon">📂</span></button>
+      <input type="file" id="import-file" accept=".json,application/json" multiple>
+    </div>
   </div>
-  <div id="favs-empty"><div>🤍</div><p>Tap ❤️ to save favorites!</p></div>
-  <div id="favs-grid"></div>
+  <div class="fan-item" id="fan-manual" style="transform:translate(0,0)">
+    <span class="fan-label" style="right:auto;left:50%;transform:translate(-50%,-100%);top:-.4rem;text-align:center">Manual</span>
+    <button class="mode-btn" id="btn-manual"><span class="fan-icon">✎</span></button>
+  </div>
+  <div class="fan-item" id="fan-camera" style="transform:translate(0,0)">
+    <span class="fan-label">Camera</span>
+    <a class="mode-btn" href="shortcuts://run-shortcut?name=Poem%20Camera" onclick="closeMenu()"><span class="fan-icon">📷</span></a>
+  </div>
+  <div class="fan-item" id="fan-photos" style="transform:translate(0,0)">
+    <span class="fan-label">Photos</span>
+    <a class="mode-btn" href="shortcuts://run-shortcut?name=Poem%20Photos" onclick="closeMenu()"><span class="fan-icon">🖼</span></a>
+  </div>
+</div>
+<button class="add-btn" id="add-btn">+</button>
+
+<div class="sheet" id="capture-sheet">
+  <div class="sheet-inner">
+    <h2>Capture Poem</h2>
+    <div class="capture-zone" id="capture-zone">
+      <div class="cz-icon">📷</div>
+      <div class="cz-label">Tap to take photo or choose from library</div>
+    </div>
+    <input type="file" id="capture-file" accept="image/*">
+    <img class="capture-preview" id="capture-preview">
+    <div class="ocr-status" id="ocr-status"></div>
+    <div id="capture-form" style="display:none">
+      <div class="fg"><label>Poet</label><input id="cap-poet" type="text"></div>
+      <div class="fg"><label>Title</label><input id="cap-title" type="text"></div>
+      <div class="fg"><label>Dates (optional)</label><input id="cap-dates" type="text"></div>
+      <div class="fg"><label>Tags (comma-separated)</label><input id="cap-tags" type="text"></div>
+      <div class="fg"><label>Poem text (review only)</label><textarea id="cap-text"></textarea></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-s" id="cap-cancel">Cancel</button>
+      <button class="btn-p" id="cap-save" style="display:none">Save Poem</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="manual-sheet">
+  <div class="sheet-inner">
+    <h2>Add Poem</h2>
+    <div class="fg"><label>Poet</label><input id="new-poet" type="text"></div>
+    <div class="fg"><label>Title</label><input id="new-title" type="text"></div>
+    <div class="fg"><label>Dates (optional)</label><input id="new-dates" type="text"></div>
+    <div class="fg"><label>Tags (comma-separated)</label><input id="new-tags" type="text"></div>
+    <div class="fg"><label>Poem text</label><textarea id="new-text" placeholder="Blank lines = stanza breaks."></textarea></div>
+    <div class="sheet-actions">
+      <button class="btn-s" id="cancel-manual">Cancel</button>
+      <button class="btn-p" id="save-manual">Save Poem</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="settings-sheet">
+  <div class="sheet-inner">
+    <h2>Settings</h2>
+    <div class="fg">
+      <label><span class="key-status" id="key-status"></span>Anthropic API Key</label>
+      <input id="api-key-input" type="password" placeholder="sk-ant-…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <p style="font-size:.75rem;color:var(--ink-faint);margin-top:-.4rem;margin-bottom:.85rem">Stored on this device only. Required for photo capture.</p>
+    <div class="fg">
+      <label>Archive</label>
+      <div id="db-info" style="font-size:.8rem;color:var(--ink-faint);padding:.3rem 0"></div>
+    </div>
+    <div class="fg">
+      <label>Export</label>
+      <p style="font-size:.75rem;color:var(--ink-faint);margin-bottom:.5rem">Download all poems from IndexedDB as a JSON backup.</p>
+      <button class="btn-s" id="export-btn" style="width:100%">Export Archive…</button>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-s" id="cancel-settings">Cancel</button>
+      <button class="btn-p" id="save-settings">Save</button>
+    </div>
+  </div>
 </div>
 
 <script>
-// ── AUDIO ENGINE ─────────────────────────────────────────────
-let audioCtx=null;
-function getAudio(){
-  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}
-  return audioCtx;
-}
-const CLIPS={};
-const CLIP_FILES={right1:'right1.wav',right2:'right2.wav',right3:'right3.wav',right4:'right4.wav',right5:'right5.wav',wrong1:'wrong1.wav',wrong2:'wrong2.wav',winner1:'winner1.wav',winner2:'winner2.wav'};
-async function preloadClips(){
-  const ctx=getAudio();if(!ctx)return;
-  await Promise.all(Object.entries(CLIP_FILES).map(async([key,file])=>{
-    try{const r=await fetch(file);const b=await r.arrayBuffer();CLIPS[key]=await ctx.decodeAudioData(b);}catch(e){console.warn('Could not load',file);}
-  }));
-}
-function playClip(buf){if(!buf)return;const ctx=getAudio();if(!ctx)return;try{const s=ctx.createBufferSource();s.buffer=buf;s.connect(ctx.destination);s.start(0);}catch(e){}}
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
-function soundCorrect(){playClip(pick([CLIPS.right1,CLIPS.right2,CLIPS.right3,CLIPS.right4,CLIPS.right5]));}
-function soundWrong(){playClip(CLIPS.wrong1);}
-function soundModeSwitch(toMode){playClip(toMode==='silhouette'?CLIPS.winner1:CLIPS.winner2);}
-function soundStart(){
-  const ctx=getAudio();if(!ctx)return;
-  try{const t=ctx.currentTime;function pt(f,tp,d,v,s){const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=tp;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(0.001,s+d);o.start(s);o.stop(s+d);}[261,329,392,523].forEach((f,i)=>pt(f,'triangle',0.18,0.3,t+i*0.1));setTimeout(()=>{const c=getAudio();if(c)pt(784,'triangle',0.4,0.35,c.currentTime);},450);}catch(e){}
-}
-function soundSurprise(){
-  const ctx=getAudio();if(!ctx)return;
-  try{const t=ctx.currentTime;function pt(f,tp,d,v,s){const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=tp;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(0.001,s+d);o.start(s);o.stop(s+d);}pt(400,'sine',0.06,0.2,t);pt(600,'sine',0.1,0.2,t+0.07);}catch(e){}
+// ── IndexedDB ──────────────────────────────────────────────────────────────
+const DB_NAME = 'poetry-archive', DB_VER = 1, STORE = 'poems';
+let db;
+
+function openDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains(STORE)) {
+        d.createObjectStore(STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = e => { db = e.target.result; res(db); };
+    req.onerror = e => rej(e.target.error);
+  });
 }
 
-// ── LETTER SPELLING ───────────────────────────────────────────
-function spellName(name){
-  if(!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  const clean=name.replace(/[^a-zA-Z\s\-\.]/g,'');
-  let i=0;
-  function speakNext(){
-    if(i>=clean.length)return;
-    const ch=clean[i];
-    if(ch===' '||ch==='-'||ch==='.'){i++;speakNext();return;}
-    const u=new SpeechSynthesisUtterance(ch);
-    u.rate=0.85;u.pitch=1.1;u.volume=1.0;
-    u.onend=()=>{i++;setTimeout(speakNext,80);};
-    window.speechSynthesis.speak(u);
+const tx = (mode) => db.transaction(STORE, mode).objectStore(STORE);
+
+function dbGetAll() {
+  return new Promise((res, rej) => {
+    const req = tx('readonly').getAll();
+    req.onsuccess = () => res(req.result);
+    req.onerror = e => rej(e.target.error);
+  });
+}
+
+function dbPut(poem) {
+  return new Promise((res, rej) => {
+    const req = tx('readwrite').put(poem);
+    req.onsuccess = () => res();
+    req.onerror = e => rej(e.target.error);
+  });
+}
+
+function dbPutMany(poems) {
+  return new Promise((res, rej) => {
+    const store = db.transaction(STORE, 'readwrite').objectStore(STORE);
+    let done = 0;
+    const next = () => { if (++done === poems.length) res(); };
+    for (const p of poems) {
+      const req = store.put(p);
+      req.onsuccess = next;
+      req.onerror = e => rej(e.target.error);
+    }
+    if (!poems.length) res();
+  });
+}
+
+function dbCount() {
+  return new Promise((res, rej) => {
+    const req = tx('readonly').count();
+    req.onsuccess = () => res(req.result);
+    req.onerror = e => rej(e.target.error);
+  });
+}
+
+// ── Seed sync (fingerprint-based) ─────────────────────────────────────────
+// Fingerprint = "{count}:{newest added date}" — computed from seed content.
+// Reseed triggers automatically when fingerprint changes. No manual version bump needed.
+const SEED_FP_KEY = 'pa_seed_fp';
+
+function seedFingerprint(poems) {
+  const newest = poems.reduce((a, p) => (p.added||'') > a ? (p.added||'') : a, '');
+  return `${poems.length}:${newest}`;
+}
+
+async function syncSeed() {
+  try {
+    const seedUrl = 'https://trillnjoy.github.io/Claude_Artifacts/poems_seed.json?nocache=' + Date.now();
+    const resp = await fetch(seedUrl, { cache: 'no-store' });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const raw = await resp.json();
+
+    const seedPoems = Array.isArray(raw) ? raw : raw.poems;
+    const seedFP = seedFingerprint(seedPoems);
+    const storedFP = localStorage.getItem(SEED_FP_KEY) || '';
+    const count = await dbCount();
+
+    // Reseed if: empty, fingerprint changed, or count mismatch
+    if (count === 0 || seedFP !== storedFP || count !== seedPoems.length) {
+      await new Promise((res, rej) => {
+        const req = db.transaction(STORE, 'readwrite').objectStore(STORE).clear();
+        req.onsuccess = res; req.onerror = e => rej(e.target.error);
+      });
+      for (const p of seedPoems) await dbPut(p);
+      localStorage.setItem(SEED_FP_KEY, seedFP);
+      console.log(`Seed resynced [${seedFP}]: loaded ${seedPoems.length} poems (was ${count})`);
+    }
+  } catch(e) {
+    console.warn('Seed sync failed:', e.message);
   }
-  speakNext();
 }
 
-// ── DATA ─────────────────────────────────────────────────────
-const TYPE_COLORS={
-  fire:{bg:"#FF6B35",light:"#FFE4D6",emoji:"🔥"},water:{bg:"#4A90D9",light:"#D6EAFF",emoji:"💧"},
-  grass:{bg:"#5DBB63",light:"#D6F5D6",emoji:"🌿"},electric:{bg:"#F7C948",light:"#FFF9CC",emoji:"⚡"},
-  psychic:{bg:"#E040A0",light:"#FFD6F0",emoji:"🔮"},ice:{bg:"#74CCF4",light:"#E0F7FF",emoji:"❄️"},
-  dragon:{bg:"#5A3E9B",light:"#E8DCFF",emoji:"🐉"},dark:{bg:"#4A3728",light:"#DDD0C8",emoji:"🌑"},
-  fairy:{bg:"#F0A0C0",light:"#FFE8F4",emoji:"✨"},fighting:{bg:"#C03028",light:"#FFD6D6",emoji:"👊"},
-  poison:{bg:"#A040A0",light:"#F0D6F0",emoji:"☠️"},ground:{bg:"#E0C068",light:"#FFF5D6",emoji:"⛰️"},
-  flying:{bg:"#A890F0",light:"#EEE8FF",emoji:"🌬️"},bug:{bg:"#A8B820",light:"#F0F5CC",emoji:"🐛"},
-  rock:{bg:"#B8A038",light:"#F5EDD6",emoji:"🪨"},ghost:{bg:"#705898",light:"#E8D6FF",emoji:"👻"},
-  steel:{bg:"#B8B8D0",light:"#EBEBF5",emoji:"⚙️"},normal:{bg:"#A8A878",light:"#F0F0E0",emoji:"⭐"},
-};
-const FUN_FACTS={
-  fire:"breathes scorching fire 🔥",water:"loves splashing in the water 💧",
-  grass:"soaks up sunlight to grow strong 🌿",electric:"zaps with lightning bolts ⚡",
-  psychic:"can read your mind 🔮",ice:"makes everything frosty ❄️",
-  dragon:"is a mighty dragon 🐉",dark:"lurks in the shadows 🌑",
-  fairy:"sparkles with magical power ✨",fighting:"has super strong muscles 👊",
-  poison:"is a sneaky trickster ☠️",ground:"loves to dig underground ⛰️",
-  flying:"soars high in the sky 🌬️",bug:"scuttles around on six legs 🐛",
-  rock:"is tough as a rock 🪨",ghost:"can disappear and reappear 👻",
-  steel:"has super hard metal armor ⚙️",normal:"is a fantastic friend ⭐",
-};
+// ── State ──────────────────────────────────────────────────────────────────
+let allPoems = [], sortCol = 'poet', sortDir = 1, activeTag = null, query = '';
 
-const POKEMON=[
-  {id:1,name:"Bulbasaur",types:["grass","poison"],evolvesTo:2,clue:"🌱 Has a plant bulb on its back"},
-  {id:2,name:"Ivysaur",types:["grass","poison"],evolvesTo:3,clue:"🌸 Bulbasaur's middle form"},
-  {id:3,name:"Venusaur",types:["grass","poison"],evolvesTo:"mega-3",specialEvo:"Mega Evolves with Venusaurite 💎",clue:"🌺 Big flower on its back"},
-  {id:4,name:"Charmander",types:["fire"],evolvesTo:5,clue:"🔥 Has a flame on its tail"},
-  {id:5,name:"Charmeleon",types:["fire"],evolvesTo:6,clue:"🔥 Charmander's middle form"},
-  {id:6,name:"Charizard",types:["fire","flying"],evolvesTo:["mega-6x","mega-6y"],specialEvo:"Mega Evolves into Mega Charizard X or Y! 🔥",clue:"🐲 Orange dragon — breathes fire"},
-  {id:7,name:"Squirtle",types:["water"],evolvesTo:8,clue:"💧 Blue turtle with a curly tail"},
-  {id:8,name:"Wartortle",types:["water"],evolvesTo:9,clue:"💧 Squirtle's middle form"},
-  {id:9,name:"Blastoise",types:["water"],evolvesTo:"mega-9",specialEvo:"Mega Evolves with Blastoisinite 💎",clue:"💧 Big turtle with water cannons"},
-  {id:10,name:"Caterpie",types:["bug"],evolvesTo:11,clue:"🐛 Tiny green caterpillar"},
-  {id:11,name:"Metapod",types:["bug"],evolvesTo:12,clue:"🫘 Green cocoon — just hardens"},
-  {id:12,name:"Butterfree",types:["bug","flying"],evolvesTo:null,clue:"🦋 Big white butterfly"},
-  {id:13,name:"Weedle",types:["bug","poison"],evolvesTo:14,clue:"🐛 Tiny bug with a horn on its head"},
-  {id:14,name:"Kakuna",types:["bug","poison"],evolvesTo:15,clue:"🟡 Yellow cocoon, like a shell"},
-  {id:15,name:"Beedrill",types:["bug","poison"],evolvesTo:"mega-15",specialEvo:"Mega Evolves with Beedrillite 💎",clue:"🐝 Giant angry bee with drills"},
-  {id:16,name:"Pidgey",types:["normal","flying"],evolvesTo:17,clue:"🐦 Common little brown bird"},
-  {id:17,name:"Pidgeotto",types:["normal","flying"],evolvesTo:18,clue:"🐦 Pidgey's bigger middle form"},
-  {id:18,name:"Pidgeot",types:["normal","flying"],evolvesTo:"mega-18",specialEvo:"Mega Evolves with Pidgeotite 💎",clue:"🦅 Big fast bird with a yellow crest"},
-  {id:19,name:"Rattata",types:["normal"],evolvesTo:20,clue:"🐭 Small purple rat"},
-  {id:20,name:"Raticate",types:["normal"],evolvesTo:null,clue:"🐭 Big rat with huge teeth"},
-  {id:21,name:"Spearow",types:["normal","flying"],evolvesTo:22,clue:"🐦 Angry little bird, red belly"},
-  {id:22,name:"Fearow",types:["normal","flying"],evolvesTo:null,clue:"🦅 Big scary brown bird"},
-  {id:23,name:"Ekans",types:["poison"],evolvesTo:24,clue:"🐍 Purple snake — its name is 'snake' backwards!"},
-  {id:24,name:"Arbok",types:["poison"],evolvesTo:null,clue:"🐍 Big cobra with a scary face on chest"},
-  {id:25,name:"Pikachu",types:["electric"],evolvesTo:26,specialEvo:"Thunder Stone ⚡",clue:"⚡ Yellow with red cheeks — Ash's partner!"},
-  {id:26,name:"Raichu",types:["electric"],evolvesTo:null,clue:"⚡ Pikachu all grown up"},
-  {id:27,name:"Sandshrew",types:["ground"],evolvesTo:28,clue:"🏜️ Yellow armadillo that rolls up"},
-  {id:28,name:"Sandslash",types:["ground"],evolvesTo:null,clue:"🏜️ Sandshrew with sharp spikes"},
-  {id:29,name:"Nidoran♀",types:["poison"],evolvesTo:30,clue:"💜 Small blue-purple girl Pokémon with tiny horn"},
-  {id:30,name:"Nidorina",types:["poison"],evolvesTo:31,specialEvo:"Moon Stone 🌙",clue:"💜 Nidoran girl's middle form"},
-  {id:31,name:"Nidoqueen",types:["poison","ground"],evolvesTo:null,clue:"💜 Big armored queen Pokémon"},
-  {id:32,name:"Nidoran♂",types:["poison"],evolvesTo:33,clue:"💜 Small purple boy Pokémon with horn"},
-  {id:33,name:"Nidorino",types:["poison"],evolvesTo:34,specialEvo:"Moon Stone 🌙",clue:"💜 Nidoran boy's middle form"},
-  {id:34,name:"Nidoking",types:["poison","ground"],evolvesTo:null,clue:"💜 Big powerful purple king"},
-  {id:35,name:"Clefairy",types:["fairy"],evolvesTo:36,specialEvo:"Moon Stone 🌙",clue:"🌙 Pink fairy — loves moonlight"},
-  {id:36,name:"Clefable",types:["fairy"],evolvesTo:null,clue:"🌙 Bigger pink fairy with wings"},
-  {id:37,name:"Vulpix",types:["fire"],evolvesTo:38,specialEvo:"Fire Stone 🔥",clue:"🦊 Cute orange fox with six tails"},
-  {id:38,name:"Ninetales",types:["fire"],evolvesTo:null,clue:"🦊 Beautiful fox with nine golden tails"},
-  {id:39,name:"Jigglypuff",types:["normal","fairy"],evolvesTo:40,specialEvo:"Moon Stone 🌙",clue:"🎤 Round pink singer — puts you to sleep!"},
-  {id:40,name:"Wigglytuff",types:["normal","fairy"],evolvesTo:null,clue:"🎵 Jigglypuff all grown up"},
-  {id:41,name:"Zubat",types:["poison","flying"],evolvesTo:42,clue:"🦇 Blue bat — no eyes, lives in caves"},
-  {id:42,name:"Golbat",types:["poison","flying"],evolvesTo:null,clue:"🦇 Big bat with a huge mouth"},
-  {id:43,name:"Oddish",types:["grass","poison"],evolvesTo:44,clue:"🌿 Blue round blob with leaves on head"},
-  {id:44,name:"Gloom",types:["grass","poison"],evolvesTo:45,specialEvo:"Leaf Stone 🍃 or Sun Stone ☀️",clue:"🌸 Flower on its head, always drooling"},
-  {id:45,name:"Vileplume",types:["grass","poison"],evolvesTo:null,clue:"🌸 Giant red flower on top"},
-  {id:46,name:"Paras",types:["bug","grass"],evolvesTo:47,clue:"🍄 Crab with mushrooms on its back"},
-  {id:47,name:"Parasect",types:["bug","grass"],evolvesTo:null,clue:"🍄 Big crab — mushroom controls it!"},
-  {id:48,name:"Venonat",types:["bug","poison"],evolvesTo:49,clue:"🐛 Round fuzzy bug with big red eyes"},
-  {id:49,name:"Venomoth",types:["bug","poison"],evolvesTo:null,clue:"🦋 Purple poisonous moth"},
-  {id:50,name:"Diglett",types:["ground"],evolvesTo:51,clue:"🌱 Tiny brown head poking from ground"},
-  {id:51,name:"Dugtrio",types:["ground"],evolvesTo:null,clue:"🌱 Three Digletts poking up together"},
-  {id:52,name:"Meowth",types:["normal"],evolvesTo:53,clue:"🐱 Team Rocket's talking cat"},
-  {id:53,name:"Persian",types:["normal"],evolvesTo:null,clue:"🐱 Elegant cat — Giovanni's favorite"},
-  {id:54,name:"Psyduck",types:["water"],evolvesTo:55,clue:"🦆 Yellow duck with a headache"},
-  {id:55,name:"Golduck",types:["water"],evolvesTo:null,clue:"🦆 Tall blue duck, fast swimmer"},
-  {id:56,name:"Mankey",types:["fighting"],evolvesTo:57,clue:"🐒 Angry white pig-monkey"},
-  {id:57,name:"Primeape",types:["fighting"],evolvesTo:null,clue:"🐒 Mankey even angrier and evolved"},
-  {id:58,name:"Growlithe",types:["fire"],evolvesTo:59,specialEvo:"Fire Stone 🔥",clue:"🐶 Friendly orange puppy with stripes"},
-  {id:59,name:"Arcanine",types:["fire"],evolvesTo:null,clue:"🐕 Majestic big fire dog"},
-  {id:60,name:"Poliwag",types:["water"],evolvesTo:61,clue:"💧 Blue tadpole with a swirl on belly"},
-  {id:61,name:"Poliwhirl",types:["water"],evolvesTo:62,specialEvo:"Water Stone 💧",clue:"💧 Poliwag's middle form — bigger swirl"},
-  {id:62,name:"Poliwrath",types:["water","fighting"],evolvesTo:null,clue:"💧 Big blue frog fighter"},
-  {id:63,name:"Abra",types:["psychic"],evolvesTo:64,clue:"🥄 Always sleeping — teleports away!"},
-  {id:64,name:"Kadabra",types:["psychic"],evolvesTo:65,clue:"🥄 Holds two bent spoons"},
-  {id:65,name:"Alakazam",types:["psychic"],evolvesTo:"mega-65",specialEvo:"Mega Evolves with Alakazite 💎",clue:"🥄 Mustached psychic master"},
-  {id:66,name:"Machop",types:["fighting"],evolvesTo:67,clue:"💪 Small blue wrestler — three ridges on head"},
-  {id:67,name:"Machoke",types:["fighting"],evolvesTo:68,clue:"💪 Machop's bigger middle form"},
-  {id:68,name:"Machamp",types:["fighting"],evolvesTo:null,clue:"💪 Four-armed muscle champion"},
-  {id:69,name:"Bellsprout",types:["grass","poison"],evolvesTo:70,clue:"🌿 Skinny plant with a big mouth"},
-  {id:70,name:"Weepinbell",types:["grass","poison"],evolvesTo:71,specialEvo:"Leaf Stone 🍃",clue:"🌿 Bell-shaped plant that eats things"},
-  {id:71,name:"Victreebel",types:["grass","poison"],evolvesTo:null,clue:"🌿 Big carnivorous plant"},
-  {id:72,name:"Tentacool",types:["water","poison"],evolvesTo:73,clue:"🪼 Jellyfish with two red gems"},
-  {id:73,name:"Tentacruel",types:["water","poison"],evolvesTo:null,clue:"🪼 Giant jellyfish with many tentacles"},
-  {id:74,name:"Geodude",types:["rock","ground"],evolvesTo:75,clue:"🪨 Floating rock with arms"},
-  {id:75,name:"Graveler",types:["rock","ground"],evolvesTo:76,clue:"🪨 Bigger rock Pokémon with four arms"},
-  {id:76,name:"Golem",types:["rock","ground"],evolvesTo:null,clue:"🪨 Giant boulder with a head"},
-  {id:77,name:"Ponyta",types:["fire"],evolvesTo:78,clue:"🐴 White horse with fire for a mane"},
-  {id:78,name:"Rapidash",types:["fire"],evolvesTo:null,clue:"🐴 Fast fire unicorn"},
-  {id:79,name:"Slowpoke",types:["water","psychic"],evolvesTo:80,clue:"🌸 Very slow pink hippo — always daydreaming"},
-  {id:80,name:"Slowbro",types:["water","psychic"],evolvesTo:"mega-80",specialEvo:"Mega Evolves with Slowbronite 💎",clue:"🌸 Slowpoke with a Shellder on its tail"},
-  {id:81,name:"Magnemite",types:["electric","steel"],evolvesTo:82,clue:"🧲 Flying magnet with one big eye"},
-  {id:82,name:"Magneton",types:["electric","steel"],evolvesTo:null,clue:"🧲 Three Magnemites stuck together"},
-  {id:83,name:"Farfetch'd",types:["normal","flying"],evolvesTo:null,clue:"🌿 Duck that carries a leek stalk"},
-  {id:84,name:"Doduo",types:["normal","flying"],evolvesTo:85,clue:"🐦 Two-headed brown bird"},
-  {id:85,name:"Dodrio",types:["normal","flying"],evolvesTo:null,clue:"🐦 Three-headed bird"},
-  {id:86,name:"Seel",types:["water"],evolvesTo:87,clue:"🦭 White baby seal"},
-  {id:87,name:"Dewgong",types:["water","ice"],evolvesTo:null,clue:"🦭 Seel grown up — loves cold water"},
-  {id:88,name:"Grimer",types:["poison"],evolvesTo:89,clue:"☠️ Purple puddle of sludge"},
-  {id:89,name:"Muk",types:["poison"],evolvesTo:null,clue:"☠️ Bigger pile of purple sludge"},
-  {id:90,name:"Shellder",types:["water"],evolvesTo:91,specialEvo:"Water Stone 💧",clue:"🐚 Blue clam with a tongue sticking out"},
-  {id:91,name:"Cloyster",types:["water","ice"],evolvesTo:null,clue:"🐚 Spiky black shell like a sea urchin"},
-  {id:92,name:"Gastly",types:["ghost","poison"],evolvesTo:93,clue:"👻 Purple floating gas ball"},
-  {id:93,name:"Haunter",types:["ghost","poison"],evolvesTo:94,clue:"👻 Floating purple ghost with hands"},
-  {id:94,name:"Gengar",types:["ghost","poison"],evolvesTo:"mega-94",specialEvo:"Mega Evolves with Gengarite 💎",clue:"👻 Grinning shadow ghost — very mischievous"},
-  {id:95,name:"Onix",types:["rock","ground"],evolvesTo:null,clue:"🐍 Giant snake made of boulders"},
-  {id:96,name:"Drowzee",types:["psychic"],evolvesTo:97,clue:"💤 Weird tapir that eats your dreams"},
-  {id:97,name:"Hypno",types:["psychic"],evolvesTo:null,clue:"💤 Drowzee grown up — swings a pendulum"},
-  {id:98,name:"Krabby",types:["water"],evolvesTo:99,clue:"🦀 Tiny red crab"},
-  {id:99,name:"Kingler",types:["water"],evolvesTo:null,clue:"🦀 Big crab with one huge claw"},
-  {id:100,name:"Voltorb",types:["electric"],evolvesTo:101,clue:"💣 Round red and white — looks like a Poké Ball!"},
-  {id:101,name:"Electrode",types:["electric"],evolvesTo:null,clue:"💣 Voltorb flipped upside down"},
-  {id:102,name:"Exeggcute",types:["grass","psychic"],evolvesTo:103,specialEvo:"Leaf Stone 🍃",clue:"🥚 Six eggs that think together"},
-  {id:103,name:"Exeggutor",types:["grass","psychic"],evolvesTo:null,clue:"🌴 Tall coconut tree with three heads"},
-  {id:104,name:"Cubone",types:["ground"],evolvesTo:105,clue:"💀 Wears its mother's skull as a helmet"},
-  {id:105,name:"Marowak",types:["ground"],evolvesTo:null,clue:"💀 Cubone grown up — swings a bone"},
-  {id:106,name:"Hitmonlee",types:["fighting"],evolvesTo:null,clue:"🥊 Kick fighter — no arms, just legs"},
-  {id:107,name:"Hitmonchan",types:["fighting"],evolvesTo:null,clue:"🥊 Punch fighter — wears boxing gloves"},
-  {id:108,name:"Lickitung",types:["normal"],evolvesTo:null,clue:"👅 Pink blob with a huge long tongue"},
-  {id:109,name:"Koffing",types:["poison"],evolvesTo:110,clue:"💨 Purple gas ball with a skull on it"},
-  {id:110,name:"Weezing",types:["poison"],evolvesTo:null,clue:"💨 Two Koffings joined together"},
-  {id:111,name:"Rhyhorn",types:["ground","rock"],evolvesTo:112,clue:"🦏 Grey rhino covered in rock armor"},
-  {id:112,name:"Rhydon",types:["ground","rock"],evolvesTo:null,clue:"🦏 Big Rhyhorn standing on two legs"},
-  {id:113,name:"Chansey",types:["normal"],evolvesTo:null,clue:"🥚 Pink oval Pokémon that carries an egg"},
-  {id:114,name:"Tangela",types:["grass"],evolvesTo:null,clue:"🌿 Blue blob totally covered in vines"},
-  {id:115,name:"Kangaskhan",types:["normal"],evolvesTo:"mega-115",specialEvo:"Mega Evolves with Kangaskhanite 💎",clue:"🦘 Kangaroo mom with baby in pouch"},
-  {id:116,name:"Horsea",types:["water"],evolvesTo:117,clue:"🌀 Tiny blue seahorse"},
-  {id:117,name:"Seadra",types:["water"],evolvesTo:null,clue:"🌀 Horsea's bigger spiky form"},
-  {id:118,name:"Goldeen",types:["water"],evolvesTo:119,clue:"🐟 Fancy goldfish with a horn"},
-  {id:119,name:"Seaking",types:["water"],evolvesTo:null,clue:"🐟 Goldeen grown up — orange and white"},
-  {id:120,name:"Staryu",types:["water"],evolvesTo:121,specialEvo:"Water Stone 💧",clue:"⭐ Brown starfish with a red gem"},
-  {id:121,name:"Starmie",types:["water","psychic"],evolvesTo:null,clue:"⭐ Purple double-star with a gem"},
-  {id:122,name:"Mr. Mime",types:["psychic","fairy"],evolvesTo:null,clue:"🤡 Clown Pokémon that mimes invisible walls"},
-  {id:123,name:"Scyther",types:["bug","flying"],evolvesTo:null,clue:"🦗 Green mantis with scythe arms"},
-  {id:124,name:"Jynx",types:["ice","psychic"],evolvesTo:null,clue:"❄️ Purple face, blonde hair, always singing"},
-  {id:125,name:"Electabuzz",types:["electric"],evolvesTo:null,clue:"⚡ Yellow striped electric tiger"},
-  {id:126,name:"Magmar",types:["fire"],evolvesTo:null,clue:"🔥 Red fire duck with flame head"},
-  {id:127,name:"Pinsir",types:["bug"],evolvesTo:"mega-127",specialEvo:"Mega Evolves with Pinsirite 💎",clue:"🦗 Brown beetle with giant pincer horns"},
-  {id:128,name:"Tauros",types:["normal"],evolvesTo:null,clue:"🐂 Angry brown bull with three tails"},
-  {id:129,name:"Magikarp",types:["water"],evolvesTo:130,clue:"🐟 Orange fish — useless but evolves big!"},
-  {id:130,name:"Gyarados",types:["water","flying"],evolvesTo:"mega-130",specialEvo:"Mega Evolves with Gyaradosite 💎",clue:"🐉 Giant angry blue sea dragon"},
-  {id:131,name:"Lapras",types:["water","ice"],evolvesTo:null,clue:"🦕 Big blue sea dinosaur you can ride"},
-  {id:132,name:"Ditto",types:["normal"],evolvesTo:null,clue:"🔵 Purple blob that copies any Pokémon"},
-  {id:133,name:"Eevee",types:["normal"],evolvesTo:[134,135,136],specialEvo:"Uses Water, Thunder, or Fire Stone!",clue:"🦊 Fluffy brown fox — evolves many ways!"},
-  {id:134,name:"Vaporeon",types:["water"],evolvesTo:null,clue:"💧 Eevee evolved with Water Stone"},
-  {id:135,name:"Jolteon",types:["electric"],evolvesTo:null,clue:"⚡ Eevee evolved with Thunder Stone"},
-  {id:136,name:"Flareon",types:["fire"],evolvesTo:null,clue:"🔥 Eevee evolved with Fire Stone"},
-  {id:137,name:"Porygon",types:["normal"],evolvesTo:null,clue:"💻 Made of computer code — first digital Pokémon"},
-  {id:138,name:"Omanyte",types:["rock","water"],evolvesTo:139,clue:"🐚 Ancient spiral fossil Pokémon"},
-  {id:139,name:"Omastar",types:["rock","water"],evolvesTo:null,clue:"🐚 Bigger ancient spiral snail"},
-  {id:140,name:"Kabuto",types:["rock","water"],evolvesTo:141,clue:"🦀 Ancient horseshoe crab fossil"},
-  {id:141,name:"Kabutops",types:["rock","water"],evolvesTo:null,clue:"🦀 Kabuto with scythe arms"},
-  {id:142,name:"Aerodactyl",types:["rock","flying"],evolvesTo:"mega-142",specialEvo:"Mega Evolves with Aerodactylite 💎",clue:"🦖 Ancient flying dinosaur — pterodactyl!"},
-  {id:143,name:"Snorlax",types:["normal"],evolvesTo:null,clue:"😴 Giant sleepy bear blocking the road"},
-  {id:144,name:"Articuno",types:["ice","flying"],evolvesTo:null,clue:"❄️ Legendary ice bird — blue with long tail"},
-  {id:145,name:"Zapdos",types:["electric","flying"],evolvesTo:null,clue:"⚡ Legendary electric bird — spiky yellow"},
-  {id:146,name:"Moltres",types:["fire","flying"],evolvesTo:null,clue:"🔥 Legendary fire bird — flames everywhere"},
-  {id:147,name:"Dratini",types:["dragon"],evolvesTo:148,clue:"🐍 Tiny cute blue dragon serpent"},
-  {id:148,name:"Dragonair",types:["dragon"],evolvesTo:149,clue:"🐍 Elegant long blue dragon"},
-  {id:149,name:"Dragonite",types:["dragon","flying"],evolvesTo:null,clue:"🐉 Friendly orange flying dragon"},
-  {id:150,name:"Mewtwo",types:["psychic"],evolvesTo:["mega-150x","mega-150y"],specialEvo:"Mega Evolves into Mega Mewtwo X or Y! 🔮",clue:"🔮 Created in a lab — most powerful Pokémon!"},
-  {id:151,name:"Mew",types:["psychic"],evolvesTo:null,clue:"🌟 Rare pink Pokémon that knows every move"},
-  // ═══ MEGA EVOLUTIONS — GEN 1 ═══
-  {id:"mega-3",name:"Mega Venusaur",types:["grass","poison"],evolvesTo:null,mega:true,clue:"🌺 Venusaur with an even bigger flower"},
-  {id:"mega-6x",name:"Mega Charizard X",types:["fire","dragon"],evolvesTo:null,mega:true,clue:"🐉 Black dragon Charizard — Fire and Dragon type!"},
-  {id:"mega-6y",name:"Mega Charizard Y",types:["fire","flying"],evolvesTo:null,mega:true,clue:"🔥 Classic Charizard but way more powerful"},
-  {id:"mega-9",name:"Mega Blastoise",types:["water"],evolvesTo:null,mega:true,clue:"💧 Blastoise with extra cannons everywhere"},
-  {id:"mega-15",name:"Mega Beedrill",types:["bug","poison"],evolvesTo:null,mega:true,clue:"🐝 Super fast Beedrill with giant stingers"},
-  {id:"mega-18",name:"Mega Pidgeot",types:["normal","flying"],evolvesTo:null,mega:true,clue:"🦅 Pidgeot with massive flowing hair"},
-  {id:"mega-65",name:"Mega Alakazam",types:["psychic"],evolvesTo:null,mega:true,clue:"🥄 Alakazam with even more spoons"},
-  {id:"mega-80",name:"Mega Slowbro",types:["water","psychic"],evolvesTo:null,mega:true,clue:"🌸 Slowbro but the Shellder ate more of it"},
-  {id:"mega-94",name:"Mega Gengar",types:["ghost","poison"],evolvesTo:null,mega:true,clue:"👻 Gengar flattened into the ground"},
-  {id:"mega-115",name:"Mega Kangaskhan",types:["normal"],evolvesTo:null,mega:true,clue:"🦘 Now the baby fights alongside mom!"},
-  {id:"mega-127",name:"Mega Pinsir",types:["bug","flying"],evolvesTo:null,mega:true,clue:"🦗 Pinsir with giant wings"},
-  {id:"mega-130",name:"Mega Gyarados",types:["water","dark"],evolvesTo:null,mega:true,clue:"🐉 Red Gyarados — even scarier"},
-  {id:"mega-142",name:"Mega Aerodactyl",types:["rock","flying"],evolvesTo:null,mega:true,clue:"🦖 Aerodactyl covered in rock spikes"},
-  {id:"mega-150x",name:"Mega Mewtwo X",types:["psychic","fighting"],evolvesTo:null,mega:true,clue:"🔮 Mewtwo — now also a Fighting type!"},
-  {id:"mega-150y",name:"Mega Mewtwo Y",types:["psychic"],evolvesTo:null,mega:true,clue:"🔮 Mewtwo with a giant floating tail"},
-  // ═══ GEN 2 ═══
-  {id:152,name:"Chikorita",types:["grass"],evolvesTo:153,clue:"🍃 Green dinosaur with a leaf on its head"},
-  {id:153,name:"Bayleef",types:["grass"],evolvesTo:154,clue:"🍃 Chikorita's middle form with a neck collar"},
-  {id:154,name:"Meganium",types:["grass"],evolvesTo:null,clue:"🌸 Big dinosaur with flower petals around neck"},
-  {id:155,name:"Cyndaquil",types:["fire"],evolvesTo:156,clue:"🔥 Small blue hedgehog with back flames"},
-  {id:156,name:"Quilava",types:["fire"],evolvesTo:157,clue:"🔥 Cyndaquil's faster middle form"},
-  {id:157,name:"Typhlosion",types:["fire"],evolvesTo:null,clue:"🔥 Big fire badger with ring of flames"},
-  {id:158,name:"Totodile",types:["water"],evolvesTo:159,clue:"💧 Small blue crocodile, loves to bite"},
-  {id:159,name:"Croconaw",types:["water"],evolvesTo:160,clue:"💧 Totodile's middle form — bigger croc"},
-  {id:160,name:"Feraligatr",types:["water"],evolvesTo:null,clue:"💧 Giant blue alligator"},
-  {id:172,name:"Pichu",types:["electric"],evolvesTo:25,specialEvo:"Levels up with high friendship 💛",clue:"⚡ Tiny baby Pikachu"},
-  {id:173,name:"Cleffa",types:["fairy"],evolvesTo:35,specialEvo:"Levels up with high friendship 💛",clue:"⭐ Tiny baby Clefairy"},
-  {id:174,name:"Igglybuff",types:["normal","fairy"],evolvesTo:39,specialEvo:"Levels up with high friendship 💛",clue:"🎵 Tiny baby Jigglypuff"},
-  {id:175,name:"Togepi",types:["fairy"],evolvesTo:176,specialEvo:"Levels up with high friendship 💛",clue:"🥚 Baby still in a cracked egg shell"},
-  {id:176,name:"Togetic",types:["fairy","flying"],evolvesTo:null,clue:"🤍 Togepi finally hatched — white with triangles"},
-  {id:196,name:"Espeon",types:["psychic"],evolvesTo:null,clue:"🔮 Purple Eevee evolution — pointy ears and gem"},
-  {id:197,name:"Umbreon",types:["dark"],evolvesTo:null,clue:"🌙 Black Eevee evolution with yellow rings"},
-  {id:245,name:"Suicune",types:["water"],evolvesTo:null,clue:"💧 Legendary blue dog with purple mane"},
-  {id:249,name:"Lugia",types:["psychic","flying"],evolvesTo:null,clue:"🤍 Legendary white sea guardian"},
-  {id:250,name:"Ho-Oh",types:["fire","flying"],evolvesTo:null,clue:"🌈 Legendary rainbow fire bird"},
-  {id:251,name:"Celebi",types:["psychic","grass"],evolvesTo:null,clue:"🌿 Tiny green fairy that travels through time"},
-  // ═══ GEN 3 ═══
-  {id:252,name:"Treecko",types:["grass"],evolvesTo:253,clue:"🦎 Cool green gecko lizard"},
-  {id:253,name:"Grovyle",types:["grass"],evolvesTo:254,clue:"🦎 Treecko's faster leaf-armed form"},
-  {id:254,name:"Sceptile",types:["grass"],evolvesTo:"mega-254",specialEvo:"Mega Evolves with Sceptilite 💎",clue:"🦎 Big green tree lizard with seed bombs"},
-  {id:255,name:"Torchic",types:["fire"],evolvesTo:256,clue:"🐥 Tiny orange fire chick"},
-  {id:256,name:"Combusken",types:["fire","fighting"],evolvesTo:257,clue:"🐓 Torchic's fighting bird form"},
-  {id:257,name:"Blaziken",types:["fire","fighting"],evolvesTo:"mega-257",specialEvo:"Mega Evolves with Blazikenite 💎",clue:"🔥 Tall fire chicken that kicks really high"},
-  {id:258,name:"Mudkip",types:["water"],evolvesTo:259,clue:"💧 Blue mud puppy with a fin on its head"},
-  {id:259,name:"Marshtomp",types:["water","ground"],evolvesTo:260,clue:"💧 Mudkip's middle form — walks on two legs"},
-  {id:260,name:"Swampert",types:["water","ground"],evolvesTo:"mega-260",specialEvo:"Mega Evolves with Swampertite 💎",clue:"💧 Big blue mud monster"},
-  {id:282,name:"Gardevoir",types:["psychic","fairy"],evolvesTo:"mega-282",specialEvo:"Mega Evolves with Gardevoirite 💎",clue:"✨ Elegant white dress Pokémon"},
-  {id:302,name:"Sableye",types:["dark","ghost"],evolvesTo:"mega-302",specialEvo:"Mega Evolves with Sablenite 💎",clue:"💎 Small purple goblin with gem eyes"},
-  {id:334,name:"Altaria",types:["dragon","flying"],evolvesTo:"mega-334",specialEvo:"Mega Evolves with Altarianite 💎",clue:"☁️ Blue bird wrapped in fluffy white clouds"},
-  {id:350,name:"Milotic",types:["water"],evolvesTo:null,clue:"🌊 Beautiful long serpent — scales shimmer"},
-  {id:359,name:"Absol",types:["dark"],evolvesTo:"mega-359",specialEvo:"Mega Evolves with Absolite 💎",clue:"⚡ White wolf with a curved blade horn"},
-  {id:373,name:"Salamence",types:["dragon","flying"],evolvesTo:"mega-373",specialEvo:"Mega Evolves with Salamencite 💎",clue:"🐉 Red and blue dragon with big wings"},
-  {id:376,name:"Metagross",types:["steel","psychic"],evolvesTo:"mega-376",specialEvo:"Mega Evolves with Metagrossite 💎",clue:"🤖 Giant steel spider computer brain"},
-  {id:380,name:"Latias",types:["dragon","psychic"],evolvesTo:"mega-380",specialEvo:"Mega Evolves with Latiasite 💎",clue:"❤️ Red jet plane dragon — the girl one"},
-  {id:381,name:"Latios",types:["dragon","psychic"],evolvesTo:"mega-381",specialEvo:"Mega Evolves with Latiosite 💎",clue:"💙 Blue jet plane dragon — the boy one"},
-  {id:382,name:"Kyogre",types:["water"],evolvesTo:null,clue:"🌊 Legendary giant blue whale"},
-  {id:383,name:"Groudon",types:["ground"],evolvesTo:null,clue:"🌋 Legendary giant red dinosaur of the land"},
-  {id:384,name:"Rayquaza",types:["dragon","flying"],evolvesTo:null,clue:"🐉 Legendary green serpent living in the sky"},
-  {id:385,name:"Jirachi",types:["steel","psychic"],evolvesTo:null,clue:"⭐ Tiny star Pokémon that grants wishes"},
-  {id:386,name:"Deoxys",types:["psychic"],evolvesTo:null,clue:"🧬 Alien Pokémon from outer space"},
-  // ═══ MEGA EVOLUTIONS — GEN 3 ═══
-  {id:"mega-254",name:"Mega Sceptile",types:["grass","dragon"],evolvesTo:null,mega:true,clue:"🦎 Sceptile — now also a Dragon type!"},
-  {id:"mega-257",name:"Mega Blaziken",types:["fire","fighting"],evolvesTo:null,mega:true,clue:"🔥 Blaziken even faster and stronger"},
-  {id:"mega-260",name:"Mega Swampert",types:["water","ground"],evolvesTo:null,mega:true,clue:"💧 Swampert gets huge muscles"},
-  {id:"mega-282",name:"Mega Gardevoir",types:["psychic","fairy"],evolvesTo:null,mega:true,clue:"✨ Gardevoir's dress gets even bigger"},
-  {id:"mega-302",name:"Mega Sableye",types:["dark","ghost"],evolvesTo:null,mega:true,clue:"💎 Sableye hides behind a massive gem"},
-  {id:"mega-334",name:"Mega Altaria",types:["dragon","fairy"],evolvesTo:null,mega:true,clue:"☁️ Altaria — now a Fairy type with huge clouds"},
-  {id:"mega-359",name:"Mega Absol",types:["dark"],evolvesTo:null,mega:true,clue:"⚡ Absol with angel wings and bigger blade"},
-  {id:"mega-373",name:"Mega Salamence",types:["dragon","flying"],evolvesTo:null,mega:true,clue:"🐉 Salamence's wings merge into one giant wing"},
-  {id:"mega-376",name:"Mega Metagross",types:["steel","psychic"],evolvesTo:null,mega:true,clue:"🤖 Metagross — extra legs and spikes everywhere"},
-  {id:"mega-380",name:"Mega Latias",types:["dragon","psychic"],evolvesTo:null,mega:true,clue:"❤️ Mega Latias — faster and more graceful"},
-  {id:"mega-381",name:"Mega Latios",types:["dragon","psychic"],evolvesTo:null,mega:true,clue:"💙 Mega Latios — fastest dragon in the sky"},
+function surname(n) { const p = n.trim().split(/\s+/); return p[p.length-1].toLowerCase(); }
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function render() {
+  let poems = [...allPoems];
+  if (activeTag) poems = poems.filter(p => (p.tags||[]).includes(activeTag));
+  if (query) {
+    const q = query.toLowerCase();
+    poems = poems.filter(p =>
+      p.poet.toLowerCase().includes(q) ||
+      p.title.toLowerCase().includes(q) ||
+      (p.tags||[]).some(t => t.toLowerCase().includes(q))
+    );
+  }
+  poems.sort((a,b) => {
+    const av = sortCol==='poet' ? surname(a.poet) : a.title.toLowerCase();
+    const bv = sortCol==='poet' ? surname(b.poet) : b.title.toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+  const tbody = document.getElementById('browse-body');
+  tbody.innerHTML = poems.length
+    ? poems.map(p => `<tr data-id="${p.id}">
+        <td class="cp"><div class="cp-name">${p.poet}</div>${p.dates?`<div class="cp-dates">${p.dates}</div>`:''}</td>
+        <td class="ct"><div class="ct-name">${p.title}</div><div class="ct-tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div></td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="2">No poems found</td></tr>';
+  document.getElementById('header-count').textContent = `${poems.length} poem${poems.length!==1?'s':''}`;
+  renderTags();
+  tbody.querySelectorAll('tr[data-id]').forEach(r => r.addEventListener('click', () => openPoem(r.dataset.id)));
+  // After paint: measure overflow and inject +N badges
+  requestAnimationFrame(() => {
+    tbody.querySelectorAll('.ct-tags').forEach(ct => {
+      const tags = Array.from(ct.querySelectorAll('.tag'));
+      if (!tags.length) return;
+      const rowTop = Math.round(tags[0].getBoundingClientRect().top);
+      const hidden = tags.filter(t => Math.round(t.getBoundingClientRect().top) > rowTop);
+      if (hidden.length) {
+        const badge = document.createElement('button');
+        badge.className = 'tag-more';
+        badge.textContent = `+${hidden.length}`;
+        badge.addEventListener('click', e => {
+          e.stopPropagation();
+          const expanded = ct.classList.toggle('expanded');
+          if (!expanded) ct.appendChild(badge);
+        });
+        ct.appendChild(badge);
+      }
+    });
+  });
+}
+
+const TAG_GROUPS = [
+  { label: 'Emotional',  tags: ['longing','grief','joy','desire','tenderness','melancholy','defiance','wonder','resignation'] },
+  { label: 'Thematic',   tags: ['mortality','nature','time','war','faith','identity','embodiment','beauty','memory'] },
+  { label: 'Formal',     tags: ['sonnet','ode','lyric','free-verse','rhymed','classical','translation','erotic','conjugal','romantic'] },
+  { label: 'Era',        tags: ['ancient','renaissance','romantic-era','victorian','modernist','contemporary'] }
+];
+// Track which groups are open
+let openGroup = null; // only one open at a time
+
+function renderTags() {
+  const counts = {};
+  allPoems.forEach(p => (p.tags||[]).forEach(t => counts[t]=(counts[t]||0)+1));
+
+  const el = document.getElementById('tag-filters');
+
+  // Clear row
+  const clearRow = `<div class="tag-clear-row${activeTag?' visible':''}" id="tag-clear-row">
+    <button class="clear-pill">✕ Clear filter</button>
+  </div>`;
+
+  // Single row of group buttons
+  const btnRow = `<div class="tag-group-row">${TAG_GROUPS.map(g => {
+    const hasActive = g.tags.includes(activeTag);
+    const isOpen = openGroup === g.label;
+    return `<button class="tag-group-btn${isOpen?' open':''}${hasActive?' has-active':''}" data-group="${g.label}">${g.label}</button>`;
+  }).join('')}</div>`;
+
+  // Pill panels — only the open one shows
+  const panels = TAG_GROUPS.map(g => {
+    const present = g.tags.filter(t => counts[t]);
+    const isOpen = openGroup === g.label;
+    const pills = present.length
+      ? present.map(t => `<button class="filter-pill${activeTag===t?' active':''}" data-tag="${t}">${t} <span style="opacity:.5">${counts[t]}</span></button>`).join('')
+      : `<span style="font-size:.75rem;color:var(--ink-faint)">No poems tagged yet</span>`;
+    return `<div class="tag-group-pills${isOpen?' open':''}" data-panel="${g.label}">${pills}</div>`;
+  }).join('');
+
+  el.innerHTML = clearRow + btnRow + panels;
+
+  // Clear
+  const clrBtn = el.querySelector('.clear-pill');
+  if (clrBtn) clrBtn.addEventListener('click', () => { activeTag=null; render(); });
+
+  // Group buttons
+  el.querySelectorAll('.tag-group-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      openGroup = openGroup === b.dataset.group ? null : b.dataset.group;
+      render();
+    });
+  });
+
+  // Tag pills
+  el.querySelectorAll('.filter-pill[data-tag]').forEach(b => {
+    b.addEventListener('click', e => {
+      e.stopPropagation();
+      activeTag = activeTag === b.dataset.tag ? null : b.dataset.tag;
+      render();
+    });
+  });
+}
+
+async function reload() { allPoems = await dbGetAll(); render(); }
+
+// ── Poem view ──────────────────────────────────────────────────────────────
+function renderStanzas(stanzas) {
+  if (!stanzas || !stanzas.length) return '';
+  return stanzas.map(s =>
+    `<div class="stanza">${s.map(l =>
+      l.indent
+        ? `<p><span style="padding-left:${l.indent}em">${l.text}</span></p>`
+        : `<p>${l.text}</p>`
+    ).join('')}</div>`
+  ).join('');
+}
+
+function openPoem(id) {
+  const p = allPoems.find(x => x.id===id); if (!p) return;
+  document.getElementById('view-title').textContent = p.title;
+  document.getElementById('view-poet').textContent = p.poet;
+  document.getElementById('view-dates').textContent = p.dates||'';
+  document.getElementById('view-tags').innerHTML = (p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('view-body').innerHTML = renderStanzas(p.stanzas);
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('poem-view').style.display='block';
+  window.scrollTo(0,0);
+}
+document.getElementById('back-btn').addEventListener('click', () => {
+  document.getElementById('poem-view').style.display='none';
+  document.getElementById('list-view').style.display='';
+});
+
+// ── Sort / search ──────────────────────────────────────────────────────────
+document.querySelectorAll('th[data-col]').forEach(th => th.addEventListener('click', () => {
+  if (sortCol===th.dataset.col) sortDir*=-1; else { sortCol=th.dataset.col; sortDir=1; }
+  document.querySelectorAll('th[data-col]').forEach(t => {
+    t.classList.toggle('sort-active', t.dataset.col===sortCol);
+    t.querySelector('.sa').textContent = t.dataset.col===sortCol?(sortDir===1?'▲':'▼'):'▲';
+    t.querySelector('.sa').style.opacity = t.dataset.col===sortCol?'1':'.3';
+  });
+  render();
+}));
+document.getElementById('search').addEventListener('input', e => { query=e.target.value; render(); });
+
+// ── Menu / sheets ──────────────────────────────────────────────────────────
+const addBtn=document.getElementById('add-btn'), modeMenu=document.getElementById('mode-menu'), menuScrim=document.getElementById('menu-scrim');
+let menuOpen = false;
+
+// Fan positions — Camera(9), Photos(10), Import(11), Manual(12)
+const FAN = [
+  { id:'fan-camera',  tx:-122, ty:-4   },
+  { id:'fan-photos',  tx:-106, ty:-61  },
+  { id:'fan-import',  tx:-61,  ty:-106 },
+  { id:'fan-manual',  tx:-4,   ty:-122 },
 ];
 
-// ── SPRITE URL — fixed mega map using front-default for problematic entries ──
-function spriteUrl(id){
-  if(typeof id==="string"&&id.startsWith("mega-")){
-    // Use official-artwork numbers where confirmed reliable,
-    // fall back to front-default sprite for entries that were showing wrong art
-    const artMap={
-      "mega-3":"10033","mega-6x":"10034","mega-6y":"10035","mega-9":"10036",
-      "mega-15":"10090","mega-18":"10073","mega-65":"10044",
-      "mega-94":"10046","mega-115":"10047","mega-127":"10048","mega-130":"10049",
-      "mega-142":"10051","mega-150x":"10052","mega-150y":"10053",
-      "mega-254":"10065","mega-257":"10066","mega-260":"10067","mega-282":"10068",
-      "mega-334":"10070","mega-373":"10072","mega-376":"10074",
-      "mega-380":"10075","mega-381":"10076",
-    };
-    // mega-80 (Slowbro), mega-302 (Sableye), mega-359 (Absol) use front-default
-    // as official-artwork CDN returns wrong images for these indices
-    const frontMap={
-      "mega-80":"80-mega",
-      "mega-302":"302-mega",
-      "mega-359":"359-mega",
-    };
-    if(frontMap[id]){
-      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${frontMap[id]}.png`;
+function openMenu() {
+  menuOpen = true;
+  FAN.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.style.transform = `translate(${f.tx}px,${f.ty}px)`;
+    el.classList.add('open');
+  });
+  addBtn.textContent = '×';
+  menuScrim.classList.add('open');
+}
+function closeMenu() {
+  menuOpen = false;
+  FAN.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.style.transform = 'translate(0,0)';
+    el.classList.remove('open');
+  });
+  addBtn.textContent = '+';
+  menuScrim.classList.remove('open');
+}
+addBtn.addEventListener('click', ()=>{ menuOpen ? closeMenu() : openMenu(); });
+menuScrim.addEventListener('click', closeMenu);
+const openSheet=id=>document.getElementById(id).classList.add('open');
+const closeSheet=id=>document.getElementById(id).classList.remove('open');
+
+// ── Manual entry ───────────────────────────────────────────────────────────
+document.getElementById('btn-manual').addEventListener('click', ()=>{ closeMenu(); openSheet('manual-sheet'); });
+document.getElementById('cancel-manual').addEventListener('click', ()=>closeSheet('manual-sheet'));
+document.getElementById('save-manual').addEventListener('click', async ()=>{
+  const poet=document.getElementById('new-poet').value.trim();
+  const title=document.getElementById('new-title').value.trim();
+  if (!poet||!title) return alert('Poet and title required.');
+  const raw=document.getElementById('new-text').value;
+  const tags=document.getElementById('new-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const stanzas=raw.split(/\n\n+/).map(s=>s.split('\n').filter(l=>l.trim()).map(l=>({text:l})));
+  await dbPut({ id:`${poet.toLowerCase().replace(/\s+/g,'-')}-${Date.now()}`, title, poet,
+    dates:document.getElementById('new-dates').value.trim(), tags,
+    added:new Date().toISOString().slice(0,10), stanzas });
+  closeSheet('manual-sheet');
+  ['new-poet','new-title','new-dates','new-tags','new-text'].forEach(id=>document.getElementById(id).value='');
+  await reload();
+});
+
+// ── Capture ────────────────────────────────────────────────────────────────
+const resetCapture = () => {
+  document.getElementById('capture-file').value='';
+  document.getElementById('capture-preview').style.display='none';
+  document.getElementById('capture-form').style.display='none';
+  document.getElementById('cap-save').style.display='none';
+  document.getElementById('ocr-status').textContent='';
+  document.getElementById('ocr-status').className='ocr-status';
+};
+document.getElementById('cap-cancel').addEventListener('click', ()=>{ resetCapture(); closeSheet('capture-sheet'); });
+document.getElementById('capture-zone').addEventListener('click', ()=>document.getElementById('capture-file').click());
+
+document.getElementById('capture-file').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  const preview = document.getElementById('capture-preview');
+  preview.src = URL.createObjectURL(file); preview.style.display='block';
+  const status = document.getElementById('ocr-status');
+  const apiKey = localStorage.getItem('pa_api_key')||'';
+  if (!apiKey) {
+    status.textContent='No API key — enter fields manually.'; status.className='ocr-status error';
+    document.getElementById('capture-form').style.display='block';
+    document.getElementById('cap-save').style.display='block'; return;
+  }
+  status.textContent='Reading poem…'; status.className='ocr-status working';
+  try {
+    const b64 = await new Promise((res,rej)=>{
+      const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file);
+    });
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-allow-browser':'true'},
+      body: JSON.stringify({
+        model:'claude-haiku-4-5-20251001', max_tokens:2000,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:file.type,data:b64}},
+          {type:'text',text:'Extract the poem from this image. Return JSON only, no markdown fences: {"title":"...","poet":"...","dates":"...","tags":[...],"text":"..."} where text uses \\n for line breaks and \\n\\n for stanza breaks. Preserve any indentation with leading spaces. Use <em> for italic text and <strong> for bold text inline within lines. Tags from: longing grief joy desire tenderness melancholy defiance wonder resignation mortality nature time war faith identity embodiment beauty memory sonnet ode lyric free-verse rhymed classical translation ancient renaissance romantic-era victorian modernist contemporary erotic conjugal romantic.'}
+        ]}]
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message);
+    const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
+    // Store structured text for HTML conversion at save time
+    document.getElementById('cap-poet').value = parsed.poet||'';
+    document.getElementById('cap-title').value = parsed.title||'';
+    document.getElementById('cap-dates').value = parsed.dates||'';
+    document.getElementById('cap-tags').value = (parsed.tags||[]).join(', ');
+    document.getElementById('cap-text').value = parsed.text||'';
+    document.getElementById('capture-form').style.display='block';
+    document.getElementById('cap-save').style.display='block';
+    status.textContent='Done — review and save.'; status.className='ocr-status done';
+  } catch(err) {
+    status.textContent=`${err.message||'Could not read — fill in manually.'}`;
+    status.className='ocr-status error';
+    document.getElementById('capture-form').style.display='block';
+    document.getElementById('cap-save').style.display='block';
+  }
+});
+
+document.getElementById('cap-save').addEventListener('click', async ()=>{
+  const poet=document.getElementById('cap-poet').value.trim();
+  const title=document.getElementById('cap-title').value.trim();
+  if (!poet||!title) return alert('Poet and title required.');
+  const raw=document.getElementById('cap-text').value;
+  const tags=document.getElementById('cap-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const stanzas=raw.split(/\n\n+/).map(s=>s.split('\n').filter(l=>l.trim()).map(l=>{
+    const m=l.match(/^(\s+)(.*)/);
+    return m ? {text:m[2],indent:m[1].length*0.5} : {text:l};
+  }));
+  await dbPut({ id:`${poet.toLowerCase().replace(/\s+/g,'-')}-${Date.now()}`, title, poet,
+    dates:document.getElementById('cap-dates').value.trim(), tags,
+    added:new Date().toISOString().slice(0,10), stanzas });
+  resetCapture();
+  closeSheet('capture-sheet');
+  await reload();
+});
+
+// ── Settings ───────────────────────────────────────────────────────────────
+document.getElementById('settings-btn').addEventListener('click', async ()=>{
+  const k=localStorage.getItem('pa_api_key')||'';
+  document.getElementById('api-key-input').value=k;
+  document.getElementById('key-status').className='key-status'+(k?' set':'');
+  const n=await dbCount();
+  document.getElementById('db-info').textContent=`${n} poems in IndexedDB`;
+  openSheet('settings-sheet');
+});
+document.getElementById('cancel-settings').addEventListener('click', ()=>closeSheet('settings-sheet'));
+document.getElementById('save-settings').addEventListener('click', ()=>{
+  const k=document.getElementById('api-key-input').value.trim();
+  if (k) localStorage.setItem('pa_api_key',k); else localStorage.removeItem('pa_api_key');
+  document.getElementById('key-status').className='key-status'+(k?' set':'');
+  closeSheet('settings-sheet');
+});
+
+// ── Export ─────────────────────────────────────────────────────────────────
+document.getElementById('export-btn').addEventListener('click', async () => {
+  const poems = await dbGetAll();
+  const payload = JSON.stringify({ poems }, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `poetry-archive-export-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// ── iCloud import ──────────────────────────────────────────────────────────
+document.getElementById('import-file').addEventListener('change', async e => {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  let added = 0, skipped = 0, errors = [];
+  try {
+    for (const file of files) {
+      try {
+        const text = await file.text();
+        const raw = JSON.parse(text);
+        // Each file is either a single poem object or an array or {poems:[]}
+        const poems = Array.isArray(raw) ? raw : raw.poems ? raw.poems : [raw];
+        const valid = poems.filter(p => p.id && p.title && p.poet);
+        skipped += poems.length - valid.length;
+        await dbPutMany(valid);
+        added += valid.length;
+      } catch(err) {
+        errors.push(file.name);
+      }
     }
-    const n=artMap[id];
-    return n
-      ?`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${n}.png`
-      :`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id.replace("mega-","")}.png`;
+    e.target.value = '';
+    let msg = `Imported ${added} poem${added!==1?'s':''}`;
+    if (skipped) msg += `, skipped ${skipped} invalid`;
+    if (errors.length) msg += `, failed to read: ${errors.join(', ')}`;
+    alert(msg);
+    if (added > 0) await reload();
+  } catch(err) {
+    alert(`Import error: ${err.message}`);
   }
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+});
+
+// ── Service worker ─────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+// Unregister any existing service worker — seed caching caused sync failures
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(r => r.unregister());
+  });
+}
 }
 
-const POKEMON_BY_ID={};
-POKEMON.forEach(p=>{POKEMON_BY_ID[p.id]=p;});
-
-// ── STATE ────────────────────────────────────────────────────
-let current=null,mode="silhouette",whoAnswered=false,favorites=[];
-let scoreRight=0,scoreWrong=0;
-let countdownTimer=null;
-
-// ── SCORE ────────────────────────────────────────────────────
-function updateScore(){
-  document.getElementById("score-right").textContent=`✅ Right: ${scoreRight}`;
-  document.getElementById("score-wrong").textContent=`❌ Wrong: ${scoreWrong}`;
-}
-
-// ── HELPERS ──────────────────────────────────────────────────
-function getColors(type){return TYPE_COLORS[type]||TYPE_COLORS.normal;}
-
-function setBackground(type){
-  const c=getColors(type);
-  document.getElementById("app").style.background=`linear-gradient(160deg,${c.bg} 0%,${c.light} 52%,#ffffff 100%)`;
-  const sb=document.getElementById("surprise-btn");
-  if(sb){sb.style.background=c.bg;sb.style.boxShadow=`0 8px 28px ${c.bg}bb`;}
-  const gb=document.getElementById("guess-btn");
-  if(mode==="silhouette"){gb.style.background="white";gb.style.color=c.bg;}
-  else{gb.style.background="rgba(255,255,255,0.28)";gb.style.color="white";}
-}
-
-// ── COUNTDOWN ────────────────────────────────────────────────
-const DELAY_SECONDS=4;
-
-function startCountdown(onDone, barId, numId, wrapId){
-  if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;}
-  const wrap=document.getElementById(wrapId);
-  const bar=document.getElementById(barId);
-  const num=document.getElementById(numId);
-  wrap.style.display="flex";
-  bar.style.width="100%";
-  let remaining=DELAY_SECONDS;
-  num.textContent=remaining;
-  countdownTimer=setInterval(()=>{
-    remaining-=0.1;
-    const pct=Math.max(0,(remaining/DELAY_SECONDS)*100);
-    bar.style.width=pct+"%";
-    num.textContent=Math.ceil(remaining);
-    if(remaining<=0){
-      clearInterval(countdownTimer);countdownTimer=null;
-      wrap.style.display="none";
-      onDone();
-    }
-  },100);
-}
-
-// ── MAIN RENDER ──────────────────────────────────────────────
-function renderPokemon(p){
-  current=p;whoAnswered=false;
-  if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;}
-  document.getElementById("countdown-wrap").style.display="none";
-  const mainType=p.types[0];
-  const isSilhouette=(mode==="silhouette");
-  setBackground(mainType);
-  document.getElementById("poke-number").textContent=typeof p.id==="number"?"#"+String(p.id).padStart(3,"0"):"";
-  document.getElementById("mega-badge").style.display=p.mega?"inline-block":"none";
-
-  const img=document.getElementById("poke-img");
-  img.style.filter=isSilhouette?"brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.4))":"drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-  img.classList.remove("popin");void img.offsetWidth;
-  img.src=spriteUrl(p.id);img.classList.add("popin");
-
-  const nameEl=document.getElementById("poke-name");
-  if(isSilhouette){
-    Object.assign(nameEl.style,{color:"transparent",background:"#555",borderRadius:"12px",padding:"4px 28px",textShadow:"none"});
-    nameEl.textContent=p.name;
-  } else {
-    Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0",textShadow:"0 2px 8px rgba(0,0,0,0.08)"});
-    nameEl.textContent=p.name;
-  }
-
-  const clueEl=document.getElementById("poke-clue");
-  if(isSilhouette&&p.clue){clueEl.textContent="💡 "+p.clue;clueEl.style.display="block";}
-  else{clueEl.style.display="none";}
-
-  const typesEl=document.getElementById("types");
-  const factEl=document.getElementById("fact-box");
-  document.getElementById("who-result").textContent="";
-  document.getElementById("who-choices").innerHTML="";
-
-  if(isSilhouette){
-    typesEl.innerHTML="";factEl.style.display="none";
-    document.getElementById("fav-btn").classList.add("hidden");
-    document.getElementById("surprise-btn").classList.add("hidden");
-    // Start countdown — choices appear only after timer
-    startCountdown(
-      ()=>buildWhoChoices(p),
-      "countdown-bar","countdown-num","countdown-wrap"
-    );
-  } else {
-    typesEl.innerHTML=p.types.map(t=>{const tc=getColors(t);return`<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;}).join("");
-    factEl.style.display="block";
-    factEl.textContent=`${p.name} ${p.mega?"is a powerful Mega Evolution! 💎":(FUN_FACTS[mainType]||"is an amazing Pokémon!")}`;
-    document.getElementById("fav-btn").classList.remove("hidden");
-    document.getElementById("surprise-btn").classList.remove("hidden");
-  }
-
-  const isFav=favorites.some(f=>f.id===p.id);
-  document.getElementById("fav-btn").textContent=isFav?"❤️":"🤍";
-  document.getElementById("fav-btn").style.transform=isFav?"scale(1.18)":"scale(1)";
-  document.getElementById("hint").textContent=mode==="silhouette"?"👁️ Who's that Pokémon?":"Tap 🎲 to discover a new Pokémon!";
-}
-
-// ── WHO CHOICES ──────────────────────────────────────────────
-function buildWhoChoices(p){
-  const wrong=POKEMON.filter(x=>x.id!==p.id).sort(()=>Math.random()-0.5).slice(0,3);
-  const choices=[...wrong,p].sort(()=>Math.random()-0.5);
-  document.getElementById("who-choices").innerHTML=choices.map(c=>
-    `<button class="who-choice" onclick="checkWhoGuess('${c.id}',this)">${c.name}</button>`
-  ).join("");
-}
-
-function checkWhoGuess(id,btn){
-  if(whoAnswered)return;
-  if(String(id)===String(current.id)){
-    whoAnswered=true;
-    // Only score first-pass correct if no wrong guesses yet
-    const anyWrong=document.querySelectorAll(".who-choice.dimmed").length>0;
-    if(!anyWrong){scoreRight++;updateScore();}
-    btn.classList.add("correct");
-    document.querySelectorAll(".who-choice").forEach(b=>b.onclick=null);
-    document.getElementById("poke-img").style.filter="drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-    document.getElementById("poke-clue").style.display="none";
-    const nameEl=document.getElementById("poke-name");
-    nameEl.textContent=current.name;
-    Object.assign(nameEl.style,{color:"#1a1a1a",background:"transparent",borderRadius:"0",padding:"0"});
-    document.getElementById("types").innerHTML=current.types.map(t=>{const tc=getColors(t);return`<span class="type-badge" style="background:${tc.bg}">${tc.emoji} ${t}</span>`;}).join("");
-    document.getElementById("fact-box").style.display="block";
-    document.getElementById("fact-box").textContent=`${current.name} ${current.mega?"is a powerful Mega Evolution! 💎":(FUN_FACTS[current.types[0]]||"is amazing!")}`;
-    document.getElementById("who-result").textContent=anyWrong?"✅ Got it — nice try!":"🎉 First try! Amazing!";
-    document.getElementById("surprise-btn").classList.remove("hidden");
-    document.getElementById("fav-btn").classList.remove("hidden");
-    soundCorrect();burst();
-  } else {
-    // First wrong tap scores it
-    const alreadyWrong=document.querySelectorAll(".who-choice.dimmed").length>0;
-    if(!alreadyWrong){scoreWrong++;updateScore();}
-    btn.classList.add("dimmed");
-    btn.onclick=null;
-    document.getElementById("who-result").textContent="Not quite — try again!";
-    soundWrong();
-  }
-}
-
-function randomPokemon(){return POKEMON[Math.floor(Math.random()*POKEMON.length)];}
-function handleSurprise(){soundSurprise();burst();renderPokemon(randomPokemon());}
-
-function toggleMode(){
-  mode=mode==="silhouette"?"explore":"silhouette";
-  soundModeSwitch(mode);
-  document.getElementById("evo-game").style.display="none";
-  document.getElementById("main").style.display="flex";
-  renderPokemon(randomPokemon());
-}
-
-function toggleFav(){
-  if(!current)return;
-  const idx=favorites.findIndex(f=>f.id===current.id);
-  if(idx>=0)favorites.splice(idx,1);
-  else{favorites.push(current);burst();}
-  document.getElementById("fav-count").textContent=favorites.length;
-  const isFav=favorites.some(f=>f.id===current.id);
-  document.getElementById("fav-btn").textContent=isFav?"❤️":"🤍";
-  document.getElementById("fav-btn").style.transform=isFav?"scale(1.18)":"scale(1)";
-}
-
-// ── EVOLUTION GAME ───────────────────────────────────────────
-let evoAnswer=null;
-
-function startEvoGame(){
-  soundModeSwitch('explore');
-  document.getElementById("main").style.display="none";
-  document.getElementById("evo-game").style.display="flex";
-  document.getElementById("hint").textContent="🥚 Guess the evolution!";
-  nextEvoRound();
-}
-
-function exitEvoGame(){
-  if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;}
-  window.speechSynthesis&&window.speechSynthesis.cancel();
-  document.getElementById("evo-game").style.display="none";
-  document.getElementById("main").style.display="flex";
-  document.getElementById("hint").textContent=mode==="silhouette"?"👁️ Who's that Pokémon?":"Tap 🎲 to discover a new Pokémon!";
-}
-
-function nextEvoRound(){
-  if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;}
-  window.speechSynthesis&&window.speechSynthesis.cancel();
-  document.getElementById("evo-result").textContent="";
-  document.getElementById("evo-next-btn").style.display="none";
-  document.getElementById("evo-choices").innerHTML="";
-  document.getElementById("evo-countdown-wrap").style.display="none";
-
-  const pool=POKEMON.filter(p=>p.evolvesTo!==null);
-  const base=pool[Math.floor(Math.random()*pool.length)];
-  let evoId=Array.isArray(base.evolvesTo)?base.evolvesTo[Math.floor(Math.random()*base.evolvesTo.length)]:base.evolvesTo;
-  evoAnswer=POKEMON_BY_ID[evoId];
-  if(!evoAnswer){nextEvoRound();return;}
-
-  setBackground(base.types[0]);
-  document.getElementById("evo-question").innerHTML=`Who does <span class="spell-name" onclick="spellName('${base.name}')">${base.name}</span> evolve into?`;
-  const note=document.getElementById("evo-special-note");
-  if(base.specialEvo){note.textContent="✨ "+base.specialEvo;note.style.display="block";}
-  else{note.style.display="none";}
-
-  const img=document.getElementById("evo-img");
-  img.style.filter="brightness(0) drop-shadow(0 6px 18px rgba(0,0,0,0.35))";
-  img.src=spriteUrl(evoAnswer.id);
-
-  // Start countdown before showing evo choices
-  startCountdown(
-    ()=>buildEvoChoices(),
-    "evo-countdown-bar","evo-countdown-num","evo-countdown-wrap"
-  );
-}
-
-function buildEvoChoices(){
-  const wrong=POKEMON.filter(p=>p.id!==evoAnswer.id).sort(()=>Math.random()-0.5).slice(0,3);
-  const choices=[...wrong,evoAnswer].sort(()=>Math.random()-0.5);
-  document.getElementById("evo-choices").innerHTML=choices.map(p=>
-    `<button class="evo-choice" onclick="checkEvoGuess('${p.id}',this)">${p.name}</button>`
-  ).join("");
-}
-
-function checkEvoGuess(id,btn){
-  if(String(id)===String(evoAnswer.id)){
-    document.querySelectorAll(".evo-choice").forEach(b=>b.onclick=null);
-    btn.classList.add("correct");
-    document.getElementById("evo-img").style.filter="drop-shadow(0 8px 28px rgba(0,0,0,0.22))";
-    const anyWrong=document.querySelectorAll(".evo-choice.dimmed").length>0;
-    if(!anyWrong){scoreRight++;updateScore();}
-    document.getElementById("evo-result").textContent=anyWrong?"✅ Got it!":"🎉 First try!";
-    document.getElementById("evo-next-btn").style.display="block";
-    soundCorrect();burst();
-  } else {
-    const alreadyWrong=document.querySelectorAll(".evo-choice.dimmed").length>0;
-    if(!alreadyWrong){scoreWrong++;updateScore();}
-    btn.classList.add("dimmed");
-    btn.onclick=null;
-    document.getElementById("evo-result").textContent="Not quite — try again!";
-    soundWrong();
-  }
-}
-
-// ── FAVORITES ────────────────────────────────────────────────
-function showFavs(){
-  document.getElementById("app").style.display="none";
-  document.getElementById("favs-screen").style.display="block";
-  renderFavs();
-}
-function hideFavs(){
-  document.getElementById("favs-screen").style.display="none";
-  document.getElementById("app").style.display="flex";
-}
-function renderFavs(){
-  const empty=document.getElementById("favs-empty");
-  const grid=document.getElementById("favs-grid");
-  if(!favorites.length){empty.style.display="block";grid.innerHTML="";return;}
-  empty.style.display="none";
-  grid.innerHTML=favorites.map(p=>{
-    const c=getColors(p.types[0]);
-    return`<div class="fav-card" style="background:${c.light};border-color:${c.bg}">
-      <img src="${spriteUrl(p.id)}" alt="${p.name}">
-      <div class="fav-name">${p.name}</div>
-      <div class="fav-num" style="color:${c.bg}">${typeof p.id==="number"?"#"+String(p.id).padStart(3,"0"):"⚡ MEGA"}</div>
-      <div style="margin-top:6px">${p.types.map(t=>{const tc=getColors(t);return`<span class="type-badge" style="background:${tc.bg};font-size:0.72rem;padding:3px 10px">${tc.emoji} ${t}</span>`;}).join("")}</div>
-    </div>`;
-  }).join("");
-}
-
-// ── CONFETTI ─────────────────────────────────────────────────
-function burst(){
-  const el=document.getElementById("confetti");
-  el.innerHTML="";el.style.display="block";
-  const cols=["#FF6B35","#4A90D9","#F7C948","#5DBB63","#E040A0","#A890F0","#74CCF4"];
-  for(let i=0;i<26;i++){
-    const p=document.createElement("div");p.className="piece";
-    p.style.left=`${(i/26)*100}%`;
-    p.style.background=cols[i%cols.length];
-    p.style.borderRadius=i%3===0?"50%":"2px";
-    p.style.animationDuration=`${1.1+(i%5)*0.22}s`;
-    p.style.animationDelay=`${(i%6)*0.06}s`;
-    p.style.transform=`rotate(${i*23}deg)`;
-    el.appendChild(p);
-  }
-  setTimeout(()=>{el.style.display="none";el.innerHTML="";},2500);
-}
-
-// ── SPLASH / START ───────────────────────────────────────────
-function startGame(){
-  try{soundStart();}catch(e){}
-  try{preloadClips();}catch(e){}
-  mode="silhouette";
-  const splash=document.getElementById("splash");
-  splash.style.opacity="0";
-  setTimeout(()=>{splash.style.display="none";},600);
-  renderPokemon(randomPokemon());
-}
+// ── Init ───────────────────────────────────────────────────────────────────
+(async ()=>{
+  await openDB();
+  await syncSeed();
+  allPoems = await dbGetAll();
+  document.getElementById('loading').style.display='none';
+  document.getElementById('list-view').style.display='';
+  render();
+})();
 </script>
 </body>
 </html>
