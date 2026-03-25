@@ -9,6 +9,51 @@
     "addedAt": 1774357232091
   },
   {
+    "id": "barefoot-contessa-at-home-ina-garten",
+    "title": "Barefoot Contessa: at Home",
+    "author": "Ina Garten",
+    "isbn": "9781400054350",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4doMLQhJEEMoCE6PrVibG3Gd4qFjGlhhwWFViqT1r8g&s=10",
+    "recipes": [],
+    "addedAt": 1774438093175
+  },
+  {
+    "id": "barefoot-contessa-back-to-basics-ina-garten",
+    "title": "Barefoot Contessa: Back to Basics",
+    "author": "Ina Garten",
+    "isbn": "9781400054367",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIewpYsgp1b5YOECeonY6TnnyPIWq_H1a1LEGAoLlehA&s=10",
+    "recipes": [],
+    "addedAt": 1774438093176
+  },
+  {
+    "id": "barefoot-contessa-family-style-ina-garten",
+    "title": "Barefoot Contessa: Family Style",
+    "author": "Ina Garten",
+    "isbn": "9780609608952",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPt7K-eqAxtwS2hbzW5rAlfuJJ2TxF9RLtU6vvtmuEWA&s=10",
+    "recipes": [],
+    "addedAt": 1774438093171
+  },
+  {
+    "id": "barefoot-contessa-foolproof-ina-garten",
+    "title": "Barefoot Contessa: Foolproof",
+    "author": "Ina Garten",
+    "isbn": "9780307464880",
+    "coverUrl": "https://m.media-amazon.com/images/I/81fd00c8SGL._AC_UF1000,1000_QL80_.jpg",
+    "recipes": [],
+    "addedAt": 1774438093178
+  },
+  {
+    "id": "barefoot-contessa-parties-ina-garten",
+    "title": "Barefoot Contessa: Parties!",
+    "author": "Ina Garten",
+    "isbn": "9780609610473",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgNoKrDzHuH9lPZ2NaEyQQXK11Pw2X6MA5LyehWMeLbQ&s=10",
+    "recipes": [],
+    "addedAt": 1774438093160
+  },
+  {
     "id": "bestia-ori-menashe-and-genevieve-gergis",
     "title": "Bestia",
     "author": "Ori Menashe and Genevieve Gergis",
@@ -18,6 +63,24 @@
     "addedAt": 1774357229735
   },
   {
+    "id": "cook-like-a-pro-ina-garten",
+    "title": "Barefoot Contessa: Cook Like a Pro",
+    "author": "Ina Garten",
+    "isbn": "9780307464910",
+    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/cook-like-a-pro/_540x720_crop_center-center_82_line/CookLikeaPro_jkt_front_final.jpg",
+    "recipes": [],
+    "addedAt": 1774438093179
+  },
+  {
+    "id": "cooking-for-jeffrey-ina-garten",
+    "title": "Barefoot Contessa: Cooking for Jeffrey",
+    "author": "Ina Garten",
+    "isbn": "9780307464903",
+    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/cooking-for-jeffrey/_540x720_crop_center-center_82_line/cooking-for-jeffery-cover_160804_082629.jpg",
+    "recipes": [],
+    "addedAt": 1774438093179
+  },
+  {
     "id": "fresh-moroccan-nada-saleh",
     "title": "Fresh Moroccan",
     "author": "Nada Saleh",
@@ -25,6 +88,15 @@
     "coverUrl": "http://books.google.com/books/content?id=ImC4zQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
     "recipes": [],
     "addedAt": 1774358040372
+  },
+  {
+    "id": "go-to-dinners-ina-garten",
+    "title": "Barefoot Contessa: Go-To Dinners",
+    "author": "Ina Garten",
+    "isbn": "9781984822796",
+    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/go-to-dinners/_540x720_crop_center-center_82_line/Gart_9781984822789_Front.jpg",
+    "recipes": [],
+    "addedAt": 1774438093180
   },
   {
     "id": "good-things-samin-nosrat",
@@ -52,6 +124,15 @@
     "coverUrl": "http://books.google.com/books/content?id=Tq5hEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
     "recipes": [],
     "addedAt": 1774357227077
+  },
+  {
+    "id": "how-easy-is-that-ina-garten",
+    "title": "Barefoot Contessa: How Easy Is That?",
+    "author": "Ina Garten",
+    "isbn": "9781400054374",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrk9f3NKx8ZgONcBuuu3E-z36WAX69u2yf5Dg5TGSy3g&s=10",
+    "recipes": [],
+    "addedAt": 1774438093177
   },
   {
     "id": "indian-ish-priya-krishna",
@@ -108,11 +189,20 @@
     "addedAt": 1774358045141
   },
   {
+    "id": "modern-comfort-food-ina-garten",
+    "title": "Barefoot Contessa: Modern Comfort Food",
+    "author": "Ina Garten",
+    "isbn": "9781984822789",
+    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/modern-comfort-food/_540x720_crop_center-center_82_line/Gart_ModComfort_cvrfr_final.jpg",
+    "recipes": [],
+    "addedAt": 1774438093180
+  },
+  {
     "id": "morocco-a-culinary-journey-with-recipes-mary-mackillop",
     "title": "Morocco: A Culinary Journey with Recipes",
     "author": "Mary Mackillop",
     "isbn": null,
-    "coverUrl": null,
+    "coverUrl": "https://m.media-amazon.com/images/I/51raQzIn3tL._SL500_.jpg",
     "recipes": [],
     "addedAt": 1774358045581
   },
@@ -139,7 +229,7 @@
     "title": "Platters and Boards",
     "author": "Shelly Westerhausen and Wyatt Worcester",
     "isbn": null,
-    "coverUrl": null,
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxwhl5BaSSUI5XWUMLwD7oG7kj_JKpX38eFUx2Fx-vu2NR0CaQLCnbmx8j9gmzuNjrLpoSxQkUOFE-mMpEfULmkmnyxuIZb7AeGOCH-Jemog&s=10",
     "recipes": [],
     "addedAt": 1774357228079
   },
@@ -162,11 +252,20 @@
     "addedAt": 1774357225034
   },
   {
+    "id": "simply-ina-ina-garten",
+    "title": "Barefoot Contessa: Simply Ina",
+    "author": "Ina Garten",
+    "isbn": null,
+    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/simply-ina/_540x720_crop_center-center_82_line/Simpy-Ina-COVER-Fall-2026.jpg",
+    "recipes": [],
+    "addedAt": 1774438093180
+  },
+  {
     "id": "simply-zov-rustic-classics-with-a-mediterranean-twist-zov-karamardian",
     "title": "Simply Zov: Rustic Classics with a Mediterranean Twist",
     "author": "Zov Karamardian",
     "isbn": null,
-    "coverUrl": null,
+    "coverUrl": "https://m.media-amazon.com/images/I/41uhQqID8wL._SL500_.jpg",
     "recipes": [],
     "addedAt": 1774358044455
   },
@@ -178,6 +277,15 @@
     "coverUrl": "http://books.google.com/books/content?id=O55EEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
     "recipes": [],
     "addedAt": 1774357224420
+  },
+  {
+    "id": "the-barefoot-contessa-cookbook-ina-garten",
+    "title": "Barefoot Contessa",
+    "author": "Ina Garten",
+    "isbn": "9780609603956",
+    "coverUrl": "https://assets.wsimgs.com/wsimgs/rk/images/dp/wcm/202605/0351/img2xl.jpg",
+    "recipes": [],
+    "addedAt": 1774438093143
   },
   {
     "id": "the-forest-feast-erin-gleeson",
@@ -241,113 +349,5 @@
     "coverUrl": "http://books.google.com/books/content?id=EJ8sDgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
     "recipes": [],
     "addedAt": 1774358043538
-  },
-  {
-    "id": "the-barefoot-contessa-cookbook-ina-garten",
-    "title": "Barefoot Contessa",
-    "author": "Ina Garten",
-    "isbn": "9780609603956",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780609603956-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093143
-  },
-  {
-    "id": "barefoot-contessa-parties-ina-garten",
-    "title": "Barefoot Contessa: Parties!",
-    "author": "Ina Garten",
-    "isbn": "9780609610473",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780609610473-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093160
-  },
-  {
-    "id": "barefoot-contessa-family-style-ina-garten",
-    "title": "Barefoot Contessa: Family Style",
-    "author": "Ina Garten",
-    "isbn": "9780609608952",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780609608952-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093171
-  },
-  {
-    "id": "barefoot-contessa-at-home-ina-garten",
-    "title": "Barefoot Contessa: at Home",
-    "author": "Ina Garten",
-    "isbn": "9781400054350",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9781400054350-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093175
-  },
-  {
-    "id": "barefoot-contessa-back-to-basics-ina-garten",
-    "title": "Barefoot Contessa: Back to Basics",
-    "author": "Ina Garten",
-    "isbn": "9781400054367",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9781400054367-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093176
-  },
-  {
-    "id": "how-easy-is-that-ina-garten",
-    "title": "Barefoot Contessa: How Easy Is That?",
-    "author": "Ina Garten",
-    "isbn": "9781400054374",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9781400054374-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093177
-  },
-  {
-    "id": "barefoot-contessa-foolproof-ina-garten",
-    "title": "Barefoot Contessa: Foolproof",
-    "author": "Ina Garten",
-    "isbn": "9780307464880",
-    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780307464880-M.jpg",
-    "recipes": [],
-    "addedAt": 1774438093178
-  },
-  {
-    "id": "cooking-for-jeffrey-ina-garten",
-    "title": "Barefoot Contessa: Cooking for Jeffrey",
-    "author": "Ina Garten",
-    "isbn": "9780307464903",
-    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/cooking-for-jeffrey/_540x720_crop_center-center_82_line/cooking-for-jeffery-cover_160804_082629.jpg",
-    "recipes": [],
-    "addedAt": 1774438093179
-  },
-  {
-    "id": "cook-like-a-pro-ina-garten",
-    "title": "Barefoot Contessa: Cook Like a Pro",
-    "author": "Ina Garten",
-    "isbn": "9780307464910",
-    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/cook-like-a-pro/_540x720_crop_center-center_82_line/CookLikeaPro_jkt_front_final.jpg",
-    "recipes": [],
-    "addedAt": 1774438093179
-  },
-  {
-    "id": "modern-comfort-food-ina-garten",
-    "title": "Barefoot Contessa: Modern Comfort Food",
-    "author": "Ina Garten",
-    "isbn": "9781984822789",
-    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/modern-comfort-food/_540x720_crop_center-center_82_line/Gart_ModComfort_cvrfr_final.jpg",
-    "recipes": [],
-    "addedAt": 1774438093180
-  },
-  {
-    "id": "go-to-dinners-ina-garten",
-    "title": "Barefoot Contessa: Go-To Dinners",
-    "author": "Ina Garten",
-    "isbn": "9781984822796",
-    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/go-to-dinners/_540x720_crop_center-center_82_line/Gart_9781984822789_Front.jpg",
-    "recipes": [],
-    "addedAt": 1774438093180
-  },
-  {
-    "id": "simply-ina-ina-garten",
-    "title": "Barefoot Contessa: Simply Ina",
-    "author": "Ina Garten",
-    "isbn": null,
-    "coverUrl": "https://d14iv1hjmfkv57.cloudfront.net/assets/cookbooks/simply-ina/_540x720_crop_center-center_82_line/Simpy-Ina-COVER-Fall-2026.jpg",
-    "recipes": [],
-    "addedAt": 1774438093180
   }
 ]
