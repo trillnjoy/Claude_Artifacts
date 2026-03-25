@@ -572,7 +572,8 @@ async function saveBookEdit() {
 function exportCatalog() {
   const seed = allBooks.map(b => ({
     id: b.id, title: b.title, author: b.author,
-    isbn: b.isbn || null, coverUrl: b.coverUrl || null,
+    isbn: b.isbn || null,
+    coverUrl: b.coverUrl || b.cover || null,
     recipes: b.recipes || [], addedAt: b.addedAt
   }));
   const a = document.createElement('a');
