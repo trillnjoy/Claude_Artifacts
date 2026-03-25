@@ -39,26 +39,22 @@
     position: sticky; top: 0; z-index: 100;
     border-bottom: 3px solid var(--gold);
   }
-  .header-inner { max-width: 680px; margin: 0 auto; }
+  .header-inner { max-width: 680px; margin: 0 auto; display: flex; align-items: flex-start; justify-content: space-between; }
+  .header-left { flex: 1; }
   .wordmark { font-family: 'Playfair Display', serif; font-size: 28px; letter-spacing: 0.02em; line-height: 1; }
   .wordmark span { color: var(--gold); font-style: italic; }
   .tagline { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faded); margin-top: 3px; }
   .header-stats { font-size: 11px; color: var(--faded); margin-top: 8px; letter-spacing: 0.05em; }
+  .header-search-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 22px; color: var(--faded);
+    padding: 4px 0 0 12px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .header-search-btn:hover { color: var(--paper); }
 
-  .search-bar {
-    background: var(--cream); border-bottom: 2px solid var(--aged);
-    padding: 16px 24px; position: sticky; top: 86px; z-index: 99;
-  }
-  .search-inner { max-width: 680px; margin: 0 auto; position: relative; }
-  #searchInput {
-    width: 100%; font-family: 'Courier Prime', monospace; font-size: 16px;
-    background: var(--paper); border: 2px solid var(--ink); border-radius: 0;
-    padding: 10px 44px 10px 14px; color: var(--ink); outline: none;
-    transition: border-color 0.15s; -webkit-appearance: none;
-  }
-  #searchInput:focus { border-color: var(--rust); }
-  #searchInput::placeholder { color: var(--faded); font-style: italic; }
-  .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--faded); font-size: 18px; pointer-events: none; }
+  /* search bar removed — now in modal */
 
   main { max-width: 680px; margin: 0 auto; padding: 0 24px 80px; }
   .panel { display: none; padding-top: 24px; }
@@ -118,59 +114,165 @@
   .recipe-name { flex: 1; line-height: 1.4; }
   .recipe-page { font-size: 12px; color: var(--gold); margin-left: 16px; white-space: nowrap; font-weight: 700; }
 
-  /* ── LIBRARY CARDS ── */
-  .book-card {
-    border: 1px solid var(--aged);
-    background: var(--cream);
-    padding: 10px;
-    margin-bottom: 8px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
+
+  /* ── LIBRARY CONTROLS ── */
+  /* ── SEARCH MODAL ── */
+  .search-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,18,8,0.85);
+    z-index: 300;
+    padding: 0;
+    flex-direction: column;
+  }
+  .search-modal-overlay.open { display: flex; }
+  .search-modal-inner {
+    background: var(--ink);
+    padding: 16px 20px 20px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .search-modal-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  #searchInput {
+    flex: 1;
+    font-family: 'Courier Prime', monospace; font-size: 16px;
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 0;
+    padding: 10px 14px; color: var(--ink); outline: none;
+    transition: border-color 0.15s; -webkit-appearance: none;
+  }
+  #searchInput:focus { border-color: var(--rust); }
+  #searchInput::placeholder { color: var(--faded); font-style: italic; }
+  .search-dismiss {
+    background: none; border: none; color: var(--faded);
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; padding: 0; white-space: nowrap;
+  }
+  .search-dismiss:hover { color: var(--paper); }
+  .search-modal-results {
+    flex: 1; overflow-y: auto;
+    background: var(--paper);
+    padding: 0 24px 80px;
   }
 
-  .book-cover-wrap {
-    width: 56px;
-    height: 75px;
-    flex-shrink: 0;
+  /* ── SORT POPUP ── */
+  .sort-popup {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: var(--ink);
+    border: 1px solid var(--gold);
+    z-index: 50;
+    min-width: 160px;
+  }
+  .sort-popup.open { display: block; }
+  .sort-option {
+    display: block; width: 100%;
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 11px 16px; border: none;
+    background: transparent; color: var(--faded);
+    cursor: pointer; text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .sort-option:last-child { border-bottom: none; }
+  .sort-option.active { color: var(--gold); }
+  .sort-option:hover { background: rgba(255,255,255,0.06); color: var(--paper); }
+
+  .sort-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--faded); font-size: 16px; padding: 2px 0;
+    line-height: 1; flex-shrink: 0;
+  }
+  .sort-btn:hover { color: var(--ink); }
+
+  .library-controls { position: relative; }
+
+  .book-count { font-size: 11px; color: var(--faded); letter-spacing: 0.06em; margin-right: auto; }
+
+  /* ── LIBRARY GRID ── */
+  .library-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .book-card {
+    position: relative;
+    background: var(--ink);
     overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 2 / 3;
+  }
+
+  .book-card img.book-cover {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Spine card — shown when no cover */
+  .book-spine {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 6px;
+    text-align: center;
     background: var(--ink);
   }
 
-  .book-cover {
-    width: 100%; height: 100%;
-    object-fit: cover; display: block;
-  }
-
-  .book-cover-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; opacity: 0.4;
-  }
-
-  .book-body { flex: 1; min-width: 0; }
-
-  .book-title {
+  .book-spine-title {
     font-family: 'Playfair Display', serif;
-    font-size: 14px; font-weight: 700; line-height: 1.3;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.3;
+    margin-bottom: 6px;
   }
 
-  .book-author {
-    font-size: 11px; color: var(--faded);
-    font-style: italic; margin-top: 2px;
+  .book-spine-author {
+    font-size: 9px;
+    color: var(--faded);
+    font-style: italic;
+    line-height: 1.3;
   }
 
-  .book-meta { font-size: 10px; color: var(--faded); margin-top: 4px; }
-  .book-meta .count { color: var(--rust); font-weight: 700; }
-
-  .status-dot {
-    display: inline-block; width: 6px; height: 6px;
-    border-radius: 50%; margin-right: 4px; vertical-align: middle;
+  /* Index status dot — top-right corner */
+  .index-dot {
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.4);
   }
+  .index-dot.indexed { background: var(--gold); }
+  .index-dot.unindexed { background: transparent; }
+
+  /* Edit overlay — tap triggers modal */
+  .book-edit-btn {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(26,18,8,0.72);
+    color: var(--paper);
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    display: none;
+  }
+  .book-card:active .book-edit-btn,
+  .book-card.show-actions .book-edit-btn { display: block; }
+
+  .status-dot { display: none; } /* legacy — replaced by index-dot */
   .dot-full { background: var(--gold); }
   .dot-none { background: #ccc; }
-
-  .book-actions { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
 
   .tabs { display: flex; border-bottom: 2px solid var(--ink); margin-top: 24px; }
   .tab { font-family: 'Courier Prime', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; border: none; background: transparent; color: var(--faded); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
@@ -202,18 +304,14 @@
 
 <header>
   <div class="header-inner">
-    <div class="wordmark">The <span>Shelf</span></div>
-    <div class="tagline">Cookbook Catalog &amp; Recipe Finder</div>
-    <div class="header-stats" id="headerStats">Loading…</div>
+    <div class="header-left">
+      <div class="wordmark">The <span>Shelf</span></div>
+      <div class="tagline">Cookbook Catalog &amp; Recipe Finder</div>
+      <div class="header-stats" id="headerStats">Loading…</div>
+    </div>
+    <button class="header-search-btn" onclick="openSearchModal()" aria-label="Search">🔎</button>
   </div>
 </header>
-
-<div class="search-bar">
-  <div class="search-inner">
-    <input type="text" id="searchInput" placeholder="croissant bread pudding, leek, osso buco…" autocomplete="off" autocorrect="off" autocapitalize="off">
-    <span class="search-icon">⌕</span>
-  </div>
-</div>
 
 <main>
   <div id="panelSearch" class="panel active">
@@ -221,7 +319,21 @@
   </div>
 
   <div id="panelLibrary" class="panel">
-    <div class="section-title">Your Library</div>
+    <div class="library-controls" style="display:flex;align-items:center;gap:8px;padding:12px 0 10px;">
+      <span class="book-count" id="libCount"></span>
+      <button class="chiclet active" onclick="setFilter('all',this)">All</button>
+      <button class="chiclet" onclick="setFilter('indexed',this)">Indexed</button>
+      <button class="chiclet" onclick="setFilter('unindexed',this)">Not Indexed</button>
+      <div style="position:relative;">
+        <button class="sort-btn" onclick="toggleSortPopup()" title="Sort">&#8693;</button>
+        <div class="sort-popup" id="sortPopup">
+          <button class="sort-option active" onclick="setSort('added',this)">Recently Added</button>
+          <button class="sort-option" onclick="setSort('title',this)">Title</button>
+          <button class="sort-option" onclick="setSort('author',this)">Author</button>
+          <button class="sort-option" onclick="setSort('pubdate',this)">Publication Date</button>
+        </div>
+      </div>
+    </div>
     <div id="libraryList"></div>
   </div>
 
@@ -291,20 +403,29 @@
 </main>
 
 <nav>
-  <button class="nav-btn" id="navSettings" onclick="switchPanel('Settings')">
-    <span class="nav-icon">⚙️</span>Settings
-  </button>
-  <button class="nav-btn" id="navLibrary" onclick="switchPanel('Library')">
+  <button class="nav-btn active" id="navLibrary" onclick="switchPanel('Library')">
     <span class="nav-icon">📚</span>Library
   </button>
   <button class="nav-btn" id="navImport" onclick="switchPanel('Import')">
     <span class="nav-icon">＋</span>Add Books
   </button>
-  <button class="nav-btn active" id="navSearch" onclick="switchPanel('Search')">
-    <span class="nav-icon">⌕</span>Search
+  <button class="nav-btn" id="navSettings" onclick="switchPanel('Settings')">
+    <span class="nav-icon">⚙️</span>Settings
   </button>
 </nav>
 
+<!-- Search Modal -->
+<div class="search-modal-overlay" id="searchModal">
+  <div class="search-modal-inner">
+    <div class="search-modal-row">
+      <input type="text" id="searchInput" placeholder="croissant bread pudding, leek…" autocomplete="off" autocorrect="off" autocapitalize="off">
+      <button class="search-dismiss" onclick="closeSearchModal()">Done</button>
+    </div>
+  </div>
+  <div class="search-modal-results" id="searchResults"></div>
+</div>
+
+<!-- Edit Modal -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <button class="modal-close" onclick="closeEditModal()">×</button>
@@ -320,6 +441,7 @@
     <div class="flex-gap mt">
       <button class="btn" onclick="saveBookEdit()">Save</button>
       <button class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteFromModal()">Delete</button>
     </div>
     <div id="editNotice"></div>
   </div>
@@ -405,15 +527,22 @@ async function reloadFromSeed() {
     ? `<div class="notice success">✓ Reloaded ${allBooks.length} books from seed.</div>`
     : `<div class="notice error">Could not reach seed. Check network.</div>`;
   renderLibrary();
-  doSearch(document.getElementById('searchInput').value.trim());
 }
 
 // ── SEARCH ───────────────────────────────────────────────────────────────────
 let searchTimeout;
-document.getElementById('searchInput').addEventListener('input', e => {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(() => doSearch(e.target.value.trim()), 200);
-});
+
+function openSearchModal() {
+  document.getElementById('searchModal').classList.add('open');
+  setTimeout(() => document.getElementById('searchInput').focus(), 50);
+  doSearch('');
+}
+
+function closeSearchModal() {
+  document.getElementById('searchModal').classList.remove('open');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+}
 
 function doSearch(query) {
   const el = document.getElementById('searchResults');
@@ -456,35 +585,66 @@ function renderSearchHome() {
 }
 
 // ── LIBRARY ──────────────────────────────────────────────────────────────────
+let libFilter = 'all';
+let libSort = 'added';
+
+function setFilter(f, el) {
+  libFilter = f;
+  document.querySelectorAll('.chiclet').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderLibrary();
+}
+
+function toggleSortPopup() {
+  document.getElementById('sortPopup').classList.toggle('open');
+}
+
+function setSort(s, el) {
+  libSort = s;
+  document.querySelectorAll('.sort-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sortPopup').classList.remove('open');
+  renderLibrary();
+}
+
 function renderLibrary() {
   const el = document.getElementById('libraryList');
   if (!allBooks.length) {
     el.innerHTML = `<div class="empty"><div class="empty-icon">📚</div><p>No books yet</p></div>`;
+    if (document.getElementById('libCount')) document.getElementById('libCount').textContent = '';
     return;
   }
-  const sorted = [...allBooks].sort((a, b) => (a.author || '').localeCompare(b.author || ''));
-  let html = '';
-  for (const book of sorted) {
+
+  let books = [...allBooks];
+  if (libFilter === 'indexed') books = books.filter(b => b.recipes && b.recipes.length > 0);
+  if (libFilter === 'unindexed') books = books.filter(b => !b.recipes || b.recipes.length === 0);
+
+  books.sort((a, b) => {
+    if (libSort === 'title') return (a.title || '').localeCompare(b.title || '');
+    if (libSort === 'author') return (a.author || '').localeCompare(b.author || '');
+    if (libSort === 'pubdate') return (a.publishedDate || '').localeCompare(b.publishedDate || '');
+    return (b.addedAt || 0) - (a.addedAt || 0); // recently added default
+  });
+
+  const countEl = document.getElementById('libCount');
+  if (countEl) countEl.textContent = `${books.length} book${books.length !== 1 ? 's' : ''}`;
+
+  let html = '<div class="library-grid">';
+  for (const book of books) {
     const rc = book.recipes ? book.recipes.length : 0;
     const img = book.coverUrl || book.cover;
-    const coverHtml = img
-      ? `<img src="${esc(img)}" class="book-cover" alt="" loading="lazy">`
-      : `<div class="book-cover-placeholder">📖</div>`;
-    html += `<div class="book-card">
-      <div class="book-cover-wrap">${coverHtml}</div>
-      <div class="book-body">
-        <div class="book-title">${esc(book.title)}</div>
-        <div class="book-author">${esc(book.author)}</div>
-        <div class="book-meta">
-          <span class="status-dot ${rc > 0 ? 'dot-full' : 'dot-none'}"></span>${rc > 0 ? `<span class="count">${rc} recipes</span>` : 'no index'}
-        </div>
-      </div>
-      <div class="book-actions">
-        <button class="btn btn-sm btn-outline" onclick="openEditModal('${esc(book.id)}')">Edit</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteBook('${esc(book.id)}')">×</button>
-      </div>
+    const inner = img
+      ? `<img class="book-cover" src="${esc(img)}" alt="" loading="lazy">`
+      : `<div class="book-spine">
+           <div class="book-spine-title">${esc(book.title)}</div>
+           <div class="book-spine-author">${esc(book.author)}</div>
+         </div>`;
+    html += `<div class="book-card" onclick="openEditModal('${esc(book.id)}')">
+      ${inner}
+      <span class="index-dot ${rc > 0 ? 'indexed' : 'unindexed'}"></span>
     </div>`;
   }
+  html += '</div>';
   el.innerHTML = html;
 }
 
@@ -494,6 +654,13 @@ async function deleteBook(id) {
   allBooks = allBooks.filter(b => b.id !== id);
   updateHeaderStats();
   renderLibrary();
+}
+
+async function deleteFromModal() {
+  const id = document.getElementById('editBookId').value;
+  if (!confirm('Remove this book?')) return;
+  closeEditModal();
+  await deleteBook(id);
 }
 
 // ── IMPORT ───────────────────────────────────────────────────────────────────
@@ -634,14 +801,23 @@ async function clearAll() {
   document.getElementById('settingsNotice').innerHTML = `<div class="notice">Cleared. Use Reload from Seed to restore.</div>`;
 }
 
+// ── SEARCH MODAL ─────────────────────────────────────────────────────────────
+function openSearchModal() {
+  document.getElementById('searchModal').classList.add('open');
+  setTimeout(() => document.getElementById('searchInput').focus(), 100);
+}
+
+function closeSearchModal() {
+  document.getElementById('searchModal').classList.remove('open');
+}
+
 // ── NAV ──────────────────────────────────────────────────────────────────────
 function switchPanel(name) {
-  ['Search','Library','Import','Settings'].forEach(n => {
+  ['Library','Import','Settings'].forEach(n => {
     document.getElementById('panel' + n).classList.toggle('active', n === name);
     document.getElementById('nav' + n).classList.toggle('active', n === name);
   });
   if (name === 'Library') renderLibrary();
-  if (name === 'Search') doSearch(document.getElementById('searchInput').value.trim());
 }
 
 // ── UTILS ────────────────────────────────────────────────────────────────────
@@ -660,7 +836,26 @@ function slugify(s) {
     const ok = await hydrateFromSeed();
     if (!ok) document.getElementById('headerStats').textContent = 'Could not load seed — add books manually';
   }
-  doSearch('');
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => doSearch(e.target.value.trim()), 200);
+  });
+
+  // Close search modal on overlay tap
+  document.getElementById('searchModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('searchModal')) closeSearchModal();
+  });
+
+  // Close sort popup on outside tap
+  document.addEventListener('click', e => {
+    const popup = document.getElementById('sortPopup');
+    if (popup && !e.target.closest('.sort-btn') && !e.target.closest('#sortPopup')) {
+      popup.classList.remove('open');
+    }
+  });
+
+  renderLibrary();
 })();
 </script>
 </body>
