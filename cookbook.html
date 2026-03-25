@@ -561,7 +561,7 @@ async function saveBookEdit() {
   book.author = document.getElementById('editAuthor').value.trim();
   const cu = document.getElementById('editCoverUrl').value.trim() || null;
   book.coverUrl = cu;
-  book.cover = cu || book.cover;
+  book.cover = cu; // null clears it — no fallback to old value
   await dbPut('books', book);
   closeEditModal();
   renderLibrary();
