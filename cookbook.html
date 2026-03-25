@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>The Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --aged: #e8dfc8;
+    --rust: #8b3a1a;
+    --gold: #c8962a;
+    --faded: #9a8e7a;
+    --cream: #faf7f2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Courier Prime', monospace;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 27px,
+      rgba(26,18,8,0.04) 27px, rgba(26,18,8,0.04) 28px
+    );
+  }
+
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 20px 24px 16px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 3px solid var(--gold);
+  }
+  .header-inner { max-width: 680px; margin: 0 auto; }
+  .wordmark { font-family: 'Playfair Display', serif; font-size: 28px; letter-spacing: 0.02em; line-height: 1; }
+  .wordmark span { color: var(--gold); font-style: italic; }
+  .tagline { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faded); margin-top: 3px; }
+  .header-stats { font-size: 11px; color: var(--faded); margin-top: 8px; letter-spacing: 0.05em; }
+
+  .search-bar {
+    background: var(--cream); border-bottom: 2px solid var(--aged);
+    padding: 16px 24px; position: sticky; top: 86px; z-index: 99;
+  }
+  .search-inner { max-width: 680px; margin: 0 auto; position: relative; }
+  #searchInput {
+    width: 100%; font-family: 'Courier Prime', monospace; font-size: 16px;
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 0;
+    padding: 10px 44px 10px 14px; color: var(--ink); outline: none;
+    transition: border-color 0.15s; -webkit-appearance: none;
+  }
+  #searchInput:focus { border-color: var(--rust); }
+  #searchInput::placeholder { color: var(--faded); font-style: italic; }
+  .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--faded); font-size: 18px; pointer-events: none; }
+
+  main { max-width: 680px; margin: 0 auto; padding: 0 24px 80px; }
+  .panel { display: none; padding-top: 24px; }
+  .panel.active { display: block; }
+
+  .section-title { font-family: 'Playfair Display', serif; font-size: 20px; padding: 24px 0 16px; border-bottom: 2px solid var(--ink); margin-bottom: 20px; }
+
+  label { display: block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink); }
+
+  input[type="text"], input[type="password"], textarea {
+    width: 100%; font-family: 'Courier Prime', monospace; font-size: 14px;
+    background: var(--paper); border: 2px solid var(--ink); padding: 10px 12px;
+    color: var(--ink); outline: none; transition: border-color 0.15s;
+    border-radius: 0; -webkit-appearance: none;
+  }
+  input:focus, textarea:focus { border-color: var(--rust); }
+  textarea { resize: vertical; min-height: 120px; font-size: 12px; line-height: 1.5; }
+
+  .btn {
+    font-family: 'Courier Prime', monospace; font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 11px 22px; border: 2px solid var(--ink);
+    background: var(--ink); color: var(--paper);
+    cursor: pointer; transition: background 0.15s, color 0.15s;
+    border-radius: 0; -webkit-appearance: none;
+  }
+  .btn:hover { background: var(--rust); border-color: var(--rust); }
+  .btn:active { transform: translateY(1px); }
+  .btn-outline { background: transparent; color: var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+  .btn-sm { font-size: 11px; padding: 7px 14px; }
+  .btn-danger { background: transparent; border-color: var(--rust); color: var(--rust); }
+  .btn-danger:hover { background: var(--rust); color: var(--paper); }
+
+  .mt { margin-top: 16px; }
+  .mt-sm { margin-top: 10px; }
+  .mt-lg { margin-top: 24px; }
+  .flex-gap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  .notice {
+    font-size: 13px; padding: 12px 16px;
+    border-left: 3px solid var(--gold);
+    background: var(--cream); color: var(--faded);
+    margin: 16px 0; line-height: 1.5;
+  }
+  .notice.error { border-left-color: var(--rust); color: var(--rust); }
+  .notice.success { border-left-color: var(--gold); color: var(--ink); }
+
+  .results-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faded); padding: 20px 0 10px; border-bottom: 1px solid var(--aged); }
+  .result-group { border-bottom: 1px solid var(--aged); }
+  .result-book-header { padding: 14px 0 6px; }
+  .result-book-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+  .result-book-author { font-size: 12px; color: var(--faded); font-style: italic; margin-top: 2px; }
+  .result-recipes { padding-bottom: 12px; }
+  .result-recipe { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0 5px 16px; font-size: 14px; border-left: 2px solid transparent; transition: border-color 0.1s; }
+  .result-recipe:hover { border-left-color: var(--rust); }
+  .recipe-name { flex: 1; line-height: 1.4; }
+  .recipe-page { font-size: 12px; color: var(--gold); margin-left: 16px; white-space: nowrap; font-weight: 700; }
+
+  .book-card { border: 1px solid var(--aged); background: var(--cream); padding: 16px; margin-bottom: 12px; display: flex; gap: 14px; align-items: flex-start; }
+  .book-cover { width: 48px; height: 64px; border: 1px solid var(--faded); flex-shrink: 0; object-fit: cover; }
+  .book-cover-placeholder { width: 48px; height: 64px; background: var(--ink); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .book-info { flex: 1; min-width: 0; }
+  .book-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .book-author { font-size: 12px; color: var(--faded); font-style: italic; margin-top: 2px; }
+  .book-meta { font-size: 11px; color: var(--faded); margin-top: 6px; }
+  .book-meta .count { color: var(--rust); font-weight: 700; }
+  .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .dot-full { background: var(--gold); }
+  .dot-none { background: #ccc; }
+  .book-actions { display: flex; flex-direction: column; gap: 6px; }
+
+  .tabs { display: flex; border-bottom: 2px solid var(--ink); margin-top: 24px; }
+  .tab { font-family: 'Courier Prime', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; border: none; background: transparent; color: var(--faded); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .tab.active { color: var(--ink); border-bottom-color: var(--rust); }
+
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--aged); border-top-color: var(--rust); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty { text-align: center; padding: 48px 0; color: var(--faded); }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+  .empty p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; }
+
+  nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); border-top: 3px solid var(--gold); display: flex; z-index: 100; }
+  .nav-btn { flex: 1; padding: 14px 8px 12px; background: transparent; border: none; color: var(--faded); font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 0.15s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .nav-btn .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-btn.active { color: var(--gold); }
+  .nav-btn:hover { color: var(--paper); }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,18,8,0.7); z-index: 200; padding: 24px; overflow-y: auto; }
+  .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+  .modal { background: var(--paper); border: 2px solid var(--ink); max-width: 560px; width: 100%; padding: 28px; margin-top: 40px; }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 16px; }
+  .modal-close { float: right; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--faded); margin-top: -4px; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="wordmark">The <span>Shelf</span></div>
+    <div class="tagline">Cookbook Catalog &amp; Recipe Finder</div>
+    <div class="header-stats" id="headerStats">Loading…</div>
+  </div>
+</header>
+
+<div class="search-bar">
+  <div class="search-inner">
+    <input type="text" id="searchInput" placeholder="croissant bread pudding, leek, osso buco…" autocomplete="off" autocorrect="off" autocapitalize="off">
+    <span class="search-icon">⌕</span>
+  </div>
+</div>
+
+<main>
+  <div id="panelSearch" class="panel active">
+    <div id="searchResults"></div>
+  </div>
+
+  <div id="panelLibrary" class="panel">
+    <div class="section-title">Your Library</div>
+    <div id="libraryList"></div>
+  </div>
+
+  <div id="panelImport" class="panel">
+    <div class="section-title">Add Books</div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchImportTab('paste')">Paste JSON</button>
+      <button class="tab" onclick="switchImportTab('manual')">Manual Entry</button>
+    </div>
+
+    <div id="tabPaste" style="padding-top:20px;">
+      <p style="font-size:13px;color:var(--faded);line-height:1.6;margin-bottom:16px;">
+        Photograph shelves in Claude chat → confirm titles → paste JSON array here.<br>
+        Optional fields: <code>isbn</code>, <code>coverUrl</code>, <code>recipes</code>.
+      </p>
+      <label>JSON</label>
+      <textarea id="jsonInput" placeholder='[{"title":"Jerusalem","author":"Yotam Ottolenghi"}]'></textarea>
+      <div class="flex-gap mt">
+        <button class="btn" onclick="importJSON()">Import</button>
+        <button class="btn btn-outline btn-sm" onclick="validateJSON()">Validate</button>
+      </div>
+      <div id="jsonNotice"></div>
+    </div>
+
+    <div id="tabManual" class="hidden" style="padding-top:20px;">
+      <label>Title</label>
+      <input type="text" id="manualTitle" placeholder="The French Laundry Cookbook">
+      <label class="mt-sm">Author</label>
+      <input type="text" id="manualAuthor" placeholder="Thomas Keller" style="margin-top:6px;">
+      <label class="mt-sm">ISBN <span style="font-size:10px;color:var(--faded);text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="manualIsbn" style="margin-top:6px;">
+      <label class="mt-sm">Cover URL <span style="font-size:10px;color:var(--faded);text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="manualCoverUrl" placeholder="https://…" style="margin-top:6px;">
+      <div class="flex-gap mt">
+        <button class="btn" onclick="addManualBook()">Add Book</button>
+      </div>
+      <div id="manualNotice"></div>
+    </div>
+  </div>
+
+  <div id="panelSettings" class="panel">
+    <div class="section-title">Settings</div>
+
+    <label>Export Catalog</label>
+    <p style="font-size:13px;color:var(--faded);line-height:1.6;margin-bottom:12px;">
+      Exports as <code>cookbooks_seed.json</code>. Commit to repo to make it the new seed.
+    </p>
+    <button class="btn" onclick="exportCatalog()">Export cookbooks_seed.json</button>
+
+    <div class="mt-lg">
+      <label>Restore from Seed</label>
+      <p style="font-size:13px;color:var(--faded);line-height:1.6;margin-bottom:12px;">
+        Reloads from <code>cookbooks_seed.json</code> in the repo. Replaces local data.
+      </p>
+      <button class="btn btn-outline" onclick="reloadFromSeed()">Reload from Seed</button>
+      <div id="seedNotice"></div>
+    </div>
+
+    <div class="mt-lg">
+      <label>Danger Zone</label>
+      <div class="flex-gap mt-sm">
+        <button class="btn btn-danger btn-sm" onclick="clearAll()">Clear All Local Data</button>
+      </div>
+      <div id="settingsNotice"></div>
+    </div>
+  </div>
+</main>
+
+<nav>
+  <button class="nav-btn" id="navSettings" onclick="switchPanel('Settings')">
+    <span class="nav-icon">⚙️</span>Settings
+  </button>
+  <button class="nav-btn" id="navLibrary" onclick="switchPanel('Library')">
+    <span class="nav-icon">📚</span>Library
+  </button>
+  <button class="nav-btn" id="navImport" onclick="switchPanel('Import')">
+    <span class="nav-icon">＋</span>Add Books
+  </button>
+  <button class="nav-btn active" id="navSearch" onclick="switchPanel('Search')">
+    <span class="nav-icon">⌕</span>Search
+  </button>
+</nav>
+
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeEditModal()">×</button>
+    <h3>Edit Book</h3>
+    <input type="hidden" id="editBookId">
+    <label>Title</label>
+    <input type="text" id="editTitle">
+    <label class="mt-sm">Author</label>
+    <input type="text" id="editAuthor" style="margin-top:6px;">
+    <label class="mt-sm">Cover URL</label>
+    <input type="text" id="editCoverUrl" placeholder="https://…" style="margin-top:6px;">
+    <div id="editCoverPreview" style="margin-top:10px;"></div>
+    <div class="flex-gap mt">
+      <button class="btn" onclick="saveBookEdit()">Save</button>
+      <button class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+    </div>
+    <div id="editNotice"></div>
+  </div>
+</div>
+
+<script>
+const SEED_URL = 'https://trillnjoy.github.io/Claude_Artifacts/cookbooks_seed.json';
+
+// ── DB ───────────────────────────────────────────────────────────────────────
+const DB_NAME = 'TheShelfDB', DB_VER = 2;
+let db;
+
+function openDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('books')) d.createObjectStore('books', { keyPath: 'id' });
+      if (!d.objectStoreNames.contains('meta')) d.createObjectStore('meta', { keyPath: 'key' });
+    };
+    req.onsuccess = e => { db = e.target.result; res(db); };
+    req.onerror = () => rej(req.error);
+  });
+}
+
+const tx = (store, mode = 'readonly') => db.transaction(store, mode).objectStore(store);
+
+function dbGet(store, key) {
+  return new Promise((res, rej) => { const r = tx(store).get(key); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+}
+function dbPut(store, val) {
+  return new Promise((res, rej) => { const r = tx(store,'readwrite').put(val); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+}
+function dbGetAll(store) {
+  return new Promise((res, rej) => { const r = tx(store).getAll(); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+}
+function dbDelete(store, key) {
+  return new Promise((res, rej) => { const r = tx(store,'readwrite').delete(key); r.onsuccess = () => res(); r.onerror = () => rej(r.error); });
+}
+function dbClear(store) {
+  return new Promise((res, rej) => { const r = tx(store,'readwrite').clear(); r.onsuccess = () => res(); r.onerror = () => rej(r.error); });
+}
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let allBooks = [];
+
+async function loadBooks() {
+  allBooks = await dbGetAll('books');
+  updateHeaderStats();
+}
+
+function updateHeaderStats() {
+  const total = allBooks.length;
+  const rc = allBooks.reduce((n, b) => n + (b.recipes ? b.recipes.length : 0), 0);
+  document.getElementById('headerStats').textContent = total === 0
+    ? 'No books cataloged yet'
+    : `${total} book${total !== 1 ? 's' : ''} · ${rc.toLocaleString()} recipes indexed`;
+}
+
+// ── SEED ─────────────────────────────────────────────────────────────────────
+async function hydrateFromSeed() {
+  try {
+    const r = await fetch(SEED_URL + '?v=' + Date.now());
+    if (!r.ok) throw new Error('fetch failed');
+    const books = await r.json();
+    await dbClear('books');
+    for (const b of books) await dbPut('books', normalizeRecord(b));
+    await dbPut('meta', { key: 'seeded', value: true });
+    allBooks = await dbGetAll('books');
+    updateHeaderStats();
+    return true;
+  } catch (e) {
+    console.error('Seed error:', e);
+    return false;
+  }
+}
+
+async function reloadFromSeed() {
+  const notice = document.getElementById('seedNotice');
+  notice.innerHTML = `<div class="notice"><span class="spinner"></span>Fetching…</div>`;
+  const ok = await hydrateFromSeed();
+  notice.innerHTML = ok
+    ? `<div class="notice success">✓ Reloaded ${allBooks.length} books from seed.</div>`
+    : `<div class="notice error">Could not reach seed. Check network.</div>`;
+  renderLibrary();
+  doSearch(document.getElementById('searchInput').value.trim());
+}
+
+// ── SEARCH ───────────────────────────────────────────────────────────────────
+let searchTimeout;
+document.getElementById('searchInput').addEventListener('input', e => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => doSearch(e.target.value.trim()), 200);
+});
+
+function doSearch(query) {
+  const el = document.getElementById('searchResults');
+  if (!query) { el.innerHTML = renderSearchHome(); return; }
+  const q = query.toLowerCase();
+  const grouped = [];
+  for (const book of allBooks) {
+    if (!book.recipes || !book.recipes.length) continue;
+    const matches = book.recipes.filter(r => r.name.toLowerCase().includes(q));
+    if (matches.length) grouped.push({ book, matches });
+  }
+  if (!grouped.length) {
+    el.innerHTML = `<div class="notice">No recipes found matching <strong>${esc(query)}</strong>.</div>`;
+    return;
+  }
+  const total = grouped.reduce((n, g) => n + g.matches.length, 0);
+  let html = `<div class="results-label">${total} result${total !== 1 ? 's' : ''} in ${grouped.length} book${grouped.length !== 1 ? 's' : ''}</div>`;
+  for (const { book, matches } of grouped) {
+    html += `<div class="result-group"><div class="result-book-header">
+      <div class="result-book-title">${esc(book.title)}</div>
+      <div class="result-book-author">${esc(book.author)}</div>
+    </div><div class="result-recipes">`;
+    for (const r of matches) {
+      const page = r.highConfidence && r.page ? `<span class="recipe-page">p. ${r.page}</span>` : '';
+      html += `<div class="result-recipe"><span class="recipe-name">${highlight(esc(r.name), q)}</span>${page}</div>`;
+    }
+    html += `</div></div>`;
+  }
+  el.innerHTML = html;
+}
+
+function highlight(text, q) {
+  return text.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<strong style="color:var(--rust)">$1</strong>');
+}
+
+function renderSearchHome() {
+  if (!allBooks.length) return `<div class="empty"><div class="empty-icon">📖</div><p>Add books to get started</p></div>`;
+  const rc = allBooks.reduce((n, b) => n + (b.recipes ? b.recipes.length : 0), 0);
+  return `<div class="notice">${allBooks.length} books · ${rc.toLocaleString()} recipes indexed.<br>Type a dish name or ingredient above.</div>`;
+}
+
+// ── LIBRARY ──────────────────────────────────────────────────────────────────
+function renderLibrary() {
+  const el = document.getElementById('libraryList');
+  if (!allBooks.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">📚</div><p>No books yet</p></div>`;
+    return;
+  }
+  const sorted = [...allBooks].sort((a, b) => (a.author || '').localeCompare(b.author || ''));
+  let html = '';
+  for (const book of sorted) {
+    const rc = book.recipes ? book.recipes.length : 0;
+    const img = book.coverUrl || book.cover;
+    const coverHtml = img
+      ? `<img src="${esc(img)}" class="book-cover" alt="">`
+      : `<div class="book-cover-placeholder">📖</div>`;
+    html += `<div class="book-card">
+      ${coverHtml}
+      <div class="book-info">
+        <div class="book-title">${esc(book.title)}</div>
+        <div class="book-author">${esc(book.author)}</div>
+        <div class="book-meta">
+          <span class="status-dot ${rc > 0 ? 'dot-full' : 'dot-none'}"></span>
+          ${rc > 0 ? `<span class="count">${rc} recipes</span>` : 'no index'}
+        </div>
+      </div>
+      <div class="book-actions">
+        <button class="btn btn-sm btn-outline" onclick="openEditModal('${esc(book.id)}')">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteBook('${esc(book.id)}')">×</button>
+      </div>
+    </div>`;
+  }
+  el.innerHTML = html;
+}
+
+async function deleteBook(id) {
+  if (!confirm('Remove this book?')) return;
+  await dbDelete('books', id);
+  allBooks = allBooks.filter(b => b.id !== id);
+  updateHeaderStats();
+  renderLibrary();
+}
+
+// ── IMPORT ───────────────────────────────────────────────────────────────────
+function switchImportTab(tab) {
+  ['paste','manual'].forEach(t =>
+    document.getElementById('tab' + t[0].toUpperCase() + t.slice(1)).classList.toggle('hidden', t !== tab)
+  );
+  document.querySelectorAll('.tabs .tab').forEach((el, i) =>
+    el.classList.toggle('active', ['paste','manual'][i] === tab)
+  );
+}
+
+function validateJSON() {
+  const notice = document.getElementById('jsonNotice');
+  try {
+    const arr = JSON.parse(document.getElementById('jsonInput').value.trim());
+    if (!Array.isArray(arr)) throw new Error('Must be an array');
+    notice.innerHTML = `<div class="notice success">✓ Valid — ${arr.filter(x=>x.title).length} books.</div>`;
+  } catch (e) {
+    notice.innerHTML = `<div class="notice error">Invalid JSON: ${e.message}</div>`;
+  }
+}
+
+async function importJSON() {
+  const notice = document.getElementById('jsonNotice');
+  let arr;
+  try {
+    arr = JSON.parse(document.getElementById('jsonInput').value.trim());
+    if (!Array.isArray(arr)) throw new Error('Must be an array');
+  } catch (e) {
+    notice.innerHTML = `<div class="notice error">Invalid JSON: ${e.message}</div>`;
+    return;
+  }
+  let added = 0;
+  for (const x of arr.filter(x => x.title)) {
+    const r = normalizeRecord(x);
+    await dbPut('books', r);
+    allBooks = allBooks.filter(b => b.id !== r.id);
+    allBooks.push(r);
+    added++;
+  }
+  updateHeaderStats();
+  document.getElementById('jsonInput').value = '';
+  notice.innerHTML = `<div class="notice success">✓ ${added} book${added !== 1 ? 's' : ''} imported.</div>`;
+}
+
+async function addManualBook() {
+  const title = document.getElementById('manualTitle').value.trim();
+  const notice = document.getElementById('manualNotice');
+  if (!title) { notice.innerHTML = `<div class="notice error">Title required.</div>`; return; }
+  const r = normalizeRecord({
+    title,
+    author: document.getElementById('manualAuthor').value.trim(),
+    isbn: document.getElementById('manualIsbn').value.trim() || null,
+    coverUrl: document.getElementById('manualCoverUrl').value.trim() || null
+  });
+  await dbPut('books', r);
+  allBooks = allBooks.filter(b => b.id !== r.id);
+  allBooks.push(r);
+  updateHeaderStats();
+  ['manualTitle','manualAuthor','manualIsbn','manualCoverUrl'].forEach(id => document.getElementById(id).value = '');
+  notice.innerHTML = `<div class="notice success">✓ Added.</div>`;
+}
+
+function normalizeRecord(x) {
+  return {
+    id: x.id || slugify((x.title || '') + '-' + (x.author || '')),
+    title: x.title || '',
+    author: x.author || '',
+    isbn: x.isbn || null,
+    coverUrl: x.coverUrl || null,
+    cover: x.coverUrl || x.cover || null,
+    recipes: x.recipes || [],
+    addedAt: x.addedAt || Date.now()
+  };
+}
+
+// ── EDIT ─────────────────────────────────────────────────────────────────────
+function openEditModal(id) {
+  const book = allBooks.find(b => b.id === id);
+  if (!book) return;
+  document.getElementById('editBookId').value = id;
+  document.getElementById('editTitle').value = book.title;
+  document.getElementById('editAuthor').value = book.author;
+  document.getElementById('editCoverUrl').value = book.coverUrl || '';
+  document.getElementById('editCoverPreview').innerHTML = book.cover
+    ? `<img src="${esc(book.cover)}" style="height:80px;border:1px solid var(--aged);">`
+    : '';
+  document.getElementById('editNotice').innerHTML = '';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+}
+
+async function saveBookEdit() {
+  const id = document.getElementById('editBookId').value;
+  const title = document.getElementById('editTitle').value.trim();
+  const notice = document.getElementById('editNotice');
+  if (!title) { notice.innerHTML = `<div class="notice error">Title required.</div>`; return; }
+  const book = allBooks.find(b => b.id === id);
+  if (!book) return;
+  book.title = title;
+  book.author = document.getElementById('editAuthor').value.trim();
+  const cu = document.getElementById('editCoverUrl').value.trim() || null;
+  book.coverUrl = cu;
+  book.cover = cu || book.cover;
+  await dbPut('books', book);
+  closeEditModal();
+  renderLibrary();
+  updateHeaderStats();
+}
+
+// ── EXPORT ───────────────────────────────────────────────────────────────────
+function exportCatalog() {
+  const seed = allBooks.map(b => ({
+    id: b.id, title: b.title, author: b.author,
+    isbn: b.isbn || null, coverUrl: b.coverUrl || null,
+    recipes: b.recipes || [], addedAt: b.addedAt
+  }));
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(seed, null, 2));
+  a.download = 'cookbooks_seed.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+async function clearAll() {
+  if (!confirm('Delete all local data? Use Reload from Seed to restore.')) return;
+  await dbClear('books');
+  await dbClear('meta');
+  allBooks = [];
+  updateHeaderStats();
+  renderLibrary();
+  document.getElementById('settingsNotice').innerHTML = `<div class="notice">Cleared. Use Reload from Seed to restore.</div>`;
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────────────
+function switchPanel(name) {
+  ['Search','Library','Import','Settings'].forEach(n => {
+    document.getElementById('panel' + n).classList.toggle('active', n === name);
+    document.getElementById('nav' + n).classList.toggle('active', n === name);
+  });
+  if (name === 'Library') renderLibrary();
+  if (name === 'Search') doSearch(document.getElementById('searchInput').value.trim());
+}
+
+// ── UTILS ────────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function slugify(s) {
+  return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+(async () => {
+  await openDB();
+  await loadBooks();
+  if (allBooks.length === 0) {
+    const ok = await hydrateFromSeed();
+    if (!ok) document.getElementById('headerStats').textContent = 'Could not load seed — add books manually';
+  }
+  doSearch('');
+})();
+</script>
+</body>
+</html>
