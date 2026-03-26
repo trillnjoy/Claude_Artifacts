@@ -26,7 +26,16 @@
     "pubYear": null,
     "isbn": "9781400054367",
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIewpYsgp1b5YOECeonY6TnnyPIWq_H1a1LEGAoLlehA&s=10",
-    "recipes": [],
+    "recipes":[
+      {"name":"Campari Orange Spritzer","page":33,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Gravlax with Mustard Sauce","page":34,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Juice of a Few Flowers","page":37,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Roasted Shrimp Cocktail","page":38,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Pomegranate Cosmopolitans","page":41,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Mango Banana Daiquiris","page":47,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Bruschetta with Peppers & Gorgonzola","page":48,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Sunrise Smoothies","page":224,"highConfidence":true,"ingredients":[],"hasCard":false}
+    ],
     "addedAt": 1774438093176
   },
   {
@@ -36,7 +45,31 @@
     "pubYear": null,
     "isbn": "9780609608952",
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPt7K-eqAxtwS2hbzW5rAlfuJJ2TxF9RLtU6vvtmuEWA&s=10",
-    "recipes": [],
+    "recipes": [
+    {"name": "Smoked Salmon Spread", "page": 35, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Buffalo Chicken Wings", "page": 36, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Tuna Tartare", "page": 39, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Herbal Iced Tea", "page": 68, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Parmesan Chicken", "page": 90, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Chicken Parmesan", "page": 90, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Lemon Chicken", "page": 92, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Roast Chicken with Spring Vegetables", "page": 94, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Chicken with Mustard Cream Sauce", "page": 96, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Meat Loaf", "page": 100, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Filet of Beef with Gorgonzola Sauce", "page": 102, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Baked Shrimp Scampi", "page": 104, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Parmesan Fish Sticks", "page": 106, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Penne with Five Cheeses", "page": 108, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Roasted Vegetables", "page": 110, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Garlic Roasted Potatoes", "page": 112, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Mashed Potatoes", "page": 114, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Green Beans Gremolata", "page": 116, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Chocolate Chunk Cookies", "page": 200, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Brownie Pudding", "page": 202, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Apple Crostata", "page": 204, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Peach & Blueberry Crumbles", "page": 206, "highConfidence": true, "ingredients": [], "hasCard": false},
+    {"name": "Whipped Hot Chocolate", "page": 210, "highConfidence": true, "ingredients": [], "hasCard": false}
+  ],
     "addedAt": 1774438093171
   },
   {
@@ -56,7 +89,16 @@
     "pubYear": null,
     "isbn": "9780609610473",
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgNoKrDzHuH9lPZ2NaEyQQXK11Pw2X6MA5LyehWMeLbQ&s=10",
-    "recipes": [],
+    {"book":"Parties!",
+    "recipes":[
+      {"name":"Tropical Smoothies","page":39,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Chopped Liver","page":58,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Raspberry Vodka","page":76,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Caviar Dip","page":78,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Real Margaritas","page":134,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Potato Pancakes with Caviar","page":169,"highConfidence":true,"ingredients":[],"hasCard":false},
+      {"name":"Hot Mulled Cider","page":239,"highConfidence":true,"ingredients":[],"hasCard":false}
+    ],
     "addedAt": 1774438093160
   },
   {
