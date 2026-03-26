@@ -89,7 +89,6 @@
     "pubYear": null,
     "isbn": "9780609610473",
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgNoKrDzHuH9lPZ2NaEyQQXK11Pw2X6MA5LyehWMeLbQ&s=10",
-    {"book":"Parties!",
     "recipes":[
       {"name":"Tropical Smoothies","page":39,"highConfidence":true,"ingredients":[],"hasCard":false},
       {"name":"Chopped Liver","page":58,"highConfidence":true,"ingredients":[],"hasCard":false},
