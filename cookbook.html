@@ -131,14 +131,29 @@ header {
 }
 .recipe-list { }
 .recipe-row {
-  display: flex; justify-content: space-between; align-items: baseline;
+  display: flex; justify-content: space-between; align-items: center;
   padding: 10px 0; border-bottom: 1px solid var(--aged);
-  cursor: pointer; gap: 12px;
+  gap: 10px;
 }
-.recipe-row:hover .recipe-row-name { color: var(--rust); }
-.recipe-row-name { font-size: 14px; line-height: 1.4; flex: 1; }
-.recipe-row-page { font-size: 12px; color: var(--gold); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+/* Index-only row — gray, no card yet */
+.recipe-row.index-only { cursor: default; }
+.recipe-row.index-only .recipe-row-name { font-size: 14px; line-height: 1.4; flex: 1; color: #7a7060; }
+.recipe-row.index-only .recipe-row-page { font-size: 12px; color: var(--faded); font-weight: normal; white-space: nowrap; flex-shrink: 0; }
+/* Card row — dark, tappable */
+.recipe-row.has-card { cursor: pointer; }
+.recipe-row.has-card:hover .recipe-row-name { color: var(--rust); }
+.recipe-row.has-card .recipe-row-name { font-size: 14px; line-height: 1.4; flex: 1; color: var(--ink); font-weight: 600; }
+.recipe-row.has-card .recipe-row-page { font-size: 12px; color: var(--gold); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
 .recipe-row-arrow { font-size: 14px; color: var(--faded); flex-shrink: 0; }
+/* Small + to add card from index row */
+.recipe-row-add {
+  background: none; border: 1px solid var(--aged); border-radius: 50%;
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--faded); font-size: 14px; line-height: 1;
+  -webkit-appearance: none; padding: 0;
+}
+.recipe-row-add:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
 /* ── RECIPE CARD ── */
 .recipe-card-header { padding: 16px 0 12px; border-bottom: 1px solid var(--aged); }
@@ -284,8 +299,8 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
 <div class="view" id="viewBookDetail">
   <div class="subheader">
     <button class="back-btn" onclick="navTo('Library')">Library</button>
-    <span class="subheader-title" id="detailSubtitle"></span>
-    <button class="icon-btn" onclick="openEditModal(currentBookId)" style="color:var(--faded);font-size:16px;">⚙</button>
+    <button class="icon-btn" onclick="openAddIndexModal(currentBookId)" style="color:var(--faded);font-size:15px;" title="Add Index">⊞</button>
+    <button class="icon-btn" onclick="openEditModal(currentBookId)" style="color:var(--faded);font-size:16px;" title="Edit Book">⚙</button>
   </div>
   <div class="view-body" id="bookDetailBody"></div>
 </div>
@@ -437,6 +452,27 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
       <button class="btn btn-outline btn-sm" onclick="closeAddRecipeModal()">Cancel</button>
     </div>
     <div id="addRecipeNotice"></div>
+  </div>
+</div>
+
+<!-- ADD INDEX MODAL -->
+<div class="modal-overlay" id="addIndexModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAddIndexModal()">×</button>
+    <h3>Add Index</h3>
+    <p style="font-size:12px;color:var(--faded);line-height:1.5;margin-bottom:14px;">
+      Photograph each index page. Claude extracts recipe names and page numbers. New entries merge with existing recipes.
+    </p>
+    <input type="file" id="indexPhotoInput" class="capture-input" accept="image/*" onchange="handleIndexPhoto(this)">
+    <div class="flex-gap" style="margin-bottom:12px;">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('indexPhotoInput').click()">📷 Add Index Page</button>
+      <span id="indexPhotoStatus" style="font-size:12px;color:var(--faded);"></span>
+    </div>
+    <div id="indexExtractedList" style="max-height:320px;overflow-y:auto;border-top:1px solid var(--aged);"></div>
+    <div class="flex-gap mt">
+      <button class="btn btn-outline btn-sm" onclick="closeAddIndexModal()">Done</button>
+    </div>
+    <div id="addIndexNotice"></div>
   </div>
 </div>
 
@@ -610,8 +646,9 @@ function renderBookDetail(bookId) {
   const book = allBooks.find(b => b.id === bookId);
   if (!book) { navTo('Library'); return; }
 
-  document.getElementById('detailSubtitle').textContent = book.title;
-  document.getElementById('recipeBackBtn').textContent = book.title.length > 20 ? book.title.slice(0,18)+'…' : book.title;
+  // Update recipe back-button label
+  document.getElementById('recipeBackBtn').textContent =
+    book.title.length > 22 ? book.title.slice(0,20)+'…' : book.title;
 
   const img = book.coverUrl || book.cover;
   const coverHtml = img
@@ -621,19 +658,33 @@ function renderBookDetail(bookId) {
   const recipes = book.recipes || [];
   const yearHtml = book.pubYear ? `<div class="book-detail-year">${book.pubYear}</div>` : '';
 
-  let recipesHtml;
-  if (recipes.length) {
-    recipesHtml = `<div class="recipe-list">` +
-      recipes.map((r,i) => `
-        <div class="recipe-row" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">
-          <span class="recipe-row-name">${esc(r.name)}</span>
-          ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
-          <span class="recipe-row-arrow">›</span>
-        </div>`).join('') +
-    `</div>`;
-  } else {
-    recipesHtml = `<div class="empty" style="padding:24px 0;"><p>No recipes indexed yet</p></div>`;
-  }
+  // Two-state rows:
+  // has-card = has ingredients OR was added via + Recipe (not index-only)
+  // index-only = came from index capture, no card yet
+  const recipesHtml = recipes.length
+    ? `<div class="recipe-list">` + recipes.map((r,i) => {
+        const hasCard = r.hasCard || (r.ingredients && r.ingredients.length > 0);
+        if (hasCard) {
+          return `<div class="recipe-row has-card" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">
+            <span class="recipe-row-name">${esc(r.name)}</span>
+            ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
+            <span class="recipe-row-arrow">›</span>
+          </div>`;
+        } else {
+          return `<div class="recipe-row index-only">
+            <span class="recipe-row-name">${esc(r.name)}</span>
+            ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
+            <button class="recipe-row-add" title="Add recipe card" onclick="openAddRecipeModalPrefilled('${esc(book.id)}',${i})">＋</button>
+          </div>`;
+        }
+      }).join('') + `</div>`
+    : `<div class="empty" style="padding:24px 0;"><p>No recipes indexed yet</p></div>`;
+
+  const indexedCount = recipes.filter(r => r.hasCard || (r.ingredients && r.ingredients.length > 0)).length;
+  const totalCount = recipes.length;
+  const countLabel = totalCount === 0 ? '0 Recipes'
+    : totalCount === indexedCount ? `${totalCount} Recipe${totalCount!==1?'s':''}`
+    : `${totalCount} Recipe${totalCount!==1?'s':''} · ${indexedCount} with cards`;
 
   document.getElementById('bookDetailBody').innerHTML = `
     <div class="book-detail-hero">
@@ -648,7 +699,7 @@ function renderBookDetail(bookId) {
       </div>
     </div>
     <div class="recipe-section-title">
-      <span>${recipes.length} Recipe${recipes.length!==1?'s':''}</span>
+      <span>${countLabel}</span>
     </div>
     ${recipesHtml}`;
 }
@@ -720,11 +771,163 @@ async function saveNewRecipe() {
   const book = allBooks.find(b => b.id === addRecipeForBookId);
   if (!book) return;
   if (!book.recipes) book.recipes = [];
-  book.recipes.push({ name, page, highConfidence: !!page, ingredients: [...pendingIngredients] });
+
+  // Check if this matches an existing index-only entry (by name, case-insensitive)
+  const existingIdx = book.recipes.findIndex(r =>
+    !r.hasCard && r.name.toLowerCase() === name.toLowerCase()
+  );
+  if (existingIdx >= 0) {
+    // Upgrade the index entry to a card
+    book.recipes[existingIdx].hasCard = true;
+    book.recipes[existingIdx].ingredients = [...pendingIngredients];
+    if (page) book.recipes[existingIdx].page = page;
+  } else {
+    book.recipes.push({ name, page, highConfidence: !!page, ingredients: [...pendingIngredients], hasCard: true });
+  }
   await dbPut('books', book);
   closeAddRecipeModal();
   renderBookDetail(addRecipeForBookId);
   updateHeaderStats();
+}
+
+// Open add recipe modal pre-filled from an index row
+function openAddRecipeModalPrefilled(bookId, recipeIdx) {
+  const book = allBooks.find(b => b.id === bookId);
+  if (!book) return;
+  const r = book.recipes[recipeIdx];
+  addRecipeForBookId = bookId;
+  pendingIngredients = [];
+  document.getElementById('newRecipeName').value = r.name || '';
+  document.getElementById('newRecipePage').value = r.page || '';
+  document.getElementById('recipePhotoPreview').classList.add('hidden');
+  document.getElementById('photoStatus').textContent = '';
+  document.getElementById('extractedIngredients').innerHTML = '';
+  document.getElementById('addRecipeNotice').innerHTML = '';
+  document.getElementById('addRecipeModal').classList.add('open');
+}
+
+// ── INDEX CAPTURE ────────────────────────────────────────────────────────────
+let addIndexForBookId = null;
+
+function openAddIndexModal(bookId) {
+  addIndexForBookId = bookId;
+  document.getElementById('indexPhotoStatus').textContent = '';
+  document.getElementById('addIndexNotice').innerHTML = '';
+  // Show existing index entries as a running list
+  renderIndexList();
+  document.getElementById('addIndexModal').classList.add('open');
+}
+
+function closeAddIndexModal() {
+  document.getElementById('addIndexModal').classList.remove('open');
+  renderBookDetail(addIndexForBookId);
+  updateHeaderStats();
+}
+
+function renderIndexList() {
+  const book = allBooks.find(b => b.id === addIndexForBookId);
+  const el = document.getElementById('indexExtractedList');
+  if (!book || !book.recipes || !book.recipes.length) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--faded);padding:10px 0;">No entries yet.</p>';
+    return;
+  }
+  el.innerHTML = book.recipes.map((r,i) => {
+    const hasCard = r.hasCard || (r.ingredients && r.ingredients.length > 0);
+    return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--aged);">
+      <span style="flex:1;font-size:13px;color:${hasCard?'var(--ink)':'#7a7060'};">${esc(r.name)}</span>
+      ${r.page ? `<span style="font-size:11px;color:var(--faded);">p.${r.page}</span>` : ''}
+      ${hasCard ? '<span style="font-size:10px;color:var(--gold);">●</span>' : ''}
+      <button onclick="removeIndexEntry('${esc(addIndexForBookId)}',${i})" style="background:none;border:none;color:var(--faded);cursor:pointer;font-size:14px;padding:0;">×</button>
+    </div>`;
+  }).join('');
+}
+
+async function removeIndexEntry(bookId, idx) {
+  const book = allBooks.find(b => b.id === bookId);
+  if (!book) return;
+  book.recipes.splice(idx, 1);
+  await dbPut('books', book);
+  renderIndexList();
+}
+
+async function handleIndexPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const status = document.getElementById('indexPhotoStatus');
+  status.innerHTML = `<span class="spinner"></span>Extracting…`;
+
+  const key = apiKey || (await dbGet('meta','apiKey'))?.value;
+  if (!key) { status.textContent = 'API key required — set in Settings.'; return; }
+
+  const entries = await extractIndexFromPhoto(file, key);
+  input.value = ''; // reset so same file can be re-selected if needed
+
+  if (entries === null) {
+    status.textContent = 'Extraction failed — check API key.';
+    return;
+  }
+
+  const book = allBooks.find(b => b.id === addIndexForBookId);
+  if (!book) return;
+  if (!book.recipes) book.recipes = [];
+
+  let added = 0;
+  for (const entry of entries) {
+    if (!entry.name) continue;
+    // Merge: skip if name already exists (preserve hasCard entries)
+    const exists = book.recipes.some(r => r.name.toLowerCase() === entry.name.toLowerCase());
+    if (!exists) {
+      book.recipes.push({
+        name: entry.name,
+        page: entry.page || null,
+        highConfidence: !!entry.page,
+        ingredients: [],
+        hasCard: false
+      });
+      added++;
+    }
+  }
+
+  await dbPut('books', book);
+  status.textContent = `✓ ${added} new entr${added!==1?'ies':'y'} added (${entries.length - added} already present)`;
+  renderIndexList();
+}
+
+async function extractIndexFromPhoto(file, key) {
+  return new Promise(res => {
+    const reader = new FileReader();
+    reader.onload = async e => {
+      const b64 = e.target.result.split(',')[1];
+      const mime = file.type || 'image/jpeg';
+      try {
+        const resp = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': key,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: 'claude-opus-4-5',
+            max_tokens: 2048,
+            messages: [{
+              role: 'user',
+              content: [
+                { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+                { type: 'text', text: 'This is a cookbook index page. Extract every recipe entry. Return ONLY a JSON array of objects with "name" (string) and "page" (integer or null). Example: [{"name":"Roast Chicken","page":42},{"name":"Lemon Tart","page":null}]. No other text, no markdown fences.' }
+              ]
+            }]
+          })
+        });
+        const data = await resp.json();
+        const text = data.content?.[0]?.text || '[]';
+        const clean = text.replace(/```json|```/g,'').trim();
+        res(JSON.parse(clean));
+      } catch(e) { res(null); }
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 // ── PHOTO CAPTURE → CLAUDE ───────────────────────────────────────────────────
@@ -991,7 +1194,8 @@ function normalizeRecord(x) {
     recipes: (x.recipes||[]).map(r => ({
       name: r.name, page: r.page||null,
       highConfidence: r.highConfidence||false,
-      ingredients: r.ingredients||[]
+      ingredients: r.ingredients||[],
+      hasCard: r.hasCard || !!(r.ingredients && r.ingredients.length > 0)
     })),
     addedAt: x.addedAt || Date.now()
   };
@@ -1017,7 +1221,8 @@ function exportCatalog() {
     recipes: (b.recipes||[]).map(r => ({
       name: r.name, page: r.page||null,
       highConfidence: r.highConfidence||false,
-      ingredients: r.ingredients||[]
+      ingredients: r.ingredients||[],
+      hasCard: r.hasCard||false
     })),
     addedAt: b.addedAt
   }));
