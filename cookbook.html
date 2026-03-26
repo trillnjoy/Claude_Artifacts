@@ -113,7 +113,50 @@ header {
 .index-dot.indexed { background: var(--gold); }
 .index-dot.unindexed { background: transparent; }
 
-/* ── BOOK DETAIL ── */
+/* ── TAG CHICLETS ── */
+.tag-group { margin-bottom: 14px; }
+.tag-group-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faded); margin-bottom: 6px; display: block; }
+.tag-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag-chip {
+  font-family: 'Courier Prime', monospace; font-size: 11px;
+  letter-spacing: 0.04em; padding: 4px 10px;
+  border: 1px solid var(--aged); background: transparent;
+  color: var(--faded); cursor: pointer; border-radius: 20px;
+  -webkit-appearance: none; transition: all 0.1s;
+}
+.tag-chip:hover { border-color: var(--ink); color: var(--ink); }
+.tag-chip.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tag-chip.selected.cuisine { background: var(--rust); border-color: var(--rust); }
+.tag-chip.selected.course { background: var(--ink); border-color: var(--ink); }
+.tag-chip.selected.type { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+/* Recipe tags display */
+.recipe-tags { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 0 4px; }
+.recipe-tag {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 20px;
+  border: 1px solid var(--aged); color: var(--faded);
+}
+.recipe-tag.course { border-color: var(--ink); color: var(--ink); }
+.recipe-tag.type { border-color: var(--gold); color: var(--gold); }
+.recipe-tag.cuisine { border-color: var(--rust); color: var(--rust); }
+
+/* Filter drawer */
+.filter-drawer {
+  display: none; background: var(--cream);
+  border-top: 1px solid var(--aged); border-bottom: 1px solid var(--aged);
+  padding: 14px 0; margin-bottom: 8px;
+}
+.filter-drawer.open { display: block; }
+.active-filters { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.filter-chip {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 8px 3px 10px; border-radius: 20px;
+  background: var(--ink); color: var(--paper);
+  border: none; cursor: pointer; display: flex; align-items: center; gap: 4px;
+  -webkit-appearance: none;
+}
+.filter-chip::after { content: '×'; font-size: 12px; opacity: 0.7; }
 .book-detail-hero { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--aged); align-items: flex-start; }
 .book-detail-cover { width: 80px; height: 107px; flex-shrink: 0; background: var(--ink); overflow: hidden; }
 .book-detail-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -135,11 +178,9 @@ header {
   padding: 10px 0; border-bottom: 1px solid var(--aged);
   gap: 10px;
 }
-/* Index-only row — gray, no card yet */
 .recipe-row.index-only { cursor: default; }
 .recipe-row.index-only .recipe-row-name { font-size: 14px; line-height: 1.4; flex: 1; color: #7a7060; }
 .recipe-row.index-only .recipe-row-page { font-size: 12px; color: var(--faded); font-weight: normal; white-space: nowrap; flex-shrink: 0; }
-/* Card row — dark, tappable */
 .recipe-row.has-card { cursor: pointer; }
 .recipe-row.has-card:hover .recipe-row-name { color: var(--rust); }
 .recipe-row.has-card .recipe-row-name { font-size: 14px; line-height: 1.4; flex: 1; color: var(--ink); font-weight: 600; }
@@ -152,7 +193,6 @@ header {
   opacity: 0.5;
 }
 .recipe-row-delete:hover { color: var(--rust); opacity: 1; }
-/* Small + to add card from index row */
 .recipe-row-add {
   background: none; border: 1px solid var(--aged); border-radius: 50%;
   width: 20px; height: 20px; flex-shrink: 0;
@@ -172,14 +212,11 @@ header {
 .dish-photo-wrap {
   width: 100%; background: var(--aged);
   position: relative; cursor: pointer;
-  overflow: hidden;
-  margin-bottom: 0;
+  overflow: hidden; margin-bottom: 0;
   aspect-ratio: 4/3;
   display: flex; align-items: center; justify-content: center;
 }
-.dish-photo-wrap img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
+.dish-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .dish-photo-placeholder {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 8px; color: var(--faded); width: 100%; height: 100%;
@@ -335,6 +372,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
   <div class="subheader">
     <button class="back-btn" onclick="navTo('Library')">Library</button>
     <button class="icon-btn" onclick="openAddIndexModal(currentBookId)" style="color:var(--faded);font-size:15px;" title="Add Index">⊞</button>
+    <button class="icon-btn" onclick="toggleRecipeFilter()" style="color:var(--faded);font-size:16px;" title="Filter recipes" id="filterToggleBtn">⊟</button>
     <button class="icon-btn" onclick="openEditModal(currentBookId)" style="color:var(--faded);font-size:16px;" title="Edit Book">⚙</button>
   </div>
   <div class="view-body" id="bookDetailBody"></div>
@@ -471,6 +509,22 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
     <input type="text" id="newRecipeName" placeholder="Croissant Bread Pudding">
     <label class="mt-sm">Page Number <span style="font-size:10px;color:var(--faded);text-transform:none;letter-spacing:0">(optional)</span></label>
     <input type="number" id="newRecipePage" placeholder="218" style="margin-top:6px;">
+
+    <div style="margin-top:14px;border-top:1px solid var(--aged);padding-top:12px;">
+      <div class="tag-group" id="coursePickerGroup">
+        <span class="tag-group-label">Course <span style="color:var(--rust)">*</span></span>
+        <div class="tag-grid" id="coursePicker"></div>
+      </div>
+      <div class="tag-group" id="typePickerGroup">
+        <span class="tag-group-label">Type <span style="font-weight:normal;opacity:0.6">(optional)</span></span>
+        <div class="tag-grid" id="typePicker"></div>
+      </div>
+      <div class="tag-group">
+        <span class="tag-group-label">Cuisine <span style="font-weight:normal;opacity:0.6">(optional, up to 3)</span></span>
+        <div class="tag-grid" id="cuisinePicker"></div>
+      </div>
+    </div>
+
     <div class="mt" style="border-top:1px solid var(--aged);padding-top:12px;">
       <label>Add Ingredients via Photo</label>
       <p style="font-size:12px;color:var(--faded);line-height:1.5;margin-bottom:8px;">Photograph the ingredients list. Claude will extract them.</p>
@@ -517,11 +571,102 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
     <input type="text" id="searchInput" placeholder="croissant bread pudding, leek…" autocomplete="off" autocorrect="off" autocapitalize="off">
     <button class="search-dismiss" onclick="closeSearchModal()">Done</button>
   </div>
+  <div style="padding:10px 20px 0;background:var(--ink);display:flex;gap:6px;flex-wrap:wrap;">
+    <select id="searchCourseFilter" onchange="doSearch(document.getElementById('searchInput').value.trim())"
+      style="font-family:'Courier Prime',monospace;font-size:11px;background:rgba(255,255,255,0.1);border:1px solid var(--gold);color:var(--paper);padding:4px 8px;border-radius:20px;-webkit-appearance:none;cursor:pointer;">
+      <option value="">All Courses</option>
+    </select>
+    <select id="searchTypeFilter" onchange="doSearch(document.getElementById('searchInput').value.trim())"
+      style="font-family:'Courier Prime',monospace;font-size:11px;background:rgba(255,255,255,0.1);border:1px solid var(--gold);color:var(--paper);padding:4px 8px;border-radius:20px;-webkit-appearance:none;cursor:pointer;">
+      <option value="">All Types</option>
+    </select>
+    <select id="searchCuisineFilter" onchange="doSearch(document.getElementById('searchInput').value.trim())"
+      style="font-family:'Courier Prime',monospace;font-size:11px;background:rgba(255,255,255,0.1);border:1px solid var(--gold);color:var(--paper);padding:4px 8px;border-radius:20px;-webkit-appearance:none;cursor:pointer;">
+      <option value="">All Cuisines</option>
+    </select>
+  </div>
   <div class="search-results-wrap" id="searchResults"></div>
 </div>
 
 <script>
+
+
+
 const SEED_URL = 'https://trillnjoy.github.io/Claude_Artifacts/cookbooks_seed.json';
+
+// ── FALLBACK SEED (used when network fetch fails) ─────────────────────────────
+const INLINE_SEED = [
+  {
+    id: "jerusalem-yotam-ottolenghi",
+    title: "Jerusalem",
+    author: "Yotam Ottolenghi & Sami Tamimi",
+    pubYear: 2012,
+    coverUrl: null,
+    recipes: [
+      { name: "Roasted Chicken with Clementines", page: 182, hasCard: true, course: "dinner entree", type: "meat", cuisines: ["israeli","middle eastern"], ingredients: ["1 large chicken, quartered","4 clementines, halved","2 tbsp sugar","3 tbsp sherry vinegar","3 tbsp soy sauce","1 tsp ground cinnamon","½ tsp ground allspice","thyme sprigs","salt and pepper"] },
+      { name: "Hummus Kawarma", page: 114, hasCard: true, course: "appetizer", type: "meat", cuisines: ["lebanese","middle eastern"], ingredients: ["400g cooked chickpeas","2 tbsp tahini","juice of 1 lemon","2 cloves garlic","ice water","lamb mince","pine nuts","olive oil","cumin","paprika"] },
+      { name: "Roasted Aubergine with Tahini", page: 66, hasCard: false, course: "side", type: "vegetable", cuisines: ["middle eastern"], ingredients: [] },
+      { name: "Knafeh", page: 274, hasCard: false, course: "dessert", type: "pastry", cuisines: ["middle eastern"], ingredients: [] },
+      { name: "Shakshuka", page: 90, hasCard: true, course: "brunch", type: "egg", cuisines: ["middle eastern","israeli"], ingredients: ["2 tbsp olive oil","1 onion, diced","1 red bell pepper, diced","4 cloves garlic","1 tsp cumin","1 tsp paprika","400g canned tomatoes","6 eggs","feta cheese","fresh parsley"] }
+    ],
+    addedAt: 1700000001000
+  },
+  {
+    id: "the-french-laundry-cookbook-thomas-keller",
+    title: "The French Laundry Cookbook",
+    author: "Thomas Keller",
+    pubYear: 1999,
+    coverUrl: null,
+    recipes: [
+      { name: "Oysters and Pearls", page: 44, hasCard: true, course: "appetizer", type: "seafood", cuisines: ["french","american"], ingredients: ["12 oysters","2 cups tapioca pearls","2 cups crème fraîche","1 cup champagne","shallots","chives","salt","white pepper"] },
+      { name: "Salmon Cornets", page: 12, hasCard: true, course: "appetizer", type: "seafood", cuisines: ["french","american"], ingredients: ["smoked salmon","crème fraîche","chives","black sesame tuile cones"] },
+      { name: "Macaroni and Cheese", page: 172, hasCard: false, course: "side", type: "pasta", cuisines: ["american"], ingredients: [] },
+      { name: "Coffee and Doughnuts", page: 268, hasCard: false, course: "dessert", type: "custard/pudding", cuisines: ["american"], ingredients: [] }
+    ],
+    addedAt: 1700000002000
+  },
+  {
+    id: "plenty-more-yotam-ottolenghi",
+    title: "Plenty More",
+    author: "Yotam Ottolenghi",
+    pubYear: 2014,
+    coverUrl: null,
+    recipes: [
+      { name: "Charred Corn Polenta", page: 148, hasCard: true, course: "side", type: "grain", cuisines: ["american"], ingredients: ["4 ears corn","200g polenta","50g butter","100g parmesan","thyme","salt and pepper"] },
+      { name: "Tomato Party", page: 32, hasCard: false, course: "salad", type: "vegetable", cuisines: ["middle eastern"], ingredients: [] },
+      { name: "Saffron Tagliatelle", page: 210, hasCard: false, course: "dinner entree", type: "pasta", cuisines: ["italian"], ingredients: [] }
+    ],
+    addedAt: 1700000003000
+  },
+  {
+    id: "the-joy-of-cooking-irma-rombauer",
+    title: "The Joy of Cooking",
+    author: "Irma S. Rombauer",
+    pubYear: 1931,
+    coverUrl: null,
+    recipes: [
+      { name: "Classic Roast Turkey", page: 430, hasCard: false, course: "dinner entree", type: "meat", cuisines: ["american"], ingredients: [] },
+      { name: "Pound Cake", page: 622, hasCard: false, course: "dessert", type: "cake/muffin", cuisines: ["american"], ingredients: [] },
+      { name: "Hollandaise Sauce", page: 358, hasCard: false, course: "sauce", type: "egg", cuisines: ["french"], ingredients: [] },
+      { name: "New England Clam Chowder", page: 202, hasCard: false, course: "soup", type: "seafood", cuisines: ["american"], ingredients: [] }
+    ],
+    addedAt: 1700000004000
+  },
+  {
+    id: "essentials-of-classic-italian-cooking-marcella-hazan",
+    title: "Essentials of Classic Italian Cooking",
+    author: "Marcella Hazan",
+    pubYear: 1992,
+    coverUrl: null,
+    recipes: [
+      { name: "Tomato Sauce with Onion and Butter", page: 152, hasCard: true, course: "sauce", type: "vegetable", cuisines: ["italian"], ingredients: ["700g canned whole tomatoes","1 medium onion, halved","5 tbsp unsalted butter","salt"] },
+      { name: "Risotto alla Milanese", page: 238, hasCard: false, course: "dinner entree", type: "grain", cuisines: ["italian"], ingredients: [] },
+      { name: "Tiramisu", page: 492, hasCard: false, course: "dessert", type: "custard/pudding", cuisines: ["italian"], ingredients: [] },
+      { name: "Braised Oxtail", page: 344, hasCard: false, course: "dinner entree", type: "meat", cuisines: ["italian"], ingredients: [] }
+    ],
+    addedAt: 1700000005000
+  }
+];
 
 // ── DB ───────────────────────────────────────────────────────────────────────
 const DB_NAME = 'TheShelfDB', DB_VER = 3;
@@ -557,6 +702,25 @@ let libSort = 'added';
 let pendingIngredients = [];
 let apiKey = null;
 
+// ── VOCABULARY ────────────────────────────────────────────────────────────────
+const COURSES = ['cocktail','hot drink','punch','appetizer','soup','salad','sandwich','bread','breakfast','brunch','dinner entree','side','dessert','sauce'];
+const TYPES_GENERAL = ['seafood','meat','egg','pasta','grain','vegetable','fruit','cheese','bread'];
+const TYPES_DESSERT = ['cake/muffin','tart/pie','cookie/bar','custard/pudding','ice cream','pastry','confection','fruit','sweet bread'];
+const CUISINES = {
+  'Middle Eastern': ['persian','turkish','armenian','lebanese','egyptian','moroccan','israeli','middle eastern'],
+  'Asian': ['japanese','korean','chinese','thai','vietnamese','indian','asian'],
+  'European': ['french','italian','greek','spanish','british','irish','german','scandinavian','european'],
+  'Latin American': ['mexican','salvadoran','cuban','caribbean','argentinian','peruvian','brazilian','latin american'],
+  'American': ['southern','southwestern','midwestern','american'],
+  'World Cuisine': ['west african','east african','world cuisine']
+};
+const ALL_CUISINES = Object.values(CUISINES).flat();
+
+// Tag picker state
+let pickerCourse = null;
+let pickerType = null;
+let pickerCuisines = [];
+
 async function loadBooks() {
   allBooks = await dbGetAll('books');
   updateHeaderStats();
@@ -572,17 +736,18 @@ function updateHeaderStats() {
 
 // ── SEED ─────────────────────────────────────────────────────────────────────
 async function hydrateFromSeed() {
+  let books = null;
   try {
     const r = await fetch(SEED_URL + '?v=' + Date.now());
-    if (!r.ok) throw new Error('fetch failed');
-    const books = await r.json();
-    await dbClear('books');
-    for (const b of books) await dbPut('books', normalizeRecord(b));
-    await dbPut('meta', { key: 'seeded', value: true });
-    allBooks = await dbGetAll('books');
-    updateHeaderStats();
-    return true;
-  } catch(e) { return false; }
+    if (r.ok) books = await r.json();
+  } catch(e) { /* network unavailable — fall through to inline */ }
+  if (!books) books = INLINE_SEED;
+  await dbClear('books');
+  for (const b of books) await dbPut('books', normalizeRecord(b));
+  await dbPut('meta', { key: 'seeded', value: true });
+  allBooks = await dbGetAll('books');
+  updateHeaderStats();
+  return true;
 }
 
 async function reloadFromSeed() {
@@ -599,22 +764,16 @@ async function reloadFromSeed() {
 const TOP_LEVEL = ['Library','Import','Settings'];
 
 function navTo(view, opts={}) {
-  // Deactivate all views
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view' + view).classList.add('active');
-
-  // Update nav bar highlight (top-level only)
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const navId = 'nav' + (TOP_LEVEL.includes(view) ? view : 'Library');
   const navEl = document.getElementById(navId);
   if (navEl) navEl.classList.add('active');
-
   currentView = view;
-
   if (view === 'Library') renderLibrary();
   if (view === 'BookDetail') renderBookDetail(opts.bookId || currentBookId);
   if (view === 'Recipe') renderRecipeCard(opts.bookId || currentBookId, opts.recipeIdx !== undefined ? opts.recipeIdx : currentRecipeIdx);
-
   window.scrollTo(0,0);
 }
 
@@ -645,20 +804,16 @@ function renderLibrary() {
     document.getElementById('libCount').textContent = '';
     return;
   }
-
   let books = [...allBooks];
   if (libFilter === 'indexed') books = books.filter(b => b.recipes && b.recipes.length > 0);
   if (libFilter === 'unindexed') books = books.filter(b => !b.recipes || b.recipes.length === 0);
-
   books.sort((a,b) => {
     if (libSort === 'title') return (a.title||'').localeCompare(b.title||'');
     if (libSort === 'author') return (a.author||'').localeCompare(b.author||'');
     if (libSort === 'pubdate') return ((a.pubYear||0) - (b.pubYear||0));
     return (b.addedAt||0) - (a.addedAt||0);
   });
-
   document.getElementById('libCount').textContent = `${books.length} book${books.length!==1?'s':''}`;
-
   let html = '<div class="library-grid">';
   for (const book of books) {
     const rc = book.recipes ? book.recipes.length : 0;
@@ -675,8 +830,103 @@ function renderLibrary() {
   el.innerHTML = html;
 }
 
+// ── TAG PICKERS ───────────────────────────────────────────────────────────────
+function renderCoursePicker(containerId, selected, onSelect) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = COURSES.map(c =>
+    `<button class="tag-chip course ${selected===c?'selected':''}" data-val="${esc(c)}" data-picker="course">${c}</button>`
+  ).join('');
+  el.onclick = e => {
+    const btn = e.target.closest('[data-picker="course"]');
+    if (!btn) return;
+    onSelect(btn.dataset.val);
+  };
+}
+
+function renderTypePicker(containerId, course, selected, onSelect) {
+  const types = course === 'dessert' ? TYPES_DESSERT : TYPES_GENERAL;
+  const el = document.getElementById(containerId);
+  el.innerHTML = types.map(t =>
+    `<button class="tag-chip type ${selected===t?'selected':''}" data-val="${esc(t)}" data-picker="type">${t}</button>`
+  ).join('');
+  el.onclick = e => {
+    const btn = e.target.closest('[data-picker="type"]');
+    if (!btn) return;
+    onSelect(btn.dataset.val);
+  };
+}
+
+function renderCuisinePicker(containerId, selected, onSelect) {
+  const el = document.getElementById(containerId);
+  let html = '';
+  for (const [group, items] of Object.entries(CUISINES)) {
+    html += `<div style="width:100%;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin:6px 0 3px;">${group}</div>`;
+    html += items.map(c =>
+      `<button class="tag-chip cuisine ${selected.includes(c)?'selected':''}" data-val="${esc(c)}" data-picker="cuisine">${c}</button>`
+    ).join('');
+  }
+  el.innerHTML = html;
+  el.onclick = e => {
+    const btn = e.target.closest('[data-picker="cuisine"]');
+    if (!btn) return;
+    onSelect(btn.dataset.val);
+  };
+}
+
+function initAddRecipePickers() {
+  renderCoursePicker('coursePicker', pickerCourse, (c) => {
+    pickerCourse = pickerCourse === c ? null : c;
+    pickerType = null;
+    initAddRecipePickers();
+  });
+  renderTypePicker('typePicker', pickerCourse, pickerType, (t) => {
+    pickerType = pickerType === t ? null : t;
+    initAddRecipePickers();
+  });
+  renderCuisinePicker('cuisinePicker', pickerCuisines, (c) => {
+    if (pickerCuisines.includes(c)) {
+      pickerCuisines = pickerCuisines.filter(x => x !== c);
+    } else if (pickerCuisines.length < 3) {
+      pickerCuisines = [...pickerCuisines, c];
+    }
+    initAddRecipePickers();
+  });
+  const typeLabel = document.querySelector('#typePickerGroup .tag-group-label');
+  if (typeLabel) typeLabel.innerHTML = pickerCourse === 'dessert'
+    ? 'Dessert Type <span style="color:var(--rust)">*</span>'
+    : 'Type <span style="font-weight:normal;opacity:0.6">(optional)</span>';
+}
+
+function populateSearchFilters() {
+  const courseEl = document.getElementById('searchCourseFilter');
+  const typeEl = document.getElementById('searchTypeFilter');
+  const cuisineEl = document.getElementById('searchCuisineFilter');
+  const allTypes = [...TYPES_GENERAL, ...TYPES_DESSERT];
+  courseEl.innerHTML = '<option value="">All Courses</option>' + COURSES.map(c=>`<option value="${c}">${c}</option>`).join('');
+  typeEl.innerHTML = '<option value="">All Types</option>' + allTypes.map(t=>`<option value="${t}">${t}</option>`).join('');
+  cuisineEl.innerHTML = '<option value="">All Cuisines</option>' + ALL_CUISINES.map(c=>`<option value="${c}">${c}</option>`).join('');
+}
+
+// ── RECIPE FILTER STATE ───────────────────────────────────────────────────────
+let recipeFilterCourse = null;
+let recipeFilterType = null;
+let recipeFilterCuisine = null;
+
+function toggleRecipeFilter() {
+  const drawer = document.getElementById('recipeFilterDrawer');
+  if (!drawer) return;
+  drawer.classList.toggle('open');
+}
+
+function clearRecipeFilters() {
+  recipeFilterCourse = null;
+  recipeFilterType = null;
+  recipeFilterCuisine = null;
+  renderBookDetail(currentBookId);
+}
+
 // ── BOOK DETAIL ──────────────────────────────────────────────────────────────
-let recipeSort = 'page'; // 'page' | 'name'
+let recipeSort = 'page';
 
 function setRecipeSort(s) {
   recipeSort = s;
@@ -696,45 +946,87 @@ function renderBookDetail(bookId) {
     ? `<img src="${esc(img)}" alt="">`
     : `<div class="book-detail-cover-placeholder">📖</div>`;
 
-  const recipes = book.recipes || [];
+  const allRecipes = book.recipes || [];
   const yearHtml = book.pubYear ? `<div class="book-detail-year">${book.pubYear}</div>` : '';
 
-  // Sort a copy, preserving original indices for delete/nav
-  const indexed = recipes.map((r,i) => ({r, i}));
-  indexed.sort((a,b) => {
+  let recipes = allRecipes.map((r,i) => ({r,i}));
+  if (recipeFilterCourse) recipes = recipes.filter(({r}) => r.course === recipeFilterCourse);
+  if (recipeFilterType) recipes = recipes.filter(({r}) => r.type === recipeFilterType);
+  if (recipeFilterCuisine) recipes = recipes.filter(({r}) => r.cuisines && r.cuisines.includes(recipeFilterCuisine));
+
+  recipes.sort((a,b) => {
     if (recipeSort === 'name') return (a.r.name||'').localeCompare(b.r.name||'');
-    // page ascending; null pages go to end
-    const pa = a.r.page ?? 99999, pb = b.r.page ?? 99999;
-    return pa - pb;
+    return (a.r.page ?? 99999) - (b.r.page ?? 99999);
   });
 
+  const activeFilters = [
+    recipeFilterCourse && {label: recipeFilterCourse, clear: 'recipeFilterCourse'},
+    recipeFilterType && {label: recipeFilterType, clear: 'recipeFilterType'},
+    recipeFilterCuisine && {label: recipeFilterCuisine, clear: 'recipeFilterCuisine'},
+  ].filter(Boolean);
+
+  const activeChips = activeFilters.length
+    ? `<div class="active-filters">${activeFilters.map(f =>
+        `<button class="filter-chip" onclick="clearOneFilter('${f.clear}')">${f.label}</button>`
+      ).join('')}</div>` : '';
+
   const recipesHtml = recipes.length
-    ? `<div class="recipe-list">` + indexed.map(({r, i}) => {
+    ? `<div class="recipe-list">` + recipes.map(({r,i}) => {
         const hasCard = r.hasCard || (r.ingredients && r.ingredients.length > 0);
+        const tagHtml = [r.course, r.type, ...(r.cuisines||[])].filter(Boolean).length
+          ? `<div class="recipe-tags" style="padding:3px 0 0;">${
+              r.course ? `<span class="recipe-tag course">${r.course}</span>` : ''}${
+              r.type ? `<span class="recipe-tag type">${r.type}</span>` : ''}${
+              (r.cuisines||[]).map(c=>`<span class="recipe-tag cuisine">${c}</span>`).join('')}
+            </div>` : '';
         const deleteBtn = `<button class="recipe-row-delete" title="Delete" onclick="deleteRecipeRow(event,'${esc(book.id)}',${i})">×</button>`;
         if (hasCard) {
           return `<div class="recipe-row has-card">
-            <span class="recipe-row-name" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">${esc(r.name)}</span>
+            <div style="flex:1;min-width:0;" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">
+              <span class="recipe-row-name">${esc(r.name)}</span>${tagHtml}
+            </div>
             ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
             <span class="recipe-row-arrow" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">›</span>
             ${deleteBtn}
           </div>`;
         } else {
           return `<div class="recipe-row index-only">
-            <span class="recipe-row-name">${esc(r.name)}</span>
+            <div style="flex:1;min-width:0;">
+              <span class="recipe-row-name">${esc(r.name)}</span>${tagHtml}
+            </div>
             ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
             <button class="recipe-row-add" title="Add recipe card" onclick="openAddRecipeModalPrefilled('${esc(book.id)}',${i})">＋</button>
             ${deleteBtn}
           </div>`;
         }
       }).join('') + `</div>`
-    : `<div class="empty" style="padding:24px 0;"><p>No recipes indexed yet</p></div>`;
+    : `<div class="empty" style="padding:24px 0;"><p>${recipeFilterCourse||recipeFilterType||recipeFilterCuisine ? 'No matching recipes' : 'No recipes indexed yet'}</p></div>`;
 
-  const indexedCount = recipes.filter(r => r.hasCard || (r.ingredients && r.ingredients.length > 0)).length;
-  const totalCount = recipes.length;
+  const indexedCount = allRecipes.filter(r => r.hasCard || (r.ingredients && r.ingredients.length > 0)).length;
+  const totalCount = allRecipes.length;
   const countLabel = totalCount === 0 ? '0 Recipes'
-    : totalCount === indexedCount ? `${totalCount} Recipe${totalCount!==1?'s':''}`
-    : `${totalCount} Recipe${totalCount!==1?'s':''} · ${indexedCount} with cards`;
+    : recipeFilterCourse||recipeFilterType||recipeFilterCuisine
+      ? `${recipes.length} of ${totalCount} Recipe${totalCount!==1?'s':''}`
+      : totalCount === indexedCount ? `${totalCount} Recipe${totalCount!==1?'s':''}`
+      : `${totalCount} Recipe${totalCount!==1?'s':''} · ${indexedCount} with cards`;
+
+  const filterDrawerHtml = `<div class="filter-drawer" id="recipeFilterDrawer">
+    <div style="padding:0 0 8px;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin-bottom:6px;">Course</div>
+      <div class="tag-grid">${COURSES.map(c =>
+        `<button class="tag-chip course ${recipeFilterCourse===c?'selected':''}" onclick="setRecipeFilter('course','${c}')">${c}</button>`
+      ).join('')}</div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin:10px 0 6px;">Type</div>
+      <div class="tag-grid">${[...TYPES_GENERAL,...TYPES_DESSERT].map(t =>
+        `<button class="tag-chip type ${recipeFilterType===t?'selected':''}" onclick="setRecipeFilter('type','${t}')">${t}</button>`
+      ).join('')}</div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin:10px 0 6px;">Cuisine</div>
+      <div class="tag-grid">${ALL_CUISINES.map(c =>
+        `<button class="tag-chip cuisine ${recipeFilterCuisine===c?'selected':''}" onclick="setRecipeFilter('cuisine','${c}')">${c}</button>`
+      ).join('')}</div>
+      ${activeFilters.length ? `<button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="clearRecipeFilters()">Clear Filters</button>` : ''}
+    </div>
+  </div>`;
 
   document.getElementById('bookDetailBody').innerHTML = `
     <div class="book-detail-hero">
@@ -748,6 +1040,8 @@ function renderBookDetail(bookId) {
         </div>
       </div>
     </div>
+    ${filterDrawerHtml}
+    ${activeChips}
     <div class="recipe-section-title">
       <span>${countLabel}</span>
       <span style="display:flex;gap:6px;align-items:center;">
@@ -756,6 +1050,22 @@ function renderBookDetail(bookId) {
       </span>
     </div>
     ${recipesHtml}`;
+}
+
+function setRecipeFilter(axis, value) {
+  if (axis === 'course') recipeFilterCourse = recipeFilterCourse === value ? null : value;
+  if (axis === 'type') recipeFilterType = recipeFilterType === value ? null : value;
+  if (axis === 'cuisine') recipeFilterCuisine = recipeFilterCuisine === value ? null : value;
+  renderBookDetail(currentBookId);
+  const drawer = document.getElementById('recipeFilterDrawer');
+  if (drawer) drawer.classList.add('open');
+}
+
+function clearOneFilter(field) {
+  if (field === 'recipeFilterCourse') recipeFilterCourse = null;
+  if (field === 'recipeFilterType') recipeFilterType = null;
+  if (field === 'recipeFilterCuisine') recipeFilterCuisine = null;
+  renderBookDetail(currentBookId);
 }
 
 async function deleteRecipeRow(event, bookId, recipeIdx) {
@@ -798,14 +1108,18 @@ function renderRecipeCard(bookId, recipeIdx) {
       <div class="recipe-card-title">${esc(recipe.name)}</div>
       <div class="recipe-card-book">${esc(book.title)}</div>
       ${recipe.page ? `<div class="recipe-card-page">p. ${recipe.page}</div>` : ''}
+      ${[recipe.course, recipe.type, ...(recipe.cuisines||[])].filter(Boolean).length ? `
+      <div class="recipe-tags">
+        ${recipe.course ? `<span class="recipe-tag course">${recipe.course}</span>` : ''}
+        ${recipe.type ? `<span class="recipe-tag type">${recipe.type}</span>` : ''}
+        ${(recipe.cuisines||[]).map(c=>`<span class="recipe-tag cuisine">${c}</span>`).join('')}
+      </div>` : ''}
     </div>
-
     <input type="file" id="dishPhotoInput" class="capture-input" accept="image/*"
       onchange="saveDishPhoto(this,'${esc(bookId)}',${recipeIdx})">
     <div class="dish-photo-wrap" onclick="document.getElementById('dishPhotoInput').click()">
       ${photoHtml}
     </div>
-
     <div class="ingredients-section">
       <div class="ingredients-title">
         <span>Ingredients</span>
@@ -828,7 +1142,7 @@ async function saveDishPhoto(input, bookId, recipeIdx) {
   reader.onload = async e => {
     const book = allBooks.find(b => b.id === bookId);
     if (!book || !book.recipes[recipeIdx]) return;
-    book.recipes[recipeIdx].photo = e.target.result; // base64 data URL
+    book.recipes[recipeIdx].photo = e.target.result;
     await dbPut('books', book);
     renderRecipeCard(bookId, recipeIdx);
   };
@@ -841,12 +1155,14 @@ let addRecipeForBookId = null;
 function openAddRecipeModal(bookId) {
   addRecipeForBookId = bookId;
   pendingIngredients = [];
+  pickerCourse = null; pickerType = null; pickerCuisines = [];
   document.getElementById('newRecipeName').value = '';
   document.getElementById('newRecipePage').value = '';
   document.getElementById('recipePhotoPreview').classList.add('hidden');
   document.getElementById('photoStatus').textContent = '';
   document.getElementById('extractedIngredients').innerHTML = '';
   document.getElementById('addRecipeNotice').innerHTML = '';
+  initAddRecipePickers();
   document.getElementById('addRecipeModal').classList.add('open');
 }
 
@@ -863,17 +1179,15 @@ async function saveNewRecipe() {
   if (!book) return;
   if (!book.recipes) book.recipes = [];
 
-  // Check if this matches an existing index-only entry (by name, case-insensitive)
+  const tags = { course: pickerCourse||null, type: pickerType||null, cuisines: [...pickerCuisines] };
   const existingIdx = book.recipes.findIndex(r =>
     !r.hasCard && r.name.toLowerCase() === name.toLowerCase()
   );
   if (existingIdx >= 0) {
-    // Upgrade the index entry to a card
-    book.recipes[existingIdx].hasCard = true;
-    book.recipes[existingIdx].ingredients = [...pendingIngredients];
+    Object.assign(book.recipes[existingIdx], { hasCard:true, ingredients:[...pendingIngredients], ...tags });
     if (page) book.recipes[existingIdx].page = page;
   } else {
-    book.recipes.push({ name, page, highConfidence: !!page, ingredients: [...pendingIngredients], hasCard: true });
+    book.recipes.push({ name, page, highConfidence:!!page, ingredients:[...pendingIngredients], hasCard:true, ...tags });
   }
   await dbPut('books', book);
   closeAddRecipeModal();
@@ -881,19 +1195,22 @@ async function saveNewRecipe() {
   updateHeaderStats();
 }
 
-// Open add recipe modal pre-filled from an index row
 function openAddRecipeModalPrefilled(bookId, recipeIdx) {
   const book = allBooks.find(b => b.id === bookId);
   if (!book) return;
   const r = book.recipes[recipeIdx];
   addRecipeForBookId = bookId;
   pendingIngredients = [];
+  pickerCourse = r.course || null;
+  pickerType = r.type || null;
+  pickerCuisines = r.cuisines ? [...r.cuisines] : [];
   document.getElementById('newRecipeName').value = r.name || '';
   document.getElementById('newRecipePage').value = r.page || '';
   document.getElementById('recipePhotoPreview').classList.add('hidden');
   document.getElementById('photoStatus').textContent = '';
   document.getElementById('extractedIngredients').innerHTML = '';
   document.getElementById('addRecipeNotice').innerHTML = '';
+  initAddRecipePickers();
   document.getElementById('addRecipeModal').classList.add('open');
 }
 
@@ -904,7 +1221,6 @@ function openAddIndexModal(bookId) {
   addIndexForBookId = bookId;
   document.getElementById('indexPhotoStatus').textContent = '';
   document.getElementById('addIndexNotice').innerHTML = '';
-  // Show existing index entries as a running list
   renderIndexList();
   document.getElementById('addIndexModal').classList.add('open');
 }
@@ -946,39 +1262,23 @@ async function handleIndexPhoto(input) {
   if (!file) return;
   const status = document.getElementById('indexPhotoStatus');
   status.innerHTML = `<span class="spinner"></span>Extracting…`;
-
   const key = apiKey || (await dbGet('meta','apiKey'))?.value;
   if (!key) { status.textContent = 'API key required — set in Settings.'; return; }
-
   const entries = await extractIndexFromPhoto(file, key);
-  input.value = ''; // reset so same file can be re-selected if needed
-
-  if (entries === null) {
-    status.textContent = 'Extraction failed — check API key.';
-    return;
-  }
-
+  input.value = '';
+  if (entries === null) { status.textContent = 'Extraction failed — check API key.'; return; }
   const book = allBooks.find(b => b.id === addIndexForBookId);
   if (!book) return;
   if (!book.recipes) book.recipes = [];
-
   let added = 0;
   for (const entry of entries) {
     if (!entry.name) continue;
-    // Merge: skip if name already exists (preserve hasCard entries)
     const exists = book.recipes.some(r => r.name.toLowerCase() === entry.name.toLowerCase());
     if (!exists) {
-      book.recipes.push({
-        name: entry.name,
-        page: entry.page || null,
-        highConfidence: !!entry.page,
-        ingredients: [],
-        hasCard: false
-      });
+      book.recipes.push({ name: entry.name, page: entry.page || null, highConfidence: !!entry.page, ingredients: [], hasCard: false, course: null, type: null, cuisines: [] });
       added++;
     }
   }
-
   await dbPut('books', book);
   status.textContent = `✓ ${added} new entr${added!==1?'ies':'y'} added (${entries.length - added} already present)`;
   renderIndexList();
@@ -993,28 +1293,19 @@ async function extractIndexFromPhoto(file, key) {
       try {
         const resp = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': key,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
+          headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
           body: JSON.stringify({
             model: 'claude-opus-4-5',
             max_tokens: 2048,
-            messages: [{
-              role: 'user',
-              content: [
-                { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
-                { type: 'text', text: 'This is a cookbook index page. Extract every recipe entry. Return ONLY a JSON array of objects with "name" (string) and "page" (integer or null). Example: [{"name":"Roast Chicken","page":42},{"name":"Lemon Tart","page":null}]. No other text, no markdown fences.' }
-              ]
-            }]
+            messages: [{ role: 'user', content: [
+              { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+              { type: 'text', text: 'This is a cookbook index page. Extract every recipe entry. Return ONLY a JSON array of objects with "name" (string) and "page" (integer or null). Example: [{"name":"Roast Chicken","page":42},{"name":"Lemon Tart","page":null}]. No other text, no markdown fences.' }
+            ]}]
           })
         });
         const data = await resp.json();
         const text = data.content?.[0]?.text || '[]';
-        const clean = text.replace(/```json|```/g,'').trim();
-        res(JSON.parse(clean));
+        res(JSON.parse(text.replace(/```json|```/g,'').trim()));
       } catch(e) { res(null); }
     };
     reader.readAsDataURL(file);
@@ -1028,20 +1319,13 @@ async function handleRecipePhoto(input) {
   const preview = document.getElementById('recipePhotoPreview');
   const status = document.getElementById('photoStatus');
   const extracted = document.getElementById('extractedIngredients');
-
   preview.src = URL.createObjectURL(file);
   preview.classList.remove('hidden');
   status.innerHTML = `<span class="spinner"></span>Extracting…`;
   extracted.innerHTML = '';
   pendingIngredients = [];
-
   const ingredients = await extractIngredientsFromPhoto(file);
-
-  if (ingredients === null) {
-    status.textContent = 'Extraction failed — check API key in Settings.';
-    return;
-  }
-
+  if (ingredients === null) { status.textContent = 'Extraction failed — check API key in Settings.'; return; }
   pendingIngredients = ingredients;
   status.textContent = `${ingredients.length} ingredient${ingredients.length!==1?'s':''} found`;
   extracted.innerHTML = `<ul class="ingredient-list" style="margin-top:8px;">${ingredients.map(i=>`<li class="ingredient-item">${esc(i)}</li>`).join('')}</ul>`;
@@ -1052,14 +1336,8 @@ async function handleUpdatePhoto(input, bookId, recipeIdx) {
   if (!file) return;
   const status = document.getElementById('updatePhotoStatus');
   if (status) status.innerHTML = `<span class="spinner"></span>`;
-
   const ingredients = await extractIngredientsFromPhoto(file);
-
-  if (ingredients === null) {
-    if (status) status.textContent = 'Failed — check API key.';
-    return;
-  }
-
+  if (ingredients === null) { if (status) status.textContent = 'Failed — check API key.'; return; }
   const book = allBooks.find(b => b.id === bookId);
   if (!book || !book.recipes[recipeIdx]) return;
   book.recipes[recipeIdx].ingredients = ingredients;
@@ -1072,7 +1350,6 @@ async function handleUpdatePhoto(input, bookId, recipeIdx) {
 async function extractIngredientsFromPhoto(file) {
   const key = apiKey || (await dbGet('meta','apiKey'))?.value;
   if (!key) return null;
-
   return new Promise(res => {
     const reader = new FileReader();
     reader.onload = async e => {
@@ -1085,19 +1362,15 @@ async function extractIngredientsFromPhoto(file) {
           body: JSON.stringify({
             model: 'claude-opus-4-5',
             max_tokens: 1024,
-            messages: [{
-              role: 'user',
-              content: [
-                { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
-                { type: 'text', text: 'Extract the ingredients list from this recipe photo. Return ONLY a JSON array of strings, one ingredient per string, including quantity and unit. No other text, no markdown.' }
-              ]
-            }]
+            messages: [{ role: 'user', content: [
+              { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+              { type: 'text', text: 'Extract the ingredients list from this recipe photo. Return ONLY a JSON array of strings, one ingredient per string, including quantity and unit. No other text, no markdown.' }
+            ]}]
           })
         });
         const data = await resp.json();
         const text = data.content?.[0]?.text || '[]';
-        const clean = text.replace(/```json|```/g,'').trim();
-        res(JSON.parse(clean));
+        res(JSON.parse(text.replace(/```json|```/g,'').trim()));
       } catch(e) { res(null); }
     };
     reader.readAsDataURL(file);
@@ -1120,9 +1393,7 @@ function openEditModal(bookId) {
   document.getElementById('editModal').classList.add('open');
 }
 
-function closeEditModal() {
-  document.getElementById('editModal').classList.remove('open');
-}
+function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
 
 async function saveBookEdit() {
   const id = document.getElementById('editBookId').value;
@@ -1135,8 +1406,7 @@ async function saveBookEdit() {
   book.author = document.getElementById('editAuthor').value.trim();
   book.pubYear = parseInt(document.getElementById('editPubYear').value) || null;
   const cu = document.getElementById('editCoverUrl').value.trim() || null;
-  book.coverUrl = cu;
-  book.cover = cu;
+  book.coverUrl = cu; book.cover = cu;
   await dbPut('books', book);
   closeEditModal();
   if (currentView === 'BookDetail') renderBookDetail(id);
@@ -1163,28 +1433,34 @@ function openSearchModal() {
   doSearch('');
 }
 
-function closeSearchModal() {
-  document.getElementById('searchModal').classList.remove('open');
-}
+function closeSearchModal() { document.getElementById('searchModal').classList.remove('open'); }
 
 function doSearch(query) {
   const el = document.getElementById('searchResults');
-  if (!query) {
+  const courseF = document.getElementById('searchCourseFilter')?.value || '';
+  const typeF = document.getElementById('searchTypeFilter')?.value || '';
+  const cuisineF = document.getElementById('searchCuisineFilter')?.value || '';
+  const q = query.toLowerCase();
+
+  if (!query && !courseF && !typeF && !cuisineF) {
     const rc = allBooks.reduce((n,b) => n+(b.recipes?b.recipes.length:0), 0);
-    el.innerHTML = `<div class="notice" style="margin-top:16px;">${allBooks.length} books · ${rc.toLocaleString()} recipes indexed.<br>Type a dish or ingredient above.</div>`;
+    el.innerHTML = `<div class="notice" style="margin-top:16px;">${allBooks.length} books · ${rc.toLocaleString()} recipes indexed.<br>Type a dish or ingredient above, or filter by course, type, or cuisine.</div>`;
     return;
   }
-  const q = query.toLowerCase();
+
   const grouped = [];
   for (const book of allBooks) {
     if (!book.recipes || !book.recipes.length) continue;
-    const matches = book.recipes.map((r,i)=>({r,i})).filter(({r}) => r.name.toLowerCase().includes(q));
+    const matches = book.recipes.map((r,i)=>({r,i})).filter(({r}) => {
+      if (q && !r.name.toLowerCase().includes(q)) return false;
+      if (courseF && r.course !== courseF) return false;
+      if (typeF && r.type !== typeF) return false;
+      if (cuisineF && !(r.cuisines||[]).includes(cuisineF)) return false;
+      return true;
+    });
     if (matches.length) grouped.push({ book, matches });
   }
-  if (!grouped.length) {
-    el.innerHTML = `<div class="notice" style="margin-top:16px;">No recipes found matching <strong>${esc(query)}</strong>.</div>`;
-    return;
-  }
+  if (!grouped.length) { el.innerHTML = `<div class="notice" style="margin-top:16px;">No recipes found.</div>`; return; }
   const total = grouped.reduce((n,g) => n+g.matches.length, 0);
   let html = `<div class="results-label">${total} result${total!==1?'s':''} in ${grouped.length} book${grouped.length!==1?'s':''}</div>`;
   for (const {book, matches} of grouped) {
@@ -1196,7 +1472,7 @@ function doSearch(query) {
     for (const {r,i} of matches) {
       const page = r.page ? `<span class="recipe-page">p.${r.page}</span>` : '';
       html += `<div class="result-recipe" onclick="closeSearchModal();navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">
-        <span>${highlight(esc(r.name),q)}</span>${page}
+        <span>${q ? highlight(esc(r.name),q) : esc(r.name)}</span>${page}
       </div>`;
     }
     html += `</div>`;
@@ -1224,9 +1500,7 @@ function validateJSON() {
     const arr = JSON.parse(document.getElementById('jsonInput').value.trim());
     if (!Array.isArray(arr)) throw new Error('Must be an array');
     notice.innerHTML = `<div class="notice success">✓ Valid — ${arr.filter(x=>x.title).length} books.</div>`;
-  } catch(e) {
-    notice.innerHTML = `<div class="notice error">Invalid JSON: ${e.message}</div>`;
-  }
+  } catch(e) { notice.innerHTML = `<div class="notice error">Invalid JSON: ${e.message}</div>`; }
 }
 
 async function importJSON() {
@@ -1235,9 +1509,7 @@ async function importJSON() {
   try {
     arr = JSON.parse(document.getElementById('jsonInput').value.trim());
     if (!Array.isArray(arr)) throw new Error('Must be an array');
-  } catch(e) {
-    notice.innerHTML = `<div class="notice error">Invalid JSON: ${e.message}</div>`; return;
-  }
+  } catch(e) { notice.innerHTML = `<div class="notice error">Invalid JSON: ${e.message}</div>`; return; }
   let added = 0;
   for (const x of arr.filter(x=>x.title)) {
     const r = normalizeRecord(x);
@@ -1270,6 +1542,7 @@ async function addManualBook() {
   notice.innerHTML = `<div class="notice success">✓ Added.</div>`;
 }
 
+// ── FIX 1: normalizeRecord preserves course/type/cuisines ─────────────────────
 function normalizeRecord(x) {
   return {
     id: x.id || slugify((x.title||'') + '-' + (x.author||'')),
@@ -1280,10 +1553,14 @@ function normalizeRecord(x) {
     coverUrl: x.coverUrl || null,
     cover: x.coverUrl || x.cover || null,
     recipes: (x.recipes||[]).map(r => ({
-      name: r.name, page: r.page||null,
+      name: r.name,
+      page: r.page||null,
       highConfidence: r.highConfidence||false,
       ingredients: r.ingredients||[],
-      hasCard: r.hasCard || !!(r.ingredients && r.ingredients.length > 0)
+      hasCard: r.hasCard || !!(r.ingredients && r.ingredients.length > 0),
+      course: r.course || null,
+      type: r.type || null,
+      cuisines: r.cuisines || []
     })),
     addedAt: x.addedAt || Date.now()
   };
@@ -1300,6 +1577,7 @@ async function saveApiKey() {
   notice.innerHTML = `<div class="notice success">✓ Key saved.</div>`;
 }
 
+// ── FIX 2: exportCatalog includes course/type/cuisines ────────────────────────
 function exportCatalog() {
   const seed = allBooks.map(b => ({
     id: b.id, title: b.title, author: b.author,
@@ -1310,7 +1588,10 @@ function exportCatalog() {
       name: r.name, page: r.page||null,
       highConfidence: r.highConfidence||false,
       ingredients: r.ingredients||[],
-      hasCard: r.hasCard||false
+      hasCard: r.hasCard||false,
+      course: r.course || null,
+      type: r.type || null,
+      cuisines: r.cuisines || []
     })),
     addedAt: b.addedAt
   }));
@@ -1337,28 +1618,24 @@ function slugify(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').
   await openDB();
   await loadBooks();
 
-  if (allBooks.length === 0) {
-    const ok = await hydrateFromSeed();
-    if (!ok) document.getElementById('headerStats').textContent = 'Could not load seed — add books manually';
+  if (allBooks.length === 0) { await hydrateFromSeed(); }
   }
 
-  // Load API key
   const savedKey = await dbGet('meta','apiKey');
   if (savedKey) { apiKey = savedKey.value; document.getElementById('apiKeyInput').value = savedKey.value; }
 
-  // Search input
+  populateSearchFilters();
+
   document.getElementById('searchInput').addEventListener('input', e => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => doSearch(e.target.value.trim()), 220);
   });
 
-  // Close sort popup on outside tap
   document.addEventListener('click', e => {
     const popup = document.getElementById('sortPopup');
     if (popup && !e.target.closest('.sort-wrap')) popup.classList.remove('open');
   });
 
-  // Start on Library
   navTo('Library');
 })();
 </script>
