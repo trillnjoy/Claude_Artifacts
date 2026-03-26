@@ -316,7 +316,44 @@
     "pubYear": null,
     "isbn": "9780609603956",
     "coverUrl": "https://www.kitchenartsandletters.com/cdn/shop/files/garten_9780609602195_6e72e_grande.jpg?v=1742238305",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Beets with Orange Vinaigrette",
+        "page": 95,
+        "highConfidence": true,
+        "ingredients": [
+          "3 pounds fresh beets (3 bunches) or 3 (15-ounce) cans of baby beets, drained",
+          "2 tablespoons raspberry vinegar",
+          "2 tablespoons freshly squeezed orange juice",
+          "3 tablespoons good olive oil",
+          "Â½ teaspoon sugar",
+          "1Â½ teaspoons kosher salt",
+          "Â½ teaspoon freshly ground black pepper",
+          "Â½ cup small-diced red onion",
+          "Zest of 2 large navel oranges",
+          "Segments of 2 large navel oranges"
+        ]
+      },
+      {
+        "name": "Coconut Cupcakes",
+        "page": 177,
+        "highConfidence": true,
+        "ingredients": [
+          "3/4 pound unsalted butter at room temperature",
+          "2 cups granulated sugar",
+          "5 extra-large eggs at room temperature",
+          "1 1/2 teaspoons pure vanilla extract",
+          "1 1/2 teaspoons pure almond extract",
+          "3 cups all-purpose flour",
+          "1 teaspoon baking powder",
+          "1/2 teaspoon baking soda",
+          "1/2 teaspoon kosher salt",
+          "1 cup buttermilk",
+          "14 ounces sweetened, shredded coconut",
+          "Cream Cheese Icing (recipe follows)"
+        ]
+      }
+    ],
     "addedAt": 1774438093143
   },
   {
