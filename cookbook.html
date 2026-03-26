@@ -113,7 +113,50 @@ header {
 .index-dot.indexed { background: var(--gold); }
 .index-dot.unindexed { background: transparent; }
 
-/* ── BOOK DETAIL ── */
+/* ── TAG CHICLETS ── */
+.tag-group { margin-bottom: 14px; }
+.tag-group-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faded); margin-bottom: 6px; display: block; }
+.tag-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag-chip {
+  font-family: 'Courier Prime', monospace; font-size: 11px;
+  letter-spacing: 0.04em; padding: 4px 10px;
+  border: 1px solid var(--aged); background: transparent;
+  color: var(--faded); cursor: pointer; border-radius: 20px;
+  -webkit-appearance: none; transition: all 0.1s;
+}
+.tag-chip:hover { border-color: var(--ink); color: var(--ink); }
+.tag-chip.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tag-chip.selected.cuisine { background: var(--rust); border-color: var(--rust); }
+.tag-chip.selected.course { background: var(--ink); border-color: var(--ink); }
+.tag-chip.selected.type { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+/* Recipe tags display */
+.recipe-tags { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 0 4px; }
+.recipe-tag {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 20px;
+  border: 1px solid var(--aged); color: var(--faded);
+}
+.recipe-tag.course { border-color: var(--ink); color: var(--ink); }
+.recipe-tag.type { border-color: var(--gold); color: var(--gold); }
+.recipe-tag.cuisine { border-color: var(--rust); color: var(--rust); }
+
+/* Filter drawer */
+.filter-drawer {
+  display: none; background: var(--cream);
+  border-top: 1px solid var(--aged); border-bottom: 1px solid var(--aged);
+  padding: 14px 0; margin-bottom: 8px;
+}
+.filter-drawer.open { display: block; }
+.active-filters { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.filter-chip {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 8px 3px 10px; border-radius: 20px;
+  background: var(--ink); color: var(--paper);
+  border: none; cursor: pointer; display: flex; align-items: center; gap: 4px;
+  -webkit-appearance: none;
+}
+.filter-chip::after { content: '×'; font-size: 12px; opacity: 0.7; }
 .book-detail-hero { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--aged); align-items: flex-start; }
 .book-detail-cover { width: 80px; height: 107px; flex-shrink: 0; background: var(--ink); overflow: hidden; }
 .book-detail-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -335,6 +378,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
   <div class="subheader">
     <button class="back-btn" onclick="navTo('Library')">Library</button>
     <button class="icon-btn" onclick="openAddIndexModal(currentBookId)" style="color:var(--faded);font-size:15px;" title="Add Index">⊞</button>
+    <button class="icon-btn" onclick="toggleRecipeFilter()" style="color:var(--faded);font-size:16px;" title="Filter recipes" id="filterToggleBtn">⊟</button>
     <button class="icon-btn" onclick="openEditModal(currentBookId)" style="color:var(--faded);font-size:16px;" title="Edit Book">⚙</button>
   </div>
   <div class="view-body" id="bookDetailBody"></div>
@@ -471,6 +515,22 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
     <input type="text" id="newRecipeName" placeholder="Croissant Bread Pudding">
     <label class="mt-sm">Page Number <span style="font-size:10px;color:var(--faded);text-transform:none;letter-spacing:0">(optional)</span></label>
     <input type="number" id="newRecipePage" placeholder="218" style="margin-top:6px;">
+
+    <div style="margin-top:14px;border-top:1px solid var(--aged);padding-top:12px;">
+      <div class="tag-group" id="coursePickerGroup">
+        <span class="tag-group-label">Course <span style="color:var(--rust)">*</span></span>
+        <div class="tag-grid" id="coursePicker"></div>
+      </div>
+      <div class="tag-group" id="typePickerGroup">
+        <span class="tag-group-label">Type <span style="font-weight:normal;opacity:0.6">(optional)</span></span>
+        <div class="tag-grid" id="typePicker"></div>
+      </div>
+      <div class="tag-group">
+        <span class="tag-group-label">Cuisine <span style="font-weight:normal;opacity:0.6">(optional, up to 3)</span></span>
+        <div class="tag-grid" id="cuisinePicker"></div>
+      </div>
+    </div>
+
     <div class="mt" style="border-top:1px solid var(--aged);padding-top:12px;">
       <label>Add Ingredients via Photo</label>
       <p style="font-size:12px;color:var(--faded);line-height:1.5;margin-bottom:8px;">Photograph the ingredients list. Claude will extract them.</p>
@@ -517,6 +577,20 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
     <input type="text" id="searchInput" placeholder="croissant bread pudding, leek…" autocomplete="off" autocorrect="off" autocapitalize="off">
     <button class="search-dismiss" onclick="closeSearchModal()">Done</button>
   </div>
+  <div style="padding:10px 20px 0;background:var(--ink);display:flex;gap:6px;flex-wrap:wrap;">
+    <select id="searchCourseFilter" onchange="doSearch(document.getElementById('searchInput').value.trim())"
+      style="font-family:'Courier Prime',monospace;font-size:11px;background:rgba(255,255,255,0.1);border:1px solid var(--gold);color:var(--paper);padding:4px 8px;border-radius:20px;-webkit-appearance:none;cursor:pointer;">
+      <option value="">All Courses</option>
+    </select>
+    <select id="searchTypeFilter" onchange="doSearch(document.getElementById('searchInput').value.trim())"
+      style="font-family:'Courier Prime',monospace;font-size:11px;background:rgba(255,255,255,0.1);border:1px solid var(--gold);color:var(--paper);padding:4px 8px;border-radius:20px;-webkit-appearance:none;cursor:pointer;">
+      <option value="">All Types</option>
+    </select>
+    <select id="searchCuisineFilter" onchange="doSearch(document.getElementById('searchInput').value.trim())"
+      style="font-family:'Courier Prime',monospace;font-size:11px;background:rgba(255,255,255,0.1);border:1px solid var(--gold);color:var(--paper);padding:4px 8px;border-radius:20px;-webkit-appearance:none;cursor:pointer;">
+      <option value="">All Cuisines</option>
+    </select>
+  </div>
   <div class="search-results-wrap" id="searchResults"></div>
 </div>
 
@@ -556,6 +630,26 @@ let libFilter = 'all';
 let libSort = 'added';
 let pendingIngredients = [];
 let apiKey = null;
+
+// ── VOCABULARY ────────────────────────────────────────────────────────────────
+const COURSES = ['cocktail','hot drink','punch','appetizer','soup','salad','sandwich','bread','breakfast','brunch','dinner entree','side','dessert','sauce'];
+const TYPES_GENERAL = ['seafood','meat','egg','pasta','grain','vegetable','fruit','cheese','bread'];
+const TYPES_DESSERT = ['cake/muffin','tart/pie','cookie/bar','custard/pudding','ice cream','pastry','confection','fruit','sweet bread'];
+const CUISINES = {
+  'Middle Eastern': ['persian','turkish','armenian','lebanese','egyptian','moroccan','israeli','middle eastern'],
+  'Asian': ['japanese','korean','chinese','thai','vietnamese','indian','asian'],
+  'European': ['french','italian','greek','spanish','british','irish','german','scandinavian','european'],
+  'Latin American': ['mexican','salvadoran','cuban','caribbean','argentinian','peruvian','brazilian','latin american'],
+  'American': ['southern','southwestern','midwestern','american'],
+  'World Cuisine': ['west african','east african','world cuisine']
+};
+const ALL_CUISINES = Object.values(CUISINES).flat();
+
+// Tag picker state
+let pickerCourse = null;
+let pickerType = null;
+let pickerCuisines = [];
+let pickerContext = null; // 'add' | 'filter'
 
 async function loadBooks() {
   allBooks = await dbGetAll('books');
@@ -675,8 +769,89 @@ function renderLibrary() {
   el.innerHTML = html;
 }
 
+// ── TAG PICKERS ───────────────────────────────────────────────────────────────
+function renderCoursePicker(containerId, selected, onChange) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = COURSES.map(c =>
+    `<button class="tag-chip course ${selected===c?'selected':''}" onclick="(${onChange.toString()})('${c}')">${c}</button>`
+  ).join('');
+}
+
+function renderTypePicker(containerId, course, selected, onChange) {
+  const types = course === 'dessert' ? TYPES_DESSERT : TYPES_GENERAL;
+  const el = document.getElementById(containerId);
+  el.innerHTML = types.map(t =>
+    `<button class="tag-chip type ${selected===t?'selected':''}" onclick="(${onChange.toString()})('${t}')">${t}</button>`
+  ).join('');
+}
+
+function renderCuisinePicker(containerId, selected, onChange) {
+  const el = document.getElementById(containerId);
+  let html = '';
+  for (const [group, items] of Object.entries(CUISINES)) {
+    html += `<div style="width:100%;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin:6px 0 3px;">${group}</div>`;
+    html += items.map(c =>
+      `<button class="tag-chip cuisine ${selected.includes(c)?'selected':''}" onclick="(${onChange.toString()})('${c}')">${c}</button>`
+    ).join('');
+  }
+  el.innerHTML = html;
+}
+
+function initAddRecipePickers() {
+  renderCoursePicker('coursePicker', pickerCourse, (c) => {
+    pickerCourse = pickerCourse === c ? null : c;
+    pickerType = null;
+    initAddRecipePickers();
+  });
+  renderTypePicker('typePicker', pickerCourse, pickerType, (t) => {
+    pickerType = pickerType === t ? null : t;
+    renderTypePicker('typePicker', pickerCourse, pickerType, arguments.callee);
+    // re-render just type
+    initAddRecipePickers();
+  });
+  renderCuisinePicker('cuisinePicker', pickerCuisines, (c) => {
+    if (pickerCuisines.includes(c)) {
+      pickerCuisines = pickerCuisines.filter(x => x !== c);
+    } else if (pickerCuisines.length < 3) {
+      pickerCuisines = [...pickerCuisines, c];
+    }
+    initAddRecipePickers();
+  });
+  // Switch type vocabulary when course changes to/from dessert
+  document.getElementById('typePickerGroup').querySelector('.tag-group-label').textContent =
+    pickerCourse === 'dessert' ? 'Dessert Type *' : 'Type (optional)';
+}
+
+function populateSearchFilters() {
+  const courseEl = document.getElementById('searchCourseFilter');
+  const typeEl = document.getElementById('searchTypeFilter');
+  const cuisineEl = document.getElementById('searchCuisineFilter');
+  const allTypes = [...TYPES_GENERAL, ...TYPES_DESSERT];
+  courseEl.innerHTML = '<option value="">All Courses</option>' + COURSES.map(c=>`<option value="${c}">${c}</option>`).join('');
+  typeEl.innerHTML = '<option value="">All Types</option>' + allTypes.map(t=>`<option value="${t}">${t}</option>`).join('');
+  cuisineEl.innerHTML = '<option value="">All Cuisines</option>' + ALL_CUISINES.map(c=>`<option value="${c}">${c}</option>`).join('');
+}
+
+// ── RECIPE FILTER STATE ───────────────────────────────────────────────────────
+let recipeFilterCourse = null;
+let recipeFilterType = null;
+let recipeFilterCuisine = null;
+
+function toggleRecipeFilter() {
+  const drawer = document.getElementById('recipeFilterDrawer');
+  if (!drawer) return;
+  drawer.classList.toggle('open');
+}
+
+function clearRecipeFilters() {
+  recipeFilterCourse = null;
+  recipeFilterType = null;
+  recipeFilterCuisine = null;
+  renderBookDetail(currentBookId);
+}
+
 // ── BOOK DETAIL ──────────────────────────────────────────────────────────────
-let recipeSort = 'page'; // 'page' | 'name'
+let recipeSort = 'page';
 
 function setRecipeSort(s) {
   recipeSort = s;
@@ -696,45 +871,91 @@ function renderBookDetail(bookId) {
     ? `<img src="${esc(img)}" alt="">`
     : `<div class="book-detail-cover-placeholder">📖</div>`;
 
-  const recipes = book.recipes || [];
+  const allRecipes = book.recipes || [];
   const yearHtml = book.pubYear ? `<div class="book-detail-year">${book.pubYear}</div>` : '';
 
-  // Sort a copy, preserving original indices for delete/nav
-  const indexed = recipes.map((r,i) => ({r, i}));
-  indexed.sort((a,b) => {
+  // Apply filters
+  let recipes = allRecipes.map((r,i) => ({r,i}));
+  if (recipeFilterCourse) recipes = recipes.filter(({r}) => r.course === recipeFilterCourse);
+  if (recipeFilterType) recipes = recipes.filter(({r}) => r.type === recipeFilterType);
+  if (recipeFilterCuisine) recipes = recipes.filter(({r}) => r.cuisines && r.cuisines.includes(recipeFilterCuisine));
+
+  // Sort
+  recipes.sort((a,b) => {
     if (recipeSort === 'name') return (a.r.name||'').localeCompare(b.r.name||'');
-    // page ascending; null pages go to end
-    const pa = a.r.page ?? 99999, pb = b.r.page ?? 99999;
-    return pa - pb;
+    return (a.r.page ?? 99999) - (b.r.page ?? 99999);
   });
 
+  // Active filter chips
+  const activeFilters = [
+    recipeFilterCourse && {label: recipeFilterCourse, clear: 'recipeFilterCourse'},
+    recipeFilterType && {label: recipeFilterType, clear: 'recipeFilterType'},
+    recipeFilterCuisine && {label: recipeFilterCuisine, clear: 'recipeFilterCuisine'},
+  ].filter(Boolean);
+
+  const activeChips = activeFilters.length
+    ? `<div class="active-filters">${activeFilters.map(f =>
+        `<button class="filter-chip" onclick="clearOneFilter('${f.clear}')">${f.label}</button>`
+      ).join('')}</div>` : '';
+
   const recipesHtml = recipes.length
-    ? `<div class="recipe-list">` + indexed.map(({r, i}) => {
+    ? `<div class="recipe-list">` + recipes.map(({r,i}) => {
         const hasCard = r.hasCard || (r.ingredients && r.ingredients.length > 0);
+        const tagHtml = [r.course, r.type, ...(r.cuisines||[])].filter(Boolean).length
+          ? `<div class="recipe-tags" style="padding:3px 0 0;">${
+              r.course ? `<span class="recipe-tag course">${r.course}</span>` : ''}${
+              r.type ? `<span class="recipe-tag type">${r.type}</span>` : ''}${
+              (r.cuisines||[]).map(c=>`<span class="recipe-tag cuisine">${c}</span>`).join('')}
+            </div>` : '';
         const deleteBtn = `<button class="recipe-row-delete" title="Delete" onclick="deleteRecipeRow(event,'${esc(book.id)}',${i})">×</button>`;
         if (hasCard) {
           return `<div class="recipe-row has-card">
-            <span class="recipe-row-name" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">${esc(r.name)}</span>
+            <div style="flex:1;min-width:0;" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">
+              <span class="recipe-row-name">${esc(r.name)}</span>${tagHtml}
+            </div>
             ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
             <span class="recipe-row-arrow" onclick="navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">›</span>
             ${deleteBtn}
           </div>`;
         } else {
           return `<div class="recipe-row index-only">
-            <span class="recipe-row-name">${esc(r.name)}</span>
+            <div style="flex:1;min-width:0;">
+              <span class="recipe-row-name">${esc(r.name)}</span>${tagHtml}
+            </div>
             ${r.page ? `<span class="recipe-row-page">p.${r.page}</span>` : ''}
             <button class="recipe-row-add" title="Add recipe card" onclick="openAddRecipeModalPrefilled('${esc(book.id)}',${i})">＋</button>
             ${deleteBtn}
           </div>`;
         }
       }).join('') + `</div>`
-    : `<div class="empty" style="padding:24px 0;"><p>No recipes indexed yet</p></div>`;
+    : `<div class="empty" style="padding:24px 0;"><p>${recipeFilterCourse||recipeFilterType||recipeFilterCuisine ? 'No matching recipes' : 'No recipes indexed yet'}</p></div>`;
 
-  const indexedCount = recipes.filter(r => r.hasCard || (r.ingredients && r.ingredients.length > 0)).length;
-  const totalCount = recipes.length;
+  const indexedCount = allRecipes.filter(r => r.hasCard || (r.ingredients && r.ingredients.length > 0)).length;
+  const totalCount = allRecipes.length;
   const countLabel = totalCount === 0 ? '0 Recipes'
-    : totalCount === indexedCount ? `${totalCount} Recipe${totalCount!==1?'s':''}`
-    : `${totalCount} Recipe${totalCount!==1?'s':''} · ${indexedCount} with cards`;
+    : recipeFilterCourse||recipeFilterType||recipeFilterCuisine
+      ? `${recipes.length} of ${totalCount} Recipe${totalCount!==1?'s':''}`
+      : totalCount === indexedCount ? `${totalCount} Recipe${totalCount!==1?'s':''}`
+      : `${totalCount} Recipe${totalCount!==1?'s':''} · ${indexedCount} with cards`;
+
+  // Filter drawer content
+  const filterDrawerHtml = `<div class="filter-drawer" id="recipeFilterDrawer">
+    <div style="padding:0 0 8px;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin-bottom:6px;">Course</div>
+      <div class="tag-grid">${COURSES.map(c =>
+        `<button class="tag-chip course ${recipeFilterCourse===c?'selected':''}" onclick="setRecipeFilter('course','${c}')">${c}</button>`
+      ).join('')}</div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin:10px 0 6px;">Type</div>
+      <div class="tag-grid">${[...TYPES_GENERAL,...TYPES_DESSERT].map(t =>
+        `<button class="tag-chip type ${recipeFilterType===t?'selected':''}" onclick="setRecipeFilter('type','${t}')">${t}</button>`
+      ).join('')}</div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faded);margin:10px 0 6px;">Cuisine</div>
+      <div class="tag-grid">${ALL_CUISINES.map(c =>
+        `<button class="tag-chip cuisine ${recipeFilterCuisine===c?'selected':''}" onclick="setRecipeFilter('cuisine','${c}')">${c}</button>`
+      ).join('')}</div>
+      ${activeFilters.length ? `<button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="clearRecipeFilters()">Clear Filters</button>` : ''}
+    </div>
+  </div>`;
 
   document.getElementById('bookDetailBody').innerHTML = `
     <div class="book-detail-hero">
@@ -748,6 +969,8 @@ function renderBookDetail(bookId) {
         </div>
       </div>
     </div>
+    ${filterDrawerHtml}
+    ${activeChips}
     <div class="recipe-section-title">
       <span>${countLabel}</span>
       <span style="display:flex;gap:6px;align-items:center;">
@@ -756,6 +979,23 @@ function renderBookDetail(bookId) {
       </span>
     </div>
     ${recipesHtml}`;
+}
+
+function setRecipeFilter(axis, value) {
+  if (axis === 'course') recipeFilterCourse = recipeFilterCourse === value ? null : value;
+  if (axis === 'type') recipeFilterType = recipeFilterType === value ? null : value;
+  if (axis === 'cuisine') recipeFilterCuisine = recipeFilterCuisine === value ? null : value;
+  renderBookDetail(currentBookId);
+  // Re-open drawer after re-render
+  const drawer = document.getElementById('recipeFilterDrawer');
+  if (drawer) drawer.classList.add('open');
+}
+
+function clearOneFilter(field) {
+  if (field === 'recipeFilterCourse') recipeFilterCourse = null;
+  if (field === 'recipeFilterType') recipeFilterType = null;
+  if (field === 'recipeFilterCuisine') recipeFilterCuisine = null;
+  renderBookDetail(currentBookId);
 }
 
 async function deleteRecipeRow(event, bookId, recipeIdx) {
@@ -798,6 +1038,12 @@ function renderRecipeCard(bookId, recipeIdx) {
       <div class="recipe-card-title">${esc(recipe.name)}</div>
       <div class="recipe-card-book">${esc(book.title)}</div>
       ${recipe.page ? `<div class="recipe-card-page">p. ${recipe.page}</div>` : ''}
+      ${[recipe.course, recipe.type, ...(recipe.cuisines||[])].filter(Boolean).length ? `
+      <div class="recipe-tags">
+        ${recipe.course ? `<span class="recipe-tag course">${recipe.course}</span>` : ''}
+        ${recipe.type ? `<span class="recipe-tag type">${recipe.type}</span>` : ''}
+        ${(recipe.cuisines||[]).map(c=>`<span class="recipe-tag cuisine">${c}</span>`).join('')}
+      </div>` : ''}
     </div>
 
     <input type="file" id="dishPhotoInput" class="capture-input" accept="image/*"
@@ -841,12 +1087,14 @@ let addRecipeForBookId = null;
 function openAddRecipeModal(bookId) {
   addRecipeForBookId = bookId;
   pendingIngredients = [];
+  pickerCourse = null; pickerType = null; pickerCuisines = [];
   document.getElementById('newRecipeName').value = '';
   document.getElementById('newRecipePage').value = '';
   document.getElementById('recipePhotoPreview').classList.add('hidden');
   document.getElementById('photoStatus').textContent = '';
   document.getElementById('extractedIngredients').innerHTML = '';
   document.getElementById('addRecipeNotice').innerHTML = '';
+  initAddRecipePickers();
   document.getElementById('addRecipeModal').classList.add('open');
 }
 
@@ -863,17 +1111,15 @@ async function saveNewRecipe() {
   if (!book) return;
   if (!book.recipes) book.recipes = [];
 
-  // Check if this matches an existing index-only entry (by name, case-insensitive)
+  const tags = { course: pickerCourse||null, type: pickerType||null, cuisines: [...pickerCuisines] };
   const existingIdx = book.recipes.findIndex(r =>
     !r.hasCard && r.name.toLowerCase() === name.toLowerCase()
   );
   if (existingIdx >= 0) {
-    // Upgrade the index entry to a card
-    book.recipes[existingIdx].hasCard = true;
-    book.recipes[existingIdx].ingredients = [...pendingIngredients];
+    Object.assign(book.recipes[existingIdx], { hasCard:true, ingredients:[...pendingIngredients], ...tags });
     if (page) book.recipes[existingIdx].page = page;
   } else {
-    book.recipes.push({ name, page, highConfidence: !!page, ingredients: [...pendingIngredients], hasCard: true });
+    book.recipes.push({ name, page, highConfidence:!!page, ingredients:[...pendingIngredients], hasCard:true, ...tags });
   }
   await dbPut('books', book);
   closeAddRecipeModal();
@@ -888,12 +1134,16 @@ function openAddRecipeModalPrefilled(bookId, recipeIdx) {
   const r = book.recipes[recipeIdx];
   addRecipeForBookId = bookId;
   pendingIngredients = [];
+  pickerCourse = r.course || null;
+  pickerType = r.type || null;
+  pickerCuisines = r.cuisines ? [...r.cuisines] : [];
   document.getElementById('newRecipeName').value = r.name || '';
   document.getElementById('newRecipePage').value = r.page || '';
   document.getElementById('recipePhotoPreview').classList.add('hidden');
   document.getElementById('photoStatus').textContent = '';
   document.getElementById('extractedIngredients').innerHTML = '';
   document.getElementById('addRecipeNotice').innerHTML = '';
+  initAddRecipePickers();
   document.getElementById('addRecipeModal').classList.add('open');
 }
 
@@ -1169,20 +1419,31 @@ function closeSearchModal() {
 
 function doSearch(query) {
   const el = document.getElementById('searchResults');
-  if (!query) {
+  const courseF = document.getElementById('searchCourseFilter')?.value || '';
+  const typeF = document.getElementById('searchTypeFilter')?.value || '';
+  const cuisineF = document.getElementById('searchCuisineFilter')?.value || '';
+  const q = query.toLowerCase();
+
+  if (!query && !courseF && !typeF && !cuisineF) {
     const rc = allBooks.reduce((n,b) => n+(b.recipes?b.recipes.length:0), 0);
-    el.innerHTML = `<div class="notice" style="margin-top:16px;">${allBooks.length} books · ${rc.toLocaleString()} recipes indexed.<br>Type a dish or ingredient above.</div>`;
+    el.innerHTML = `<div class="notice" style="margin-top:16px;">${allBooks.length} books · ${rc.toLocaleString()} recipes indexed.<br>Type a dish or ingredient above, or filter by course, type, or cuisine.</div>`;
     return;
   }
-  const q = query.toLowerCase();
+
   const grouped = [];
   for (const book of allBooks) {
     if (!book.recipes || !book.recipes.length) continue;
-    const matches = book.recipes.map((r,i)=>({r,i})).filter(({r}) => r.name.toLowerCase().includes(q));
+    const matches = book.recipes.map((r,i)=>({r,i})).filter(({r}) => {
+      if (q && !r.name.toLowerCase().includes(q)) return false;
+      if (courseF && r.course !== courseF) return false;
+      if (typeF && r.type !== typeF) return false;
+      if (cuisineF && !(r.cuisines||[]).includes(cuisineF)) return false;
+      return true;
+    });
     if (matches.length) grouped.push({ book, matches });
   }
   if (!grouped.length) {
-    el.innerHTML = `<div class="notice" style="margin-top:16px;">No recipes found matching <strong>${esc(query)}</strong>.</div>`;
+    el.innerHTML = `<div class="notice" style="margin-top:16px;">No recipes found.</div>`;
     return;
   }
   const total = grouped.reduce((n,g) => n+g.matches.length, 0);
@@ -1196,7 +1457,7 @@ function doSearch(query) {
     for (const {r,i} of matches) {
       const page = r.page ? `<span class="recipe-page">p.${r.page}</span>` : '';
       html += `<div class="result-recipe" onclick="closeSearchModal();navTo('Recipe',{bookId:'${esc(book.id)}',recipeIdx:${i}})">
-        <span>${highlight(esc(r.name),q)}</span>${page}
+        <span>${q ? highlight(esc(r.name),q) : esc(r.name)}</span>${page}
       </div>`;
     }
     html += `</div>`;
