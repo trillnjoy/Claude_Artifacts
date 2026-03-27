@@ -4,20 +4,21 @@
 - **Repo:** `trillnjoy/Claude_Artifacts`
 - **App:** `https://trillnjoy.github.io/Claude_Artifacts/cookbook.html`
 - **Seed:** `https://trillnjoy.github.io/Claude_Artifacts/cookbooks_seed.json`
-- **Files in repo:** `cookbook.html`, `cookbooks_seed.json`
+- **Files in repo:** `cookbook.html`, `cookbooks_seed.json`, `HANDOFF.md`
 
 ---
 
 ## Current State
 
 ### Catalog
-52 books total. 12 Ina Garten titles fully indexed (1,061 recipes, all with page numbers, sourced from the complete Barefoot Contessa Combined Recipe Index PDF). All other books have empty recipe arrays pending photo index capture.
+52 books total. 12 Ina Garten titles fully indexed (1,061 recipes sourced from the complete Barefoot Contessa Combined Recipe Index PDF). Lark added via rext in app. All other books have empty recipe arrays pending photo index capture.
 
 ### App Architecture
 - PWA, single-file HTML (`cookbook.html`)
 - IndexedDB (`TheShelfDB` v3) — local cache, not source of truth
 - Seed file (`cookbooks_seed.json`) — canonical source of truth
 - Cold start: empty IndexedDB → fetch seed → hydrate
+- Import: books via photo in chat, index via photo or text parse, recipe via photo
 - Export → commit seed → all devices sync via Settings > Reload from Seed
 - Photos (dish photos, ingredient photos) stored as base64 in IndexedDB only — never exported to seed
 
@@ -48,12 +49,6 @@
 | American | `southern · southwestern · midwestern · american` |
 | World Cuisine | `west african · east african · world cuisine` |
 
-**Key decisions:**
-- Persian is Middle Eastern, not Asian
-- Israeli is Middle Eastern
-- Southern absorbs New Orleans
-- World cuisine is the universal catch-all
-
 ---
 
 ## Recipe Data Model
@@ -72,44 +67,6 @@
 ```
 
 `course`, `type`, `cuisines` are new fields added this session — not yet wired into `normalizeRecord()` or `exportCatalog()` in the current `cookbook.html`. **This is the primary pending code task.**
-
----
-
-## Pending Code Work (Priority Order)
-
-### 1. URGENT — Syntax/runtime check
-Run a syntax check on current `cookbook.html` and fix any issues before proceeding. The taxonomy UI was added in a large multi-step edit and was not fully verified.
-
-### 2. Fix `normalizeRecord()`
-Currently strips `course`, `type`, `cuisines` on import. Must preserve them:
-```javascript
-function normalizeRecord(x) {
-  return {
-    // ...existing fields...
-    recipes: (x.recipes||[]).map(r => ({
-      name: r.name, page: r.page||null,
-      highConfidence: r.highConfidence||false,
-      ingredients: r.ingredients||[],
-      hasCard: r.hasCard || !!(r.ingredients && r.ingredients.length > 0),
-      course: r.course || null,
-      type: r.type || null,
-      cuisines: r.cuisines || []
-    }))
-  };
-}
-```
-
-### 3. Fix `exportCatalog()`
-Must include `course`, `type`, `cuisines` in recipe output so they persist in the seed.
-
-### 4. Fix `initAddRecipePickers()`
-Uses `arguments.callee` (illegal in strict mode). Rewrite with named callbacks.
-
-### 5. Populate search filter dropdowns
-`populateSearchFilters()` exists but needs to be called on search modal open.
-
-### 6. Tag picker wiring when opening from index row
-`openAddRecipeModalPrefilled()` now initializes `pickerCourse/Type/Cuisines` from the existing recipe — verify this works correctly after syntax check.
 
 ---
 
@@ -177,11 +134,8 @@ Uses `arguments.callee` (illegal in strict mode). Rewrite with named callbacks.
 ---
 
 ## Known Issues / Fragilities
-1. **Taxonomy fields not yet in normalizeRecord/export** — primary task
-2. **`arguments.callee` in initAddRecipePickers** — needs cleanup
-3. **Search filter dropdowns not populated on open** — `populateSearchFilters()` call missing
-4. **iOS WebKit CORS** — in-app camera capture permanently blocked; workflow is chat photos → Claude OCR → update seed in GitHub
-5. **No backup strategy yet** — recommend dev branch + seed snapshots every 50 recipes
+1. **iOS WebKit CORS** — in-app camera capture permanently blocked; workflow is chat photos → Claude OCR → update seed in GitHub
+2. **No backup strategy yet** — recommend dev branch + seed snapshots every 50 recipes
 
 ---
 
@@ -199,4 +153,3 @@ Uses `arguments.callee` (illegal in strict mode). Rewrite with named callbacks.
 1. Upload current `cookbook.html` from repo
 2. Upload current `cookbooks_seed.json` from repo
 3. One-sentence task description
-4. Run syntax check immediately before any other work
