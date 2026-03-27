@@ -11210,7 +11210,1288 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNs-4rpjHVnu04fmwpZ8Slfhf8t68U_UwVFYV_r67Wlw&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Poached baby vegetables with caper mayonnaise",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spicy Moroccan carrot salad",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beet, orange and black olive salad",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Roasted parsnips and sweet potatoes with caper vinaigrette",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Two-potato vindaloo",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beet, yogurt and preserved lemon relish",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Royal potato salad",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Surprise Tatin",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jerusalem artichokes with manouri and basil oil",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet potato wedges with lemongrass crème fraîche",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Parsnip dumplings in broth",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Seasonal tempura",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet potato cakes",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Leek fritters",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caramelized garlic tart",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Stuffed onions",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fried leeks",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Black pepper tofu",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Garlic soup and harissa",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mushroom ragout with poached duck egg",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bánh xèo",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Stuffed portobello with melting Taleggio",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Marinated mushrooms with walnut and tahini yogurt",
+        "page": 58,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mushroom lasagne",
+        "page": 59,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Wild mushroom parcel",
+        "page": 60,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Halloween soufflés",
+        "page": 64,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Roasted butternut squash with sweet spices, lime and green chile",
+        "page": 65,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "\"Mixed grill\" with parsley oil",
+        "page": 68,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Stuffed zucchini",
+        "page": 69,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zucchini and hazelnut salad",
+        "page": 70,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crusted pumpkin wedges with sour cream",
+        "page": 72,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tamara's ratatouille",
+        "page": 74,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Multi-vegetable paella",
+        "page": 79,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Marinated pepper salad with pecorino",
+        "page": 80,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Very full tart",
+        "page": 82,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Scrambled smoky duck eggs on sourdough",
+        "page": 84,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shakshuka",
+        "page": 86,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Broccoli and Gorgonzola pie",
+        "page": 91,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Broccolini and sweet sesame salad",
+        "page": 92,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Stuffed cabbage",
+        "page": 94,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Smoky frittata",
+        "page": 95,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Purple sprouting broccoli with rice noodles",
+        "page": 96,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cabbage and kohlrabi salad",
+        "page": 98,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet winter slaw",
+        "page": 99,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Savoy cabbage and Parmesan rind soup",
+        "page": 102,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brussels sprouts and tofu",
+        "page": 104,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Saffron cauliflower",
+        "page": 105,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggplant with buttermilk sauce",
+        "page": 110,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Soba noodles with eggplant and mango",
+        "page": 112,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggplant tricolore (and more)",
+        "page": 114,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Broiled vegetable soup",
+        "page": 115,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lentils with broiled eggplant",
+        "page": 116,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggplant croquettes",
+        "page": 120,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Burnt eggplant with tahini",
+        "page": 122,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Marinated buffalo mozzarella and tomato",
+        "page": 126,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quinoa and grilled sourdough salad",
+        "page": 128,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tomato, semolina and cilantro soup",
+        "page": 130,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tomato party",
+        "page": 131,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quesadillas",
+        "page": 134,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Herb-stuffed tomatoes",
+        "page": 136,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked eggs with yogurt and chile",
+        "page": 140,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chard and saffron omelettes",
+        "page": 142,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lettuce salad",
+        "page": 146,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Swiss chard, chickpea and tamarind stew",
+        "page": 148,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chard cakes with sorrel sauce",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green pancakes with lime butter",
+        "page": 150,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watercress, pistachio and orange blossom salad",
+        "page": 154,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Egg, spinach and pecorino pizza",
+        "page": 156,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caramelized endive with Gruyère",
+        "page": 157,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grape leaf, herb and yogurt pie",
+        "page": 158,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nutty endive with Roquefort",
+        "page": 160,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bittersweet salad",
+        "page": 162,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cucumber salad with smashed garlic and ginger",
+        "page": 166,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemony globe artichokes",
+        "page": 168,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Asparagus, fennel and beets with verjus",
+        "page": 170,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caramelized fennel with goat cheese",
+        "page": 172,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Globe artichokes with crushed fava beans",
+        "page": 176,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Artichoke gratin",
+        "page": 178,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Okra with tomato, lemon and cilantro",
+        "page": 179,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green gazpacho",
+        "page": 180,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Asparagus mimosa",
+        "page": 182,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Char-grilled asparagus",
+        "page": 182,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Asparagus vichyssoise",
+        "page": 184,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mee goreng",
+        "page": 185,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Soba noodles with wakame",
+        "page": 188,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mixed beans with many spices and lovage",
+        "page": 192,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fava bean burgers",
+        "page": 194,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Gado-gado",
+        "page": 195,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green bean salad with mustard seeds and tarragon",
+        "page": 196,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Warm glass noodles and edamame",
+        "page": 198,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hot yogurt and fava bean soup",
+        "page": 202,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Puy lentil galettes",
+        "page": 208,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hummus with ful",
+        "page": 210,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chickpea sauté with Greek yogurt",
+        "page": 211,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fried lima beans with feta, sorrel and sumac",
+        "page": 214,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Celeriac and lentils with hazelnut and mint",
+        "page": 216,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chickpea, tomato and bread soup",
+        "page": 218,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green lentils, asparagus and watercress",
+        "page": 220,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spiced red lentils with cucumber yogurt",
+        "page": 221,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Castelluccio lentils with tomatoes and Gorgonzola",
+        "page": 222,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Socca",
+        "page": 224,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Avocado, quinoa and fava bean salad",
+        "page": 228,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Coconut rice with sambal and okra",
+        "page": 230,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon and eggplant risotto",
+        "page": 231,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Farro and roasted pepper salad",
+        "page": 234,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Steamed rice with herbs",
+        "page": 235,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Yogurt flatbreads with barley and mushrooms",
+        "page": 236,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Barley and pomegranate salad",
+        "page": 238,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Kısır",
+        "page": 239,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cardamom rice with poached eggs and yogurt",
+        "page": 240,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Freekeh pilaf",
+        "page": 241,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Itamar's bulgur pilaf",
+        "page": 242,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mango and coconut rice salad",
+        "page": 244,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quinoa salad with dried Persian lime",
+        "page": 245,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon and goat cheese ravioli",
+        "page": 250,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crunchy pappardelle",
+        "page": 252,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pasta and fried zucchini salad",
+        "page": 254,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green couscous",
+        "page": 255,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Saffron tagliatelle with spiced butter",
+        "page": 260,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "The ultimate winter couscous",
+        "page": 262,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mushroom and herb polenta",
+        "page": 264,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet corn polenta",
+        "page": 266,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Figs with basil, goat cheese and pomegranate vinaigrette",
+        "page": 272,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Goat cheese soufflés with vanilla-poached peaches",
+        "page": 274,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quince and sweet Gorgonzola salad",
+        "page": 275,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pear crostini",
+        "page": 278,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Dates and Turkish sheep's cheese",
+        "page": 280,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watermelon and feta",
+        "page": 282,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774357226159
   },
   {
@@ -11230,7 +12511,408 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs4hqzrUoqCM2PM5l5BCvx98qRNi-S5Y4Smgs7CjBAbA&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Introduction: Ottolenghi Simple",
+        "page": null,
+        "highConfidence": false,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brunch",
+        "page": 3,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Raw Veg",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cooked Veg",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice, Grains, and Pulses",
+        "page": 155,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Noodles and Pasta",
+        "page": 177,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Meat",
+        "page": 201,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Seafood",
+        "page": 241,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Dessert",
+        "page": 267,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "SIMPLE Meal Suggestions",
+        "page": 294,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Feasts",
+        "page": 297,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "\"Ottolenghi\" Ingredients",
+        "page": 299,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Index",
+        "page": 303,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Acknowledgments",
+        "page": 307,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "blueberry, almond, and lemon cake",
+        "page": 276,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "grilled lamb fillet with almonds",
+        "page": 208,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "anchovy and samphire spaghetti",
+        "page": 197,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "pizza bianca",
+        "page": 150,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "roasted eggplant with anchovies",
+        "page": 64,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "spiced apple cake",
+        "page": 285,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "watermelon, green apple, and lime salad",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "lamb arayes",
+        "page": 214,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Arnold's roast chicken",
+        "page": 219,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "mustard-marinated kale with asparagus",
+        "page": 81,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "roasted asparagus with almonds, capers, and dill",
+        "page": 82,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "avocado and fava bean mash",
+        "page": 106,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "avocado butter on toast",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "soba noodles with lime, cardamom, and avocado",
+        "page": 181,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "black garlic",
+        "page": 300,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "beet, caraway, and goat cheese bread",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "cornbread with Cheddar, feta, and jalapeño",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nutella, sesame, and hazelnut rolls",
+        "page": 286,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "tomato and bread salad",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "zucchini and ciabatta frittata",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bridget Jones's pan-fried salmon",
+        "page": 246,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "portobello mushrooms with brioche and poached eggs",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "fried broccoli and kale with garlic, cumin, and lime",
+        "page": 75,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "broccolini with soy sauce, garlic, and peanuts",
+        "page": 76,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brunsli chocolate cookies",
+        "page": 290,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brussels sprouts with browned butter and black garlic",
+        "page": 113,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774357225034
   },
   {
@@ -12219,6 +13901,426 @@
     "addedAt": 1774490648681
   },
   {
+    "id": "the-cheese-board-deck-meg-quinn",
+    "title": "The Cheese Board Deck",
+    "author": "Meg Quinn",
+    "pubYear": 2021,
+    "isbn": "978-0-593-23327-6",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHFDyZSbJiKIgNw_7Sq5hB_NGzLzDHpX-P5mE4rtxb4w&s=10",
+    "recipes": [
+      {
+        "name": "Shamrock Snack",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [
+          "green tortilla chips",
+          "broccoli",
+          "green dip or spinach dip",
+          "romanesco cauliflower",
+          "green grapes",
+          "green olives",
+          "green beans or snap pea crisps",
+          "gold chocolate coins",
+          "yogurt covered pretzels",
+          "sour rainbow candy strips",
+          "shamrock shaped cookies with green icing",
+          "shamrock shaped crackers or cookies"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": [
+          "irish"
+        ]
+      },
+      {
+        "name": "Summer Nights Board",
+        "page": 2,
+        "highConfidence": true,
+        "ingredients": [
+          "Harbison cheese",
+          "Bayley Hazen Blue cheese",
+          "Willoughby cheese",
+          "Alpha Tolman cheese",
+          "Strawberry Jam",
+          "Orange Marmalade",
+          "Fig & Olive Crackers",
+          "Figs, halved",
+          "Thomcord Grapes",
+          "Green Grapes",
+          "Raspberries",
+          "Blackberries",
+          "Fresh Rosemary Sprigs"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Ultimate Burrata Board",
+        "page": 3,
+        "highConfidence": true,
+        "ingredients": [
+          "Peaches",
+          "Burrata",
+          "Cherries",
+          "Prosciutto",
+          "Heirloom tomatoes",
+          "Olive oil",
+          "Basil",
+          "Salt",
+          "Pepper"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Plateau de Fromages",
+        "page": 4,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 cup honey",
+          "1/4 teaspoon white wine vinegar",
+          "2 tablespoons dried lavender",
+          "Roquefort",
+          "Camembert (or French Brie)",
+          "Mimolette",
+          "Comté",
+          "P'tit Basque",
+          "Saint André",
+          "Chèvre",
+          "Salami",
+          "Salame Secchi",
+          "Baguette, sliced",
+          "Lavender Honey",
+          "French-Style Butter",
+          "Blackberries",
+          "Blueberries",
+          "Red Grapes",
+          "Raspberries",
+          "Black Cherries",
+          "Radishes, halved",
+          "Marcona Almonds",
+          "Cornichons & Pearl Onions",
+          "Fresh Rosemary",
+          "Fresh Lavender",
+          "Dried Sweetened Mandarin Slices",
+          "Kosher Salt"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Grilled Stone Fruit Board",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [
+          "3 cups basil",
+          "1 cup parsley leaves",
+          "2 tablespoons toasted sunflower seeds",
+          "3 tablespoons grated Asiago cheese",
+          "3 tablespoons grated Parmesan",
+          "1 teaspoon lemon juice",
+          "1/8 teaspoon salt",
+          "1/8 teaspoon ground black pepper",
+          "2/3 cup olive oil",
+          "Burrata",
+          "Manchego",
+          "Brie",
+          "Prosciutto-Wrapped Breadsticks",
+          "Hot Capocollo",
+          "Calabrese",
+          "Crostini",
+          "Grilled Peaches",
+          "Grilled Cantaloupe",
+          "Dark Sweet Cherries",
+          "Figs",
+          "Raspberries",
+          "Tomatoes on the Vine",
+          "Honeycomb",
+          "Castelvetrano Olives",
+          "Marcona Almonds",
+          "Cornichons",
+          "Basil (for burrata)",
+          "Mint"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Meat Lovers’ Charcuterie",
+        "page": 5,
+        "highConfidence": true,
+        "ingredients": [
+          "Prosciutto",
+          "Soppressata",
+          "Salame Secchi",
+          "Capicola",
+          "Bresaola",
+          "Spicy Meat Salami",
+          "Speck",
+          "Pepper Salami",
+          "Hot Calabrese",
+          "Paprika Smoked Almonds",
+          "Garlic-Stuffed Green Olives",
+          "Baguette or Flatbread",
+          "Cracker"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "meat",
+        "cuisines": []
+      },
+      {
+        "name": "Charcuter-Tree",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [
+          "Sharp Cheddar, cubed",
+          "Dill Havarti, cubed",
+          "Colby Jack, cubed",
+          "Provolone Slices",
+          "Calabrese",
+          "Peppered Salami",
+          "Pretzel Sticks",
+          "Blackberries",
+          "Raspberries",
+          "Castelvetrano Olives",
+          "Rosemary"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Go-To Cheese Board",
+        "page": 1,
+        "highConfidence": true,
+        "ingredients": [
+          "Unexpected Cheddar",
+          "Port Salut",
+          "French Brie",
+          "Manchego",
+          "Genoa Salami Log, sliced",
+          "Calabrese",
+          "Rice Crackers (Gluten-Free)",
+          "Fig & Olive Crackers",
+          "Grapes",
+          "Raspberries",
+          "Marcona Almonds",
+          "Marinated Olives",
+          "Cornichons",
+          "Dried Persimmons",
+          "Dark Chocolate",
+          "Rosemary"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Game Day Board",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [
+          "1 bag frozen meatballs",
+          "BBQ sauce",
+          "Sharp Cheddar, sliced",
+          "Dill Havarti, cubed",
+          "Ranch Dressing",
+          "Sourdough Pretzel Nuggets",
+          "Pretzel Thins",
+          "Cucumber",
+          "Crinkle Cut Carrots",
+          "Celery",
+          "Mini Bell Peppers, halved",
+          "Radish",
+          "Peperoncini"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Let’s Wine Down Board",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [
+          "Midnight Moon (or aged goat cheese)",
+          "Aged Cheddar",
+          "Brie",
+          "Havarti",
+          "Jarlsberg",
+          "Parmesan Crisps",
+          "Manchego",
+          "Boursin",
+          "Aged Gouda, crumbled",
+          "Quince Paste, cubed",
+          "Fig Jam",
+          "Peach Jam",
+          "Bresaola",
+          "Pears",
+          "Figs",
+          "Dried Apricot",
+          "Roasted & Salted Almonds",
+          "Castelvetrano Olives",
+          "Peppadews",
+          "Rosemary",
+          "Sauvignon Blanc",
+          "Rosé",
+          "Merlot",
+          "Cabernet Sauvignon"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Build Your Own BLT Board",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [
+          "Burrata",
+          "Regular Bacon",
+          "Maple-Glazed Bacon",
+          "Jammy Eggs",
+          "Sourdough Bread, sliced and toasted",
+          "Mayo",
+          "Whole Grain Dijon Mustard",
+          "Heirloom Tomatoes, sliced",
+          "Avocado",
+          "Romaine Lettuce leaves",
+          "Butter Lettuce leaves",
+          "Bread & Butter Pickles",
+          "Olive Oil",
+          "Salt",
+          "Pepper",
+          "Basil",
+          "Fresh Lemon Juice"
+        ],
+        "hasCard": true,
+        "course": "sandwich",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eat The Rainbow Board",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [
+          "Strawberries, sliced",
+          "Raspberries",
+          "Gooseberries",
+          "Clementines, peeled and sectioned",
+          "Pineapple, sliced into small pieces",
+          "Mango, cubed",
+          "Kiwi, sliced and quartered",
+          "Green Grapes",
+          "Blueberries",
+          "Meringues"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "confection",
+        "cuisines": []
+      },
+      {
+        "name": "School’s Out Board",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [
+          "Babybel cheese",
+          "Sharp Cheddar, cubed",
+          "Colby Jack, cubed",
+          "Peanut Butter",
+          "Jelly",
+          "Sandwich Bread of Choice",
+          "Goldfish Crackers",
+          "Mini Pretzels",
+          "Green Pea Crisps",
+          "Granola Bars",
+          "Grapes, sliced",
+          "Apple",
+          "Clementines",
+          "Blueberries",
+          "Raspberries",
+          "Pineapple (Butterflies)",
+          "Strawberries",
+          "Edible Eyes",
+          "Rice Krispies Treats",
+          "Chocolate Chip Cookies",
+          "Alphabet Cookies"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Galentine’s Day Board",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [
+          "Gummy Lips",
+          "Gummy Hearts",
+          "Gummy Skulls",
+          "Gummy Shoes",
+          "Gummy Cars",
+          "Bumlingar Strawberry",
+          "Licorice Wheels",
+          "Pink Jelly Beans",
+          "Hard Candy",
+          "Hot Tamales",
+          "Valentine's-themed Cookies",
+          "Mini Meringues",
+          "Yogurt-Covered Pretzels",
+          "Rock Candy",
+          "Long-Striped Red and White Candies"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "confection",
+        "cuisines": []
+      },
+      {
+        "name": "Stars and Stripes Board",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [
+          "Sharp White Cheddar",
+          "Babybels",
+          "Cool Whip",
+          "Strawberries",
+          "Blueberries",
+          "Raspberries",
+          "Blackberries",
+          "Star Crackers",
+          "Beet Chips",
+          "Meringues",
+          "Yogurt-Covered Pretzels",
+          "Rambo Twist Candy (from Sockerbit) or other red-and-white candy",
+          "Sour Belts"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      }
+    ],
+    "addedAt": 1774625124176
+  },
+  {
     "id": "the-dane-county-farmers-market-cookbook-terese-allen",
     "title": "The Dane County Farmers' Market Cookbook",
     "author": "Terese Allen",
@@ -12235,7 +14337,944 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://i5.walmartimages.com/seo/The-Forest-Feast-Simple-Vegetarian-Recipes-from-My-Cabin-in-the-Woods-9781617690815_d9343aac-5712-4026-ad4e-ad9a973e7bed.8e8ef856fa950ba3179850956274eef9.jpeg",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Beer-Battered Artichoke Hearts",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 c beer (120 ml)",
+          "1/2 c flour (60 g)",
+          "6-8 oz jar drained marinated artichoke hearts (170-255 g)",
+          "1 inch olive oil for frying",
+          "smoked paprika",
+          "sea salt"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "vegetable",
+        "cuisines": []
+      },
+      {
+        "name": "Guacamole Deviled Eggs",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [
+          "6 peeled hard-boiled eggs",
+          "1 ripe avocado",
+          "1 T mayonnaise",
+          "1 t spicy mustard",
+          "1/2 t garlic powder",
+          "salt & pepper",
+          "red pepper flakes"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "egg",
+        "cuisines": []
+      },
+      {
+        "name": "Asparagus Tart",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Asparagus Pastry Straws",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Brie",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [
+          "1 T finely chopped fresh rosemary",
+          "6 cloves garlic, minced",
+          "1 T chopped fresh parsley",
+          "1 premade 10-inch pie dough",
+          "1 8-oz. (225-g) round of Brie",
+          "slices of baguette"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "cheese",
+        "cuisines": []
+      },
+      {
+        "name": "Garlic Knots",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caper-Burrata Crostini",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Honey-Pepper Fresh Figs",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apricot Bites",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry Salsa",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "French Radishes",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Polka-Dot Focaccia",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Gorgonzola Grapes",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Garlic Nuts",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Leek Medallions",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Parmesan Lace",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Parmesan Poppers",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sage Chips",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Kale Caesar with Polenta Croutons",
+        "page": 90,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beet Salad with Pink Eggs",
+        "page": 92,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Butternut Caprese",
+        "page": 94,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Potato-Green Bean Salad",
+        "page": 96,
+        "highConfidence": true,
+        "ingredients": [
+          "25 mini potatoes",
+          "10 peeled garlic cloves",
+          "olive oil",
+          "salt",
+          "pepper",
+          "3/4 c (30 g) chopped fresh cilantro",
+          "1 c (100 g) chopped fresh raw green beans",
+          "1 T rice vinegar",
+          "1 T olive oil"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange-Cabbage Salad",
+        "page": 98,
+        "highConfidence": true,
+        "ingredients": [
+          "4 carrots",
+          "2 oranges (blood or regular)",
+          "5 radishes",
+          "1 purple cabbage",
+          "oil & vinegar or dressing #3"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Carrot Slaw",
+        "page": 100,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggplant Salad",
+        "page": 102,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lentil Salad",
+        "page": 104,
+        "highConfidence": true,
+        "ingredients": [
+          "2 c (400 g) cooked lentils (any type)",
+          "1/2 c (30 g) sun-dried tomatoes",
+          "1/2 c (64 g) dried cranberries",
+          "1 c (150 g) halved cherry tomatoes",
+          "2 c (140 g) shredded purple cabbage",
+          "oil & vinegar or dressing #4"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange-Avocado Salad",
+        "page": 106,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nectarine and Tomato Salad",
+        "page": 108,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watermelon Salad",
+        "page": 110,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Persimmon Salad",
+        "page": 112,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry-Cucumber Ribbon Salad",
+        "page": 114,
+        "highConfidence": true,
+        "ingredients": [
+          "2 large cucumbers",
+          "1 c (170 g) sliced strawberries",
+          "1/2 c (60 g) crumbled goat cheese",
+          "3/4 c (75 g) sliced snow peas",
+          "1/2 c (45 g) sliced toasted almonds",
+          "olive oil",
+          "lemon juice",
+          "salt to taste"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watermelon Radish Salad",
+        "page": 116,
+        "highConfidence": true,
+        "ingredients": [
+          "1 large watermelon radish (thinly sliced by hand or with a mandoline, chop some into matchsticks for garnish)",
+          "2 peeled oranges (sliced into 1/4-inch rounds)",
+          "1/2 red onion (sliced into thin rings)",
+          "2 sprigs of mint (cut in chiffonade)",
+          "2 scallions (chopped)",
+          "olive oil",
+          "salt"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green Salad",
+        "page": 118,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Yellow Salad",
+        "page": 120,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Red Salad",
+        "page": 122,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rosemary Skewers",
+        "page": 132,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bay Potatoes",
+        "page": 134,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Carrot & Zucchini Ribbon Pasta",
+        "page": 136,
+        "highConfidence": true,
+        "ingredients": [
+          "5 garlic cloves (minced)",
+          "ribbons from 2 carrots",
+          "ribbons from 2 zucchini",
+          "1 T olive oil",
+          "salt & pepper",
+          "8 oz. (225 g) dry fettuccine, cooked",
+          "1 T chopped fresh thyme leaves",
+          "1 T butter"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Curried Crispy Carrots",
+        "page": 138,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Accordion Zucchini",
+        "page": 140,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Apple Rings",
+        "page": 142,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crispy Broccoli & Blue",
+        "page": 144,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Aglio, Olio, & Peperoncino Collards",
+        "page": 146,
+        "highConfidence": true,
+        "ingredients": [
+          "collard greens",
+          "garlic",
+          "red pepper flakes",
+          "bacon"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": []
+      },
+      {
+        "name": "Cauliflower Cheese Steak",
+        "page": 148,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cinnamon Cauliflower",
+        "page": 150,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Citrus-Beet Stack",
+        "page": 152,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry-Arugula Wrap",
+        "page": 154,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn & Cauliflower Tacos",
+        "page": 156,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggplant \"Tacos\"",
+        "page": 158,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Roasted Veggie Gnocchi",
+        "page": 160,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Kale Egg Cups",
+        "page": 162,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Avocado Egg-in-a-Hole",
+        "page": 164,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potato Latkes",
+        "page": 166,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rosemary Shortbread",
+        "page": 202,
+        "highConfidence": true,
+        "ingredients": [
+          "1/3 c (65 g) sugar",
+          "1 c (125 g) all-purpose flour",
+          "2 t chopped fresh rosemary",
+          "1 stick (4 oz. or 115 g) salted butter"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "cookie/bar",
+        "cuisines": []
+      },
+      {
+        "name": "Peanut Butter-Coconut Balls",
+        "page": 204,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Dates with Orange & Pistachio",
+        "page": 206,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Melon \"Cake\"",
+        "page": 208,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Dipped Strawberries",
+        "page": 210,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Greek Parfaits",
+        "page": 212,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Whole Apricot Hand Pies",
+        "page": 214,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fried Banana Split",
+        "page": 216,
+        "highConfidence": true,
+        "ingredients": [
+          "1 banana",
+          "1 t butter",
+          "1 T chopped pecans",
+          "1/4 t cinnamon",
+          "2 t honey",
+          "1/2 c or 70 g ice cream"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "ice cream",
+        "cuisines": []
+      },
+      {
+        "name": "Apple & Honey Galette",
+        "page": 218,
+        "highConfidence": true,
+        "ingredients": [
+          "14-oz (400-g; 9-inch) store-bought pie dough",
+          "1/2 c (120g) Brie",
+          "1 T brown sugar",
+          "3 T sliced almonds",
+          "1/2 t cinnamon",
+          "2 thinly sliced apples",
+          "butter",
+          "honey",
+          "pomegranate seeds"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": []
+      },
+      {
+        "name": "Plum-Thyme Sundae",
+        "page": 220,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ice Cream Sandwiches",
+        "page": 222,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beer Float",
+        "page": 224,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chocolate Ricotta Mousse Cups",
+        "page": 226,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peanut Butter-Avocado Shake",
+        "page": 228,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Challah",
+        "page": 230,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lentil & Butternut Lettuce Cups",
+        "page": 168,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spicy Feta Lettuce Wraps",
+        "page": 170,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Purple Mashed Potatoes",
+        "page": 172,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mashed Beets",
+        "page": 174,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Polenta Portobellos",
+        "page": 176,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quinoa-Pecan Frittata Muffins",
+        "page": 178,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Red Roasted Carrots",
+        "page": 180,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Roasted Cabbage with Cherries & Pecans",
+        "page": 182,
+        "highConfidence": true,
+        "ingredients": [
+          "1 head of purple cabbage",
+          "1/2 t smoked paprika",
+          "1/2 t garlic powder",
+          "3 t olive oil",
+          "salt & pepper",
+          "1/2 c (80 g) dried cherries",
+          "1/2 c (55 g) chopped, roasted pecans"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": []
+      },
+      {
+        "name": "Scallion Quiche",
+        "page": 184,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Squash Blossom Pizza",
+        "page": 186,
+        "highConfidence": true,
+        "ingredients": [
+          "16 oz (455 g) pizza dough",
+          "1 c (250 g) ricotta",
+          "2 garlic cloves",
+          "1/4 c (25 g) Parmesan",
+          "1 t fresh thyme",
+          "1 t fresh rosemary",
+          "8 blossoms",
+          "1 T olive oil",
+          "salt"
+        ],
+        "hasCard": true,
+        "course": "bread",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Butternut-Pear Soup",
+        "page": 188,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potato-Stuffed Tomatoes",
+        "page": 190,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Warm Cheesy Wheat Berries",
+        "page": 192,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Yellow Squash Galette",
+        "page": 194,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774359196261
   },
   {
@@ -12245,7 +15284,929 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuj1AeK7r-OK4Ukrcie2QXnn5jQNz1hBVdqglZ6CpCSg&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Floral Punch",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [
+          "1 T rosewater",
+          "4 c (960 ml) pink (or strawberry) lemonade",
+          "4 c (960 ml) seltzer",
+          "1 c (240 ml) gin"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Radish Butter Crostini",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Herb Salad",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Parmesan Snap Peas",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [
+          "4 c (240 g) snap peas (ends trimmed)",
+          "1/2 c (50 g) grated Parmesan",
+          "1/2 c (50 g) breadcrumbs",
+          "2 T olive oil",
+          "a pinch salt",
+          "a pinch pepper",
+          "a pinch cayenne",
+          "a pinch garlic powder"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Asparagus-Pistachio Pizza",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [
+          "2 (16-oz/455-g) packages pizza dough",
+          "4 cloves garlic, minced",
+          "3 c (330 g) grated mozzarella",
+          "1 bunch asparagus (about 40 stalks)",
+          "1/2 c (50 g) grated Parmesan",
+          "1/4 c (30 g) chopped pistachio nuts"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry-Balsamic Sundaes",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salted Nectarine Toasts",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zucchini Flatbread",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [
+          "16 oz (455g) pizza dough",
+          "2 zucchini",
+          "1 c (100g) grated Parmesan",
+          "2 chopped scallions",
+          "1 T pinenuts",
+          "olive oil"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watermelon-Feta Bites",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [
+          "1 small seedless watermelon",
+          "8 oz (225g) feta",
+          "1 bunch mint"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apple & Cheddar with Honey & Pepper",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Blue Cheese Ball",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cucumber-Melon Sangria",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zucchini \"Noodle\" Salad",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [
+          "3 large raw zucchini",
+          "1½ c (280g) edamame",
+          "8oz (225g) ciliegine",
+          "4oz (115g) pine nuts",
+          "6 oz (180ml) pesto"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Moroccan Carrot Salad",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apple Matchstick Salad",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Artichoke-Potato Salad",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watermelon-Tomato Salad",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "4 Types of Iced Tea",
+        "page": 67,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tea Sandwiches",
+        "page": 67,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hummus-Tomato Deviled Eggs",
+        "page": 67,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry Caprese Kebabs",
+        "page": 67,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Black-Pepper Shortbread",
+        "page": 67,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Watermelon-Mint Water",
+        "page": 79,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Floral Summer Rolls",
+        "page": 79,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peach Panzanella",
+        "page": 84,
+        "highConfidence": true,
+        "ingredients": [
+          "1 crusty baguette or half of a rustic French loaf",
+          "3 T olive oil",
+          "salt",
+          "3 peaches, cubed",
+          "3 tomatoes, cubed",
+          "8 oz (225 g) fresh mozzarella, cubed",
+          "15 basil leaves, sliced",
+          "1/3 c (75ml) olive oil",
+          "3 T red wine vinegar",
+          "1 clove garlic, minced",
+          "pepper"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sesame-Farro Salad",
+        "page": 86,
+        "highConfidence": true,
+        "ingredients": [
+          "2 c (400 g) dry farro",
+          "5 chopped scallions",
+          "2 c (40 g) arugula",
+          "2 T sunflower seeds",
+          "3 T olive oil",
+          "1 T soy sauce",
+          "3 T rice vinegar",
+          "1 T sesame oil",
+          "1 large avocado"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Portobello & Chimichurri",
+        "page": 79,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grilled Pineapple with Cinnamon Cream",
+        "page": 79,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ruby Mimosa Punch",
+        "page": 95,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Heirloom Tomato Tart",
+        "page": 95,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Blueberry-Pecan Salad",
+        "page": 102,
+        "highConfidence": true,
+        "ingredients": [
+          "8 small handfuls arugula",
+          "1 c (120g) chopped pecans",
+          "1 c (145g) blueberries",
+          "4 oz (115g) crumbled feta"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zucchini Frittata Loaf",
+        "page": 95,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Popsicle Affogato",
+        "page": 95,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ginger-Mint Lemonade",
+        "page": 109,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orzo-Black Bean Salad",
+        "page": 109,
+        "highConfidence": true,
+        "ingredients": [
+          "1½ c (170g) dry orzo",
+          "¼ red onion, diced",
+          "1 c (150g) canned black beans, drain & rinse",
+          "1 red bell pepper, seeded & cubed",
+          "1 c (140g) corn, fresh or frozen",
+          "¼ bunch cilantro, chopped, leaves & stems",
+          "3 T olive oil",
+          "juice from 1 lime",
+          "⅛ t salt",
+          "1 t chili powder"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Feta Chopped Salad",
+        "page": 112,
+        "highConfidence": true,
+        "ingredients": [
+          "1 cucumber, cubed",
+          "2 large tomatoes, cubed",
+          "1/2 small red onion, cubed",
+          "leaves from 2 sprigs mint, sliced",
+          "3/4 c (115 g) crumbled feta (about 4 oz)",
+          "lemon juice",
+          "olive oil",
+          "salt"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": "pasta",
+        "cuisines": []
+      },
+      {
+        "name": "Pesto-Cucumber Wraps",
+        "page": 109,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "3-ingredient Brown Sugar Cookies",
+        "page": 109,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Berry-Thyme Punch",
+        "page": 121,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cucumber Caprese Bites",
+        "page": 124,
+        "highConfidence": true,
+        "ingredients": [
+          "1 pint (290 g) cherry tomatoes",
+          "1 bunch of basil",
+          "2 cucumbers",
+          "16 oz (455 g) mini mozzarella balls"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Arugula Niçoise Salad",
+        "page": 121,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quinoa Crunch Salad",
+        "page": 128,
+        "highConfidence": true,
+        "ingredients": [
+          "1½ c (255 g) dry red quinoa",
+          "a handful sunflower seeds",
+          "a handful pistachios",
+          "a handful pecans, chopped",
+          "a handful almonds, sliced",
+          "a handful pumpkin seeds",
+          "a handful dried cherries",
+          "olive oil",
+          "lemon juice",
+          "salt"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": "grain",
+        "cuisines": []
+      },
+      {
+        "name": "Pomegranate Punch",
+        "page": 131,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Butternut & Goat Cheese Crostini",
+        "page": 131,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Kale-Hazelnut Salad",
+        "page": 131,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zaatar Roasted Carrots",
+        "page": 140,
+        "highConfidence": true,
+        "ingredients": [
+          "2 lbs (910g) medium carrots",
+          "3 T olive oil",
+          "1 T zaatar",
+          "salt",
+          "pepper",
+          "red pepper flakes",
+          "Greek yogurt",
+          "cilantro",
+          "sesame seeds"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": []
+      },
+      {
+        "name": "Squash Lasagna",
+        "page": 131,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pear-Thyme Galettes",
+        "page": 131,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rosé Spritzer",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Kumquat Gimlet Punch",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Endive Bar",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Avocado-Tahini Crostini",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Truffled Cucumber Rounds",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spicy Chocolate Almonds",
+        "page": 149,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cucumber-Lime Coolers",
+        "page": 167,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Butternut Hummus",
+        "page": 167,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Vietnamese Lentil Tacos",
+        "page": 167,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Roasted Eggplant Salad",
+        "page": 167,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Clementine Cocktails",
+        "page": 181,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Garlic with Brie",
+        "page": 181,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potato Chowder",
+        "page": 181,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crispy Kale with Paprika & Truffle Salt",
+        "page": 181,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caramelized Onion Bake",
+        "page": 192,
+        "highConfidence": true,
+        "ingredients": [
+          "2 leeks",
+          "3 onions",
+          "1 c (100g) grated Parmesan",
+          "6 large eggs",
+          "1/4 c (60ml) milk (any %)",
+          "a pinch each salt & pepper",
+          "3 chopped scallions",
+          "8 large store-bought biscuits",
+          "olive oil",
+          "butter"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cider Floats",
+        "page": 181,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rum-Pear Cider",
+        "page": 199,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bubbly Cran-Rosemary",
+        "page": 199,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cheese Board Spread",
+        "page": 199,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Polenta Pizzas",
+        "page": 208,
+        "highConfidence": true,
+        "ingredients": [
+          "2 red onions",
+          "3 T olive oil",
+          "a pinch of salt",
+          "1/2 c (35 g) marinated sun-dried tomatoes",
+          "2 (18-oz/510-g) tubes of precooked polenta",
+          "1/2 c (120 ml) marinara",
+          "1/2 c (60 g) chopped walnuts",
+          "cheese (optional)"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pastry-Wrapped Olives",
+        "page": 199,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salted Fudge with Cinnamon",
+        "page": 199,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Blistered Shishitos",
+        "page": 217,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crunchy Green Salad",
+        "page": 217,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zucchini & Herbs",
+        "page": 217,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pesto Gnocchi",
+        "page": 217,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Breakfast Taco Bar",
+        "page": 227,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice Noodle Bar",
+        "page": 227,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grilled Cheese Party",
+        "page": 227,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Wrap Bar",
+        "page": 227,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creamy Polenta Bar",
+        "page": 227,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774359196672
   },
   {

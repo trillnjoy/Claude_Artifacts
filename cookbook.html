@@ -1063,9 +1063,15 @@ function renderRecipeCard(bookId, recipeIdx) {
 
   document.getElementById('recipeCardBody').innerHTML = `
     <div class="recipe-card-header">
-      <div class="recipe-card-title">${esc(recipe.name)}</div>
-      <div class="recipe-card-book">${esc(book.title)}</div>
-      ${recipe.page ? `<div class="recipe-card-page">p. ${recipe.page}</div>` : ''}
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+        <div style="min-width:0;">
+          <div class="recipe-card-title">${esc(recipe.name)}</div>
+          <div class="recipe-card-book">${esc(book.title)}</div>
+          ${recipe.page ? `<div class="recipe-card-page">p. ${recipe.page}</div>` : ''}
+        </div>
+        <button class="btn btn-outline btn-sm" style="flex-shrink:0;margin-top:4px;"
+          onclick="openAddRecipeModalPrefilled('${esc(bookId)}',${recipeIdx})">Edit</button>
+      </div>
       ${[recipe.course, recipe.type, ...(recipe.cuisines||[])].filter(Boolean).length ? `
       <div class="recipe-tags">
         ${recipe.course ? `<span class="recipe-tag course">${recipe.course}</span>` : ''}
@@ -1131,6 +1137,7 @@ let addRecipeForBookId = null;
 
 function openAddRecipeModal(bookId) {
   addRecipeForBookId = bookId;
+  addRecipeEditIdx = null;
   pendingIngredients = [];
   pickerCourse = null; pickerType = null; pickerCuisines = [];
   document.getElementById('newRecipeName').value = '';
@@ -1167,17 +1174,25 @@ async function saveNewRecipe() {
     book.recipes.push({ name, page, highConfidence:!!page, ingredients:[...pendingIngredients], hasCard:true, ...tags });
   }
   await dbPut('books', book);
+  const editIdx = addRecipeEditIdx;
   closeAddRecipeModal();
-  renderBookDetail(addRecipeForBookId);
   updateHeaderStats();
+  if (editIdx !== null) {
+    navTo('Recipe', {bookId: addRecipeForBookId, recipeIdx: editIdx});
+  } else {
+    renderBookDetail(addRecipeForBookId);
+  }
 }
+
+let addRecipeEditIdx = null;
 
 function openAddRecipeModalPrefilled(bookId, recipeIdx) {
   const book = allBooks.find(b => b.id === bookId);
   if (!book) return;
   const r = book.recipes[recipeIdx];
   addRecipeForBookId = bookId;
-  pendingIngredients = [];
+  addRecipeEditIdx = recipeIdx;
+  pendingIngredients = r.ingredients ? [...r.ingredients] : [];
   pickerCourse = r.course || null;
   pickerType = r.type || null;
   pickerCuisines = r.cuisines ? [...r.cuisines] : [];
@@ -1302,8 +1317,8 @@ async function handleIndexPhoto(input) {
   const entries = await extractIndexFromPhoto(file, key);
   input.value = '';
 
-  if (entries === null) {
-    status.textContent = 'Extraction failed — check API key.';
+  if (entries === null || entries._error) {
+    status.textContent = 'Error: ' + (entries?._error || 'Unknown failure');
     return;
   }
 
@@ -1363,10 +1378,16 @@ async function extractIndexFromPhoto(file, key) {
           })
         });
         const data = await resp.json();
-        const text = data.content?.[0]?.text || '[]';
+        if (data.error) { res({ _error: data.error.message || JSON.stringify(data.error) }); return; }
+        if (!data.content || !data.content[0]) { res({ _error: 'No content in response: ' + JSON.stringify(Object.keys(data)) }); return; }
+        const text = data.content[0].text || '[]';
         const clean = text.replace(/```json|```/g,'').trim();
-        res(JSON.parse(clean));
-      } catch(e) { res(null); }
+        try {
+          res(JSON.parse(clean));
+        } catch(parseErr) {
+          res({ _error: 'JSON parse failed. Raw response: ' + text.slice(0, 300) });
+        }
+      } catch(e) { res({ _error: 'Fetch error: ' + e.message }); }
     };
     reader.readAsDataURL(file);
   });
