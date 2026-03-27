@@ -23,13 +23,12 @@ body {
   font-family: 'Courier Prime', monospace;
   background: var(--paper); color: var(--ink);
   min-height: 100vh;
-  background-image: repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,18,8,0.04) 27px,rgba(26,18,8,0.04) 28px);
 }
 
 /* ── HEADER ── */
 header {
   background: var(--ink); color: var(--paper);
-  padding: 16px 20px 14px;
+  padding: 12px 20px 10px;
   position: sticky; top: 0; z-index: 200;
   border-bottom: 3px solid var(--gold);
 }
@@ -37,7 +36,7 @@ header {
 .header-left { flex: 1; min-width: 0; }
 .wordmark { font-family: 'Playfair Display', serif; font-size: 24px; letter-spacing: 0.02em; line-height: 1; }
 .wordmark .em { color: var(--gold); font-style: italic; }
-.header-stats { font-size: 10px; color: var(--faded); margin-top: 4px; letter-spacing: 0.05em; }
+.header-stats { font-size: 15px; color: var(--faded); margin-top: 3px; letter-spacing: 0.03em; }
 .header-actions { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
 .icon-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--faded); padding: 2px; line-height: 1; -webkit-appearance: none; }
 .icon-btn:hover { color: var(--paper); }
@@ -49,17 +48,17 @@ header {
 /* ── SUBHEADER (back nav) ── */
 .subheader {
   background: var(--cream); border-bottom: 1px solid var(--aged);
-  padding: 10px 20px; display: flex; align-items: center; gap: 10px;
-  position: sticky; top: 71px; z-index: 100;
+  padding: 7px 20px; display: flex; align-items: center; gap: 10px;
+  position: sticky; top: 67px; z-index: 100;
 }
 .back-btn {
-  font-family: 'Courier Prime', monospace; font-size: 12px;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: 'Playfair Display', serif; font-size: 16px;
+  letter-spacing: 0.01em;
   background: none; border: none; cursor: pointer; color: var(--rust);
   display: flex; align-items: center; gap: 4px; padding: 0;
   -webkit-appearance: none;
 }
-.back-btn::before { content: '‹'; font-size: 18px; line-height: 1; }
+.back-btn::before { content: '‹'; font-size: 20px; line-height: 1; }
 .subheader-title { font-family: 'Playfair Display', serif; font-size: 14px; flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
 /* ── MAIN CONTENT ── */
@@ -70,16 +69,17 @@ header {
   display: flex; align-items: center; gap: 6px;
   padding: 10px 0 8px; flex-wrap: nowrap;
 }
-.book-count { font-size: 11px; color: var(--faded); letter-spacing: 0.06em; margin-right: auto; white-space: nowrap; }
+.book-count { display: none; }
 .chiclet {
-  font-family: 'Courier Prime', monospace; font-size: 10px;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 4px 9px; border: 1px solid var(--aged);
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 4px 10px; border: 2px solid var(--aged);
   background: transparent; color: var(--faded);
   cursor: pointer; border-radius: 20px; white-space: nowrap; -webkit-appearance: none;
 }
 .chiclet.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.sort-wrap { position: relative; flex-shrink: 0; }
+.library-controls { justify-content: flex-start; }
+.sort-wrap { position: relative; flex-shrink: 0; margin-left: auto; }
 .sort-btn {
   background: none; border: 1px solid var(--aged); border-radius: 20px;
   cursor: pointer; color: var(--faded); font-size: 13px;
@@ -217,7 +217,7 @@ header {
   position: relative; cursor: pointer;
   overflow: hidden;
   margin-bottom: 0;
-  aspect-ratio: 4/3;
+  aspect-ratio: 5/3;
   display: flex; align-items: center; justify-content: center;
 }
 .dish-photo-wrap img {
@@ -377,18 +377,19 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
 <div class="view" id="viewBookDetail">
   <div class="subheader">
     <button class="back-btn" onclick="navTo('Library')">Library</button>
-    <button class="icon-btn" onclick="openAddIndexModal(currentBookId)" style="color:var(--faded);font-size:15px;" title="Add Index">⊞</button>
-    <button class="icon-btn" onclick="toggleRecipeFilter()" style="color:var(--faded);font-size:16px;" title="Filter recipes" id="filterToggleBtn">⊟</button>
-    <button class="icon-btn" onclick="openEditModal(currentBookId)" style="color:var(--faded);font-size:16px;" title="Edit Book">⚙</button>
+    <span style="flex:1;"></span>
+    <button class="icon-btn" onclick="openAddIndexModal(currentBookId)" style="color:var(--faded);font-size:22px;padding:0 6px;" title="Add Index">⊞</button>
+    <button class="icon-btn" onclick="openEditModal(currentBookId)" style="color:var(--faded);font-size:18px;padding:0 4px;" title="Edit Book">⚙</button>
   </div>
   <div class="view-body" id="bookDetailBody"></div>
 </div>
 
 <!-- VIEW: RECIPE CARD -->
 <div class="view" id="viewRecipe">
-  <div class="subheader">
-    <button class="back-btn" id="recipeBackBtn" onclick="navTo('BookDetail')">Book</button>
-    <span class="subheader-title" id="recipeSubtitle"></span>
+  <div class="subheader" style="gap:0;overflow:hidden;">
+    <button class="back-btn" onclick="navTo('Library')" style="flex-shrink:0;">Library</button>
+    <span style="color:var(--faded);font-size:18px;margin:0 2px;flex-shrink:0;">›</span>
+    <button class="back-btn" id="recipeBackBtn" onclick="navTo('BookDetail')" style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;"></button>
   </div>
   <div class="view-body" id="recipeCardBody"></div>
 </div>
@@ -890,8 +891,7 @@ function renderBookDetail(bookId) {
   const book = allBooks.find(b => b.id === bookId);
   if (!book) { navTo('Library'); return; }
 
-  document.getElementById('recipeBackBtn').textContent =
-    book.title.length > 22 ? book.title.slice(0,20)+'…' : book.title;
+  document.getElementById('recipeBackBtn').textContent = book.title;
 
   const img = book.coverUrl || book.cover;
   const coverHtml = img
@@ -1001,8 +1001,8 @@ function renderBookDetail(bookId) {
     <div class="recipe-section-title">
       <span>${countLabel}</span>
       <span style="display:flex;gap:6px;align-items:center;">
-        <button class="chiclet ${recipeSort==='page'?'active':''}" onclick="setRecipeSort('page')">Page</button>
         <button class="chiclet ${recipeSort==='name'?'active':''}" onclick="setRecipeSort('name')">Name</button>
+        <button class="chiclet ${recipeSort==='page'?'active':''}" onclick="setRecipeSort('page')">Page</button>
       </span>
     </div>
     ${recipesHtml}`;
@@ -1045,7 +1045,7 @@ function renderRecipeCard(bookId, recipeIdx) {
   const recipe = (book.recipes || [])[recipeIdx];
   if (!recipe) { navTo('BookDetail', {bookId}); return; }
 
-  document.getElementById('recipeSubtitle').textContent = recipe.name;
+  // breadcrumb book title set via recipeBackBtn in renderBookDetail
 
   const ingredients = recipe.ingredients || [];
   const ingredientHtml = ingredients.length
@@ -1075,8 +1075,15 @@ function renderRecipeCard(bookId, recipeIdx) {
 
     <input type="file" id="dishPhotoInput" class="capture-input" accept="image/*"
       onchange="saveDishPhoto(this,'${esc(bookId)}',${recipeIdx})">
-    <div class="dish-photo-wrap" onclick="document.getElementById('dishPhotoInput').click()">
-      ${photoHtml}
+    <div style="position:relative;">
+      <div class="dish-photo-wrap" onclick="document.getElementById('dishPhotoInput').click()">
+        ${photoHtml}
+      </div>
+      ${recipe.photo ? `<button onclick="removeDishPhoto(event,'${esc(bookId)}',${recipeIdx})"
+        style="position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;
+        background:rgba(26,18,8,0.72);border:none;color:var(--paper);font-size:16px;line-height:1;
+        cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;"
+        title="Remove photo">×</button>` : ''}
     </div>
 
     <div class="ingredients-section">
@@ -1106,6 +1113,16 @@ async function saveDishPhoto(input, bookId, recipeIdx) {
     renderRecipeCard(bookId, recipeIdx);
   };
   reader.readAsDataURL(file);
+}
+
+async function removeDishPhoto(event, bookId, recipeIdx) {
+  event.stopPropagation();
+  if (!confirm('Remove this dish photo?')) return;
+  const book = allBooks.find(b => b.id === bookId);
+  if (!book || !book.recipes[recipeIdx]) return;
+  delete book.recipes[recipeIdx].photo;
+  await dbPut('books', book);
+  renderRecipeCard(bookId, recipeIdx);
 }
 
 // ── ADD RECIPE MODAL ─────────────────────────────────────────────────────────
