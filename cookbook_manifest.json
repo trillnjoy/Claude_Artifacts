@@ -1,0 +1,19 @@
+{
+  "name": "The CookBook Shelf",
+  "short_name": "CookBook Shelf",
+  "description": "A personal cookbook index and recipe card app",
+  "start_url": "/Claude_Artifacts/cookbook.html",
+  "scope": "/Claude_Artifacts/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1208",
+  "theme_color": "#1a1208",
+  "icons": [
+    {
+      "src": "/Claude_Artifacts/Cookbook_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
