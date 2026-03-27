@@ -555,15 +555,37 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
   <div class="modal">
     <button class="modal-close" onclick="closeAddIndexModal()">×</button>
     <h3>Add Index</h3>
-    <p style="font-size:12px;color:var(--faded);line-height:1.5;margin-bottom:14px;">
-      Photograph each index page. Claude extracts recipe names and page numbers. New entries merge with existing recipes.
-    </p>
-    <input type="file" id="indexPhotoInput" class="capture-input" accept="image/*" onchange="handleIndexPhoto(this)">
-    <div class="flex-gap" style="margin-bottom:12px;">
-      <button class="btn btn-outline btn-sm" onclick="document.getElementById('indexPhotoInput').click()">📷 Add Index Page</button>
-      <span id="indexPhotoStatus" style="font-size:12px;color:var(--faded);"></span>
+
+    <div class="tabs" style="margin-bottom:14px;">
+      <button class="tab active" id="indexTabPhotoBtn" onclick="switchIndexTab('photo')">📷 Photo</button>
+      <button class="tab" id="indexTabPasteBtn" onclick="switchIndexTab('paste')">Paste Text</button>
     </div>
-    <div id="indexExtractedList" style="max-height:320px;overflow-y:auto;border-top:1px solid var(--aged);"></div>
+
+    <!-- Photo tab -->
+    <div id="indexTabPhoto">
+      <p style="font-size:12px;color:var(--faded);line-height:1.5;margin-bottom:12px;">
+        Photograph each index page. Claude extracts recipe names and page numbers. New entries merge with existing recipes.
+      </p>
+      <input type="file" id="indexPhotoInput" class="capture-input" accept="image/*" onchange="handleIndexPhoto(this)">
+      <div class="flex-gap" style="margin-bottom:12px;">
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('indexPhotoInput').click()">📷 Add Index Page</button>
+        <span id="indexPhotoStatus" style="font-size:12px;color:var(--faded);"></span>
+      </div>
+    </div>
+
+    <!-- Paste tab -->
+    <div id="indexTabPaste" class="hidden">
+      <p style="font-size:12px;color:var(--faded);line-height:1.5;margin-bottom:8px;">
+        Paste index text — one recipe per line. Page number can follow the name separated by a tab, spaces, or a number at the end of the line.
+      </p>
+      <textarea id="indexPasteInput" placeholder="Roast chicken&#10;Lemon tart  42&#10;Mushroom soup	18" style="min-height:140px;margin-bottom:8px;"></textarea>
+      <div class="flex-gap">
+        <button class="btn btn-sm" onclick="handleIndexPaste()">Import</button>
+        <span id="indexPasteStatus" style="font-size:12px;color:var(--faded);"></span>
+      </div>
+    </div>
+
+    <div id="indexExtractedList" style="max-height:260px;overflow-y:auto;border-top:1px solid var(--aged);margin-top:12px;"></div>
     <div class="flex-gap mt">
       <button class="btn btn-outline btn-sm" onclick="closeAddIndexModal()">Done</button>
     </div>
@@ -595,6 +617,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); bor
 </div>
 
 <script>
+'use strict';
 const SEED_URL = 'https://trillnjoy.github.io/Claude_Artifacts/cookbooks_seed.json';
 
 // ── DB ───────────────────────────────────────────────────────────────────────
@@ -649,7 +672,6 @@ const ALL_CUISINES = Object.values(CUISINES).flat();
 let pickerCourse = null;
 let pickerType = null;
 let pickerCuisines = [];
-let pickerContext = null; // 'add' | 'filter'
 
 async function loadBooks() {
   allBooks = await dbGetAll('books');
@@ -693,11 +715,9 @@ async function reloadFromSeed() {
 const TOP_LEVEL = ['Library','Import','Settings'];
 
 function navTo(view, opts={}) {
-  // Deactivate all views
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view' + view).classList.add('active');
 
-  // Update nav bar highlight (top-level only)
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const navId = 'nav' + (TOP_LEVEL.includes(view) ? view : 'Library');
   const navEl = document.getElementById(navId);
@@ -797,19 +817,20 @@ function renderCuisinePicker(containerId, selected, onChange) {
   el.innerHTML = html;
 }
 
+// FIX: removed arguments.callee; type picker re-render uses named function reference
 function initAddRecipePickers() {
-  renderCoursePicker('coursePicker', pickerCourse, (c) => {
+  renderCoursePicker('coursePicker', pickerCourse, function onCourseClick(c) {
     pickerCourse = pickerCourse === c ? null : c;
     pickerType = null;
     initAddRecipePickers();
   });
-  renderTypePicker('typePicker', pickerCourse, pickerType, (t) => {
+
+  renderTypePicker('typePicker', pickerCourse, pickerType, function onTypeClick(t) {
     pickerType = pickerType === t ? null : t;
-    renderTypePicker('typePicker', pickerCourse, pickerType, arguments.callee);
-    // re-render just type
     initAddRecipePickers();
   });
-  renderCuisinePicker('cuisinePicker', pickerCuisines, (c) => {
+
+  renderCuisinePicker('cuisinePicker', pickerCuisines, function onCuisineClick(c) {
     if (pickerCuisines.includes(c)) {
       pickerCuisines = pickerCuisines.filter(x => x !== c);
     } else if (pickerCuisines.length < 3) {
@@ -817,11 +838,17 @@ function initAddRecipePickers() {
     }
     initAddRecipePickers();
   });
-  // Switch type vocabulary when course changes to/from dessert
-  document.getElementById('typePickerGroup').querySelector('.tag-group-label').textContent =
-    pickerCourse === 'dessert' ? 'Dessert Type *' : 'Type (optional)';
+
+  // Update type group label
+  const typeLabel = document.querySelector('#typePickerGroup .tag-group-label');
+  if (typeLabel) {
+    typeLabel.innerHTML = pickerCourse === 'dessert'
+      ? 'Dessert Type <span style="font-weight:normal;opacity:0.6">(optional)</span>'
+      : 'Type <span style="font-weight:normal;opacity:0.6">(optional)</span>';
+  }
 }
 
+// FIX: called on modal open so dropdowns are populated
 function populateSearchFilters() {
   const courseEl = document.getElementById('searchCourseFilter');
   const typeEl = document.getElementById('searchTypeFilter');
@@ -1074,7 +1101,7 @@ async function saveDishPhoto(input, bookId, recipeIdx) {
   reader.onload = async e => {
     const book = allBooks.find(b => b.id === bookId);
     if (!book || !book.recipes[recipeIdx]) return;
-    book.recipes[recipeIdx].photo = e.target.result; // base64 data URL
+    book.recipes[recipeIdx].photo = e.target.result;
     await dbPut('books', book);
     renderRecipeCard(bookId, recipeIdx);
   };
@@ -1127,7 +1154,6 @@ async function saveNewRecipe() {
   updateHeaderStats();
 }
 
-// Open add recipe modal pre-filled from an index row
 function openAddRecipeModalPrefilled(bookId, recipeIdx) {
   const book = allBooks.find(b => b.id === bookId);
   if (!book) return;
@@ -1154,7 +1180,6 @@ function openAddIndexModal(bookId) {
   addIndexForBookId = bookId;
   document.getElementById('indexPhotoStatus').textContent = '';
   document.getElementById('addIndexNotice').innerHTML = '';
-  // Show existing index entries as a running list
   renderIndexList();
   document.getElementById('addIndexModal').classList.add('open');
 }
@@ -1163,6 +1188,62 @@ function closeAddIndexModal() {
   document.getElementById('addIndexModal').classList.remove('open');
   renderBookDetail(addIndexForBookId);
   updateHeaderStats();
+}
+
+function switchIndexTab(tab) {
+  document.getElementById('indexTabPhoto').classList.toggle('hidden', tab !== 'photo');
+  document.getElementById('indexTabPaste').classList.toggle('hidden', tab !== 'paste');
+  document.getElementById('indexTabPhotoBtn').classList.toggle('active', tab === 'photo');
+  document.getElementById('indexTabPasteBtn').classList.toggle('active', tab === 'paste');
+}
+
+async function handleIndexPaste() {
+  const raw = document.getElementById('indexPasteInput').value.trim();
+  const status = document.getElementById('indexPasteStatus');
+  if (!raw) { status.textContent = 'Nothing to import.'; return; }
+
+  // Parse lines: name + optional trailing page number (tab, 2+ spaces, or single space before digits at end)
+  const entries = [];
+  for (const line of raw.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    const m = trimmed.match(/^(.+?)\t(\d+)\s*$/)
+           || trimmed.match(/^(.+?)\s{2,}(\d+)\s*$/)
+           || trimmed.match(/^(.+?)\s+(\d+)\s*$/);
+    if (m) {
+      entries.push({ name: m[1].trim(), page: parseInt(m[2]) });
+    } else {
+      entries.push({ name: trimmed, page: null });
+    }
+  }
+
+  const book = allBooks.find(b => b.id === addIndexForBookId);
+  if (!book) return;
+  if (!book.recipes) book.recipes = [];
+
+  let added = 0;
+  for (const entry of entries) {
+    if (!entry.name) continue;
+    const exists = book.recipes.some(r => r.name.toLowerCase() === entry.name.toLowerCase());
+    if (!exists) {
+      book.recipes.push({
+        name: entry.name,
+        page: entry.page || null,
+        highConfidence: !!entry.page,
+        ingredients: [],
+        hasCard: false,
+        course: null,
+        type: null,
+        cuisines: []
+      });
+      added++;
+    }
+  }
+
+  await dbPut('books', book);
+  document.getElementById('indexPasteInput').value = '';
+  status.textContent = `✓ ${added} new entr${added!==1?'ies':'y'} added (${entries.length - added} already present)`;
+  renderIndexList();
 }
 
 function renderIndexList() {
@@ -1201,7 +1282,7 @@ async function handleIndexPhoto(input) {
   if (!key) { status.textContent = 'API key required — set in Settings.'; return; }
 
   const entries = await extractIndexFromPhoto(file, key);
-  input.value = ''; // reset so same file can be re-selected if needed
+  input.value = '';
 
   if (entries === null) {
     status.textContent = 'Extraction failed — check API key.';
@@ -1215,7 +1296,6 @@ async function handleIndexPhoto(input) {
   let added = 0;
   for (const entry of entries) {
     if (!entry.name) continue;
-    // Merge: skip if name already exists (preserve hasCard entries)
     const exists = book.recipes.some(r => r.name.toLowerCase() === entry.name.toLowerCase());
     if (!exists) {
       book.recipes.push({
@@ -1223,7 +1303,10 @@ async function handleIndexPhoto(input) {
         page: entry.page || null,
         highConfidence: !!entry.page,
         ingredients: [],
-        hasCard: false
+        hasCard: false,
+        course: null,
+        type: null,
+        cuisines: []
       });
       added++;
     }
@@ -1407,7 +1490,9 @@ async function deleteFromModal() {
 // ── SEARCH ───────────────────────────────────────────────────────────────────
 let searchTimeout;
 
+// FIX: populateSearchFilters() called here so dropdowns are populated on open
 function openSearchModal() {
+  populateSearchFilters();
   document.getElementById('searchModal').classList.add('open');
   setTimeout(() => document.getElementById('searchInput').focus(), 60);
   doSearch('');
@@ -1531,6 +1616,7 @@ async function addManualBook() {
   notice.innerHTML = `<div class="notice success">✓ Added.</div>`;
 }
 
+// FIX: normalizeRecord now preserves course, type, cuisines on recipes
 function normalizeRecord(x) {
   return {
     id: x.id || slugify((x.title||'') + '-' + (x.author||'')),
@@ -1541,10 +1627,14 @@ function normalizeRecord(x) {
     coverUrl: x.coverUrl || null,
     cover: x.coverUrl || x.cover || null,
     recipes: (x.recipes||[]).map(r => ({
-      name: r.name, page: r.page||null,
-      highConfidence: r.highConfidence||false,
-      ingredients: r.ingredients||[],
-      hasCard: r.hasCard || !!(r.ingredients && r.ingredients.length > 0)
+      name: r.name,
+      page: r.page || null,
+      highConfidence: r.highConfidence || false,
+      ingredients: r.ingredients || [],
+      hasCard: r.hasCard || !!(r.ingredients && r.ingredients.length > 0),
+      course: r.course || null,
+      type: r.type || null,
+      cuisines: r.cuisines || []
     })),
     addedAt: x.addedAt || Date.now()
   };
@@ -1561,17 +1651,24 @@ async function saveApiKey() {
   notice.innerHTML = `<div class="notice success">✓ Key saved.</div>`;
 }
 
+// FIX: exportCatalog now includes course, type, cuisines in recipe output
 function exportCatalog() {
   const seed = allBooks.map(b => ({
-    id: b.id, title: b.title, author: b.author,
+    id: b.id,
+    title: b.title,
+    author: b.author,
     pubYear: b.pubYear || null,
     isbn: b.isbn || null,
     coverUrl: b.coverUrl || b.cover || null,
     recipes: (b.recipes||[]).map(r => ({
-      name: r.name, page: r.page||null,
-      highConfidence: r.highConfidence||false,
-      ingredients: r.ingredients||[],
-      hasCard: r.hasCard||false
+      name: r.name,
+      page: r.page || null,
+      highConfidence: r.highConfidence || false,
+      ingredients: r.ingredients || [],
+      hasCard: r.hasCard || false,
+      course: r.course || null,
+      type: r.type || null,
+      cuisines: r.cuisines || []
     })),
     addedAt: b.addedAt
   }));
@@ -1619,7 +1716,6 @@ function slugify(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').
     if (popup && !e.target.closest('.sort-wrap')) popup.classList.remove('open');
   });
 
-  // Start on Library
   navTo('Library');
 })();
 </script>
