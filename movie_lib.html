@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IML">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>Internet Movie Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1c1c28;
+      --gold: #d4af37;
+      --gold-dim: #8a7020;
+      --gold-light: #f0d060;
+      --text: #e8e0cc;
+      --text-dim: #8a8070;
+      --danger: #c0392b;
+      --gap: 8px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Crimson Pro', Georgia, serif;
+      min-height: 100dvh;
+      overscroll-behavior: none;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--gold-dim);
+      padding: calc(var(--safe-top) + 10px) 12px 10px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo span {
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      font-family: 'Crimson Pro', serif;
+      letter-spacing: 0.12em;
+      display: block;
+      font-style: italic;
+    }
+
+    .add-btn {
+      background: none;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .add-btn:active { background: var(--surface2); border-color: var(--gold); }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    select#cat-filter {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--gold-dim);
+      color: var(--text);
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7020'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 24px;
+    }
+    select#cat-filter:focus { outline: none; border-color: var(--gold); }
+
+    .count-badge {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+
+    /* ── GRID ── */
+    #library {
+      padding: 10px var(--gap);
+      padding-bottom: calc(var(--safe-bottom) + 16px);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.4; }
+    .empty-state p { font-style: italic; font-size: 0.9rem; }
+
+    /* ── MOVIE TILE ── */
+    .tile {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .tile-poster {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* contain = letterbox/pillarbox, no crop */
+      background: var(--surface);
+      display: block;
+    }
+
+    /* Letterbox/pillarbox bars match background */
+    .tile-poster-wrap {
+      width: 100%;
+      height: 100%;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .tile-no-poster {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-dim);
+      font-size: 1.6rem;
+    }
+
+    .tile-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.88));
+      padding: 12px 4px 3px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.2;
+      /* Single line, ellipsis */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── EDIT OVERLAY ── */
+    .tile-edit-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,15,0.82);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      backdrop-filter: blur(2px);
+    }
+    .tile-edit-overlay.visible { display: flex; }
+
+    .overlay-btn {
+      background: var(--surface2);
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      width: 72%;
+      text-align: center;
+      transition: background 0.12s;
+    }
+    .overlay-btn:active { background: var(--gold-dim); color: var(--bg); }
+
+    .overlay-btn.danger {
+      border-color: var(--danger);
+      color: #e05050;
+    }
+    .overlay-btn.danger:active { background: var(--danger); color: white; }
+
+    .overlay-btn.open {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 100;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--gold-dim);
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 16px calc(var(--safe-bottom) + 20px);
+      transform: translateY(100%);
+      transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .modal-backdrop.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    input[type="text"], input[type="url"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--gold-dim);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.9rem;
+      padding: 8px 10px;
+    }
+    input:focus { outline: none; border-color: var(--gold); }
+
+    .poster-preview-wrap {
+      margin-top: 6px;
+      width: 60px;
+      height: 60px;
+      background: var(--surface2);
+      border: 1px solid var(--gold-dim);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poster-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.12s;
+    }
+    .btn-cancel {
+      background: none;
+      border-color: var(--surface2);
+      color: var(--text-dim);
+    }
+    .btn-save {
+      background: var(--gold-dim);
+      color: var(--bg);
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+    .btn-save:active { background: var(--gold); }
+
+    /* ── DELETE CONFIRM ── */
+    .delete-confirm {
+      text-align: center;
+      padding: 8px 0;
+    }
+    .delete-confirm p {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+    .delete-confirm .title-name {
+      color: var(--text);
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">
+      Internet Movie Library
+      <span>Personal Video Collection</span>
+    </div>
+    <button class="add-btn" id="open-add" title="Add movie" aria-label="Add movie">+</button>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Category</span>
+    <select id="cat-filter">
+      <option value="">— All —</option>
+    </select>
+    <span class="count-badge" id="count-badge"></span>
+  </div>
+</header>
+
+<main id="library"></main>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <div class="modal-title" id="modal-title">Add to Library</div>
+
+    <div id="modal-form">
+      <div class="field-group">
+        <label for="f-title">Title</label>
+        <input type="text" id="f-title" placeholder="Film title" autocomplete="off">
+      </div>
+      <div class="field-group">
+        <label for="f-category">Category</label>
+        <input type="text" id="f-category" placeholder="e.g. Drama, Comedy, Sci-Fi…" autocomplete="off">
+      </div>
+      <div class="field-group">
+        <label for="f-url">Video URL</label>
+        <input type="url" id="f-url" placeholder="https://…" autocomplete="off" inputmode="url">
+      </div>
+      <div class="field-group">
+        <label for="f-poster">Poster Image URL</label>
+        <input type="url" id="f-poster" placeholder="https://…" autocomplete="off" inputmode="url">
+        <div class="poster-preview-wrap" id="poster-preview-wrap" style="display:none">
+          <img id="poster-preview-img" src="" alt="poster preview">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" id="modal-cancel">Cancel</button>
+        <button class="btn btn-save" id="modal-save">Save</button>
+      </div>
+    </div>
+
+    <div id="delete-confirm" class="delete-confirm" style="display:none">
+      <p>Remove <span class="title-name" id="del-title-name"></span> from your library?</p>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" id="del-cancel">Cancel</button>
+        <button class="btn btn-save" style="background:#8b1a1a;border-color:#c0392b;color:#fff" id="del-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STORAGE ──────────────────────────────────────────────────
+const STORE_KEY = 'iml_movies';
+
+function loadMovies() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function saveMovies(movies) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(movies));
+}
+
+// ── STATE ─────────────────────────────────────────────────────
+let movies = loadMovies();
+let filterCat = '';
+let activeOverlay = null; // tile DOM element with open overlay
+
+// ── SEED IMPORT (runs once if localStorage empty) ─────────────
+async function importSeedIfEmpty() {
+  if (movies.length > 0) return;
+  try {
+    const r = await fetch('movies_seed.json');
+    if (!r.ok) return;
+    const seed = await r.json();
+    if (Array.isArray(seed) && seed.length > 0) {
+      movies = seed;
+      saveMovies(movies);
+    }
+  } catch {}
+}
+
+// ── ID GENERATION ─────────────────────────────────────────────
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+// ── RENDER ───────────────────────────────────────────────────
+function categories() {
+  const cats = [...new Set(movies.map(m => m.category).filter(Boolean))].sort();
+  return cats;
+}
+
+function filteredSorted() {
+  return movies
+    .filter(m => !filterCat || m.category === filterCat)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+function renderFilter() {
+  const sel = document.getElementById('cat-filter');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">— All —</option>';
+  categories().forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    if (c === prev) o.selected = true;
+    sel.appendChild(o);
+  });
+}
+
+function renderLibrary() {
+  const lib = document.getElementById('library');
+  const list = filteredSorted();
+
+  document.getElementById('count-badge').textContent =
+    list.length + ' title' + (list.length !== 1 ? 's' : '');
+
+  if (list.length === 0) {
+    lib.innerHTML = `<div class="empty-state">
+      <div class="icon">🎬</div>
+      <p>${filterCat ? 'No titles in this category.' : 'Your library is empty.<br>Tap + to add a film.'}</p>
+    </div>`;
+    return;
+  }
+
+  lib.innerHTML = '';
+  list.forEach(movie => {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.dataset.id = movie.id;
+
+    const posterWrap = document.createElement('div');
+    posterWrap.className = 'tile-poster-wrap';
+
+    if (movie.posterUrl) {
+      const img = document.createElement('img');
+      img.className = 'tile-poster';
+      img.src = movie.posterUrl;
+      img.alt = movie.title;
+      img.draggable = false;
+      img.onerror = () => { posterWrap.innerHTML = noPosterHTML(); };
+      posterWrap.appendChild(img);
+    } else {
+      posterWrap.innerHTML = noPosterHTML();
+    }
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'tile-title';
+    titleEl.textContent = movie.title;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'tile-edit-overlay';
+    overlay.innerHTML = `
+      <button class="overlay-btn open" data-action="open">▶ Open</button>
+      <button class="overlay-btn" data-action="edit">Edit</button>
+      <button class="overlay-btn danger" data-action="delete">Remove</button>
+    `;
+
+    tile.appendChild(posterWrap);
+    tile.appendChild(titleEl);
+    tile.appendChild(overlay);
+    lib.appendChild(tile);
+
+    // Tap tile = toggle overlay
+    posterWrap.addEventListener('click', e => toggleOverlay(tile));
+    titleEl.addEventListener('click', e => toggleOverlay(tile));
+
+    overlay.addEventListener('click', e => {
+      const action = e.target.dataset.action;
+      if (!action) return;
+      e.stopPropagation();
+      if (action === 'open') { window.open(movie.url, '_blank'); }
+      else if (action === 'edit') { openEdit(movie); }
+      else if (action === 'delete') { openDelete(movie); }
+      closeAllOverlays();
+    });
+  });
+}
+
+function noPosterHTML() {
+  return `<div class="tile-no-poster">🎞</div>`;
+}
+
+function toggleOverlay(tile) {
+  const overlay = tile.querySelector('.tile-edit-overlay');
+  if (overlay.classList.contains('visible')) {
+    overlay.classList.remove('visible');
+    activeOverlay = null;
+  } else {
+    closeAllOverlays();
+    overlay.classList.add('visible');
+    activeOverlay = tile;
+  }
+}
+
+function closeAllOverlays() {
+  document.querySelectorAll('.tile-edit-overlay.visible').forEach(o => o.classList.remove('visible'));
+  activeOverlay = null;
+}
+
+// Tap outside overlay closes it
+document.getElementById('library').addEventListener('click', e => {
+  if (!e.target.closest('.tile-edit-overlay') && !e.target.closest('.tile-poster-wrap') && !e.target.closest('.tile-title')) {
+    closeAllOverlays();
+  }
+});
+
+function render() {
+  renderFilter();
+  renderLibrary();
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+const backdrop = document.getElementById('modal-backdrop');
+const modalForm = document.getElementById('modal-form');
+const deleteConfirm = document.getElementById('delete-confirm');
+
+let editingId = null;
+let pendingDeleteId = null;
+
+function openModal() {
+  backdrop.classList.add('open');
+}
+function closeModal() {
+  backdrop.classList.remove('open');
+  setTimeout(() => {
+    modalForm.style.display = '';
+    deleteConfirm.style.display = 'none';
+    editingId = null;
+    pendingDeleteId = null;
+    clearForm();
+  }, 250);
+}
+
+function clearForm() {
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-category').value = '';
+  document.getElementById('f-url').value = '';
+  document.getElementById('f-poster').value = '';
+  document.getElementById('poster-preview-wrap').style.display = 'none';
+  document.getElementById('poster-preview-img').src = '';
+}
+
+function openAdd() {
+  document.getElementById('modal-title').textContent = 'Add to Library';
+  clearForm();
+  editingId = null;
+  modalForm.style.display = '';
+  deleteConfirm.style.display = 'none';
+  openModal();
+  setTimeout(() => document.getElementById('f-title').focus(), 300);
+}
+
+function openEdit(movie) {
+  document.getElementById('modal-title').textContent = 'Edit Entry';
+  document.getElementById('f-title').value = movie.title || '';
+  document.getElementById('f-category').value = movie.category || '';
+  document.getElementById('f-url').value = movie.url || '';
+  document.getElementById('f-poster').value = movie.posterUrl || '';
+  editingId = movie.id;
+  modalForm.style.display = '';
+  deleteConfirm.style.display = 'none';
+  if (movie.posterUrl) showPosterPreview(movie.posterUrl);
+  openModal();
+}
+
+function openDelete(movie) {
+  document.getElementById('modal-title').textContent = 'Remove Title';
+  document.getElementById('del-title-name').textContent = '"' + movie.title + '"';
+  pendingDeleteId = movie.id;
+  modalForm.style.display = 'none';
+  deleteConfirm.style.display = '';
+  openModal();
+}
+
+function showPosterPreview(url) {
+  const wrap = document.getElementById('poster-preview-wrap');
+  const img = document.getElementById('poster-preview-img');
+  if (url) { img.src = url; wrap.style.display = 'flex'; }
+  else { wrap.style.display = 'none'; img.src = ''; }
+}
+
+document.getElementById('f-poster').addEventListener('input', e => {
+  showPosterPreview(e.target.value.trim());
+});
+
+document.getElementById('open-add').addEventListener('click', openAdd);
+
+document.getElementById('modal-cancel').addEventListener('click', closeModal);
+document.getElementById('modal-save').addEventListener('click', () => {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { document.getElementById('f-title').focus(); return; }
+  const category = document.getElementById('f-category').value.trim();
+  const url = document.getElementById('f-url').value.trim();
+  const posterUrl = document.getElementById('f-poster').value.trim();
+
+  if (editingId) {
+    const idx = movies.findIndex(m => m.id === editingId);
+    if (idx !== -1) movies[idx] = { ...movies[idx], title, category, url, posterUrl };
+  } else {
+    movies.push({ id: uid(), title, category, url, posterUrl });
+  }
+
+  saveMovies(movies);
+  closeModal();
+  render();
+});
+
+document.getElementById('del-cancel').addEventListener('click', closeModal);
+document.getElementById('del-confirm').addEventListener('click', () => {
+  movies = movies.filter(m => m.id !== pendingDeleteId);
+  saveMovies(movies);
+  closeModal();
+  render();
+});
+
+// Close on backdrop tap
+backdrop.addEventListener('click', e => {
+  if (e.target === backdrop) closeModal();
+});
+
+// ── FILTER ───────────────────────────────────────────────────
+document.getElementById('cat-filter').addEventListener('change', e => {
+  filterCat = e.target.value;
+  renderLibrary();
+});
+
+// ── EXPORT / IMPORT (PWA seed sync) ──────────────────────────
+// Export: generate movies_seed.json download
+function exportSeed() {
+  const blob = new Blob([JSON.stringify(movies, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'movies_seed.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+(async () => {
+  await importSeedIfEmpty();
+  render();
+})();
+</script>
+</body>
+</html>
