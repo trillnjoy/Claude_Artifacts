@@ -53,6 +53,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       margin-bottom: 8px;
     }
 
@@ -73,6 +74,23 @@
       font-style: italic;
     }
 
+    .export-btn {
+      background: none;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-dim);
+      font-size: 0.65rem;
+      font-family: 'Crimson Pro', serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0 10px;
+      height: 36px;
+      border-radius: 18px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .export-btn:active { border-color: var(--gold); color: var(--gold); }
+
     .add-btn {
       background: none;
       border: 1px solid var(--gold-dim);
@@ -86,6 +104,7 @@
       align-items: center;
       justify-content: center;
       line-height: 1;
+      flex-shrink: 0;
       transition: background 0.15s, border-color 0.15s;
     }
     .add-btn:active { background: var(--surface2); border-color: var(--gold); }
@@ -364,6 +383,7 @@
       Internet Movie Library
       <span>Personal Video Collection</span>
     </div>
+    <button class="export-btn" id="export-btn">Export</button>
     <button class="add-btn" id="open-add" title="Add movie" aria-label="Add movie">+</button>
   </div>
   <div class="filter-row">
@@ -642,7 +662,7 @@ backdrop.addEventListener('click', e => {
   if (e.target === backdrop) closeModal();
 });
 
-// ── FILTER ───────────────────────────────────────────────────
+document.getElementById('export-btn').addEventListener('click', exportSeed);
 document.getElementById('cat-filter').addEventListener('change', e => {
   filterCat = e.target.value;
   renderLibrary();
