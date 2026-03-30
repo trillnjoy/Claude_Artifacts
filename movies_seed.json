@@ -142,28 +142,28 @@
   {
     "id": "mnd7g6jim162",
     "title": "Fawlty Towers: The Complete Series",
-    "category": "Comedy",
+    "category": "Comedy TV",
     "url": "https://archive.org/details/fawlty-towers-complete-series-1975/Fawlty+Towers+S01E01+-+A+touch+of+class.mkv",
     "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBc_ZtoyJmT1vKGnEBt84FklpJDC5qsOJLg1GPt2D7dQ&s=10"
   },
   {
     "id": "mnd7lfsczk5y",
     "title": "The Land of the Lost: The Complete Series",
-    "category": "Sci-Fi",
+    "category": "Fantasy",
     "url": "https://archive.org/details/LotLFullSeries",
     "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLyt89UymbUwCDX5vkQQvw1BtmIo40UHlyi-JnD1CmQg&s=10"
   },
   {
     "id": "mnd7mr362cxm",
     "title": "Get Smart: The Complete Series",
-    "category": "Comedy",
+    "category": "Comedy TV",
     "url": "https://archive.org/details/get-smart",
     "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlGobpp_9T3b6OOwotMjnP4O96QUQGS1-JFpLBKm3Y0w&s=10"
   },
   {
     "id": "mnd822zatypk",
     "title": "The Monkees: The Complete Series",
-    "category": "Comedy",
+    "category": "Comedy TV",
     "url": "https://archive.org/details/themonkees.series",
     "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDL0uVCtyABBPNSxJxjxyVIdotg_IgYC2LJIE8tdJCbA&s=10"
   },
@@ -180,5 +180,138 @@
     "category": "Kids",
     "url": "https://archive.org/details/the-wind-in-the-willows-1983-90",
     "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8hqiVvauQ6ELiOZrs-TBOJShhauYlnj1o_DTWU3pNfQ&s=10"
+  },
+  {
+    "id": "mndbrooln08l",
+    "title": "Brambletown",
+    "category": "Kids",
+    "url": "https://pbskids.org/videos/watch/pbs-kids-movies/1413130/brambletown/1716623",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEm0RgJO4Q93FTdFg__sorkRhiHnlSTTDouYiDPg0b4w&s=10"
+  },
+  {
+    "id": "mndbydy48znc",
+    "title": "Wild Kratts: Back in Creature Time",
+    "category": "Kids",
+    "url": "https://pbskids.org/videos/watch/pbs-kids-movies/1413130/wild-kratts-back-in-creature-time/29888",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScusm-fIKQ4rjHTc8SYhIgAl3eEWfzcqVLil2N9kJqkg&s=10"
+  },
+  {
+    "id": "mndc6e2x5m9s",
+    "title": "The Paper Bag Princess",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/the-paper-bag-princess-by-robert-munsch-a-moving-picture-read-aloud",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7JEJhuMMAEqqQ9WNRYmZXpG7q3ULskXgFH6krap3mUhIm0T3sUb2jydXSFJ85D3ZH47-U2XwNqfilvQUGBaCwn5xCkMFRn0bI9tHHZq7bg&s=10"
+  },
+  {
+    "id": "mndcc5wu881g",
+    "title": "Peter & The Wolf: NJ Symphony",
+    "category": "Music",
+    "url": "https://thekidshouldseethis.com/post/peter-and-the-wolf-new-jersey-symphony-orchestra",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqg8tBySzpih9N1nnS820wcW4w2FZQnYr0UumSjD5C0w&s=10"
+  },
+  {
+    "id": "mndcobg5qh58",
+    "title": "Eat Your Rainbow",
+    "category": "Kids",
+    "url": "https://thekidshouldseethis.com/post/eat-your-rainbow-a-vocabulary-packed-sing-along-song",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNIdCnzs0iof04n37G4iwwLiRh1thR0qoJUyFqoW43cg&s=10"
+  },
+  {
+    "id": "mndcugskt7yk",
+    "title": "Brian The Lion Who Learned",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/brian-the-lion-who-learned-cbeebies-read-aloud",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSco3bpH3iW5zrrT2HVm4DIZoG3gkRyNn6M6wz-SmN-iA&s=10"
+  },
+  {
+    "id": "mndcyhb3vd1b",
+    "title": "Millions of cats",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/millions-of-cats-a-mpr-yourclassical-storytime-read-aloud",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1JWhLxjLEPJVEwdGXaPC9YNT8SWl45ta7Rk9PMayLDw&s=10"
+  },
+  {
+    "id": "mndczbqdqc81",
+    "title": "What Happened When We All Stopped",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/what-happened-when-we-all-stopped-narrated-by-jane-goodall",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6HXq7t_xAYtLwJYaXg8Lb6rrt9u_F39GmQ8eutwOZlQ&s=10"
+  },
+  {
+    "id": "mndd304t951m",
+    "title": "Ada Twist Scientist Read Aloud",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/ada-twist-scientist-read-by-astronaut-serena-aunon-chancellor-on-iss",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6ZwY1MBK1lUlMbLQWsWiwtzOEfLH44eHls97_vpBfcg&s=10"
+  },
+  {
+    "id": "mndd6szv6kpm",
+    "title": "The Fantastic Flying Books of Morris Lessmore",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/fantastic-flying-books-morris-lessmore-video",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiYttL8uErcwSX3sHnE6rryAfM1x7cEe8db-3QXmjCEQ&s=10"
+  },
+  {
+    "id": "mndd7w8jbd6s",
+    "title": "The Gruffalo",
+    "category": "Kids Books",
+    "url": "https://thekidshouldseethis.com/post/the-gruffalo-an-animated-picture-book-read-aloud",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1fjCqnm0efxTazeasKQdVfTYqZwVU_l-NtXdyqdeRyQ&s=10"
+  },
+  {
+    "id": "mndfgonnpbrd",
+    "title": "Vivaldi Four Seasons: Boston Baroque For Kids",
+    "category": "Music",
+    "url": "https://youtu.be/KtMi66anolg",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoIyUdB6Q2GnS-NwJoP7zOse9zBSigv0q6STwnOM-vzA&s=10"
+  },
+  {
+    "id": "mndgckyz3fp8",
+    "title": "Mozart’s Magic Fantasy:  The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=IfsAbJEWzm0",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Nt2eoFlE2AJ4gh8IaKiGzjsE8gPlF3eu16emU2ZWFg&s=10"
+  },
+  {
+    "id": "mndghdq9y85x",
+    "title": "Mr Bach Comes To Call: The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=C2BXF_gQtbQ",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTinF9tcIc_cMOQN-RTvJ6PKSoOYc5lStaJdddo-O_IJg&s=10"
+  },
+  {
+    "id": "mndgjbre77ns",
+    "title": "Beethoven Lives Upstairs: The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=5jVknMICSLE",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT2O-YL8Wn1Yw_SpU1HjyRQpRBmM5xNvaEMxqCKXrpdw&s=10"
+  },
+  {
+    "id": "mndgnjnm6rq6",
+    "title": "Vivaldi’s Ring of Mystery: The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=IvIbnaxoXmQ",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQstvZvfwC2nYM_HrZxnn6eoN58zt_Tve4e9vFfpL-7uQ&s=10"
+  },
+  {
+    "id": "mndgpigyovmf",
+    "title": "Tchaikovsky Discovers America: The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=x93MtYGw-gA",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzwlf4AWinfn_Bka_-NHvDzALdMC5HklsIoIQGOVMpyA&s=10"
+  },
+  {
+    "id": "mndhi9oirdqk",
+    "title": "Daydreams and Lullabies: The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=KsCpwdf-TwA",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSod-Hn687t4tCMQTY0hdfqSGXlLm3XbabbE5ODJPY3GQ&s=10"
+  },
+  {
+    "id": "mndhm6y477in",
+    "title": "Hallelujah Handel: The Classical Kids Collection",
+    "category": "Music",
+    "url": "https://www.youtube.com/watch?v=s5GIlLYxOxo",
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoncK2BJdO3o7BpReuL-anKKc_HJHEAREjMpxviFB7Zw&s=10"
   }
 ]
