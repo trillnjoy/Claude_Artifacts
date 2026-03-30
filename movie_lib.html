@@ -383,6 +383,7 @@
       Internet Movie Library
       <span>Personal Video Collection</span>
     </div>
+    <button class="export-btn" id="import-btn">Import</button>
     <button class="export-btn" id="export-btn">Export</button>
     <button class="add-btn" id="open-add" title="Add movie" aria-label="Add movie">+</button>
   </div>
@@ -660,6 +661,22 @@ document.getElementById('modal-delete').addEventListener('click', () => {
 // Close on backdrop tap
 backdrop.addEventListener('click', e => {
   if (e.target === backdrop) closeModal();
+});
+
+document.getElementById('import-btn').addEventListener('click', async () => {
+  if (!confirm('Replace your entire library with the seed file?\n\nAny titles added since your last Export will be lost.')) return;
+  try {
+    const r = await fetch('movies_seed.json?nocache=' + Date.now());
+    if (!r.ok) throw new Error('Fetch failed');
+    const seed = await r.json();
+    if (!Array.isArray(seed) || seed.length === 0) throw new Error('Seed empty or invalid');
+    movies = seed;
+    saveMovies(movies);
+    render();
+    alert('Library restored from seed — ' + seed.length + ' titles loaded.');
+  } catch (e) {
+    alert('Import failed: ' + e.message);
+  }
 });
 
 document.getElementById('export-btn').addEventListener('click', exportSeed);
