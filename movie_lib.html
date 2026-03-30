@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-title" content="IML">
   <meta name="theme-color" content="#0a0a0f">
   <link rel="manifest" href="movie_manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="movie-icon-192.png">
   <title>Internet Movie Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
@@ -205,47 +205,29 @@
       text-overflow: ellipsis;
     }
 
-    /* ── EDIT OVERLAY ── */
-    .tile-edit-overlay {
+    /* ── GEAR ICON ── */
+    .tile-gear {
       position: absolute;
-      inset: 0;
-      background: rgba(10,10,15,0.82);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      backdrop-filter: blur(2px);
-    }
-    .tile-edit-overlay.visible { display: flex; }
-
-    .overlay-btn {
-      background: var(--surface2);
-      border: 1px solid var(--gold-dim);
-      color: var(--gold);
-      font-family: 'Crimson Pro', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 5px 10px;
-      border-radius: 3px;
+      top: 0;
+      right: 0;
+      width: 36%;
+      height: 36%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 3px 3px 0 0;
       cursor: pointer;
-      width: 72%;
-      text-align: center;
-      transition: background 0.12s;
+      z-index: 2;
     }
-    .overlay-btn:active { background: var(--gold-dim); color: var(--bg); }
 
-    .overlay-btn.danger {
-      border-color: var(--danger);
-      color: #e05050;
+    .tile-gear svg {
+      width: 52%;
+      height: 52%;
+      opacity: 0.55;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.8));
+      transition: opacity 0.15s;
     }
-    .overlay-btn.danger:active { background: var(--danger); color: white; }
-
-    .overlay-btn.open {
-      border-color: var(--gold);
-      color: var(--gold-light);
-    }
+    .tile-gear:active svg { opacity: 1; }
 
     /* ── MODAL ── */
     .modal-backdrop {
@@ -363,21 +345,15 @@
     }
     .btn-save:active { background: var(--gold); }
 
-    /* ── DELETE CONFIRM ── */
-    .delete-confirm {
-      text-align: center;
-      padding: 8px 0;
+    .btn-delete {
+      width: 100%;
+      margin-top: 10px;
+      background: none;
+      border: 1px solid #5a1515;
+      color: #c05050;
+      font-size: 0.75rem;
     }
-    .delete-confirm p {
-      font-style: italic;
-      color: var(--text-dim);
-      font-size: 0.85rem;
-      margin-bottom: 14px;
-    }
-    .delete-confirm .title-name {
-      color: var(--text);
-      font-style: normal;
-    }
+    .btn-delete:active { background: #3a0f0f; border-color: var(--danger); }
   </style>
 </head>
 <body>
@@ -430,14 +406,7 @@
         <button class="btn btn-cancel" id="modal-cancel">Cancel</button>
         <button class="btn btn-save" id="modal-save">Save</button>
       </div>
-    </div>
-
-    <div id="delete-confirm" class="delete-confirm" style="display:none">
-      <p>Remove <span class="title-name" id="del-title-name"></span> from your library?</p>
-      <div class="modal-actions">
-        <button class="btn btn-cancel" id="del-cancel">Cancel</button>
-        <button class="btn btn-save" style="background:#8b1a1a;border-color:#c0392b;color:#fff" id="del-confirm">Delete</button>
-      </div>
+      <button class="btn btn-delete" id="modal-delete" style="display:none">Remove from Library</button>
     </div>
   </div>
 </div>
@@ -458,7 +427,6 @@ function saveMovies(movies) {
 // ── STATE ─────────────────────────────────────────────────────
 let movies = loadMovies();
 let filterCat = '';
-let activeOverlay = null; // tile DOM element with open overlay
 
 // ── SEED IMPORT (runs once if localStorage empty) ─────────────
 async function importSeedIfEmpty() {
@@ -543,31 +511,28 @@ function renderLibrary() {
     titleEl.className = 'tile-title';
     titleEl.textContent = movie.title;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'tile-edit-overlay';
-    overlay.innerHTML = `
-      <button class="overlay-btn open" data-action="open">▶ Open</button>
-      <button class="overlay-btn" data-action="edit">Edit</button>
-      <button class="overlay-btn danger" data-action="delete">Remove</button>
-    `;
+    // Gear icon — upper-right 20% hit target
+    const gear = document.createElement('div');
+    gear.className = 'tile-gear';
+    gear.setAttribute('aria-label', 'Edit ' + movie.title);
+    gear.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>`;
 
     tile.appendChild(posterWrap);
     tile.appendChild(titleEl);
-    tile.appendChild(overlay);
+    tile.appendChild(gear);
     lib.appendChild(tile);
 
-    // Tap tile = toggle overlay
-    posterWrap.addEventListener('click', e => toggleOverlay(tile));
-    titleEl.addEventListener('click', e => toggleOverlay(tile));
+    // Tap poster/title = open URL
+    posterWrap.addEventListener('click', () => { if (movie.url) window.open(movie.url, '_blank'); });
+    titleEl.addEventListener('click', () => { if (movie.url) window.open(movie.url, '_blank'); });
 
-    overlay.addEventListener('click', e => {
-      const action = e.target.dataset.action;
-      if (!action) return;
+    // Tap gear = open edit modal
+    gear.addEventListener('click', e => {
       e.stopPropagation();
-      if (action === 'open') { window.open(movie.url, '_blank'); }
-      else if (action === 'edit') { openEdit(movie); }
-      else if (action === 'delete') { openDelete(movie); }
-      closeAllOverlays();
+      openEdit(movie);
     });
   });
 }
@@ -575,30 +540,6 @@ function renderLibrary() {
 function noPosterHTML() {
   return `<div class="tile-no-poster">🎞</div>`;
 }
-
-function toggleOverlay(tile) {
-  const overlay = tile.querySelector('.tile-edit-overlay');
-  if (overlay.classList.contains('visible')) {
-    overlay.classList.remove('visible');
-    activeOverlay = null;
-  } else {
-    closeAllOverlays();
-    overlay.classList.add('visible');
-    activeOverlay = tile;
-  }
-}
-
-function closeAllOverlays() {
-  document.querySelectorAll('.tile-edit-overlay.visible').forEach(o => o.classList.remove('visible'));
-  activeOverlay = null;
-}
-
-// Tap outside overlay closes it
-document.getElementById('library').addEventListener('click', e => {
-  if (!e.target.closest('.tile-edit-overlay') && !e.target.closest('.tile-poster-wrap') && !e.target.closest('.tile-title')) {
-    closeAllOverlays();
-  }
-});
 
 function render() {
   renderFilter();
@@ -608,10 +549,8 @@ function render() {
 // ── MODAL ─────────────────────────────────────────────────────
 const backdrop = document.getElementById('modal-backdrop');
 const modalForm = document.getElementById('modal-form');
-const deleteConfirm = document.getElementById('delete-confirm');
 
 let editingId = null;
-let pendingDeleteId = null;
 
 function openModal() {
   backdrop.classList.add('open');
@@ -619,11 +558,9 @@ function openModal() {
 function closeModal() {
   backdrop.classList.remove('open');
   setTimeout(() => {
-    modalForm.style.display = '';
-    deleteConfirm.style.display = 'none';
     editingId = null;
-    pendingDeleteId = null;
     clearForm();
+    document.getElementById('modal-delete').style.display = 'none';
   }, 250);
 }
 
@@ -640,8 +577,7 @@ function openAdd() {
   document.getElementById('modal-title').textContent = 'Add to Library';
   clearForm();
   editingId = null;
-  modalForm.style.display = '';
-  deleteConfirm.style.display = 'none';
+  document.getElementById('modal-delete').style.display = 'none';
   openModal();
   setTimeout(() => document.getElementById('f-title').focus(), 300);
 }
@@ -653,18 +589,8 @@ function openEdit(movie) {
   document.getElementById('f-url').value = movie.url || '';
   document.getElementById('f-poster').value = movie.posterUrl || '';
   editingId = movie.id;
-  modalForm.style.display = '';
-  deleteConfirm.style.display = 'none';
+  document.getElementById('modal-delete').style.display = '';
   if (movie.posterUrl) showPosterPreview(movie.posterUrl);
-  openModal();
-}
-
-function openDelete(movie) {
-  document.getElementById('modal-title').textContent = 'Remove Title';
-  document.getElementById('del-title-name').textContent = '"' + movie.title + '"';
-  pendingDeleteId = movie.id;
-  modalForm.style.display = 'none';
-  deleteConfirm.style.display = '';
   openModal();
 }
 
@@ -682,6 +608,7 @@ document.getElementById('f-poster').addEventListener('input', e => {
 document.getElementById('open-add').addEventListener('click', openAdd);
 
 document.getElementById('modal-cancel').addEventListener('click', closeModal);
+
 document.getElementById('modal-save').addEventListener('click', () => {
   const title = document.getElementById('f-title').value.trim();
   if (!title) { document.getElementById('f-title').focus(); return; }
@@ -701,9 +628,10 @@ document.getElementById('modal-save').addEventListener('click', () => {
   render();
 });
 
-document.getElementById('del-cancel').addEventListener('click', closeModal);
-document.getElementById('del-confirm').addEventListener('click', () => {
-  movies = movies.filter(m => m.id !== pendingDeleteId);
+document.getElementById('modal-delete').addEventListener('click', () => {
+  if (!editingId) return;
+  if (!confirm('Remove this title from your library?')) return;
+  movies = movies.filter(m => m.id !== editingId);
   saveMovies(movies);
   closeModal();
   render();
