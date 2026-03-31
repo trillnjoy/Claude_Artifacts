@@ -226,7 +226,21 @@
       border-radius: 0 0 4px 4px;
     }
 
-    /* ── GEAR ICON ── */
+    /* ── CATEGORY DIVIDER ── */
+    .cat-divider {
+      grid-column: 1 / -1;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold-dim);
+      padding-bottom: 4px;
+      margin-top: 6px;
+    }
+    .cat-divider:first-child { margin-top: 0; }
+
+
     .tile-gear {
       position: absolute;
       top: 0;
@@ -476,13 +490,118 @@ function categories() {
   return cats;
 }
 
-function filteredSorted() {
-  return movies
-    .filter(m => !filterCat || m.category === filterCat)
-    .sort((a, b) => a.title.localeCompare(b.title));
+const CAT_PRIORITY = ['Kids', 'Kids Books', 'Music'];
+
+function groupedAndSorted() {
+  const list = movies.filter(m => !filterCat || m.category === filterCat);
+
+  // Build map of category -> sorted titles
+  const map = {};
+  list.forEach(m => {
+    const cat = m.category || 'Uncategorized';
+    if (!map[cat]) map[cat] = [];
+    map[cat].push(m);
+  });
+  Object.values(map).forEach(arr => arr.sort((a, b) => a.title.localeCompare(b.title)));
+
+  // Order: priority cats first (in order), then remaining alpha
+  const priorityKeys = CAT_PRIORITY.filter(c => map[c]);
+  const remainderKeys = Object.keys(map)
+    .filter(c => !CAT_PRIORITY.includes(c))
+    .sort();
+  const orderedKeys = [...priorityKeys, ...remainderKeys];
+
+  return { map, orderedKeys };
 }
 
-function renderFilter() {
+function filteredSorted() {
+  // Flat sorted list used only for count badge
+  return movies.filter(m => !filterCat || m.category === filterCat);
+}
+
+function renderLibrary() {
+  const lib = document.getElementById('library');
+  const { map, orderedKeys } = groupedAndSorted();
+  const total = Object.values(map).reduce((n, arr) => n + arr.length, 0);
+
+  document.getElementById('count-badge').textContent =
+    total + ' title' + (total !== 1 ? 's' : '');
+
+  if (total === 0) {
+    lib.innerHTML = `<div class="empty-state">
+      <div class="icon">🎬</div>
+      <p>${filterCat ? 'No titles in this category.' : 'Your library is empty.<br>Tap + to add a film.'}</p>
+    </div>`;
+    return;
+  }
+
+  lib.innerHTML = '';
+
+  // When filtered to a single category, skip the divider
+  const showDividers = !filterCat || orderedKeys.length > 1;
+
+  orderedKeys.forEach(cat => {
+    if (showDividers) {
+      const divider = document.createElement('div');
+      divider.className = 'cat-divider';
+      divider.textContent = cat;
+      lib.appendChild(divider);
+    }
+
+    map[cat].forEach(movie => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      tile.dataset.id = movie.id;
+
+      const posterAspect = document.createElement('div');
+      posterAspect.className = 'tile-poster-aspect';
+
+      const posterWrap = document.createElement('div');
+      posterWrap.className = 'tile-poster-wrap';
+      posterWrap.style.width = '100%';
+      posterWrap.style.height = '100%';
+
+      if (movie.posterUrl) {
+        const img = document.createElement('img');
+        img.className = 'tile-poster';
+        img.src = movie.posterUrl;
+        img.alt = movie.title;
+        img.draggable = false;
+        img.onerror = () => { posterWrap.innerHTML = noPosterHTML(); };
+        posterWrap.appendChild(img);
+      } else {
+        posterWrap.innerHTML = noPosterHTML();
+      }
+
+      posterAspect.appendChild(posterWrap);
+
+      const titleEl = document.createElement('div');
+      titleEl.className = 'tile-title';
+      titleEl.textContent = movie.title;
+
+      const gear = document.createElement('div');
+      gear.className = 'tile-gear';
+      gear.setAttribute('aria-label', 'Edit ' + movie.title);
+      gear.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>`;
+
+      tile.appendChild(posterAspect);
+      tile.appendChild(titleEl);
+      tile.appendChild(gear);
+      lib.appendChild(tile);
+
+      posterAspect.addEventListener('click', () => { if (movie.url) window.open(movie.url, '_blank'); });
+      titleEl.addEventListener('click', () => { if (movie.url) window.open(movie.url, '_blank'); });
+
+      gear.addEventListener('click', e => {
+        e.stopPropagation();
+        openEdit(movie);
+      });
+    });
+  });
+}
   const sel = document.getElementById('cat-filter');
   const prev = sel.value;
   sel.innerHTML = '<option value="">— All —</option>';
