@@ -2,1216 +2,640 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Peds BP Calc">
     <title>Pediatric BP Calculator - 2017 AAP Guidelines</title>
     <meta name="description" content="Pediatric Blood Pressure Calculator based on 2017 AAP Clinical Practice Guideline">
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="./bp-calculator-manifest.json">
-    
-    <!-- Theme colors -->
     <meta name="theme-color" content="#0066CC">
-    
-    <!-- React and ReactDOM from CDN -->
-    <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
-    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overscroll-behavior: none;
+            background-color: #BFBFBF;
+            min-height: 100vh;
         }
-        #root { width: 100%; min-height: 100vh; }
         
-        /* Loading screen */
-        .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+        /* Header */
+        .header {
             background: linear-gradient(135deg, #0066CC 0%, #00A3A3 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: white; z-index: 9999; }
-        .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loaded .loading { display: none; }
+            color: white;
+            padding: 24px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        /* Main */
+        .main {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .card h2 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+        
+        /* Age slider */
+        .age-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .age-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0066CC;
+            background: rgba(0,102,204,0.1);
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            background: #E0E0E0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #0066CC;
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #0066CC;
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Sex toggle */
+        .sex-toggle {
+            position: relative;
+            display: flex;
+            background: #E0E0E0;
+            border-radius: 12px;
+            padding: 4px;
+            height: 48px;
+        }
+        .sex-slider {
+            position: absolute;
+            width: calc(50% - 4px);
+            height: 40px;
+            background: #0066CC;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,102,204,0.3);
+        }
+        .sex-slider.female {
+            transform: translateX(calc(100% + 4px));
+        }
+        .sex-button {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+            color: #2C3E50;
+        }
+        .sex-button.active {
+            color: white;
+        }
+        
+        /* Height input */
+        .height-input-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .height-input-group input {
+            flex: 1;
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            outline: none;
+        }
+        .height-input-group input:focus {
+            border-color: #0066CC;
+        }
+        .unit-radios {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .radio-label input {
+            margin-right: 6px;
+            cursor: pointer;
+            accent-color: #0066CC;
+        }
+        
+        /* Results */
+        .patient-summary {
+            background: rgba(0,102,204,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(0,102,204,0.3);
+        }
+        .patient-summary p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+        
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        thead tr {
+            background: #E0E0E0;
+        }
+        th {
+            padding: 12px 8px;
+            font-weight: 700;
+            color: #000;
+            border-bottom: 2px solid #2C3E50;
+        }
+        th:nth-child(1) { text-align: left; }
+        th:nth-child(2), th:nth-child(3) { text-align: center; }
+        th:nth-child(4) { text-align: left; }
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        td:nth-child(1) { font-weight: 600; color: #000; }
+        td:nth-child(2), td:nth-child(3) { text-align: center; font-weight: 700; }
+        td:nth-child(4) { font-weight: 600; }
+        
+        /* Note */
+        .note {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(0,163,163,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0,163,163,0.4);
+            font-size: 13px;
+            color: #2C3E50;
+        }
+        
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        button {
+            flex: 1;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            background: white;
+            color: #2C3E50;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        /* Hidden */
+        .hidden {
+            display: none;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+        .footer p {
+            margin: 0 0 8px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="loading">
-        <div class="spinner"></div>
-        <p>Loading Pediatric BP Calculator...</p>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-top">
+                <svg class="logo" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 30,15 Q 20,10 15,20 Q 12,30 20,40 Q 30,45 40,38 L 45,45 Q 38,35 30,15 Z" fill="#FFD100" stroke="#005EB8" stroke-width="3"/>
+                    <path d="M 70,15 Q 80,10 85,20 Q 88,30 80,40 Q 70,48 58,42 L 55,45 Q 62,35 70,15 Z" fill="#00AEEF" stroke="#005EB8" stroke-width="3"/>
+                    <path d="M 30,85 Q 20,90 15,80 Q 10,68 20,58 Q 32,52 42,60 L 45,55 Q 38,65 30,85 Z" fill="#8DC63F" stroke="#005EB8" stroke-width="3"/>
+                    <path d="M 70,85 Q 80,90 85,80 Q 90,68 80,58 Q 68,52 58,60 L 55,55 Q 62,65 70,85 Z" fill="#ED1C24" stroke="#005EB8" stroke-width="3"/>
+                    <ellipse cx="50" cy="50" rx="5" ry="8" fill="#005EB8"/>
+                </svg>
+                <h1>Pediatric BP Calculator</h1>
+            </div>
+            <p>Based on 2017 AAP Clinical Practice Guideline</p>
+        </div>
     </div>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // Inline Lucide icons
-        const Info = ({ size = 18 }) => (
-            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-            </svg>
-        );
-        const RotateCcw = ({ size = 18 }) => (
-            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
-            </svg>
-        );
-        const BookOpen = ({ size = 18 }) => (
-            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-            </svg>
-        );
-
-
-// Color Palette - inspired by vibrant medical branding
-const COLORS = {
-  primary: '#0066CC',      // Primary Blue
-  secondary: '#FF6B35',    // Orange
-  accent: '#9B59B6',       // Purple
-  teal: '#00A3A3',        // Teal
-  success: '#27AE60',
-  warning: '#F39C12',
-  danger: '#E74C3C',
-  light: '#F8F9FA',
-  dark: '#2C3E50',
-  border: '#E0E0E0',
-  background: '#BFBFBF'   // 25% gray (75% lightness)
-};
-
-// Adult thresholds from Table 3 (2017 AAP)
-const ADULT_THRESHOLDS = {
-  elevated: { sbp: 120, dbp: 80 },
-  stage1: { sbp: 130, dbp: 80 },
-  stage2: { sbp: 140, dbp: 90 }
-};
-
-// BP data tables for boys (Table 4) - Ages 1-17
-const BOYS_BP_TABLE = {
-  1: {
-    heights: [77.2, 78.3, 80.2, 82.4, 84.6, 86.7, 87.9],
-    percentiles: {
-      50: { sbp: [85, 85, 86, 86, 87, 88, 88], dbp: [40, 40, 40, 41, 41, 42, 42] },
-      90: { sbp: [98, 99, 99, 100, 100, 101, 101], dbp: [52, 52, 53, 53, 54, 54, 54] },
-      95: { sbp: [102, 102, 103, 103, 104, 105, 105], dbp: [54, 54, 55, 55, 56, 57, 57] },
-      '95+12': { sbp: [114, 114, 115, 115, 116, 117, 117], dbp: [66, 66, 67, 67, 68, 69, 69] }
-    }
-  },
-  2: {
-    heights: [86.1, 87.4, 89.6, 92.1, 94.7, 97.1, 98.5],
-    percentiles: {
-      50: { sbp: [87, 87, 88, 89, 89, 90, 91], dbp: [43, 43, 44, 44, 45, 46, 46] },
-      90: { sbp: [100, 100, 101, 102, 103, 103, 104], dbp: [55, 55, 56, 56, 57, 58, 58] },
-      95: { sbp: [104, 105, 105, 106, 107, 107, 108], dbp: [57, 58, 58, 59, 60, 61, 61] },
-      '95+12': { sbp: [116, 117, 117, 118, 119, 119, 120], dbp: [69, 70, 70, 71, 72, 73, 73] }
-    }
-  },
-  3: {
-    heights: [92.5, 93.9, 96.3, 99, 101.8, 104.3, 105.8],
-    percentiles: {
-      50: { sbp: [88, 89, 89, 90, 91, 92, 92], dbp: [45, 46, 46, 47, 48, 49, 49] },
-      90: { sbp: [101, 102, 102, 103, 104, 105, 105], dbp: [58, 58, 59, 59, 60, 61, 61] },
-      95: { sbp: [106, 106, 107, 107, 108, 109, 109], dbp: [60, 61, 61, 62, 63, 64, 64] },
-      '95+12': { sbp: [118, 118, 119, 119, 120, 121, 121], dbp: [72, 73, 73, 74, 75, 76, 76] }
-    }
-  },
-  4: {
-    heights: [98.5, 100.2, 102.9, 105.9, 108.9, 111.5, 113.2],
-    percentiles: {
-      50: { sbp: [90, 90, 91, 92, 93, 94, 94], dbp: [48, 49, 49, 50, 51, 52, 52] },
-      90: { sbp: [102, 103, 104, 105, 105, 106, 107], dbp: [60, 61, 62, 62, 63, 64, 64] },
-      95: { sbp: [107, 107, 108, 108, 109, 110, 110], dbp: [63, 64, 65, 66, 67, 67, 68] },
-      '95+12': { sbp: [119, 119, 120, 120, 121, 122, 122], dbp: [75, 76, 77, 78, 79, 79, 80] }
-    }
-  },
-  5: {
-    heights: [104.4, 106.2, 109.1, 112.4, 115.7, 118.6, 120.3],
-    percentiles: {
-      50: { sbp: [91, 92, 93, 94, 95, 96, 96], dbp: [51, 51, 52, 53, 54, 55, 55] },
-      90: { sbp: [103, 104, 105, 106, 107, 108, 108], dbp: [63, 64, 65, 65, 66, 67, 67] },
-      95: { sbp: [107, 108, 109, 109, 110, 111, 112], dbp: [66, 67, 68, 69, 70, 70, 71] },
-      '95+12': { sbp: [119, 120, 121, 121, 122, 123, 124], dbp: [78, 79, 80, 81, 82, 82, 83] }
-    }
-  },
-  6: {
-    heights: [110.3, 112.2, 115.3, 118.9, 122.4, 125.6, 127.5],
-    percentiles: {
-      50: { sbp: [93, 93, 94, 95, 96, 97, 98], dbp: [54, 54, 55, 56, 57, 57, 58] },
-      90: { sbp: [105, 105, 106, 107, 109, 110, 110], dbp: [66, 66, 67, 68, 68, 69, 69] },
-      95: { sbp: [108, 109, 110, 111, 112, 113, 114], dbp: [69, 70, 70, 71, 72, 72, 73] },
-      '95+12': { sbp: [120, 121, 122, 123, 124, 125, 126], dbp: [81, 82, 82, 83, 84, 84, 85] }
-    }
-  },
-  7: {
-    heights: [116.1, 118, 121.4, 125.1, 128.9, 132.4, 134.5],
-    percentiles: {
-      50: { sbp: [94, 94, 95, 97, 98, 98, 99], dbp: [56, 56, 57, 58, 58, 59, 59] },
-      90: { sbp: [106, 107, 108, 109, 110, 111, 111], dbp: [68, 68, 69, 70, 70, 71, 71] },
-      95: { sbp: [110, 110, 111, 112, 114, 115, 116], dbp: [71, 71, 72, 73, 73, 74, 74] },
-      '95+12': { sbp: [122, 122, 123, 124, 126, 127, 128], dbp: [83, 83, 84, 85, 85, 86, 86] }
-    }
-  },
-  8: {
-    heights: [121.4, 123.5, 127, 131, 135.1, 138.8, 141],
-    percentiles: {
-      50: { sbp: [95, 96, 97, 98, 99, 99, 100], dbp: [57, 57, 58, 59, 59, 60, 60] },
-      90: { sbp: [107, 108, 109, 110, 111, 112, 112], dbp: [69, 70, 70, 71, 72, 72, 73] },
-      95: { sbp: [111, 112, 112, 114, 115, 116, 117], dbp: [72, 73, 73, 74, 75, 75, 75] },
-      '95+12': { sbp: [123, 124, 124, 126, 127, 128, 129], dbp: [84, 85, 85, 86, 87, 87, 87] }
-    }
-  },
-  9: {
-    heights: [126, 128.3, 132.1, 136.3, 140.7, 144.7, 147.1],
-    percentiles: {
-      50: { sbp: [96, 97, 98, 99, 100, 101, 101], dbp: [57, 58, 59, 60, 61, 62, 62] },
-      90: { sbp: [107, 108, 109, 110, 112, 113, 114], dbp: [70, 71, 72, 73, 74, 74, 74] },
-      95: { sbp: [112, 112, 113, 115, 116, 118, 119], dbp: [74, 74, 75, 76, 76, 77, 77] },
-      '95+12': { sbp: [124, 124, 125, 127, 128, 130, 131], dbp: [86, 86, 87, 88, 88, 89, 89] }
-    }
-  },
-  10: {
-    heights: [130.2, 132.7, 136.7, 141.3, 145.9, 150.1, 152.7],
-    percentiles: {
-      50: { sbp: [97, 98, 99, 100, 101, 102, 103], dbp: [59, 60, 61, 62, 63, 63, 64] },
-      90: { sbp: [108, 109, 111, 112, 113, 115, 116], dbp: [72, 73, 74, 74, 75, 75, 76] },
-      95: { sbp: [112, 113, 114, 116, 118, 120, 121], dbp: [76, 76, 77, 77, 78, 78, 78] },
-      '95+12': { sbp: [124, 125, 126, 128, 130, 132, 133], dbp: [88, 88, 89, 89, 90, 90, 90] }
-    }
-  },
-  11: {
-    heights: [134.7, 137.3, 141.5, 146.4, 151.3, 155.8, 158.6],
-    percentiles: {
-      50: { sbp: [99, 99, 101, 102, 103, 104, 106], dbp: [61, 61, 62, 63, 63, 63, 63] },
-      90: { sbp: [110, 111, 112, 114, 116, 117, 118], dbp: [74, 74, 75, 75, 75, 76, 76] },
-      95: { sbp: [114, 114, 116, 118, 120, 123, 124], dbp: [77, 78, 78, 78, 78, 78, 78] },
-      '95+12': { sbp: [126, 126, 128, 130, 132, 135, 136], dbp: [89, 90, 90, 90, 90, 90, 90] }
-    }
-  },
-  12: {
-    heights: [140.3, 143, 147.5, 152.7, 157.9, 162.6, 165.5],
-    percentiles: {
-      50: { sbp: [101, 101, 102, 104, 106, 108, 109], dbp: [61, 62, 62, 62, 62, 63, 63] },
-      90: { sbp: [113, 114, 115, 117, 119, 121, 122], dbp: [75, 75, 75, 75, 75, 76, 76] },
-      95: { sbp: [116, 117, 118, 121, 124, 126, 128], dbp: [78, 78, 78, 78, 78, 79, 79] },
-      '95+12': { sbp: [128, 129, 130, 133, 136, 138, 140], dbp: [90, 90, 90, 90, 90, 91, 91] }
-    }
-  },
-  13: {
-    heights: [147, 150, 154.9, 160.3, 165.7, 170.5, 173.4],
-    percentiles: {
-      50: { sbp: [103, 104, 105, 108, 110, 111, 112], dbp: [61, 60, 61, 62, 63, 64, 65] },
-      90: { sbp: [115, 116, 118, 121, 124, 126, 126], dbp: [74, 74, 74, 75, 76, 77, 77] },
-      95: { sbp: [119, 120, 122, 125, 128, 130, 131], dbp: [78, 78, 78, 78, 80, 81, 81] },
-      '95+12': { sbp: [131, 132, 134, 137, 140, 142, 143], dbp: [90, 90, 90, 90, 92, 93, 93] }
-    }
-  },
-  14: {
-    heights: [153.8, 156.9, 162, 167.5, 172.7, 177.4, 180.1],
-    percentiles: {
-      50: { sbp: [105, 106, 109, 111, 112, 113, 113], dbp: [60, 60, 62, 64, 65, 66, 67] },
-      90: { sbp: [119, 120, 123, 126, 127, 128, 129], dbp: [74, 74, 75, 77, 78, 79, 80] },
-      95: { sbp: [123, 125, 127, 130, 132, 133, 134], dbp: [77, 78, 79, 81, 82, 83, 84] },
-      '95+12': { sbp: [135, 137, 139, 142, 144, 145, 146], dbp: [89, 90, 91, 93, 94, 95, 96] }
-    }
-  },
-  15: {
-    heights: [159, 162, 166.9, 172.2, 177.2, 181.6, 184.2],
-    percentiles: {
-      50: { sbp: [108, 110, 112, 113, 114, 114, 114], dbp: [61, 62, 64, 65, 66, 67, 68] },
-      90: { sbp: [123, 124, 126, 128, 129, 130, 130], dbp: [75, 76, 78, 79, 80, 81, 81] },
-      95: { sbp: [127, 129, 131, 132, 134, 135, 135], dbp: [78, 79, 81, 83, 84, 85, 85] },
-      '95+12': { sbp: [139, 141, 143, 144, 146, 147, 147], dbp: [90, 91, 93, 95, 96, 97, 97] }
-    }
-  },
-  16: {
-    heights: [162.1, 165, 169.6, 174.6, 179.5, 183.8, 186.4],
-    percentiles: {
-      50: { sbp: [111, 112, 114, 115, 115, 116, 116], dbp: [63, 64, 66, 67, 68, 69, 69] },
-      90: { sbp: [126, 127, 128, 129, 131, 131, 132], dbp: [77, 78, 79, 80, 81, 82, 82] },
-      95: { sbp: [130, 131, 133, 134, 135, 136, 137], dbp: [80, 81, 83, 84, 85, 86, 86] },
-      '95+12': { sbp: [142, 143, 145, 146, 147, 148, 149], dbp: [92, 93, 95, 96, 97, 98, 98] }
-    }
-  },
-  17: {
-    heights: [163.8, 166.5, 170.9, 175.8, 180.7, 184.9, 187.5],
-    percentiles: {
-      50: { sbp: [114, 115, 116, 117, 117, 118, 118], dbp: [65, 66, 67, 68, 69, 70, 70] },
-      90: { sbp: [128, 129, 130, 131, 132, 133, 134], dbp: [78, 79, 80, 81, 82, 82, 83] },
-      95: { sbp: [132, 133, 134, 135, 137, 138, 138], dbp: [81, 82, 84, 85, 86, 86, 87] },
-      '95+12': { sbp: [144, 145, 146, 147, 149, 150, 150], dbp: [93, 94, 96, 97, 98, 98, 99] }
-    }
-  }
-};
-
-// BP data tables for girls (Table 5) - Ages 1-17
-const GIRLS_BP_TABLE = {
-  1: {
-    heights: [75.4, 76.6, 78.6, 80.8, 83, 84.9, 86.1],
-    percentiles: {
-      50: { sbp: [84, 85, 86, 86, 87, 88, 88], dbp: [41, 42, 42, 43, 44, 45, 46] },
-      90: { sbp: [98, 99, 99, 100, 101, 102, 102], dbp: [54, 55, 56, 56, 57, 58, 58] },
-      95: { sbp: [101, 102, 102, 103, 104, 105, 105], dbp: [59, 59, 60, 60, 61, 62, 62] },
-      '95+12': { sbp: [113, 114, 114, 115, 116, 117, 117], dbp: [71, 71, 72, 72, 73, 74, 74] }
-    }
-  },
-  2: {
-    heights: [84.9, 86.3, 88.6, 91.1, 93.7, 96, 97.4],
-    percentiles: {
-      50: { sbp: [87, 87, 88, 89, 90, 91, 91], dbp: [45, 46, 47, 48, 49, 50, 51] },
-      90: { sbp: [101, 101, 102, 103, 104, 105, 106], dbp: [58, 58, 59, 60, 61, 62, 62] },
-      95: { sbp: [104, 105, 106, 106, 107, 108, 109], dbp: [62, 63, 63, 64, 65, 66, 66] },
-      '95+12': { sbp: [116, 117, 118, 118, 119, 120, 121], dbp: [74, 75, 75, 76, 77, 78, 78] }
-    }
-  },
-  3: {
-    heights: [91, 92.4, 94.9, 97.6, 100.5, 103.1, 104.6],
-    percentiles: {
-      50: { sbp: [88, 89, 89, 90, 91, 92, 93], dbp: [48, 48, 49, 50, 51, 53, 53] },
-      90: { sbp: [102, 103, 104, 104, 105, 106, 107], dbp: [60, 61, 61, 62, 63, 64, 65] },
-      95: { sbp: [106, 106, 107, 108, 109, 110, 110], dbp: [64, 65, 65, 66, 67, 68, 69] },
-      '95+12': { sbp: [118, 118, 119, 120, 121, 122, 122], dbp: [76, 77, 77, 78, 79, 80, 81] }
-    }
-  },
-  4: {
-    heights: [97.2, 98.8, 101.4, 104.5, 107.6, 110.5, 112.2],
-    percentiles: {
-      50: { sbp: [89, 90, 91, 92, 93, 94, 94], dbp: [50, 51, 51, 53, 54, 55, 55] },
-      90: { sbp: [103, 104, 105, 106, 107, 108, 108], dbp: [62, 63, 64, 65, 66, 67, 67] },
-      95: { sbp: [107, 108, 109, 109, 110, 111, 112], dbp: [66, 67, 68, 69, 70, 70, 71] },
-      '95+12': { sbp: [119, 120, 121, 121, 122, 123, 124], dbp: [78, 79, 80, 81, 82, 82, 83] }
-    }
-  },
-  5: {
-    heights: [103.6, 105.3, 108.2, 111.5, 114.9, 118.1, 120],
-    percentiles: {
-      50: { sbp: [90, 91, 92, 93, 94, 95, 96], dbp: [52, 52, 53, 55, 56, 57, 57] },
-      90: { sbp: [104, 105, 106, 107, 108, 109, 110], dbp: [64, 65, 66, 67, 68, 69, 70] },
-      95: { sbp: [108, 109, 109, 110, 111, 112, 113], dbp: [68, 69, 70, 71, 72, 73, 73] },
-      '95+12': { sbp: [120, 121, 121, 122, 123, 124, 125], dbp: [80, 81, 82, 83, 84, 85, 85] }
-    }
-  },
-  6: {
-    heights: [110, 111.8, 114.9, 118.4, 122.1, 125.6, 127.7],
-    percentiles: {
-      50: { sbp: [92, 92, 93, 94, 96, 97, 97], dbp: [54, 54, 55, 56, 57, 58, 59] },
-      90: { sbp: [105, 106, 107, 108, 109, 110, 111], dbp: [67, 67, 68, 69, 70, 71, 71] },
-      95: { sbp: [109, 109, 110, 111, 112, 113, 114], dbp: [70, 71, 72, 72, 73, 74, 74] },
-      '95+12': { sbp: [121, 121, 122, 123, 124, 125, 126], dbp: [82, 83, 84, 84, 85, 86, 86] }
-    }
-  },
-  7: {
-    heights: [115.9, 117.8, 121.1, 124.9, 128.8, 132.5, 134.7],
-    percentiles: {
-      50: { sbp: [92, 93, 94, 95, 97, 98, 99], dbp: [55, 55, 56, 57, 58, 59, 60] },
-      90: { sbp: [106, 106, 107, 109, 110, 111, 112], dbp: [68, 68, 69, 70, 71, 72, 72] },
-      95: { sbp: [109, 110, 111, 112, 113, 114, 115], dbp: [72, 72, 73, 73, 74, 74, 75] },
-      '95+12': { sbp: [121, 122, 123, 124, 125, 126, 127], dbp: [84, 84, 85, 85, 86, 86, 87] }
-    }
-  },
-  8: {
-    heights: [121, 123, 126.5, 130.6, 134.7, 138.5, 140.9],
-    percentiles: {
-      50: { sbp: [93, 94, 95, 97, 98, 99, 100], dbp: [56, 56, 57, 59, 60, 61, 61] },
-      90: { sbp: [107, 107, 108, 110, 111, 112, 113], dbp: [69, 70, 71, 72, 72, 73, 73] },
-      95: { sbp: [110, 111, 112, 113, 115, 116, 117], dbp: [72, 73, 74, 74, 75, 75, 75] },
-      '95+12': { sbp: [122, 123, 124, 125, 127, 128, 129], dbp: [84, 85, 86, 86, 87, 87, 87] }
-    }
-  },
-  9: {
-    heights: [125.3, 127.6, 131.3, 135.6, 140.1, 144.1, 146.6],
-    percentiles: {
-      50: { sbp: [95, 95, 97, 98, 99, 100, 101], dbp: [57, 58, 59, 60, 60, 61, 61] },
-      90: { sbp: [108, 108, 109, 111, 112, 113, 114], dbp: [71, 71, 72, 73, 73, 73, 73] },
-      95: { sbp: [112, 112, 113, 114, 116, 117, 118], dbp: [74, 74, 75, 75, 75, 75, 75] },
-      '95+12': { sbp: [124, 124, 125, 126, 128, 129, 130], dbp: [86, 86, 87, 87, 87, 87, 87] }
-    }
-  },
-  10: {
-    heights: [129.7, 132.2, 136.3, 141, 145.8, 150.2, 152.8],
-    percentiles: {
-      50: { sbp: [96, 97, 98, 99, 101, 102, 103], dbp: [58, 59, 59, 60, 61, 61, 62] },
-      90: { sbp: [109, 110, 111, 112, 113, 115, 116], dbp: [72, 73, 73, 73, 73, 73, 73] },
-      95: { sbp: [113, 114, 114, 116, 117, 119, 120], dbp: [75, 75, 76, 76, 76, 76, 76] },
-      '95+12': { sbp: [125, 126, 126, 128, 129, 131, 132], dbp: [87, 87, 88, 88, 88, 88, 88] }
-    }
-  },
-  11: {
-    heights: [135.6, 138.3, 142.8, 147.8, 152.8, 157.3, 160],
-    percentiles: {
-      50: { sbp: [98, 99, 101, 102, 104, 105, 106], dbp: [60, 60, 60, 61, 62, 63, 64] },
-      90: { sbp: [111, 112, 113, 114, 116, 118, 120], dbp: [74, 74, 74, 74, 74, 75, 75] },
-      95: { sbp: [115, 116, 117, 118, 120, 123, 124], dbp: [76, 77, 77, 77, 77, 77, 77] },
-      '95+12': { sbp: [127, 128, 129, 130, 132, 135, 136], dbp: [88, 89, 89, 89, 89, 89, 89] }
-    }
-  },
-  12: {
-    heights: [142.8, 145.5, 149.9, 154.8, 159.6, 163.8, 166.4],
-    percentiles: {
-      50: { sbp: [102, 102, 104, 105, 107, 108, 108], dbp: [61, 61, 61, 62, 64, 65, 65] },
-      90: { sbp: [114, 115, 116, 118, 120, 122, 122], dbp: [75, 75, 75, 75, 76, 76, 76] },
-      95: { sbp: [118, 119, 120, 122, 124, 125, 126], dbp: [78, 78, 78, 78, 79, 79, 79] },
-      '95+12': { sbp: [130, 131, 132, 134, 136, 137, 138], dbp: [90, 90, 90, 90, 91, 91, 91] }
-    }
-  },
-  13: {
-    heights: [148.1, 150.6, 154.7, 159.2, 163.7, 167.8, 170.2],
-    percentiles: {
-      50: { sbp: [104, 105, 106, 107, 108, 108, 109], dbp: [62, 62, 63, 64, 65, 65, 66] },
-      90: { sbp: [116, 117, 119, 121, 122, 123, 123], dbp: [75, 75, 75, 76, 76, 76, 76] },
-      95: { sbp: [121, 122, 123, 124, 126, 126, 127], dbp: [79, 79, 79, 79, 80, 80, 81] },
-      '95+12': { sbp: [133, 134, 135, 136, 138, 138, 139], dbp: [91, 91, 91, 91, 92, 92, 93] }
-    }
-  },
-  14: {
-    heights: [150.6, 153, 156.9, 161.3, 165.7, 169.7, 172.1],
-    percentiles: {
-      50: { sbp: [105, 106, 107, 108, 109, 109, 109], dbp: [63, 63, 64, 65, 66, 66, 66] },
-      90: { sbp: [118, 118, 120, 122, 123, 123, 123], dbp: [76, 76, 76, 76, 77, 77, 77] },
-      95: { sbp: [123, 123, 124, 125, 126, 127, 127], dbp: [80, 80, 80, 80, 81, 81, 82] },
-      '95+12': { sbp: [135, 135, 136, 137, 138, 139, 139], dbp: [92, 92, 92, 92, 93, 93, 94] }
-    }
-  },
-  15: {
-    heights: [151.7, 154, 157.9, 162.3, 166.7, 170.6, 173],
-    percentiles: {
-      50: { sbp: [105, 106, 107, 108, 109, 109, 109], dbp: [64, 64, 64, 65, 66, 67, 67] },
-      90: { sbp: [118, 119, 121, 122, 123, 123, 124], dbp: [76, 76, 76, 77, 77, 78, 78] },
-      95: { sbp: [124, 124, 125, 126, 127, 127, 128], dbp: [80, 80, 80, 81, 82, 82, 82] },
-      '95+12': { sbp: [136, 136, 137, 138, 139, 139, 140], dbp: [92, 92, 92, 93, 94, 94, 94] }
-    }
-  },
-  16: {
-    heights: [152.1, 154.5, 158.4, 162.8, 167.1, 171.1, 173.4],
-    percentiles: {
-      50: { sbp: [106, 107, 108, 109, 109, 110, 110], dbp: [64, 64, 65, 66, 66, 67, 67] },
-      90: { sbp: [119, 120, 122, 123, 124, 124, 124], dbp: [76, 76, 76, 77, 78, 78, 78] },
-      95: { sbp: [124, 125, 125, 127, 127, 128, 128], dbp: [80, 80, 80, 81, 82, 82, 82] },
-      '95+12': { sbp: [136, 137, 137, 139, 139, 140, 140], dbp: [92, 92, 92, 93, 94, 94, 94] }
-    }
-  },
-  17: {
-    heights: [152.4, 154.7, 158.7, 163, 167.4, 171.3, 173.7],
-    percentiles: {
-      50: { sbp: [107, 108, 109, 110, 110, 110, 111], dbp: [64, 64, 65, 66, 66, 66, 67] },
-      90: { sbp: [120, 121, 123, 124, 124, 125, 125], dbp: [76, 76, 77, 77, 78, 78, 78] },
-      95: { sbp: [125, 125, 126, 127, 128, 128, 128], dbp: [80, 80, 80, 81, 82, 82, 82] },
-      '95+12': { sbp: [137, 137, 138, 139, 140, 140, 140], dbp: [92, 92, 92, 93, 94, 94, 94] }
-    }
-  }
-};
-
-function PediatricBPCalculator() {
-  const [age, setAge] = useState(10);
-  const [sex, setSex] = useState('Male');
-  const [height, setHeight] = useState('');
-  const [unit, setUnit] = useState('cm');
-  const [result, setResult] = useState(null);
-  const [showInstructions, setShowInstructions] = useState(false);
-  const [showReferences, setShowReferences] = useState(false);
-
-  const cmToInches = (cm) => cm / 2.54;
-  const inchesToCm = (inches) => inches * 2.54;
-
-  const getHeightInCm = () => {
-    const h = parseFloat(height);
-    if (isNaN(h) || h <= 0) return null;
-    return unit === 'in' ? inchesToCm(h) : h;
-  };
-
-  const findBPValues = () => {
-    const ageNum = parseInt(age);
-    const heightCm = getHeightInCm();
-    const sexStr = sex.toLowerCase();
-
-    if (!ageNum || !heightCm || !sexStr || ageNum < 1 || ageNum > 25 || heightCm <= 0) {
-      return null;
-    }
-
-    // For ages 13+, use adult thresholds (Table 3)
-    if (ageNum >= 13) {
-      return {
-        useAdult: true,
-        age: ageNum,
-        sex: sexStr,
-        height: heightCm,
-        values: {
-          '50th Percentile': { sbp: 110, dbp: 70, classification: 'Normal (<120/<80)' },
-          '90th Percentile': { sbp: ADULT_THRESHOLDS.elevated.sbp, dbp: ADULT_THRESHOLDS.elevated.dbp, classification: 'Elevated BP' },
-          '95th Percentile': { sbp: ADULT_THRESHOLDS.stage1.sbp, dbp: ADULT_THRESHOLDS.stage1.dbp, classification: 'Stage 1 HTN' },
-          '95th Percentile + 12 mmHg': { sbp: ADULT_THRESHOLDS.stage2.sbp, dbp: ADULT_THRESHOLDS.stage2.dbp, classification: 'Stage 2 HTN' }
-        }
-      };
-    }
-
-    // For ages 1-12, use pediatric tables
-    const table = sexStr === 'male' ? BOYS_BP_TABLE : GIRLS_BP_TABLE;
-    const ageData = table[ageNum];
-    
-    if (!ageData) {
-      return null;
-    }
-
-    // Find the greatest height that the patient's height has exceeded
-    const heights = ageData.heights;
-    let heightIndex = 0;
-    for (let i = 0; i < heights.length; i++) {
-      if (heightCm >= heights[i]) {
-        heightIndex = i;
-      }
-    }
-
-    // Get BP values for this height
-    const percentiles = ageData.percentiles;
-    const sbp50 = percentiles[50].sbp[heightIndex];
-    const dbp50 = percentiles[50].dbp[heightIndex];
-    const sbp90 = percentiles[90].sbp[heightIndex];
-    const dbp90 = percentiles[90].dbp[heightIndex];
-    const sbp95 = percentiles[95].sbp[heightIndex];
-    const dbp95 = percentiles[95].dbp[heightIndex];
-    const sbp95plus12 = percentiles['95+12'].sbp[heightIndex];
-    const dbp95plus12 = percentiles['95+12'].dbp[heightIndex];
-
-    // Apply the logic: use lesser of pediatric value or adult threshold for ages 1-12
-    const get50thValues = () => {
-      return { sbp: sbp50, dbp: dbp50 };
-    };
-
-    const get90thValues = () => {
-      // Elevated BP threshold: use lesser of 90th percentile or 120/80
-      const sbp = Math.min(sbp90, ADULT_THRESHOLDS.elevated.sbp);
-      const dbp = Math.min(dbp90, ADULT_THRESHOLDS.elevated.dbp);
-      return { sbp, dbp };
-    };
-
-    const get95thValues = () => {
-      // Stage 1 HTN: use lesser of 95th percentile or 130/80
-      const sbp = Math.min(sbp95, ADULT_THRESHOLDS.stage1.sbp);
-      const dbp = Math.min(dbp95, ADULT_THRESHOLDS.stage1.dbp);
-      return { sbp, dbp };
-    };
-
-    const get95plus12Values = () => {
-      // Stage 2 HTN: use lesser of 95th+12 or 140/90
-      const sbp = Math.min(sbp95plus12, ADULT_THRESHOLDS.stage2.sbp);
-      const dbp = Math.min(dbp95plus12, ADULT_THRESHOLDS.stage2.dbp);
-      return { sbp, dbp };
-    };
-
-    const v50 = get50thValues();
-    const v90 = get90thValues();
-    const v95 = get95thValues();
-    const v95p12 = get95plus12Values();
-
-    return {
-      useAdult: false,
-      age: ageNum,
-      sex: sexStr,
-      height: heightCm,
-      values: {
-        '50th Percentile': { ...v50, classification: 'Normal' },
-        '90th Percentile': { ...v90, classification: 'Elevated BP' },
-        '95th Percentile': { ...v95, classification: 'Stage 1 HTN' },
-        '95th Percentile + 12 mmHg': { ...v95p12, classification: 'Stage 2 HTN' }
-      }
-    };
-  };
-
-  // Dynamic calculation whenever inputs change
-  useEffect(() => {
-    const newResult = findBPValues();
-    setResult(newResult);
-  }, [age, sex, height, unit]);
-
-  const handleReset = () => {
-    setAge(10);
-    setSex('Male');
-    setHeight('');
-    setUnit('cm');
-    setResult(null);
-  };
-
-  const formatHeight = (heightCm) => {
-    if (unit === 'in') {
-      return `${cmToInches(heightCm).toFixed(1)} in`;
-    }
-    return `${heightCm.toFixed(1)} cm`;
-  };
-
-  return (
-    <div style={{ 
-      minHeight: '100vh',
-      backgroundColor: COLORS.background,
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-    }}>
-      {/* Header */}
-      <div style={{
-        background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.teal} 100%)`,
-        color: 'white',
-        padding: '24px 20px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-      }}>
-        <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <div style={{ 
-              width: '40px', 
-              height: '40px', 
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                {/* Butterfly Logo - Colorful four-wing design */}
-                
-                {/* Top Left Wing - Yellow */}
-                <path d="M 30,15 Q 20,10 15,20 Q 12,30 20,40 Q 30,45 40,38 L 45,45 Q 38,35 30,15 Z" 
-                      fill="#FFD100" stroke="#005EB8" strokeWidth="3" strokeLinejoin="round"/>
-                
-                {/* Top Right Wing - Cyan/Blue */}
-                <path d="M 70,15 Q 80,10 85,20 Q 88,30 80,40 Q 70,48 58,42 L 55,45 Q 62,35 70,15 Z" 
-                      fill="#00AEEF" stroke="#005EB8" strokeWidth="3" strokeLinejoin="round"/>
-                
-                {/* Bottom Left Wing - Green */}
-                <path d="M 30,85 Q 20,90 15,80 Q 10,68 20,58 Q 32,52 42,60 L 45,55 Q 38,65 30,85 Z" 
-                      fill="#8DC63F" stroke="#005EB8" strokeWidth="3" strokeLinejoin="round"/>
-                
-                {/* Bottom Right Wing - Red */}
-                <path d="M 70,85 Q 80,90 85,80 Q 90,68 80,58 Q 68,52 58,60 L 55,55 Q 62,65 70,85 Z" 
-                      fill="#ED1C24" stroke="#005EB8" strokeWidth="3" strokeLinejoin="round"/>
-                
-                {/* Center body - overlapping wings create natural body */}
-                <ellipse cx="50" cy="50" rx="5" ry="8" fill="#005EB8"/>
-              </svg>
+    <!-- Main -->
+    <div class="main">
+        <!-- Input Card -->
+        <div class="card">
+            <h2>Patient Information</h2>
+            
+            <!-- Age -->
+            <div class="form-group">
+                <div class="age-display">
+                    <label>Age</label>
+                    <span class="age-value" id="ageValue">10 years</span>
+                </div>
+                <input type="range" id="ageSlider" min="1" max="25" value="10">
+                <div class="range-labels">
+                    <span>1</span>
+                    <span>25</span>
+                </div>
             </div>
-            <h1 style={{ 
-              margin: 0, 
-              fontSize: '22px', 
-              fontWeight: '700',
-              letterSpacing: '-0.5px'
-            }}>
-              Pediatric BP Calculator
-            </h1>
-          </div>
-          <p style={{ 
-            margin: 0, 
-            fontSize: '14px', 
-            opacity: 0.95,
-            fontWeight: '400'
-          }}>
-            Based on 2017 AAP Clinical Practice Guideline
-          </p>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div style={{ maxWidth: '480px', margin: '0 auto', padding: '20px' }}>
-        {/* Input Card */}
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '16px',
-          padding: '24px',
-          marginBottom: '16px',
-          boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
-        }}>
-          <h2 style={{ 
-            margin: '0 0 20px 0', 
-            fontSize: '18px', 
-            fontWeight: '600',
-            color: COLORS.dark
-          }}>
-            Patient Information
-          </h2>
-
-          {/* Age Slider */}
-          <div style={{ marginBottom: '24px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <label style={{ 
-                fontSize: '14px', 
-                fontWeight: '600',
-                color: COLORS.dark
-              }}>
-                Age
-              </label>
-              <span style={{
-                fontSize: '18px',
-                fontWeight: '700',
-                color: COLORS.primary,
-                backgroundColor: `${COLORS.primary}15`,
-                padding: '4px 12px',
-                borderRadius: '8px'
-              }}>
-                {age} years
-              </span>
+            
+            <!-- Sex -->
+            <div class="form-group">
+                <label>Sex</label>
+                <div class="sex-toggle">
+                    <div class="sex-slider" id="sexSlider"></div>
+                    <button class="sex-button active" id="maleBtn">Male</button>
+                    <button class="sex-button" id="femaleBtn">Female</button>
+                </div>
             </div>
-            <input
-              type="range"
-              min="1"
-              max="25"
-              value={age}
-              onChange={(e) => setAge(parseInt(e.target.value))}
-              style={{
-                width: '100%',
-                height: '8px',
-                borderRadius: '4px',
-                outline: 'none',
-                background: `linear-gradient(to right, ${COLORS.primary} 0%, ${COLORS.primary} ${((age - 1) / 24) * 100}%, ${COLORS.border} ${((age - 1) / 24) * 100}%, ${COLORS.border} 100%)`,
-                WebkitAppearance: 'none',
-                appearance: 'none',
-                cursor: 'pointer'
-              }}
-            />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px', fontSize: '12px', color: '#666' }}>
-              <span>1</span>
-              <span>25</span>
+            
+            <!-- Height -->
+            <div class="form-group">
+                <label>Height</label>
+                <div class="height-input-group">
+                    <input type="number" id="heightInput" placeholder="Enter height in cm" step="0.1">
+                    <div class="unit-radios">
+                        <label class="radio-label">
+                            <input type="radio" name="unit" value="cm" checked> cm
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="unit" value="in"> in
+                        </label>
+                    </div>
+                </div>
             </div>
-            <style>{`
-              input[type="range"]::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-                background: ${COLORS.primary};
-                cursor: pointer;
-                border: 3px solid white;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-              }
-              input[type="range"]::-moz-range-thumb {
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-                background: ${COLORS.primary};
-                cursor: pointer;
-                border: 3px solid white;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-              }
-            `}</style>
-          </div>
-
-          {/* Sex Toggle */}
-          <div style={{ marginBottom: '24px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '8px', 
-              fontSize: '14px', 
-              fontWeight: '600',
-              color: COLORS.dark
-            }}>
-              Sex
-            </label>
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              backgroundColor: COLORS.border,
-              borderRadius: '12px',
-              padding: '4px',
-              height: '48px'
-            }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  width: 'calc(50% - 4px)',
-                  height: '40px',
-                  backgroundColor: COLORS.primary,
-                  borderRadius: '10px',
-                  transition: 'transform 0.3s ease',
-                  transform: sex === 'Male' ? 'translateX(0)' : 'translateX(calc(100% + 4px))',
-                  boxShadow: '0 2px 6px rgba(0,102,204,0.3)'
-                }}
-              />
-              <button
-                onClick={() => setSex('Male')}
-                style={{
-                  flex: 1,
-                  border: 'none',
-                  background: 'transparent',
-                  color: sex === 'Male' ? 'white' : COLORS.dark,
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  zIndex: 1,
-                  transition: 'color 0.3s ease'
-                }}
-              >
-                Male
-              </button>
-              <button
-                onClick={() => setSex('Female')}
-                style={{
-                  flex: 1,
-                  border: 'none',
-                  background: 'transparent',
-                  color: sex === 'Female' ? 'white' : COLORS.dark,
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  zIndex: 1,
-                  transition: 'color 0.3s ease'
-                }}
-              >
-                Female
-              </button>
-            </div>
-          </div>
-
-          {/* Height Input with Radio Buttons */}
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '8px', 
-              fontSize: '14px', 
-              fontWeight: '600',
-              color: COLORS.dark
-            }}>
-              Height
-            </label>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <input
-                type="number"
-                step="0.1"
-                value={height}
-                onChange={(e) => setHeight(e.target.value)}
-                placeholder={unit === 'cm' ? 'Enter height in cm' : 'Enter height in inches'}
-                style={{
-                  flex: 1,
-                  padding: '14px',
-                  fontSize: '16px',
-                  border: `2px solid ${COLORS.border}`,
-                  borderRadius: '12px',
-                  boxSizing: 'border-box',
-                  outline: 'none'
-                }}
-                onFocus={(e) => e.target.style.borderColor = COLORS.primary}
-                onBlur={(e) => e.target.style.borderColor = COLORS.border}
-              />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}>
-                  <input
-                    type="radio"
-                    name="unit"
-                    checked={unit === 'cm'}
-                    onChange={() => setUnit('cm')}
-                    style={{
-                      marginRight: '6px',
-                      cursor: 'pointer',
-                      accentColor: COLORS.primary
-                    }}
-                  />
-                  cm
-                </label>
-                <label style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}>
-                  <input
-                    type="radio"
-                    name="unit"
-                    checked={unit === 'in'}
-                    onChange={() => setUnit('in')}
-                    style={{
-                      marginRight: '6px',
-                      cursor: 'pointer',
-                      accentColor: COLORS.primary
-                    }}
-                  />
-                  in
-                </label>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Results Card */}
-        {result && (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            padding: '24px',
-            marginBottom: '16px',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
-          }}>
-            <h2 style={{ 
-              margin: '0 0 16px 0', 
-              fontSize: '18px', 
-              fontWeight: '600',
-              color: COLORS.dark
-            }}>
-              Blood Pressure Reference Values
-            </h2>
-
-            {/* Patient Summary */}
-            <div style={{
-              backgroundColor: `${COLORS.primary}10`,
-              borderRadius: '12px',
-              padding: '16px',
-              marginBottom: '20px',
-              border: `2px solid ${COLORS.primary}30`
-            }}>
-              <p style={{ 
-                margin: 0, 
-                fontSize: '16px', 
-                fontWeight: '600',
-                color: COLORS.dark
-              }}>
-                {result.age} yr old {result.sex}: {formatHeight(result.height)}
-              </p>
+        <!-- Results Card -->
+        <div class="card hidden" id="resultsCard">
+            <h2>Blood Pressure Reference Values</h2>
+            
+            <div class="patient-summary">
+                <p id="patientSummary"></p>
             </div>
-
-            {/* BP Table */}
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ 
-                width: '100%', 
-                borderCollapse: 'collapse',
-                fontSize: '14px'
-              }}>
+            
+            <table>
                 <thead>
-                  <tr style={{ backgroundColor: `${COLORS.border}` }}>
-                    <th style={{ 
-                      padding: '12px 8px', 
-                      textAlign: 'left', 
-                      fontWeight: '700',
-                      color: '#000000',
-                      borderBottom: `2px solid ${COLORS.dark}`
-                    }}>BP Percentile</th>
-                    <th style={{ 
-                      padding: '12px 8px', 
-                      textAlign: 'center', 
-                      fontWeight: '700',
-                      color: '#000000',
-                      borderBottom: `2px solid ${COLORS.dark}`
-                    }}>SBP</th>
-                    <th style={{ 
-                      padding: '12px 8px', 
-                      textAlign: 'center', 
-                      fontWeight: '700',
-                      color: '#000000',
-                      borderBottom: `2px solid ${COLORS.dark}`
-                    }}>DBP</th>
-                    <th style={{ 
-                      padding: '12px 8px', 
-                      textAlign: 'left', 
-                      fontWeight: '700',
-                      color: '#000000',
-                      borderBottom: `2px solid ${COLORS.dark}`
-                    }}>BP Classification</th>
-                  </tr>
+                    <tr>
+                        <th>BP Percentile</th>
+                        <th>SBP</th>
+                        <th>DBP</th>
+                        <th>BP Classification</th>
+                    </tr>
                 </thead>
-                <tbody>
-                  {Object.entries(result.values).map(([percentile, values], idx) => {
-                    // Determine color based on percentile row
-                    let dataColor = '#000000';
-                    
-                    if (percentile === '50th Percentile') {
-                      dataColor = '#008000'; // Green
-                    } else if (percentile === '90th Percentile') {
-                      dataColor = '#B8860B'; // Deep gold (darkgoldenrod)
-                    } else if (percentile === '95th Percentile') {
-                      dataColor = '#FF8C00'; // Orange (darkorange)
-                    } else if (percentile === '95th Percentile + 12 mmHg') {
-                      dataColor = '#FF0000'; // Red
-                    }
-
-                    return (
-                      <tr key={percentile} style={{ 
-                        backgroundColor: 'white',
-                        borderBottom: `1px solid ${COLORS.border}`
-                      }}>
-                        <td style={{ 
-                          padding: '12px 8px', 
-                          fontWeight: '600',
-                          color: '#000000'
-                        }}>
-                          {percentile}
-                        </td>
-                        <td style={{ 
-                          padding: '12px 8px', 
-                          textAlign: 'center', 
-                          fontWeight: '700', 
-                          color: dataColor
-                        }}>
-                          {values.sbp || '—'}
-                        </td>
-                        <td style={{ 
-                          padding: '12px 8px', 
-                          textAlign: 'center', 
-                          fontWeight: '700', 
-                          color: dataColor
-                        }}>
-                          {values.dbp || '—'}
-                        </td>
-                        <td style={{ 
-                          padding: '12px 8px', 
-                          fontWeight: '600',
-                          color: dataColor
-                        }}>
-                          {values.classification}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                <tbody id="resultsTable"></tbody>
+            </table>
+            
+            <div class="note hidden" id="adolescentNote">
+                <strong>Note:</strong> Adult thresholds are used for patients ≥13 years per 2017 AAP guidelines. 
+                Normal: &lt;120/&lt;80 mmHg, Elevated BP: 120-129/&lt;80 mmHg, 
+                Stage 1 HTN: 130-139/80-89 mmHg, Stage 2 HTN: ≥140/≥90 mmHg.
             </div>
-
-            {result.useAdult && (
-              <div style={{
-                marginTop: '16px',
-                padding: '12px',
-                backgroundColor: `${COLORS.teal}10`,
-                borderRadius: '8px',
-                border: `1px solid ${COLORS.teal}40`,
-                fontSize: '13px',
-                color: COLORS.dark
-              }}>
-                <strong>Note:</strong> Adult thresholds are used for patients ≥13 years per 2017 AAP guidelines. Normal: &lt;120/&lt;80 mmHg, Elevated BP: 120-129/&lt;80 mmHg, Stage 1 HTN: 130-139/80-89 mmHg, Stage 2 HTN: ≥140/≥90 mmHg.
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
-          <button
-            onClick={handleReset}
-            style={{
-              flex: 1,
-              padding: '14px',
-              fontSize: '15px',
-              fontWeight: '600',
-              border: `2px solid ${COLORS.border}`,
-              borderRadius: '12px',
-              backgroundColor: 'white',
-              color: COLORS.dark,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              transition: 'all 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.borderColor = COLORS.primary;
-              e.target.style.color = COLORS.primary;
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.borderColor = COLORS.border;
-              e.target.style.color = COLORS.dark;
-            }}
-          >
-            <RotateCcw size={18} />
-            Reset
-          </button>
-          <button
-            onClick={() => setShowInstructions(!showInstructions)}
-            style={{
-              flex: 1,
-              padding: '14px',
-              fontSize: '15px',
-              fontWeight: '600',
-              border: `2px solid ${COLORS.border}`,
-              borderRadius: '12px',
-              backgroundColor: 'white',
-              color: COLORS.dark,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              transition: 'all 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.borderColor = COLORS.secondary;
-              e.target.style.color = COLORS.secondary;
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.borderColor = COLORS.border;
-              e.target.style.color = COLORS.dark;
-            }}
-          >
-            <Info size={18} />
-            Instructions
-          </button>
-          <button
-            onClick={() => setShowReferences(!showReferences)}
-            style={{
-              flex: 1,
-              padding: '14px',
-              fontSize: '15px',
-              fontWeight: '600',
-              border: `2px solid ${COLORS.border}`,
-              borderRadius: '12px',
-              backgroundColor: 'white',
-              color: COLORS.dark,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              transition: 'all 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.borderColor = COLORS.accent;
-              e.target.style.color = COLORS.accent;
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.borderColor = COLORS.border;
-              e.target.style.color = COLORS.dark;
-            }}
-          >
-            <BookOpen size={18} />
-            References
-          </button>
         </div>
 
-        {/* Instructions Panel */}
-        {showInstructions && (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            padding: '24px',
-            marginBottom: '16px',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-            border: `2px solid ${COLORS.secondary}40`
-          }}>
-            <h3 style={{ 
-              margin: '0 0 16px 0', 
-              fontSize: '18px', 
-              fontWeight: '700',
-              color: COLORS.secondary,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <Info size={20} />
-              Instructions for Use
-            </h3>
-            <div style={{ fontSize: '14px', lineHeight: '1.6', color: COLORS.dark }}>
-              <p style={{ marginTop: 0 }}>This calculator provides blood pressure reference values based on the 2017 AAP Clinical Practice Guideline for Screening and Management of High Blood Pressure in Children and Adolescents.</p>
-              
-              <h4 style={{ marginTop: '16px', marginBottom: '8px', fontSize: '15px', fontWeight: '700', color: COLORS.primary }}>How to Use:</h4>
-              <ol style={{ paddingLeft: '20px', margin: '8px 0' }}>
-                <li style={{ marginBottom: '8px' }}>Use the slider to select the child's age (1-25 years)</li>
-                <li style={{ marginBottom: '8px' }}>Toggle between Male or Female for the child's sex</li>
-                <li style={{ marginBottom: '8px' }}>Enter the child's height and select units (cm or in) using radio buttons</li>
-                <li style={{ marginBottom: '8px' }}>Results update automatically as you adjust inputs</li>
-              </ol>
-
-              <h4 style={{ marginTop: '16px', marginBottom: '8px', fontSize: '15px', fontWeight: '700', color: COLORS.primary }}>Important Notes:</h4>
-              <ul style={{ paddingLeft: '20px', margin: '8px 0' }}>
-                <li style={{ marginBottom: '8px' }}>For ages <strong>1-12</strong>: Uses the lesser of age-sex-height specific values OR adult thresholds</li>
-                <li style={{ marginBottom: '8px' }}>For ages <strong>≥13</strong>: Uses adult thresholds (130/80 for Stage 1 HTN, 140/90 for Stage 2 HTN)</li>
-                <li style={{ marginBottom: '8px' }}>Values are NOT interpolated - the calculator uses the highest table height that the patient's height exceeds</li>
-                <li style={{ marginBottom: '8px' }}>Blood pressure should be confirmed on multiple visits before diagnosis</li>
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* References Panel */}
-        {showReferences && (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            padding: '24px',
-            marginBottom: '16px',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-            border: `2px solid ${COLORS.accent}40`
-          }}>
-            <h3 style={{ 
-              margin: '0 0 16px 0', 
-              fontSize: '18px', 
-              fontWeight: '700',
-              color: COLORS.accent,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <BookOpen size={20} />
-              Clinical References
-            </h3>
-            <div style={{ fontSize: '14px', lineHeight: '1.6', color: COLORS.dark }}>
-              <h4 style={{ marginTop: 0, marginBottom: '12px', fontSize: '15px', fontWeight: '700', color: COLORS.primary }}>Primary Source:</h4>
-              <p style={{ 
-                margin: '0 0 16px 0', 
-                padding: '12px',
-                backgroundColor: `${COLORS.accent}08`,
-                borderRadius: '8px',
-                borderLeft: `4px solid ${COLORS.accent}`
-              }}>
-                Flynn JT, Kaelber DC, Baker-Smith CM, et al. Clinical Practice Guideline for Screening and Management of High Blood Pressure in Children and Adolescents. <em>Pediatrics</em>. 2017;140(3):e20171904. 
-                <br /><br />
-                <a 
-                  href="https://publications.aap.org/pediatrics/article/140/3/e20171904/38358" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  style={{ color: COLORS.primary, fontWeight: '600', textDecoration: 'none' }}
-                  onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-                  onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
-                >
-                  View Full Guideline →
-                </a>
-              </p>
-
-              <h4 style={{ marginBottom: '12px', fontSize: '15px', fontWeight: '700', color: COLORS.primary }}>Key Tables Used:</h4>
-              <ul style={{ paddingLeft: '20px', margin: '0' }}>
-                <li style={{ marginBottom: '8px' }}><strong>Table 3:</strong> Blood pressure classification for children and adolescents (adult thresholds)</li>
-                <li style={{ marginBottom: '8px' }}><strong>Table 4:</strong> BP levels for boys by age and height percentile</li>
-                <li style={{ marginBottom: '8px' }}><strong>Table 5:</strong> BP levels for girls by age and height percentile</li>
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* Footer */}
-        <div style={{
-          textAlign: 'center',
-          padding: '20px',
-          fontSize: '13px',
-          color: '#666'
-        }}>
-          <p style={{ margin: '0 0 8px 0' }}>
-            <strong>Disclaimer:</strong> This calculator is for educational and clinical reference purposes only. Always use clinical judgment and confirm measurements before making diagnostic or treatment decisions.
-          </p>
-          <p style={{ margin: 0, opacity: 0.7 }}>
-            Based on 2017 AAP Clinical Practice Guideline
-          </p>
+        <!-- Buttons -->
+        <div class="button-group">
+            <button id="resetBtn">🔄 Reset</button>
+            <button id="infoBtn">ℹ️ Instructions</button>
+            <button id="refBtn">📚 References</button>
         </div>
-      </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Disclaimer:</strong> This calculator is for educational and clinical reference purposes only. 
+            Always use clinical judgment and confirm measurements before making diagnostic or treatment decisions.</p>
+            <p style="opacity: 0.7">Based on 2017 AAP Clinical Practice Guideline</p>
+        </div>
     </div>
-  );
-}
 
-export default PediatricBPCalculator;
-        // Render
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<PediatricBPCalculator />);
-        
-        // Hide loading screen
-        setTimeout(() => document.body.classList.add('loaded'), 500);
-        
-        // Register service worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./bp-calculator-sw.js').catch(() => {});
-            });
+    <script>
+        // State
+        let state = {
+            age: 10,
+            sex: 'Male',
+            height: '',
+            unit: 'cm'
+        };
+
+        // Adult thresholds
+        const ADULT_THRESHOLDS = {
+            elevated: { sbp: 120, dbp: 80 },
+            stage1: { sbp: 130, dbp: 80 },
+            stage2: { sbp: 140, dbp: 90 }
+        };
+
+        // BP Data - Boys Table 4
+        const BOYS_BP = {
+            1: { heights: [77.2,78.3,80.2,82.4,84.6,86.7,87.9], p50_sbp: [85,85,86,86,87,88,88], p50_dbp: [40,40,40,41,41,42,42], p90_sbp: [98,99,99,100,100,101,101], p90_dbp: [52,52,53,53,54,54,54], p95_sbp: [102,102,103,103,104,105,105], p95_dbp: [54,54,55,55,56,57,57], p95p12_sbp: [114,114,115,115,116,117,117], p95p12_dbp: [66,66,67,67,68,69,69] },
+            2: { heights: [86.1,87.4,89.6,92.1,94.7,97.1,98.5], p50_sbp: [87,87,88,89,89,90,91], p50_dbp: [43,43,44,44,45,46,46], p90_sbp: [100,100,101,102,103,103,104], p90_dbp: [55,55,56,56,57,58,58], p95_sbp: [104,105,105,106,107,107,108], p95_dbp: [57,58,58,59,60,61,61], p95p12_sbp: [116,117,117,118,119,119,120], p95p12_dbp: [69,70,70,71,72,73,73] },
+            3: { heights: [92.5,93.9,96.3,99,101.8,104.3,105.8], p50_sbp: [88,89,89,90,91,92,92], p50_dbp: [45,46,46,47,48,49,49], p90_sbp: [101,102,102,103,104,105,105], p90_dbp: [58,58,59,59,60,61,61], p95_sbp: [106,106,107,107,108,109,109], p95_dbp: [60,61,61,62,63,64,64], p95p12_sbp: [118,118,119,119,120,121,121], p95p12_dbp: [72,73,73,74,75,76,76] },
+            4: { heights: [98.5,100.2,102.9,105.9,108.9,111.5,113.2], p50_sbp: [90,90,91,92,93,94,94], p50_dbp: [48,49,49,50,51,52,52], p90_sbp: [102,103,104,105,105,106,107], p90_dbp: [60,61,62,62,63,64,64], p95_sbp: [107,107,108,108,109,110,110], p95_dbp: [63,64,65,66,67,67,68], p95p12_sbp: [119,119,120,120,121,122,122], p95p12_dbp: [75,76,77,78,79,79,80] },
+            5: { heights: [104.4,106.2,109.1,112.4,115.7,118.6,120.3], p50_sbp: [91,92,93,94,95,96,96], p50_dbp: [51,51,52,53,54,55,55], p90_sbp: [103,104,105,106,107,108,108], p90_dbp: [63,64,65,65,66,67,67], p95_sbp: [107,108,109,109,110,111,112], p95_dbp: [66,67,68,69,70,70,71], p95p12_sbp: [119,120,121,121,122,123,124], p95p12_dbp: [78,79,80,81,82,82,83] },
+            6: { heights: [110.3,112.2,115.3,118.9,122.4,125.6,127.5], p50_sbp: [93,93,94,95,96,97,98], p50_dbp: [54,54,55,56,57,57,58], p90_sbp: [105,105,106,107,109,110,110], p90_dbp: [66,66,67,68,68,69,69], p95_sbp: [108,109,110,111,112,113,114], p95_dbp: [69,70,70,71,72,72,73], p95p12_sbp: [120,121,122,123,124,125,126], p95p12_dbp: [81,82,82,83,84,84,85] },
+            7: { heights: [116.1,118,121.4,125.1,128.9,132.4,134.5], p50_sbp: [94,94,95,97,98,98,99], p50_dbp: [56,56,57,58,58,59,59], p90_sbp: [106,107,108,109,110,111,111], p90_dbp: [68,68,69,70,70,71,71], p95_sbp: [110,110,111,112,114,115,116], p95_dbp: [71,71,72,73,73,74,74], p95p12_sbp: [122,122,123,124,126,127,128], p95p12_dbp: [83,83,84,85,85,86,86] },
+            8: { heights: [121.4,123.5,127,131,135.1,138.8,141], p50_sbp: [95,96,97,98,99,99,100], p50_dbp: [57,57,58,59,59,60,60], p90_sbp: [107,108,109,110,111,112,112], p90_dbp: [69,70,70,71,72,72,73], p95_sbp: [111,112,112,114,115,116,117], p95_dbp: [72,73,73,74,75,75,75], p95p12_sbp: [123,124,124,126,127,128,129], p95p12_dbp: [84,85,85,86,87,87,87] },
+            9: { heights: [126.6,128.7,132.4,136.7,141,145,147.3], p50_sbp: [96,97,98,99,100,101,101], p50_dbp: [58,58,59,60,60,61,61], p90_sbp: [109,110,110,112,113,114,114], p90_dbp: [71,71,72,73,73,74,74], p95_sbp: [113,113,114,115,117,118,119], p95_dbp: [73,74,75,76,76,77,77], p95p12_sbp: [125,125,126,127,129,130,131], p95p12_dbp: [85,86,87,88,88,89,89] },
+            10: { heights: [131.4,133.6,137.5,142,146.6,150.9,153.4], p50_sbp: [97,98,99,100,101,102,102], p50_dbp: [59,59,60,61,61,62,62], p90_sbp: [110,111,112,113,114,115,116], p90_dbp: [72,72,73,74,74,75,75], p95_sbp: [114,115,116,117,118,120,121], p95_dbp: [74,75,76,77,77,78,78], p95p12_sbp: [126,127,128,129,130,132,133], p95p12_dbp: [86,87,88,89,89,90,90] },
+            11: { heights: [136,138.4,142.5,147.3,152.1,156.7,159.4], p50_sbp: [99,99,100,101,102,103,104], p50_dbp: [60,60,61,62,62,63,63], p90_sbp: [111,112,113,114,115,117,117], p90_dbp: [73,73,74,75,75,76,76], p95_sbp: [115,116,117,118,120,121,122], p95_dbp: [75,76,77,78,78,79,79], p95p12_sbp: [127,128,129,130,132,133,134], p95p12_dbp: [87,88,89,90,90,91,91] },
+            12: { heights: [140.3,142.9,147.3,152.4,157.6,162.4,165.4], p50_sbp: [101,101,102,104,105,106,106], p50_dbp: [61,61,62,63,63,64,64], p90_sbp: [113,114,115,116,117,119,119], p90_dbp: [74,74,75,76,76,77,77], p95_sbp: [117,118,119,120,121,123,124], p95_dbp: [76,77,78,79,79,80,80], p95p12_sbp: [129,130,131,132,133,135,136], p95p12_dbp: [88,89,90,91,91,92,92] },
+            13: { heights: [144.4,147.2,152,157.5,163.1,168.2,171.4], p50_sbp: [104,104,105,106,108,109,110], p50_dbp: [62,62,63,64,64,65,65], p90_sbp: [116,116,117,119,120,121,122], p90_dbp: [75,75,76,77,77,78,78], p95_sbp: [120,120,121,123,124,126,127], p95_dbp: [77,78,79,80,80,81,81], p95p12_sbp: [132,132,133,135,136,138,139], p95p12_dbp: [89,90,91,92,92,93,93] },
+            14: { heights: [148.8,151.8,156.9,162.9,168.8,174.2,177.6], p50_sbp: [106,106,107,109,110,112,113], p50_dbp: [63,63,64,65,65,66,66], p90_sbp: [118,118,120,121,123,124,125], p90_dbp: [76,76,77,78,78,79,79], p95_sbp: [122,122,124,125,127,129,130], p95_dbp: [78,79,80,81,81,82,82], p95p12_sbp: [134,134,136,137,139,141,142], p95p12_dbp: [90,91,92,93,93,94,94] },
+            15: { heights: [153.2,156.2,161.6,167.8,173.9,179.5,183], p50_sbp: [109,109,110,112,113,115,116], p50_dbp: [64,64,65,66,66,67,67], p90_sbp: [120,121,122,124,125,127,128], p90_dbp: [77,77,78,79,79,80,80], p95_sbp: [124,125,126,128,130,132,133], p95_dbp: [79,80,81,82,82,83,83], p95p12_sbp: [136,137,138,140,142,144,145], p95p12_dbp: [91,92,93,94,94,95,95] },
+            16: { heights: [157.2,160.1,165.5,171.7,177.8,183.3,186.8], p50_sbp: [111,111,112,114,116,118,118], p50_dbp: [66,66,67,68,68,69,69], p90_sbp: [122,123,124,126,128,130,131], p90_dbp: [79,79,80,81,81,82,82], p95_sbp: [126,127,128,130,132,134,135], p95_dbp: [81,82,83,84,84,85,85], p95p12_sbp: [138,139,140,142,144,146,147], p95p12_dbp: [93,94,95,96,96,97,97] },
+            17: { heights: [160.3,163.1,168.3,174.3,180.2,185.5,188.9], p50_sbp: [114,114,115,117,119,120,121], p50_dbp: [67,67,68,69,69,70,70], p90_sbp: [125,125,126,128,130,132,133], p90_dbp: [80,80,81,82,82,83,83], p95_sbp: [129,129,130,132,134,136,137], p95_dbp: [83,83,84,85,85,86,86], p95p12_sbp: [141,141,142,144,146,148,149], p95p12_dbp: [95,95,96,97,97,98,98] }
+        };
+
+        // BP Data - Girls Table 5
+        const GIRLS_BP = {
+            1: { heights: [76.0,77.2,79.1,81.4,83.6,85.7,86.8], p50_sbp: [84,85,85,86,87,88,88], p50_dbp: [39,39,40,40,41,42,42], p90_sbp: [98,98,99,100,100,101,101], p90_dbp: [52,52,53,53,54,54,54], p95_sbp: [102,102,103,103,104,105,105], p95_dbp: [54,54,55,55,56,57,57], p95p12_sbp: [114,114,115,115,116,117,117], p95p12_dbp: [66,66,67,67,68,69,69] },
+            2: { heights: [85.0,86.3,88.5,91.1,93.7,96.1,97.4], p50_sbp: [86,86,87,88,89,90,90], p50_dbp: [43,43,44,44,45,46,46], p90_sbp: [99,100,100,101,102,103,103], p90_dbp: [55,55,56,56,57,58,58], p95_sbp: [103,104,104,105,106,107,107], p95_dbp: [57,58,58,59,60,61,61], p95p12_sbp: [115,116,116,117,118,119,119], p95p12_dbp: [69,70,70,71,72,73,73] },
+            3: { heights: [91.9,93.2,95.6,98.4,101.2,103.8,105.2], p50_sbp: [87,88,88,89,90,91,92], p50_dbp: [46,46,46,47,48,49,49], p90_sbp: [100,101,101,102,103,104,105], p90_dbp: [58,58,59,59,60,61,61], p95_sbp: [104,105,105,106,107,108,109], p95_dbp: [61,61,62,62,63,64,64], p95p12_sbp: [116,117,117,118,119,120,121], p95p12_dbp: [73,73,74,74,75,76,76] },
+            4: { heights: [97.9,99.4,102,105,108.1,110.8,112.4], p50_sbp: [89,89,90,91,92,93,93], p50_dbp: [49,49,49,50,51,52,52], p90_sbp: [102,102,103,104,105,106,106], p90_dbp: [61,61,62,62,63,64,64], p95_sbp: [106,106,107,108,109,110,110], p95_dbp: [64,64,65,66,67,67,68], p95p12_sbp: [118,118,119,120,121,122,122], p95p12_dbp: [76,76,77,78,79,79,80] },
+            5: { heights: [103.7,105.3,108.1,111.4,114.7,117.8,119.5], p50_sbp: [91,91,92,93,94,95,96], p50_dbp: [52,52,52,53,54,55,55], p90_sbp: [103,104,105,106,107,108,109], p90_dbp: [64,64,65,65,66,67,67], p95_sbp: [107,108,109,109,110,111,112], p95_dbp: [67,67,68,69,70,70,71], p95p12_sbp: [119,120,121,121,122,123,124], p95p12_dbp: [79,79,80,81,82,82,83] },
+            6: { heights: [109.5,111.2,114.2,117.8,121.4,124.7,126.6], p50_sbp: [92,93,93,95,96,97,97], p50_dbp: [54,54,55,56,56,57,57], p90_sbp: [105,105,106,107,108,110,110], p90_dbp: [66,66,67,68,68,69,69], p95_sbp: [109,109,110,111,112,113,114], p95_dbp: [69,70,70,71,72,72,73], p95p12_sbp: [121,121,122,123,124,125,126], p95p12_dbp: [81,82,82,83,84,84,85] },
+            7: { heights: [115.1,116.9,120.1,124,127.9,131.5,133.6], p50_sbp: [93,94,95,96,97,98,99], p50_dbp: [55,55,56,57,57,58,58], p90_sbp: [106,107,108,109,110,111,112], p90_dbp: [68,68,69,70,70,71,71], p95_sbp: [110,111,111,112,114,115,116], p95_dbp: [71,71,72,73,73,74,74], p95p12_sbp: [122,123,123,124,126,127,128], p95p12_dbp: [83,83,84,85,85,86,86] },
+            8: { heights: [120.5,122.4,125.8,129.9,134.1,137.9,140.2], p50_sbp: [95,95,96,97,98,100,100], p50_dbp: [57,57,57,58,59,59,60], p90_sbp: [108,108,109,110,112,113,114], p90_dbp: [69,70,70,71,72,72,73], p95_sbp: [111,112,113,114,115,117,118], p95_dbp: [72,73,73,74,75,75,76], p95p12_sbp: [123,124,125,126,127,129,130], p95p12_dbp: [84,85,85,86,87,87,88] },
+            9: { heights: [125.7,127.7,131.2,135.6,139.9,143.9,146.4], p50_sbp: [96,97,98,99,100,101,102], p50_dbp: [58,58,59,59,60,61,61], p90_sbp: [109,110,111,112,113,115,115], p90_dbp: [71,71,72,73,73,74,74], p95_sbp: [113,114,114,116,117,119,119], p95_dbp: [74,74,75,76,76,77,77], p95p12_sbp: [125,126,126,128,129,131,131], p95p12_dbp: [86,86,87,88,88,89,89] },
+            10: { heights: [130.5,132.6,136.3,140.9,145.4,149.6,152.2], p50_sbp: [98,98,99,100,102,103,104], p50_dbp: [59,59,60,61,61,62,62], p90_sbp: [111,111,112,114,115,116,117], p90_dbp: [72,72,73,74,74,75,75], p95_sbp: [114,115,116,117,119,120,121], p95_dbp: [75,75,76,77,77,78,78], p95p12_sbp: [126,127,128,129,131,132,133], p95p12_dbp: [87,87,88,89,89,90,90] },
+            11: { heights: [135.6,137.8,141.7,146.5,151.2,155.6,158.4], p50_sbp: [100,100,101,102,104,105,106], p50_dbp: [60,60,61,62,62,63,63], p90_sbp: [113,113,114,115,117,118,119], p90_dbp: [73,73,74,75,75,76,76], p95_sbp: [116,117,118,119,121,122,123], p95_dbp: [76,76,77,78,78,79,79], p95p12_sbp: [128,129,130,131,133,134,135], p95p12_dbp: [88,88,89,90,90,91,91] },
+            12: { heights: [140.3,142.7,146.7,151.7,156.6,161.1,164.1], p50_sbp: [102,102,103,105,106,107,108], p50_dbp: [61,61,62,63,63,64,64], p90_sbp: [114,115,116,117,119,120,121], p90_dbp: [74,74,75,76,76,77,77], p95_sbp: [118,119,120,121,123,124,125], p95_dbp: [77,77,78,79,79,80,80], p95p12_sbp: [130,131,132,133,135,136,137], p95p12_dbp: [89,89,90,91,91,92,92] },
+            13: { heights: [144.8,147.2,151.4,156.4,161.4,166,169.1], p50_sbp: [104,104,105,106,108,109,110], p50_dbp: [62,62,63,64,64,65,65], p90_sbp: [116,116,117,119,120,121,122], p90_dbp: [75,75,76,77,77,78,78], p95_sbp: [120,120,121,122,124,126,127], p95_dbp: [78,78,79,80,80,81,81], p95p12_sbp: [132,132,133,134,136,138,139], p95p12_dbp: [90,90,91,92,92,93,93] },
+            14: { heights: [148.7,151,155.2,160.1,165,169.5,172.5], p50_sbp: [106,106,107,108,110,111,112], p50_dbp: [63,63,64,65,65,66,66], p90_sbp: [118,118,119,120,122,123,124], p90_dbp: [76,76,77,78,78,79,79], p95_sbp: [121,122,123,124,126,127,128], p95_dbp: [79,79,80,81,81,82,82], p95p12_sbp: [133,134,135,136,138,139,140], p95p12_dbp: [91,91,92,93,93,94,94] },
+            15: { heights: [151.4,153.6,157.7,162.4,167.2,171.5,174.4], p50_sbp: [107,107,108,109,111,112,113], p50_dbp: [64,64,65,66,66,67,67], p90_sbp: [119,119,120,121,123,124,125], p90_dbp: [77,77,78,79,79,80,80], p95_sbp: [123,123,124,125,127,128,129], p95_dbp: [80,80,81,82,82,83,83], p95p12_sbp: [135,135,136,137,139,140,141], p95p12_dbp: [92,92,93,94,94,95,95] },
+            16: { heights: [153.2,155.4,159.4,164,168.6,172.8,175.6], p50_sbp: [108,108,109,110,112,113,114], p50_dbp: [65,65,66,67,67,68,68], p90_sbp: [120,120,121,122,124,125,126], p90_dbp: [78,78,79,80,80,81,81], p95_sbp: [123,124,125,126,128,129,130], p95_dbp: [81,81,82,83,83,84,84], p95p12_sbp: [135,136,137,138,140,141,142], p95p12_dbp: [93,93,94,95,95,96,96] },
+            17: { heights: [154.3,156.4,160.3,164.7,169.2,173.3,176], p50_sbp: [108,109,110,111,112,114,114], p50_dbp: [65,65,66,67,67,68,68], p90_sbp: [121,121,122,123,125,126,127], p90_dbp: [78,78,79,80,80,81,81], p95_sbp: [124,125,126,127,129,130,131], p95_dbp: [81,81,82,83,83,84,84], p95p12_sbp: [136,137,138,139,141,142,143], p95p12_dbp: [93,93,94,95,95,96,96] }
+        };
+
+        // Get BP values
+        function getBPValues(age, sex, heightCm) {
+            if (age >= 13) {
+                return {
+                    '50th': { sbp: 110, dbp: 70, color: '#008000', class: 'Normal (<120/<80)' },
+                    '90th': { sbp: 120, dbp: 80, color: '#B8860B', class: 'Elevated BP' },
+                    '95th': { sbp: 130, dbp: 80, color: '#FF8C00', class: 'Stage 1 HTN' },
+                    '95+12': { sbp: 140, dbp: 90, color: '#FF0000', class: 'Stage 2 HTN' },
+                    isAdult: true
+                };
+            }
+
+            const table = sex === 'Male' ? BOYS_BP : GIRLS_BP;
+            const data = table[age];
+            if (!data) return null;
+
+            // Find height index
+            let idx = 0;
+            for (let i = 0; i < data.heights.length; i++) {
+                if (heightCm >= data.heights[i]) idx = i;
+            }
+
+            // Get values and apply min with adult thresholds
+            const p50_sbp = data.p50_sbp[idx];
+            const p50_dbp = data.p50_dbp[idx];
+            const p90_sbp = Math.min(data.p90_sbp[idx], ADULT_THRESHOLDS.elevated.sbp);
+            const p90_dbp = Math.min(data.p90_dbp[idx], ADULT_THRESHOLDS.elevated.dbp);
+            const p95_sbp = Math.min(data.p95_sbp[idx], ADULT_THRESHOLDS.stage1.sbp);
+            const p95_dbp = Math.min(data.p95_dbp[idx], ADULT_THRESHOLDS.stage1.dbp);
+            const p95p12_sbp = Math.min(data.p95p12_sbp[idx], ADULT_THRESHOLDS.stage2.sbp);
+            const p95p12_dbp = Math.min(data.p95p12_dbp[idx], ADULT_THRESHOLDS.stage2.dbp);
+
+            return {
+                '50th': { sbp: p50_sbp, dbp: p50_dbp, color: '#008000', class: 'Normal' },
+                '90th': { sbp: p90_sbp, dbp: p90_dbp, color: '#B8860B', class: 'Elevated BP' },
+                '95th': { sbp: p95_sbp, dbp: p95_dbp, color: '#FF8C00', class: 'Stage 1 HTN' },
+                '95+12': { sbp: p95p12_sbp, dbp: p95p12_dbp, color: '#FF0000', class: 'Stage 2 HTN' },
+                isAdult: false
+            };
         }
+
+        // Update results
+        function updateResults() {
+            const height = parseFloat(state.height);
+            if (!height || height <= 0) {
+                document.getElementById('resultsCard').classList.add('hidden');
+                return;
+            }
+
+            const heightCm = state.unit === 'in' ? height * 2.54 : height;
+            const results = getBPValues(state.age, state.sex, heightCm);
+            
+            if (!results) {
+                document.getElementById('resultsCard').classList.add('hidden');
+                return;
+            }
+
+            // Show results
+            document.getElementById('resultsCard').classList.remove('hidden');
+
+            // Update summary
+            const heightDisplay = state.unit === 'in' ? 
+                `${height.toFixed(1)} in` : `${height.toFixed(1)} cm`;
+            document.getElementById('patientSummary').textContent = 
+                `${state.age} yr old ${state.sex.toLowerCase()}: ${heightDisplay}`;
+
+            // Update table
+            const tbody = document.getElementById('resultsTable');
+            tbody.innerHTML = '';
+            
+            const rows = [
+                { label: '50th Percentile', key: '50th' },
+                { label: '90th Percentile', key: '90th' },
+                { label: '95th Percentile', key: '95th' },
+                { label: '95th Percentile + 12 mmHg', key: '95+12' }
+            ];
+
+            rows.forEach(row => {
+                const data = results[row.key];
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="color: #000">${row.label}</td>
+                    <td style="color: ${data.color}">${data.sbp}</td>
+                    <td style="color: ${data.color}">${data.dbp}</td>
+                    <td style="color: ${data.color}">${data.class}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Show/hide adolescent note
+            const note = document.getElementById('adolescentNote');
+            if (results.isAdult) {
+                note.classList.remove('hidden');
+            } else {
+                note.classList.add('hidden');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('ageSlider').addEventListener('input', function(e) {
+            state.age = parseInt(e.target.value);
+            document.getElementById('ageValue').textContent = state.age + ' years';
+            
+            // Update slider gradient
+            const percent = ((state.age - 1) / 24) * 100;
+            e.target.style.background = `linear-gradient(to right, #0066CC 0%, #0066CC ${percent}%, #E0E0E0 ${percent}%, #E0E0E0 100%)`;
+            
+            updateResults();
+        });
+
+        document.getElementById('maleBtn').addEventListener('click', function() {
+            state.sex = 'Male';
+            document.getElementById('sexSlider').classList.remove('female');
+            document.getElementById('maleBtn').classList.add('active');
+            document.getElementById('femaleBtn').classList.remove('active');
+            updateResults();
+        });
+
+        document.getElementById('femaleBtn').addEventListener('click', function() {
+            state.sex = 'Female';
+            document.getElementById('sexSlider').classList.add('female');
+            document.getElementById('femaleBtn').classList.add('active');
+            document.getElementById('maleBtn').classList.remove('active');
+            updateResults();
+        });
+
+        document.getElementById('heightInput').addEventListener('input', function(e) {
+            state.height = e.target.value;
+            updateResults();
+        });
+
+        document.querySelectorAll('input[name="unit"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
+                state.unit = e.target.value;
+                document.getElementById('heightInput').placeholder = 
+                    state.unit === 'cm' ? 'Enter height in cm' : 'Enter height in inches';
+                updateResults();
+            });
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            state = { age: 10, sex: 'Male', height: '', unit: 'cm' };
+            document.getElementById('ageSlider').value = 10;
+            document.getElementById('ageValue').textContent = '10 years';
+            document.getElementById('ageSlider').style.background = 'linear-gradient(to right, #0066CC 0%, #0066CC 37.5%, #E0E0E0 37.5%, #E0E0E0 100%)';
+            document.getElementById('sexSlider').classList.remove('female');
+            document.getElementById('maleBtn').classList.add('active');
+            document.getElementById('femaleBtn').classList.remove('active');
+            document.getElementById('heightInput').value = '';
+            document.querySelectorAll('input[name="unit"]')[0].checked = true;
+            document.getElementById('heightInput').placeholder = 'Enter height in cm';
+            document.getElementById('resultsCard').classList.add('hidden');
+        });
+
+        document.getElementById('infoBtn').addEventListener('click', function() {
+            alert('Pediatric BP Calculator\n\n' +
+                  '1. Use slider to select age (1-25 years)\n' +
+                  '2. Toggle between Male/Female\n' +
+                  '3. Enter height and select units (cm/in)\n' +
+                  '4. Results update automatically\n\n' +
+                  'Based on 2017 AAP Clinical Practice Guideline');
+        });
+
+        document.getElementById('refBtn').addEventListener('click', function() {
+            alert('Clinical Reference\n\n' +
+                  'Flynn JT, Kaelber DC, Baker-Smith CM, et al.\n' +
+                  'Pediatrics. 2017;140(3):e20171904\n\n' +
+                  'DOI: 10.1542/peds.2017-1904');
+        });
+
+        // Initialize slider gradient
+        document.getElementById('ageSlider').style.background = 
+            'linear-gradient(to right, #0066CC 0%, #0066CC 37.5%, #E0E0E0 37.5%, #E0E0E0 100%)';
     </script>
 </body>
 </html>
