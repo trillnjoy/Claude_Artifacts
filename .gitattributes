@@ -1,0 +1,9 @@
+# Treat PNG files as binary to prevent corruption
+*.png binary
+*.PNG binary
+
+# Also ensure other image formats are treated as binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
