@@ -4431,7 +4431,118 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5C1XiXnux7b7EdlYIuWcCWrJqatlbYadHiZqSGbfgw&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "The Basic Repertory",
+        "page": 1,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apples, Pears, and Quinces",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Citrus Fruits",
+        "page": 61,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tropical Fruits",
+        "page": 87,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Flowers, Herbs, and Spices",
+        "page": 99,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Berries",
+        "page": 117,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Summer Fruits",
+        "page": 147,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Figs, Melons, and Other Fall Fruits",
+        "page": 177,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nuts and Dried Fruits",
+        "page": 195,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chocolate",
+        "page": 229,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Wine and Spirits",
+        "page": 249,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774490648683
   },
   {
@@ -6270,13 +6381,369 @@
   },
   {
     "id": "everything-i-want-to-eat-jessica-koslow",
-    "title": "Everything I Want to Eat",
+    "title": "Everything I Want to Eat: Sqirl and the New California Cooking",
     "author": "Jessica Koslow",
-    "pubYear": null,
+    "pubYear": 2016,
     "isbn": null,
     "coverUrl": "https://m.media-amazon.com/images/I/61X3XNsV-NL._AC_UF1000,1000_QL80_.jpg",
     "recipes": [],
     "addedAt": 1774490648680
+  },
+  {
+    "id": "for-danish-appetites-lila-solum",
+    "title": "For Danish Appetites",
+    "author": "Lila Solum",
+    "pubYear": 1955,
+    "isbn": null,
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEOGSMzqH0Wy9PRwmMXM65P8SyD53uYtk2_ol9c4Pz4Q&s=10",
+    "recipes": [
+      {
+        "name": "Danish Pastry",
+        "page": 1,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cookies",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cakes",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pancakes, Æbleskiver",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Meats",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fish",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Soup",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sauces and Gravies",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Vegetables",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salads",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Desserts",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pickles",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Smorrebrod",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Wienerbrød",
+        "page": 2,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 pint Milk",
+          "2 oz. Sugar",
+          "1 1/2 oz. Butter",
+          "1 1/2 oz. Yeast (varied)",
+          "1 - 2 Eggs",
+          "Cardamom",
+          "12 oz. Butter or Margarine",
+          "1 cup Butter",
+          "1 cup Sugar"
+        ],
+        "hasCard": true,
+        "course": "breakfast",
+        "type": "bread",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Klejner",
+        "page": 6,
+        "highConfidence": true,
+        "ingredients": [
+          "3 Eggs",
+          "1 cup Sugar",
+          "1 teaspoon Salt",
+          "1/4 cup Cream",
+          "1/2 cup Butter",
+          "1 teaspoon Cardamom",
+          "2 teaspoons Baking Powder",
+          "3 1/2 cups Flour"
+        ],
+        "hasCard": true,
+        "course": "breakfast",
+        "type": "bread",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Kringle",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [
+          "1 cup soft Butter",
+          "1 cake Yeast",
+          "1 Egg",
+          "1 cup Milk",
+          "3/4 cup Sugar",
+          "3 1/2 cups Flour",
+          "1 teaspoon Salt",
+          "1 cup Raisins",
+          "1 teaspoon Cardamom"
+        ],
+        "hasCard": true,
+        "course": "breakfast",
+        "type": "bread",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Mandel Kranse",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [
+          "1 cup Butter",
+          "1 cup Sugar",
+          "2 Eggs",
+          "2 teaspoons Cream",
+          "2 cups Flour",
+          "1 cup Potato Flour",
+          "1/2 teaspoon carbonated Ammonia",
+          "1/2 cup ground Almonds"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "cookie/bar",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Æbelskiver",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "sweet bread",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Sylte",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [
+          "1 Pig's Head or 6 Pork Shanks and 3 Veal Shanks",
+          "1 Onion",
+          "2 cups Broth",
+          "2 tablespoons Vinegar",
+          "1 Bay Leaf",
+          "1/4 teaspoon Cloves",
+          "1 teaspoon Salt",
+          "1 tablespoon Sugar",
+          "Pickles and Lemon slices (optional)"
+        ],
+        "hasCard": true,
+        "course": "appetizer",
+        "type": "meat",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Medisterpølse",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [
+          "5 pounds Pork",
+          "1 large Onion",
+          "1 tablespoon Salt",
+          "1 teaspoon each Pepper and Cardamom",
+          "1/4 teaspoon each Allspice and Cloves",
+          "1 can Bouillon or 1 cup basic Soup Stock"
+        ],
+        "hasCard": true,
+        "course": "dinner entree",
+        "type": "meat",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Gule-Aerte (Split Pea Soup)",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups Split Peas",
+          "1 large Ham Bone",
+          "3 quarts Water",
+          "1 Onion",
+          "4 whole Cloves",
+          "1 Bay Leaf",
+          "Salt, Pepper to taste"
+        ],
+        "hasCard": true,
+        "course": "soup",
+        "type": null,
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Rød Kaal",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [
+          "1 large head Red Cabbage",
+          "4 tablespoons Sugar",
+          "4 tablespoons Butter",
+          "2 tablespoons Vinegar"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Agurkesalat (Cucumbers in Vinegar)",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [
+          "2 large cucumbers",
+          "3/4 cup Vinegar",
+          "2 cups Sugar",
+          "Salt",
+          "Pepper",
+          "Chopped Parsley"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": [
+          "scandinavian"
+        ]
+      },
+      {
+        "name": "Ris A La Mande (Rice Pudding with Almonds)",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [
+          "1/4 cup Rice",
+          "2 cups Milk",
+          "1/2 cup Sugar",
+          "2 tablespoons Gelatin",
+          "3 tablespoons Sherry",
+          "1/2 teaspoon Vanilla",
+          "1/2 cup slivered Almonds"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "custard/pudding",
+        "cuisines": [
+          "scandinavian"
+        ]
+      }
+    ],
+    "addedAt": 1775635906045
   },
   {
     "id": "fresh-moroccan-nada-saleh",
@@ -9308,7 +9775,448 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://bookcovers.powells.com/covers/9780983459484.jpg",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Salads & Dressings",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sandwiches & Bowls",
+        "page": 70,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Soups & Stews",
+        "page": 86,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweets",
+        "page": 102,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Larder",
+        "page": 136,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Blueberry Muffins",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Buttermilk Pretzel Rolls",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cinnamon Rolls",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Granola",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon-Ginger Scones",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon-Ginger Scones - Orange Cranberry variation",
+        "page": null,
+        "highConfidence": false,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mushroom Biscuits",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mushroom Biscuits - Bacon, Cheddar & Chive variation",
+        "page": null,
+        "highConfidence": false,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oatcakes",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pâte Brisée Pie Shell",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quick Puff Pastry",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mustard Béchamel Sauce",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham Tart",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Heirloom Tomato & Feta Tart",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Olive & Thyme Tart",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Zucchini & Spanish Goat Cheese Tart",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quiche with Leeks & Dijon",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Quiche with Sautéed Mushrooms, Goat Cheese & Thyme",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Egg Terrine",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Eggs with Spinach",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Olives",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Carrot Ginger Dressing",
+        "page": 55,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Thyme Dressing",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Red Wine Vinaigrette",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sherry Vinaigrette",
+        "page": 57,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Vietnamese Dressing",
+        "page": 57,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Barley, Wheat Berries, Red Quinoa & Herb Salad",
+        "page": 59,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Curried Chicken Salad",
+        "page": 61,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fresh Peas & Pancetta Salad",
+        "page": 63,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Goddess Salad",
+        "page": 65,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Herb Salad",
+        "page": 67,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Vietnamese Salad with Baked Tofu",
+        "page": 69,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brown Rice Bowl",
+        "page": 73,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brie & Mushroom Sandwich",
+        "page": 75,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Broccolini & Burrata Sandwich",
+        "page": 77,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Curried Chicken Sandwich",
+        "page": 79,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Green Turkey Sandwich",
+        "page": 81,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham & Butter Sandwich",
+        "page": 83,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tempeh Sandwich",
+        "page": 85,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774490648683
   },
   {
@@ -12501,7 +13409,138 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVj0umUovGj1jEOmn4Mlg8cArvDjPNF00TEcW3h-yx1Q&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Herbs and leaves",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Vegetables",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Roots and squash",
+        "page": 72,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peas and beans",
+        "page": 94,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grains and pasta",
+        "page": 116,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice",
+        "page": 136,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cheese",
+        "page": 152,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fish",
+        "page": 168,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Meat",
+        "page": 188,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fruity salads",
+        "page": 206,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salads for dessert",
+        "page": 224,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Dips: the not-quite-salad salad",
+        "page": 240,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "The dressing room",
+        "page": 252,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774490648682
   },
   {
@@ -12954,6 +13993,5557 @@
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn43PxO1vhqiEkzCJz9xRiFvq8gyXuaCiS9ODjHPEStw&s=10",
     "recipes": [],
     "addedAt": 1774490648680
+  },
+  {
+    "id": "southern-cookbook-322-old-dixie-recipes-listing-sondheim-rensel",
+    "title": "Southern Cookbook: 322 Old Dixie Recipes",
+    "author": "Listing / Sondheim / Rensel",
+    "pubYear": 1935,
+    "isbn": null,
+    "coverUrl": "https://trillnjoy.github.io/Claude_Artifacts/Southern_Cookbook.jpg",
+    "recipes": [
+      {
+        "name": "Avocado Canapés",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cheese Appetizer for the Master's Cocktail",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Delicious Appetizer",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Papaya Canapé",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Papaya Cocktail",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pigs in Blankets",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shrimp Avocado Cocktail",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shrimp Paste",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Egg Nog",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [
+          "1 egg",
+          "2 teaspoons sugar",
+          "cold milk",
+          "dash vanilla",
+          "nutmeg, grated",
+          "2 tablespoons cream",
+          "1 whisky glass Brandy, Rye or Bourbon"
+        ],
+        "hasCard": true,
+        "course": "hot drink",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Idle Hour Cocktail",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mint Julep",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mint Tea",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Julep",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [
+          "1 quart orange juice",
+          "1 cup sugar",
+          "6 limes (juice)",
+          "1/2 cup minced mint",
+          "1 pint charged water",
+          "ice"
+        ],
+        "hasCard": true,
+        "course": "cocktail",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Planter's Punch",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spiced Cider",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [
+          "1 quart sweet cider",
+          "1/4 cup sugar",
+          "8 short pieces of stick cinnamon",
+          "12 whole cloves",
+          "8 whole allspice",
+          "pinch salt"
+        ],
+        "hasCard": true,
+        "course": "hot drink",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Syllabub, North Carolina",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tom and Jerry, Southern Style",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [
+          "12 eggs",
+          "1 pound of 4X sugar",
+          "one large jigger of whiskey per serving",
+          "boiling water",
+          "nutmeg"
+        ],
+        "hasCard": true,
+        "course": "hot drink",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Zazarac Cocktail",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [
+          "1/3 pony Bacardi rum",
+          "1/3 pony rye whiskey",
+          "1/6 pony anisette",
+          "1/6 pony gum",
+          "1 dash angostura bitters",
+          "1 dash orange bitters",
+          "3 dashes absinthe"
+        ],
+        "hasCard": true,
+        "course": "cocktail",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Batter Bread, Mulatto Style",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baking Powder Biscuits, Mammy's",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beaten Biscuits",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Buttermilk Muffins",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cheese Biscuits",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Bread, Miss Lee's Southern",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Cakes, Richmond",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Meal Muffins",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Sticks",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crackling Bread",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Four o'Clock Tea Scones",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Good Morning Biscuits",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hot Bread, Sally Lunn",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nut Bread",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Raisin Biscuits",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spoon Bread, Southern",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Angel Food Cake, Bride's",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Blackberry Roll",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brown and White Cake",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Christening Cake",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Confederate Coffee Cake",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fruit Cake",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups blanched almonds",
+          "3 cups seeded raisins",
+          "2 cups currants",
+          "2 cups crystallized cherries",
+          "2 cups chopped dried figs",
+          "2 cups chopped dates",
+          "1 cup chopped citron",
+          "2 cups crystallized pineapple",
+          "1 cup chopped lemon peel",
+          "1 cup chopped orange peel",
+          "3 cups light brown sugar",
+          "3 cups butter",
+          "3 cups flour",
+          "12 eggs, separated",
+          "1 wineglass brandy",
+          "2 tablespoons cinnamon",
+          "2 tablespoons mace",
+          "2 tablespoons cloves",
+          "2 tablespoons allspice",
+          "2 tablespoons nutmeg",
+          "1 tablespoon soda in a little water"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "cake/muffin",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Gingerbread, Miss Rosa's",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hot Frosted Gingerbread",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jelly Roll, None-So-Good",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lady Baltimore Cake",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Marble Cake, Plantation",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Old-Fashioned Strawberry Shortcake",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Cake",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Palm Beach Poincianna Cake",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pecan Nut Cake",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pineapple Upside Down Cake",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 cup butter",
+          "1 cup brown sugar",
+          "1 medium sized can sliced pineapple",
+          "2 tablespoons whole pecans",
+          "3 eggs, separated",
+          "1 cup sugar",
+          "5 tablespoons pineapple juice",
+          "1 cup pastry flour",
+          "1 teaspoon baking powder",
+          "1 pinch salt"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "cake/muffin",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Spiced Devil's Food Cake",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry Jam Cake",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Candied Orange or Grapefruit Peel",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caramels, Grandmother's",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cocoanut Pralines, Florida",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fudge, Aunt Sarah's",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Goober Brittle",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pecan Fondant",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pralines, New Orleans",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creole Omelet",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggs Biltmore Goldenrod",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggs, New Orleans",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggs, Ponce de Leon",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eggs Stuffed with Chicken Livers",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apple Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apricot Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Bread Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Meal Dodgers for Pot Likker",
+        "page": 6,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Meal Mush",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Flannel Cakes",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Flapjacks, Georgia",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fruit Fritter Batter",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Griddle Cakes",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Griddle Cakes, Sour Milk",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hoe Cake",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peach Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pear Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Popovers, Good Old Southern",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice Flour Waffles",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice Waffles",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tallahassee Hush Puppies",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups corn meal",
+          "2 teaspoons baking powder",
+          "1 teaspoon salt",
+          "1 1/2 cups sweet milk",
+          "1/2 cup water",
+          "1 large onion, chopped fine"
+        ],
+        "hasCard": true,
+        "course": "bread",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Waffles, Louisiana",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Waffles, Virginia",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apples, Glazed Baked",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Artichokes",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bananas, Baked",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beans, Home-Baked",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cantaloupe, Spiced",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Carrots, Candied",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Carrot Pudding",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [
+          "2 tablespoons butter",
+          "1 cup sugar",
+          "2 eggs",
+          "1 1/2 cups grated raw carrots",
+          "1/4 teaspoon ground cloves",
+          "1/2 teaspoon cinnamon",
+          "1/4 teaspoon nutmeg",
+          "1/4 teaspoon salt",
+          "1 cup flour, sifted",
+          "grated rind of 1 orange",
+          "grated rind of 1 lemon",
+          "1 teaspoon soda",
+          "1 cup grated raw potatoes",
+          "1/4 pound thinly sliced citron"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Corn Custard, Southern",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corn Pudding",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Egg Plant",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hominy or Grits",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hominy or Grits, Baked",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hopping John",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Kumquats and Prunes, Stewed",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lima Beans, Fresh",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Okra",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Okra, Fried",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Okra and Tomatoes",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oranges, Baked",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peaches, Fried",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Papaya, Baked",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Parsnips and Salt Pork",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peas, Creamed Green",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peppers, Creole Stuffed",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Prunes Savannah Stewed",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice, Curried",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice, Mulatto",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice and Pineapple",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice Cakes, Creole",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice Croquettes, Dinah's",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salsify (Oyster Plant)",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "String Beans and Bacon, Old Fashioned",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Squash, Stuffed",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Squash Cakes, Fried",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Wild Rice and Mushrooms",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brown Sugar Frosting",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Butter Icing",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mocha Icing",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Never Fail Icing",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Icing",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Royal Poincianna Cake Filling",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grapefruit and Pineapple Marmalade",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Guava Jelly",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Marmalade",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pear Chips",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sherry Wine Jelly",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brunswick Stew",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [
+          "2 tablespoons bacon grease",
+          "1 frying chicken (about 2 to 2½ pounds)",
+          "2 onions",
+          "3 cups of water",
+          "3 tomatoes, peeled and quartered",
+          "½ cup sherry",
+          "2 tablespoons butter",
+          "½ cup bread crumbs",
+          "2 teaspoons Worcestershire sauce",
+          "1 pound fresh lima beans",
+          "salt and pepper",
+          "½ cup okra",
+          "3 ears green corn"
+        ],
+        "hasCard": true,
+        "course": "dinner entree",
+        "type": "meat",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Burgoo, Kentucky",
+        "page": 6,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Burgoo for Small Parties",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chitterlings",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Corned Beef Hash",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creole Beef Stew, Aunt Linda's",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creole Goulash",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Dried Beef à la Maryland",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Frogs' Legs, Calvert Manor",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham and Pineapple",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham, Baked",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham, Baked with Apples",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham, Broiled",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ham, Smithfield",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hamburger-Bacon Roast",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hamburger Steak, Broiled",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hare, Belgian, à la Maryland",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lamb, Barbecued",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Liver à la Madame Begue",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pork Chops, Stuffed",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pig, Roast Suckling",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ribs of Beef à la Mission",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweetbreads and Mushrooms",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Veal Fricassee, Old Dominion",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Veal Paprika",
+        "page": 10,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apple Stuffing",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bread Stuffing",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chestnut Stuffing",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cornbread Dressing",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [
+          "3 eggs, beaten",
+          "2 cups buttermilk",
+          "3 tablespoons melted shortening",
+          "2 teaspoons salt",
+          "2½ cups sifted meal",
+          "3 teaspoons baking powder",
+          "1 teaspoon soda, dissolved in 1 tablespoon water",
+          "3 tablespoons melted butter",
+          "hot water",
+          "onion, parsley, celery, salt, pepper as desired"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Oyster Stuffing",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chestnut Soufflé",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crêpes Suzette, New Orleans",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Curds and Cream",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Scrapple, South Carolina",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Welsh Rarebit",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [
+          "3 tablespoons butter",
+          "1 pound American cheese, dry",
+          "1 teaspoon Worcestershire sauce",
+          "1/2 cup milk",
+          "2 eggs",
+          "1/2 teaspoon salt",
+          "1/2 teaspoon mustard"
+        ],
+        "hasCard": true,
+        "course": "bread",
+        "type": "egg",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Apple Pot Pie",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 dozen baking apples",
+          "1/2 cup butter or other shortening",
+          "4 cups flour",
+          "1/4 teaspoon salt",
+          "1/4 teaspoon cinnamon",
+          "1/8 pound butter"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Butterscotch Pie",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chess Pie",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 cup butter",
+          "1 cup sugar",
+          "yolks of 3 eggs",
+          "white of 1 egg",
+          "1 cup chopped raisins",
+          "1 cup chopped nut meats",
+          "1 teaspoon vanilla"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Cocoanut Pie",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 cup shredded cocoanut",
+          "3 eggs, separated",
+          "1/2 cup sugar",
+          "2 cups scalded milk",
+          "pinch of salt"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Jelly Pie",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Kentucky Pie",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Pie, Real Southern",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pie Dough or Southern Pastry",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups flour",
+          "1/2 teaspoon salt",
+          "1 cup butter or other shortening",
+          "1/2 cup ice water"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Pumpkin Pie",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [
+          "1 cup canned or baked and strained pumpkin",
+          "1/4 cup sugar",
+          "1/2 teaspoon salt",
+          "1/4 teaspoon mace",
+          "1/4 teaspoon cinnamon",
+          "1/2 teaspoon vanilla",
+          "1/2 teaspoon cloves",
+          "1/4 teaspoon ginger",
+          "2 beaten eggs",
+          "1/2 cup milk",
+          "1/2 cup cream"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Raisin Pie",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Potatoes, Baked Stuffed",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Potato Croquettes, Piedmont",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Potatoes, Hashed Browned",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Potatoes, Scalloped",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potatoes in Honey",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potato, Georgian Style",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potatoes, Pineapple and Marshmallows",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups mashed sweet potatoes",
+          "1 cup milk",
+          "1/2 cup pineapple juice",
+          "1 cup diced pineapple",
+          "2 tablespoons butter",
+          "1/2 teaspoon cinnamon",
+          "marshmallows"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Sweet Potato Pone",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potatoes, Scalloped",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Potatoes, Stuffed",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Yams, Candied",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Yam Puff",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Yams, Sugared",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups water",
+          "2 cups sugar",
+          "2 tablespoons butter",
+          "dash nutmeg",
+          "8 uncooked yams"
+        ],
+        "hasCard": true,
+        "course": "side",
+        "type": "vegetable",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Chicken a la Tartare",
+        "page": 11,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken, Barbecued",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken, Cakes",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Chili Con Carne",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken, Fried Maryland",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Hash",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Liver Ramekins",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Casserole, Rice",
+        "page": 11,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Pot Pie, Miss Cecilia's",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken, Roasted",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken, Shortcake Dixie",
+        "page": 11,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Terrapin",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Duck, Roasted",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mock Terrapin Stew",
+        "page": 11,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Partridge, Roasted",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pigeon Pie",
+        "page": 11,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Squab, Roasted with Rice, Pilau",
+        "page": 11,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Turkey, Roasted",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ambrosia",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [
+          "6 oranges",
+          "1 1/2 cups sugar",
+          "1 1/2 cups freshly grated cocoanut",
+          "sherry wine"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "custard/pudding",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Apple Dumplings",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups flour",
+          "4 teaspoons baking powder",
+          "1 teaspoon salt",
+          "4 tablespoons shortening",
+          "1 cup milk",
+          "6 apples, pared and cored",
+          "sugar and cinnamon"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "pastry",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Barbara Fritchie Pudding",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Batter Pudding, Southern",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Boiled Custard",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bread Pudding",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [
+          "4 slices buttered bread cut in squares",
+          "1/2 cup sugar",
+          "3 eggs",
+          "vanilla",
+          "1/2 pint rich milk"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "custard/pudding",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Cottage Pudding, Paulina's Delicious",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jelly Meringue",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Molasses Pudding",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fluffs, Baked",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Marmalade Bread Pudding",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pandowdy, Monticello",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Plum Pudding",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Plum Pudding, Plantation",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Queen of Trifles Pudding",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Raw Apple Float",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rice Custard",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [
+          "1/2 cup brown sugar",
+          "2 cups cooked rice",
+          "3 tablespoons butter",
+          "1 cup milk",
+          "3 eggs",
+          "1/2 cup raisins",
+          "1/2 teaspoon vanilla",
+          "dash of nutmeg"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "custard/pudding",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Southern Whip",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spanish Cream",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apple Chutney",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Avocado or Alligator Pear Salad",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cherries, Pickled — Captain Henry's",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cole Slaw, Mississippi",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken-and-Fruit Salad",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cinnamon Apple Salad",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grapefruit Ring",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Indian Relish",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jean Lafitte Salad",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Papaya Recipes",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pepper Relish",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Poinsettia Salad",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [
+          "1 lettuce leaf",
+          "1 slice canned pineapple",
+          "1 pimiento",
+          "cream cheese",
+          "French dressing",
+          "salt",
+          "paprika"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Shrimp Salad with Peas",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Apple Ball Sauce for Suckling Pig",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Barbecue Sauce",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brandy Sauce for Fritters",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creamed Gravy for Fried Chicken",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [
+          "2 tablespoonfuls of fat from the pan in which you fried the chicken",
+          "1 tablespoon of flour",
+          "1 cup of thin cream"
+        ],
+        "hasCard": true,
+        "course": "sauce",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Egg Nog Sauce",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Foaming Sauce for Fruit Puddings",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "French Dressings",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Frozen Mint Ice for Roast Lamb",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hard Sauce",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hollandaise Sauce Supreme",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Horseradish Sauce",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Sauce for Fritters",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mayonnaise Dressing",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mushroom Sauce",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Poultry Sauce, Louisiana",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Raisin Sauce for Ham",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rhubarb Sauce",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shrimp Sauce",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sour Cream Dressing",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sour Cream Dressing, Richmond",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tomato Sauce",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "White Sauce",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bouillabaisse",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crab Croquettes",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crabs, Deviled Norfolk",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Diamond Back Terrapin Stew",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fish Cakes",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Flounder, Fillets of",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Herring Roe",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lobster à la Newburg",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lobster Thermidor",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mackerel, Broiled Spanish",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oysters, Browned",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oysters Fried à la Norfolk",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oyster Loaf Chesapeake",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oysters, Louisiana",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oyster Pie",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Planked Shad",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pompano with Shrimp Stuffing",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shrimps Caliente",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shrimp and Rice Croquettes",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Brownies — Chocolate Indians",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Colonial Cookies",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Currant Cakes",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Doughnuts, Pickaninny",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ginger Cookies Plantation",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nut Drop Cookies — Topsy's",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Cookies, Florida",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pecan Brownies, Georgia",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Short'nin' Bread",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sour Cream Cookies, Plantation",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Almond Chicken Soup",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bean Soup, Southern",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Black Bean Soup",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [
+          "2 cups black beans",
+          "12 cups water",
+          "1/4 pound salt pork",
+          "1/2 pound lean beef, cut in small pieces",
+          "1 carrot, diced",
+          "3 small onions, minced",
+          "3 cloves",
+          "1/4 teaspoon mace",
+          "dash red pepper",
+          "3 hard cooked eggs, sliced",
+          "1 lemon, sliced",
+          "1 wineglass sherry"
+        ],
+        "hasCard": true,
+        "course": "soup",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Chicken Cream Soup",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Gumbo",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chicken Oyster Gumbo",
+        "page": 8,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crab Soup, Baltimore",
+        "page": 8,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Crayfish Bisque",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cream of Crab Soup, Maryland",
+        "page": 8,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creole Soup à la Madame Begue",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Gumbo, Southern",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jellied Mélange",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Okra Soup",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Onion Soup au Gratin",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oyster Bisque",
+        "page": 8,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oyster Soup",
+        "page": 8,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Plantation Soup",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pot Likker",
+        "page": 6,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Shrimp Gumbo",
+        "page": 8,
+        "highConfidence": true,
+        "ingredients": [
+          "2 quarts fresh shrimp",
+          "3 onions",
+          "1/2 cup vinegar",
+          "salt",
+          "2 quarts water",
+          "1 tablespoon butter, melted",
+          "1 tablespoon flour",
+          "4 cups okra, cut fine",
+          "1 cup cooked rice",
+          "6 large tomatoes, skinned",
+          "2 bay leaves",
+          "pinch sugar and pepper"
+        ],
+        "hasCard": true,
+        "course": "soup",
+        "type": "seafood",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Southern Jugged Soup",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Turtle Soup Pendennis",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Vegetable Bouillon",
+        "page": 9,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Southern Gumbo",
+        "page": 7,
+        "highConfidence": true,
+        "ingredients": [
+          "2 tablespoons butter, melted",
+          "1 onion, chopped",
+          "2 cups tomatoes",
+          "2 cups okra, cut fine",
+          "1 cup chopped green peppers",
+          "2 cups hot water",
+          "1/2 teaspoon celery seed",
+          "salt and pepper"
+        ],
+        "hasCard": true,
+        "course": "soup",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Chicken and Dumplings",
+        "page": 12,
+        "highConfidence": true,
+        "ingredients": [
+          "1 chicken",
+          "1 cup flour",
+          "2 teaspoons baking powder",
+          "milk to make a thick batter",
+          "salt and pepper to taste",
+          "sprig parsley",
+          "1 small diced onion"
+        ],
+        "hasCard": true,
+        "course": null,
+        "type": "meat",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Jambalayah",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [
+          "1 1/2 cups cold chicken, veal or mutton",
+          "1 cup boiled rice",
+          "2 large stalks celery",
+          "1/2 green pepper",
+          "1 large onion",
+          "1 1/2 cups stewed tomatoes",
+          "salt and pepper",
+          "buttered crumbs"
+        ],
+        "hasCard": true,
+        "course": "dinner entree",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Florida Guspachy Salad",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [
+          "4 tomatoes",
+          "1 cucumber",
+          "2 green peppers",
+          "1 tablespoon onion, finely chopped",
+          "1/2 teaspoon Worcestershire sauce",
+          "1/2 teaspoon A-1 sauce",
+          "salt, pepper, paprika",
+          "1/4 teaspoon dry mustard",
+          "1 teaspoon sugar",
+          "1 pilot cracker (hard tack)",
+          "2 tablespoons sour cream"
+        ],
+        "hasCard": true,
+        "course": "salad",
+        "type": null,
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "White House Pecan Pie",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [
+          "1 cup unbroken pecan meats",
+          "1 cup dark table syrup",
+          "2 tablespoons butter",
+          "2 eggs",
+          "1 cup sugar",
+          "1 teaspoon vanilla"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      },
+      {
+        "name": "Nannie’s Pineapple Custard Pie",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [
+          "3/4 cup sugar",
+          "1 cup grated pineapple, from which juice has been strained",
+          "1 cup milk",
+          "2 tablespoons corn starch",
+          "3 eggs"
+        ],
+        "hasCard": true,
+        "course": "dessert",
+        "type": "tart/pie",
+        "cuisines": [
+          "southern"
+        ]
+      }
+    ],
+    "addedAt": 1774706639377
+  },
+  {
+    "id": "sunkist-recipes-oranges-lemons-alice-bradley",
+    "title": "Sunkist Recipes: Oranges & Lemons",
+    "author": "Alice Bradley",
+    "pubYear": 1916,
+    "isbn": null,
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpmy9LTI5kow0VEiDGfAIVkRKbTpGAFC_i0uxcKNw9EQ&s=10",
+    "recipes": [
+      {
+        "name": "Ada's Lemon Pie",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Afternoon Tea",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Arlington Asparagus",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Artichokes, Italian Style",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Orange, for a Cold",
+        "page": 61,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Orange Custard",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Banana Canoes",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Beet Relish",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Birch Island Steamed Pudding",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Blood Orange Ice-Cream",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Boiled Salad Dressing",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Boiled Orange Frosting",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bombe Glacé",
+        "page": 53,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Bran Muffins",
+        "page": 59,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Camino Fruit Cup",
+        "page": 58,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Candied Sunkist Orange Peel",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cardinal Punch",
+        "page": 55,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Carrots and Turnips, Princess",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cauliflower Mousselaine",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caviaré Canapés",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Chocolate Candied Orange Peel",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Citrus Soufflé",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cocoanut Bread Pudding",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Colonial Sandwiches",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Conserve",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Court Bouillon",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cream French Dressing",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cream Mayonnaise Dressing",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cream Pie Crust",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Creamy Lemon Sauce",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Cumberland Sauce for Duck",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Devil's Food",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Economy Pudding Sauce",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Egg Lemonade",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Egg Sauce",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Eight-Minute Meringue",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fifteen-Dollar Pie",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fig and Cheese Salad",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fig Lemonade",
+        "page": 66,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Filled Cookies",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fillets of Haddock, Lemon Sauce",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "French Dressing",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "French Dressing, with Orange Vinegar",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fresh Mint Sherbet",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Frozen Fruit Salad",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Frozen Oranges, Whole",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fruit Milk Sherbet",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Galantine",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Genoa Cake",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Georgette Pudding Sauce",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "German Sour Beef",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ginger Ale Fruit Salad",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Ginger Ale Punch",
+        "page": 55,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Golden Salad Dressing",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Graham Muffins",
+        "page": 61,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grapefruit Marmalade",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Grape Juice Punch",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Griddle Cakes",
+        "page": 59,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hampshire Fruit Pudding",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Hollandaise Sauce",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Honey Salad Dressing",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Honey Mousse",
+        "page": 53,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Horseradish Hollandaise Sauce",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Iced Orange Sauce",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Iced Tea",
+        "page": 57,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Japanese Rice",
+        "page": 16,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jellied Oranges, Cut in Sections",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Jellied Vegetable Salad",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemaschino Bombe",
+        "page": 53,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemonade",
+        "page": 55,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Albumen",
+        "page": 57,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Bavarian Cream",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Butter",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Cocoanut Cream",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Crumb Pudding",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Drop Cookies",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Extract",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Honey",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Honey Sandwiches",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Ice",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Jelly",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Loaf Sugar",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Milk Sherbet",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Mince-Meat",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Pectin Extraction",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Pie, with Bread Crumbs",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Queen Cake",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Syrup",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Syrup Sauce",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Tapioca Sherbet, without Freezing",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lemon Whey",
+        "page": 57,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Little Neck Clams",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Lobster Cocktail",
+        "page": 14,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Maitre d'Hotel Butter",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Marmalade French Toast",
+        "page": 59,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Marshmallow Salad",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Martinique French Dressing",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mayonnaise Dressing",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mint Cup",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mint Jelly, with Gelatine",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mint Jelly, with Orange Pectin",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mocha Cakes",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mock Hollandaise Sauce",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mock Lobster Salad",
+        "page": 33,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Mousselaine Sauce",
+        "page": 17,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "New York Salad",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nutritious Lemonade",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Albumen",
+        "page": 58,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Balls",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Bavarian Cream",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Bread",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Bread Pudding",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oranges for Breakfast",
+        "page": 60,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Butter Frosting",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Cake",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Cake Filling",
+        "page": 40,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Caramel",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Charlotte",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Cream Custard",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Cream Sherbet",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Egg-Nogg",
+        "page": 58,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fairy Fluff",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Filling",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fondant",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fritters",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Frosting",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fruit Cake",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Fudge",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Granite",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Harlequin",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Honey Sandwiches",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Ice",
+        "page": 53,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Jelly",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Jelly, without Gelatine",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Jelly, with Fruit",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Jelly Roll",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange and Lemon Marmalade",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Loaf Sugar",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Marmalade",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Marmalade Bavarian Cream",
+        "page": 18,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Mint Sauce for Lamb",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Panaché",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange and Peanut Salad",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Pectin Extraction",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Peel Bread",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Pie Filling",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Pin-Wheels",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Puffs",
+        "page": 47,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Puff Sauce",
+        "page": 45,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange and Raspberry Shortcake",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange and Rhubarb Sauce",
+        "page": 21,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Roly-Poly",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Salad",
+        "page": 34,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Shortcake",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Sponge Cake",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Straws",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Sweet Pickle",
+        "page": 22,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Syrup",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Syrup Sauce",
+        "page": 46,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Tapioca Pudding",
+        "page": 44,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Toast",
+        "page": 60,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Orange Vinegar",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oriental Punch",
+        "page": 56,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oysters, with Cocktail Sauce",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oysters on the Half-Shell",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Oyster Plant, with Fine Herbs",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pastry",
+        "page": 39,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Peanut Rice Salad",
+        "page": 32,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pepper Butter",
+        "page": 23,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pineapple Cocktail",
+        "page": 49,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Pineapple Jelly",
+        "page": 25,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Princess Potatoes",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Princess Sauce",
+        "page": 20,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Puff-Ball Oranges",
+        "page": 51,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rolled Orange Wafers",
+        "page": 38,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Rhubarb Jelly",
+        "page": 27,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Russian Salad Dressing",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salmon Chartreuse",
+        "page": 15,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sauted Tomatoes",
+        "page": 29,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Savory Butter Sandwiches",
+        "page": 30,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Scallop Cocktail",
+        "page": 13,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sherbet Fizz",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spinach, with Sunkist Lemon",
+        "page": 28,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Spun Sugar",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Star Salad",
+        "page": 35,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Strawberry Jelly",
+        "page": 24,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sugar Syrup",
+        "page": 48,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sunkist Coupé",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sunkist Lemon Pie",
+        "page": 42,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sunkist Shortcake Sauce",
+        "page": 43,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sunkist Strawberries",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sunkist Sundae",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sweet Croquettes",
+        "page": 26,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tartlet Shells or Baskets",
+        "page": 52,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Thousand Island Salad Dressing",
+        "page": 36,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Toasted Marmalade Sandwiches",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Tulip Dessert",
+        "page": 50,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Turkish Delight",
+        "page": 41,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Two-in-One Sherbet",
+        "page": 54,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
+    "addedAt": 1775634790856
   },
   {
     "id": "the-barefoot-contessa-cookbook-ina-garten",
@@ -14327,7 +20917,88 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3yBZnZcWxe4t5RmvXFk3H1mojVryplvmXEpB31bLEAA&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "Appetizers and Drinks",
+        "page": 19,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Soups",
+        "page": 37,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Salads",
+        "page": 57,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Main Dishes",
+        "page": 85,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Side Dishes",
+        "page": 155,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Sauces, Salsas and Syrups",
+        "page": 175,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Baked Goods and Breakfast Dishes",
+        "page": 193,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Desserts",
+        "page": 213,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774490648683
   },
   {
@@ -16216,7 +22887,198 @@
     "pubYear": null,
     "isbn": null,
     "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnD-GyPQVUNeMQjMt7ST6Teaa-OaMJ3hrUsT3E3uJsiA&s=10",
-    "recipes": [],
+    "recipes": [
+      {
+        "name": "aperitivi and stuzzichini",
+        "page": 31,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "mozzarella",
+        "page": 55,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Latticini: An Introduction to the Family of Italian Fresh Cheese",
+        "page": 58,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "antipasti",
+        "page": 91,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Affettati Misti: An Introduction to Italian Cured Meats",
+        "page": 92,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "pizza",
+        "page": 121,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Nancy's Scuola di Pizza",
+        "page": 128,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Le Pizze Rosse",
+        "page": 133,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Le Pizze Bianche",
+        "page": 142,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "primi",
+        "page": 155,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Matt's Scuola di Pasta",
+        "page": 158,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Fresh Pasta Shapes",
+        "page": 166,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "secondi",
+        "page": 207,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "contorni",
+        "page": 251,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "dolci",
+        "page": 269,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Composed Desserts",
+        "page": 272,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Gelati and Sorbetti",
+        "page": 302,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Biscotti",
+        "page": 320,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      },
+      {
+        "name": "Caffè",
+        "page": 332,
+        "highConfidence": true,
+        "ingredients": [],
+        "hasCard": false,
+        "course": null,
+        "type": null,
+        "cuisines": []
+      }
+    ],
     "addedAt": 1774490648682
   },
   {
