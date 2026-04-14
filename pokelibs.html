@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PokéLibs — The Resort Story Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6e3;
+    --warm-white: #fffdf7;
+    --sage: #7aaa8a;
+    --sage-light: #b8d4c0;
+    --coral: #e8856a;
+    --coral-light: #f2b09d;
+    --sky: #7eb8d4;
+    --sky-light: #b8d9ea;
+    --butter: #f5d76e;
+    --butter-light: #faeeb0;
+    --ink: #3a3028;
+    --ink-soft: #6b5d52;
+    --sand: #e8d8c0;
+    --sand-dark: #d4c0a0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 20%, rgba(126,184,212,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 80%, rgba(122,170,138,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(245,215,110,0.10) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+  .header { text-align: center; padding: 32px 0 24px; }
+  .resort-badge {
+    display: inline-block;
+    background: var(--sage);
+    color: white;
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(42px, 10vw, 68px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.05;
+    letter-spacing: -1px;
+  }
+  h1 .poke { color: var(--coral); }
+  h1 .libs { color: var(--sage); }
+  .tagline { font-size: 14px; color: var(--ink-soft); margin-top: 8px; font-style: italic; }
+  .pokeball-deco { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 16px; }
+  .deco-icon { animation: float 3s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+  }
+  .story-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0 32px;
+  }
+  .story-card {
+    background: var(--warm-white);
+    border: 2.5px solid var(--sand-dark);
+    border-radius: 18px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .story-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 16px;
+  }
+  .story-card.coral::before  { background: rgba(232,133,106,0.08); }
+  .story-card.sky::before    { background: rgba(126,184,212,0.08); }
+  .story-card.sage::before   { background: rgba(122,170,138,0.08); }
+  .story-card.butter::before { background: rgba(245,215,110,0.12); }
+  .story-card:hover::before, .story-card.selected::before { opacity: 1; }
+  .story-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(58,48,40,0.12); }
+  .story-card.selected { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
+  .story-card .emoji { font-size: 32px; margin-bottom: 8px; display: block; }
+  .story-card .label { font-weight: 800; font-size: 13px; color: var(--ink); line-height: 1.3; }
+  .story-card .sublabel { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
+  .section-label {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fields-grid { display: grid; gap: 16px; }
+  .field-group {
+    background: var(--warm-white);
+    border: 2px solid var(--sand-dark);
+    border-radius: 16px;
+    padding: 14px 18px;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .field-group:focus-within {
+    border-color: var(--sky);
+    box-shadow: 0 0 0 3px rgba(126,184,212,0.2);
+  }
+  .field-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .field-group input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    outline: none;
+    line-height: 1.2;
+  }
+  .field-group input::placeholder { color: var(--sand-dark); }
+  .field-tag {
+    position: absolute;
+    top: -8px;
+    right: 14px;
+    background: var(--butter);
+    border: 1.5px solid var(--sand-dark);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    color: var(--ink-soft);
+  }
+  /* Pokémon field */
+  .pokemon-field-wrap { display: flex; align-items: flex-start; gap: 12px; }
+  .pokemon-field-wrap .input-col { flex: 1; }
+  .poke-preview {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--sand);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .poke-preview img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    transition: opacity 0.3s;
+  }
+  .poke-preview.found { background: var(--butter-light); box-shadow: 0 0 0 2px var(--butter); }
+  .poke-preview.error { background: #fff0ee; }
+  .poke-placeholder { font-size: 26px; opacity: 0.4; }
+  .poke-status { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; min-height: 14px; }
+  .poke-status.ok  { color: var(--sage); }
+  .poke-status.err { color: var(--coral); }
+  .poke-status.searching { color: var(--sky); }
+  /* Generate button */
+  .generate-btn {
+    width: 100%;
+    margin-top: 28px;
+    padding: 18px;
+    background: var(--coral);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 0 #c4624a, 0 6px 16px rgba(232,133,106,0.35);
+  }
+  .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #c4624a, 0 10px 24px rgba(232,133,106,0.4); }
+  .generate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #c4624a; }
+  .generate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+  /* Loading */
+  .loading-area { display: none; text-align: center; padding: 48px 24px; }
+  .loading-area.visible { display: block; }
+  .loading-pokemon { font-size: 52px; animation: bounce 0.6s ease-in-out infinite alternate; display: block; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-16px); } }
+  .loading-text { font-family: 'Caveat', cursive; font-size: 22px; color: var(--ink-soft); margin-top: 16px; }
+  .loading-dots span { animation: blink 1.2s infinite; display: inline-block; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100% { opacity:0; } 40% { opacity:1; } }
+  /* Story output */
+  .story-output {
+    display: none;
+    background: var(--warm-white);
+    border: 2.5px solid var(--sand-dark);
+    border-radius: 24px;
+    padding: 28px;
+    margin-top: 24px;
+    box-shadow: 0 8px 32px rgba(58,48,40,0.08);
+    animation: revealStory 0.5s ease;
+  }
+  @keyframes revealStory { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .story-output.visible { display: block; }
+  /* Pokemon portrait floating in story */
+  .story-portrait {
+    display: none;
+    float: right;
+    margin: 0 0 16px 20px;
+    text-align: center;
+    width: 130px;
+  }
+  .story-portrait.visible { display: block; }
+  .portrait-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--butter-light);
+    border: 3px solid var(--butter);
+    box-shadow: 0 4px 20px rgba(58,48,40,0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+  }
+  .portrait-circle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 22%, rgba(255,255,255,0.38) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .portrait-circle img {
+    width: 102px;
+    height: 102px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 8px rgba(58,48,40,0.22));
+  }
+  .portrait-name {
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-top: 7px;
+    text-transform: capitalize;
+  }
+  .portrait-types { display: flex; gap: 4px; justify-content: center; margin-top: 4px; flex-wrap: wrap; }
+  .type-badge {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 2px 7px;
+    border-radius: 8px;
+    color: white;
+  }
+  .type-fire     { background:#f08030; }
+  .type-water    { background:#6890f0; }
+  .type-grass    { background:#78c850; }
+  .type-electric { background:#f8d030; color:#555; }
+  .type-psychic  { background:#f85888; }
+  .type-ice      { background:#98d8d8; color:#555; }
+  .type-dragon   { background:#7038f8; }
+  .type-dark     { background:#705848; }
+  .type-fairy    { background:#ee99ac; }
+  .type-fighting { background:#c03028; }
+  .type-poison   { background:#a040a0; }
+  .type-ground   { background:#e0c068; color:#555; }
+  .type-rock     { background:#b8a038; }
+  .type-bug      { background:#a8b820; color:#555; }
+  .type-ghost    { background:#705898; }
+  .type-steel    { background:#b8b8d0; color:#555; }
+  .type-flying   { background:#a890f0; }
+  .type-normal   { background:#a8a878; }
+  /* Story header */
+  .story-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px dashed var(--sand-dark);
+  }
+  .story-header .story-icon { font-size: 32px; }
+  .story-header .story-title { font-family:'Caveat',cursive; font-size:20px; font-weight:700; color:var(--ink); line-height:1.2; }
+  .story-header .story-subtitle { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--sage); font-weight:700; }
+  .story-body { overflow: hidden; }
+  .story-text { font-size: 17px; line-height: 1.85; color: var(--ink); }
+  .story-text .highlight {
+    background: var(--butter-light);
+    border-bottom: 2px solid var(--butter);
+    border-radius: 4px;
+    padding: 1px 4px;
+    font-weight: 800;
+    color: var(--coral);
+  }
+  .story-actions { display:flex; gap:10px; margin-top:24px; clear:both; }
+  .btn-secondary {
+    flex:1; padding:12px;
+    background:transparent; border:2px solid var(--sand-dark);
+    border-radius:14px;
+    font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+    color:var(--ink-soft); cursor:pointer; transition:all 0.2s;
+  }
+  .btn-secondary:hover { border-color:var(--sage); color:var(--sage); background:rgba(122,170,138,0.05); }
+  .error-msg {
+    display:none;
+    background:#fff0ee; border:2px solid var(--coral-light);
+    border-radius:14px; padding:16px 20px; margin-top:16px;
+    font-size:14px; color:var(--coral); text-align:center;
+  }
+  .error-msg.visible { display:block; }
+  .footer-deco { text-align:center; margin-top:48px; font-size:22px; opacity:0.4; letter-spacing:6px; }
+  @media (max-width:480px) {
+    .story-selector { grid-template-columns:1fr 1fr; }
+    .story-output { padding:20px 16px; }
+    .portrait-circle { width:90px; height:90px; }
+    .portrait-circle img { width:76px; height:76px; }
+    .story-portrait { width:100px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="resort-badge">✦ Holiday Resort ✦</div>
+    <h1><span class="poke">Poké</span><span class="libs">Libs</span></h1>
+    <p class="tagline">Fill in the blanks. Get a resort story. Befriend a Pokémon.</p>
+    <div class="pokeball-deco">
+      <!-- Great Ball (blue stripe) -->
+      <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30">
+        <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2.3 22 Q2.3 2 22 2 Q41.7 2 41.7 22" fill="#e8856a" opacity="0.85"/>
+        <rect x="6" y="10" width="32" height="7" rx="3.5" fill="#7eb8d4" opacity="0.9"/>
+        <circle cx="22" cy="22" r="6" fill="white" stroke="#d4c0a0" stroke-width="2.2"/>
+        <circle cx="22" cy="22" r="2.5" fill="#d4c0a0"/>
+      </svg>
+      <!-- Ultra Ball (yellow + black) -->
+      <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30" style="animation-delay:0.4s">
+        <circle cx="22" cy="22" r="20" fill="#3a3028" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2 22h40" stroke="#f5d76e" stroke-width="2.5"/>
+        <path d="M2.3 22 Q2.3 2 22 2 Q41.7 2 41.7 22" fill="#f5d76e" opacity="0.95"/>
+        <path d="M14 8 L22 18 L30 8" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="22" cy="22" r="6" fill="white" stroke="#f5d76e" stroke-width="2.2"/>
+        <circle cx="22" cy="22" r="2.5" fill="#f5d76e"/>
+      </svg>
+      <!-- Standard Pokéball (center, slightly larger) -->
+      <svg class="deco-icon" viewBox="0 0 44 44" width="38" height="38" style="animation-delay:0.8s">
+        <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.5"/>
+        <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.5"/>
+        <path d="M2.3 22 Q2.3 2 22 2 Q41.7 2 41.7 22" fill="#e8856a" opacity="0.9"/>
+        <circle cx="22" cy="22" r="6.5" fill="white" stroke="#d4c0a0" stroke-width="2.5"/>
+        <circle cx="22" cy="22" r="2.5" fill="#d4c0a0"/>
+      </svg>
+      <!-- Heal Ball (pink + white) -->
+      <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30" style="animation-delay:1.2s">
+        <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2.3 22 Q2.3 2 22 2 Q41.7 2 41.7 22" fill="#f2b09d" opacity="0.9"/>
+        <path d="M19 10 L19 14 L15 14 L15 17 L19 17 L19 21 L22 21 L22 17 L26 17 L26 14 L22 14 L22 10 Z" fill="white" opacity="0.9"/>
+        <circle cx="22" cy="22" r="6" fill="white" stroke="#f2b09d" stroke-width="2.2"/>
+        <circle cx="22" cy="22" r="2.5" fill="#f2b09d"/>
+      </svg>
+      <!-- Master Ball (purple + M) -->
+      <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30" style="animation-delay:1.6s">
+        <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.2"/>
+        <path d="M2.3 22 Q2.3 2 22 2 Q41.7 2 41.7 22" fill="#a040a0" opacity="0.85"/>
+        <text x="22" y="19" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="11" fill="white" opacity="0.95">M</text>
+        <circle cx="14" cy="12" r="3" fill="#f5d76e" opacity="0.9"/>
+        <circle cx="30" cy="12" r="3" fill="#f5d76e" opacity="0.9"/>
+        <circle cx="22" cy="22" r="6" fill="white" stroke="#a040a0" stroke-width="2.2"/>
+        <circle cx="22" cy="22" r="2.5" fill="#a040a0"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section-label">📖 Pick your story</div>
+  <div class="story-selector">
+    <div class="story-card coral selected" data-story="arrival" onclick="selectStory(this)">
+      <span class="emoji">🚂</span>
+      <div class="label">First Arrival</div>
+      <div class="sublabel">Checking into the resort</div>
+    </div>
+    <div class="story-card sky" data-story="encounter" onclick="selectStory(this)">
+      <span class="emoji">🌊</span>
+      <div class="label">Beach Encounter</div>
+      <div class="sublabel">A Pokémon finds you</div>
+    </div>
+    <div class="story-card sage" data-story="dinner" onclick="selectStory(this)">
+      <span class="emoji">🍜</span>
+      <div class="label">Dinner Drama</div>
+      <div class="sublabel">Something goes wonderfully wrong</div>
+    </div>
+    <div class="story-card butter" data-story="goodbye" onclick="selectStory(this)">
+      <span class="emoji">🌅</span>
+      <div class="label">Last Day</div>
+      <div class="sublabel">A bittersweet farewell</div>
+    </div>
+  </div>
+
+  <div class="section-label">✏️ Fill in the blanks</div>
+  <div class="fields-grid" id="fieldsGrid"></div>
+
+  <button class="generate-btn" id="generateBtn" onclick="generateStory()">✨ Tell My Story ✨</button>
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="loading-area" id="loadingArea">
+    <svg id="loadingBall" viewBox="0 0 60 60" width="64" height="64" style="animation: spin 1s linear infinite; display:block; margin:0 auto;">
+      <circle cx="30" cy="30" r="27" fill="none" stroke="#d4c0a0" stroke-width="3"/>
+      <path d="M3 30h54" stroke="#d4c0a0" stroke-width="3"/>
+      <path d="M3 30 Q3 3 30 3 Q57 3 57 30" fill="#e8856a" opacity="0.8"/>
+      <path d="M3 30 Q3 57 30 57 Q57 57 57 30" fill="#fffdf7"/>
+      <circle cx="30" cy="30" r="8" fill="white" stroke="#d4c0a0" stroke-width="3"/>
+      <circle cx="30" cy="30" r="3.5" fill="#d4c0a0"/>
+    </svg>
+    <style>@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }</style>
+    <div class="loading-text">Writing your story<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+  </div>
+
+  <div class="story-output" id="storyOutput">
+    <div class="story-header">
+      <span class="story-icon" id="outputIcon">📖</span>
+      <div>
+        <div class="story-subtitle">Your Pokélibs Story</div>
+        <div class="story-title" id="outputTitle">Resort Chronicles</div>
+      </div>
+    </div>
+    <div class="story-body">
+      <div class="story-portrait" id="storyPortrait">
+        <div class="portrait-circle">
+          <img id="portraitImg" src="" alt="">
+        </div>
+        <div class="portrait-name" id="portraitName"></div>
+        <div class="portrait-types" id="portraitTypes"></div>
+      </div>
+      <div class="story-text" id="storyText"></div>
+    </div>
+    <div class="story-actions">
+      <button class="btn-secondary" onclick="tryAgain()">↩ Edit Words</button>
+      <button class="btn-secondary" onclick="generateStory()">🎲 Rewrite It</button>
+    </div>
+  </div>
+
+  <div class="footer-deco">✦ ✦ ✦</div>
+</div>
+
+<script>
+const STORIES = {
+  arrival: {
+    icon: '🚂', title: 'First Arrival at the Resort',
+    fields: [
+      { key:'name',       label:'Your name',                     hint:'noun',        placeholder:'e.g. Sparky'          },
+      { key:'pokemon',    label:'A Pokémon species',              hint:'Pokémon ✦',   placeholder:'e.g. Snorlax',        isPokemon:true },
+      { key:'adjective1', label:'Adjective — how you felt',      hint:'adjective',   placeholder:'e.g. overwhelmed'     },
+      { key:'luggage',    label:'Something you packed',           hint:'noun',        placeholder:'e.g. a ukulele'       },
+      { key:'smell',      label:'A smell',                       hint:'noun',        placeholder:'e.g. burnt toast'     },
+      { key:'verb',       label:'Something a creature might do', hint:'verb -ing',   placeholder:'e.g. snoring'         },
+      { key:'adjective2', label:'Another adjective',              hint:'adjective',   placeholder:'e.g. enormous'        },
+      { key:'emotion',    label:'An emotion',                    hint:'noun',        placeholder:'e.g. hope'            },
+    ]
+  },
+  encounter: {
+    icon: '🌊', title: 'The Beach Encounter',
+    fields: [
+      { key:'name',       label:'Your name',               hint:'noun',        placeholder:'e.g. Remy'      },
+      { key:'pokemon',    label:'A water Pokémon',          hint:'Pokémon ✦',   placeholder:'e.g. Vaporeon', isPokemon:true },
+      { key:'food',       label:'A snack',                  hint:'noun',        placeholder:'e.g. mochi'     },
+      { key:'bodypart',   label:'A body part',              hint:'noun',        placeholder:'e.g. kneecap'   },
+      { key:'sound',      label:'A weird sound',            hint:'sound word',  placeholder:'e.g. SPLORCH'   },
+      { key:'adjective1', label:'Adjective — texture',      hint:'adjective',   placeholder:'e.g. velvety'   },
+      { key:'verb',       label:'Something you did next',   hint:'verb -ed',    placeholder:'e.g. screamed'  },
+      { key:'feeling',    label:'How you felt after',       hint:'adjective',   placeholder:'e.g. chosen'    },
+    ]
+  },
+  dinner: {
+    icon: '🍜', title: 'Dinner at the Resort Café',
+    fields: [
+      { key:'name',       label:'Your name',                 hint:'noun',        placeholder:'e.g. Wren'               },
+      { key:'pokemon',    label:'A Pokémon chef',             hint:'Pokémon ✦',   placeholder:'e.g. Slurpuff',          isPokemon:true },
+      { key:'dish',       label:'A dish name (made up OK)',  hint:'noun',        placeholder:'e.g. Thundersoup'        },
+      { key:'ingredient', label:'A surprising ingredient',   hint:'noun',        placeholder:'e.g. glitter'            },
+      { key:'adjective1', label:'How it tasted',             hint:'adjective',   placeholder:'e.g. electric'           },
+      { key:'disaster',   label:'A minor disaster',          hint:'noun',        placeholder:'e.g. a ceiling fan'      },
+      { key:'reaction',   label:'Your reaction',             hint:'verb -ed',    placeholder:'e.g. applauded'          },
+      { key:'lesson',     label:'Something you learned',     hint:'noun phrase', placeholder:"e.g. to never say never" },
+    ]
+  },
+  goodbye: {
+    icon: '🌅', title: 'The Last Morning',
+    fields: [
+      { key:'name',       label:'Your name',               hint:'noun',        placeholder:'e.g. Hana'              },
+      { key:'pokemon',    label:'Your Pokémon companion',  hint:'Pokémon ✦',   placeholder:'e.g. Jigglypuff',       isPokemon:true },
+      { key:'object',     label:'Something small you carry', hint:'noun',      placeholder:'e.g. a pebble'          },
+      { key:'adjective1', label:'The light looked...',     hint:'adjective',   placeholder:'e.g. golden'            },
+      { key:'sound',      label:'A sound from outside',    hint:'noun',        placeholder:'e.g. waves'             },
+      { key:'memory',     label:'Your favorite memory',    hint:'noun phrase', placeholder:'e.g. the midnight swim' },
+      { key:'verb',       label:'What you almost did',     hint:'verb',        placeholder:'e.g. cry'               },
+      { key:'adjective2', label:'How you left feeling',    hint:'adjective',   placeholder:'e.g. rearranged'        },
+    ]
+  }
+};
+
+const LOADING_EMOJIS = ['🌸','🌊','⛺','🌿','🎴','🍡'];
+let selectedStory = 'arrival';
+let pokemonData   = null;
+let pokeTimer     = null;
+
+// ── Story selector ──────────────────────────────────────────────
+function selectStory(el) {
+  document.querySelectorAll('.story-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedStory = el.dataset.story;
+  pokemonData = null;
+  renderFields();
+  hideOutput();
+}
+
+// ── Render fields ───────────────────────────────────────────────
+function renderFields() {
+  const story = STORIES[selectedStory];
+  const grid  = document.getElementById('fieldsGrid');
+  grid.innerHTML = '';
+  story.fields.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'field-group';
+    if (f.isPokemon) {
+      div.innerHTML = `
+        <div class="field-tag">${f.hint}</div>
+        <label for="f_${f.key}">${f.label}</label>
+        <div class="pokemon-field-wrap">
+          <div class="input-col">
+            <input id="f_${f.key}" type="text" placeholder="e.g. snorlax" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" oninput="onPokeInput(this)" onblur="onPokeCommit(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();onPokeCommit(this)}">
+            <div class="poke-status" id="pokeStatus"></div>
+          </div>
+          <div class="poke-preview" id="pokePreview"><span class="poke-placeholder">🔍</span></div>
+        </div>`;
+    } else {
+      div.innerHTML = `
+        <div class="field-tag">${f.hint}</div>
+        <label for="f_${f.key}">${f.label}</label>
+        <input id="f_${f.key}" type="text" placeholder="${f.placeholder}" autocomplete="off">`;
+    }
+    grid.appendChild(div);
+  });
+}
+
+// ── PokéAPI lookup via Claude (artifact CSP blocks direct fetch) ──
+function normalize(raw) {
+  return raw.trim().toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-]/g, '');
+}
+
+function onPokeInput(input) {
+  clearTimeout(pokeTimer);
+  pokemonData = null;
+  const raw = input.value.trim();
+  const preview = document.getElementById('pokePreview');
+  const status  = document.getElementById('pokeStatus');
+  if (!raw) {
+    preview.className = 'poke-preview';
+    preview.innerHTML = '<span class="poke-placeholder">🔍</span>';
+    status.textContent = '';
+    return;
+  }
+  status.className = 'poke-status searching';
+  status.textContent = 'Searching…';
+  pokeTimer = setTimeout(() => lookupPokemon(raw.trim()), 900);
+}
+
+function onPokeCommit(input) {
+  clearTimeout(pokeTimer);
+  const raw = input.value.trim();
+  if (!raw || pokemonData) return;
+  document.getElementById('pokeStatus').className = 'poke-status searching';
+  document.getElementById('pokeStatus').textContent = 'Searching…';
+  lookupPokemon(raw);
+}
+
+async function lookupPokemon(rawName) {
+  const preview = document.getElementById('pokePreview');
+  const status  = document.getElementById('pokeStatus');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 200,
+        system: `You are a Pokémon database. Respond with ONLY a raw JSON object, no markdown, no backticks, no explanation. For a valid Pokémon name (any capitalization) return:
+{"found":true,"display_name":"Pikachu","national_dex":25,"types":["electric"]}
+For an invalid name return:
+{"found":false}`,
+        messages: [{ role: 'user', content: rawName }]
+      })
+    });
+    if (!res.ok) throw new Error('api error');
+    const data = await res.json();
+
+    const textBlock = data.content.find(c => c.type === 'text');
+    if (!textBlock) throw new Error('no text');
+
+    // Strip any accidental markdown fences
+    const cleaned = textBlock.text.trim().replace(/^```[a-z]*\n?/,'').replace(/\n?```$/,'').trim();
+    const poke = JSON.parse(cleaned);
+
+    if (!poke.found) throw new Error('not found');
+
+    const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.national_dex}.png`;
+
+    pokemonData = {
+      name: poke.display_name.toLowerCase(),
+      displayName: poke.display_name,
+      sprite: spriteUrl,
+      types: poke.types
+    };
+
+    preview.className = 'poke-preview found';
+    preview.innerHTML = `<img src="${spriteUrl}" alt="${poke.display_name}" style="width:60px;height:60px;object-fit:contain;">`;
+    status.className = 'poke-status ok';
+    status.textContent = `✓ ${poke.display_name}`;
+
+  } catch(e) {
+    pokemonData = null;
+    preview.className = 'poke-preview error';
+    preview.innerHTML = '<span class="poke-placeholder">❓</span>';
+    status.className = 'poke-status err';
+    status.textContent = 'Not found — check spelling';
+  }
+}
+
+// ── Get all field values ─────────────────────────────────────────
+function getFieldValues() {
+  const values = {};
+  STORIES[selectedStory].fields.forEach(f => {
+    const el = document.getElementById(`f_${f.key}`);
+    values[f.key] = el ? el.value.trim() : '';
+  });
+  return values;
+}
+
+// ── Generate ─────────────────────────────────────────────────────
+async function generateStory() {
+  const values = getFieldValues();
+  const story  = STORIES[selectedStory];
+  const empty  = story.fields.filter(f => !values[f.key]);
+  if (empty.length > 0) {
+    document.getElementById(`f_${empty[0].key}`)?.focus();
+    showError(`Please fill in: "${empty[0].label}"`);
+    return;
+  }
+  hideOutput();
+  hideError();
+  setLoading(true);
+
+  const wordList = story.fields.map(f => `${f.label}: "${values[f.key]}"`).join('\n');
+
+  const systemPrompt = `You are the charming narrator of Pokémon Holiday Resort, a cozy watercolor resort where humans and Pokémon vacation together. Write warm, whimsical, slightly absurdist stories (200–280 words) in the style of Pokémon: Concierge — gentle, observational, full of small quiet moments and unexpected heart. Wrap every user-supplied word in <mark> tags. Keep the tone cozy and funny, never mean. End with one sentence that feels like a small revelation.`;
+
+  const userPrompt = `Write the story: "${story.title}"\n\nUser's words:\n${wordList}\n\nWeave all words naturally into a resort story (200–280 words). Every user-provided word must appear, wrapped in <mark> tags.`;
+
+  let emojiIdx = 0;
+  const emojiEl  = document.getElementById('loadingEmoji');
+  const interval = setInterval(() => {
+    if (emojiEl) emojiEl.textContent = LOADING_EMOJIS[emojiIdx++ % LOADING_EMOJIS.length];
+  }, 500);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    clearInterval(interval);
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data    = await res.json();
+    const rawText = data.content.map(c => c.text || '').join('');
+    const html    = rawText
+      .replace(/\n/g, '<br>')
+      .replace(/<mark>(.*?)<\/mark>/g, '<span class="highlight">$1</span>');
+    setLoading(false);
+    showStory(story.icon, story.title, html);
+  } catch (err) {
+    clearInterval(interval);
+    setLoading(false);
+    showError('Something went wrong at the front desk. Please try again.');
+    console.error(err);
+  }
+}
+
+// ── Show / hide ──────────────────────────────────────────────────
+function setLoading(on) {
+  document.getElementById('loadingArea').classList.toggle('visible', on);
+  document.getElementById('generateBtn').disabled = on;
+}
+
+function showStory(icon, title, html) {
+  document.getElementById('outputIcon').textContent  = icon;
+  document.getElementById('outputTitle').textContent = title;
+  document.getElementById('storyText').innerHTML     = html;
+
+  const portrait = document.getElementById('storyPortrait');
+  if (pokemonData?.sprite) {
+    document.getElementById('portraitImg').src           = pokemonData.sprite;
+    document.getElementById('portraitImg').alt           = pokemonData.displayName || pokemonData.name;
+    document.getElementById('portraitName').textContent  = pokemonData.displayName || cap(pokemonData.name);
+    document.getElementById('portraitTypes').innerHTML   =
+      pokemonData.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
+    portrait.classList.add('visible');
+  } else {
+    portrait.classList.remove('visible');
+  }
+
+  document.getElementById('storyOutput').classList.add('visible');
+  document.getElementById('storyOutput').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function hideOutput()  { document.getElementById('storyOutput').classList.remove('visible'); }
+function showError(m)  { const e = document.getElementById('errorMsg'); e.textContent = m; e.classList.add('visible'); }
+function hideError()   { document.getElementById('errorMsg').classList.remove('visible'); }
+function tryAgain()    { hideOutput(); window.scrollTo({ top:0, behavior:'smooth' }); }
+function cap(s)        { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+renderFields();
+</script>
+</body>
+</html>
