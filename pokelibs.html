@@ -7,361 +7,103 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #fdf6e3;
-    --warm-white: #fffdf7;
-    --sage: #7aaa8a;
-    --sage-light: #b8d4c0;
-    --coral: #e8856a;
-    --coral-light: #f2b09d;
-    --sky: #7eb8d4;
-    --sky-light: #b8d9ea;
-    --butter: #f5d76e;
-    --butter-light: #faeeb0;
-    --ink: #3a3028;
-    --ink-soft: #6b5d52;
-    --sand: #e8d8c0;
-    --sand-dark: #d4c0a0;
+    --cream: #fdf6e3; --warm-white: #fffdf7;
+    --sage: #7aaa8a; --coral: #e8856a; --coral-light: #f2b09d;
+    --sky: #7eb8d4; --butter: #f5d76e; --butter-light: #faeeb0;
+    --ink: #3a3028; --ink-soft: #6b5d52; --sand: #e8d8c0; --sand-dark: #d4c0a0;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 10% 20%, rgba(126,184,212,0.18) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 90% 80%, rgba(122,170,138,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(245,215,110,0.10) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 24px 20px 60px;
-  }
+  body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; position: relative; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 10% 20%, rgba(126,184,212,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 90% 80%, rgba(122,170,138,0.15) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+  .container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  /* Header */
   .header { text-align: center; padding: 32px 0 24px; }
-  .resort-badge {
-    display: inline-block;
-    background: var(--sage);
-    color: white;
-    font-family: 'Caveat', cursive;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 4px 16px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-  }
-  h1 {
-    font-family: 'Caveat', cursive;
-    font-size: clamp(42px, 10vw, 68px);
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.05;
-    letter-spacing: -1px;
-  }
-  h1 .poke { color: var(--coral); }
-  h1 .libs { color: var(--sage); }
+  .resort-badge { display: inline-block; background: var(--sage); color: white; font-family: 'Caveat', cursive; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 4px 16px; border-radius: 20px; margin-bottom: 10px; }
+  h1 { font-family: 'Caveat', cursive; font-size: clamp(42px, 10vw, 68px); font-weight: 700; line-height: 1.05; letter-spacing: -1px; }
+  h1 .poke { color: var(--coral); } h1 .libs { color: var(--sage); }
   .tagline { font-size: 14px; color: var(--ink-soft); margin-top: 8px; font-style: italic; }
+
+  /* Pokéball decoration */
   .pokeball-deco { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 16px; }
   .deco-icon { animation: float 3s ease-in-out infinite; flex-shrink: 0; }
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-6px); }
-  }
-  .story-selector {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0 32px;
-  }
-  .story-card {
-    background: var(--warm-white);
-    border: 2.5px solid var(--sand-dark);
-    border-radius: 18px;
-    padding: 18px 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .story-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.2s;
-    border-radius: 16px;
-  }
-  .story-card.coral::before  { background: rgba(232,133,106,0.08); }
-  .story-card.sky::before    { background: rgba(126,184,212,0.08); }
-  .story-card.sage::before   { background: rgba(122,170,138,0.08); }
-  .story-card.butter::before { background: rgba(245,215,110,0.12); }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+  /* Story selector */
+  .section-label { font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .story-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0 32px; }
+  .story-card { background: var(--warm-white); border: 2.5px solid var(--sand-dark); border-radius: 18px; padding: 18px 16px; cursor: pointer; transition: all 0.2s ease; text-align: center; position: relative; overflow: hidden; }
+  .story-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; border-radius: 16px; }
+  .story-card.coral::before { background: rgba(232,133,106,0.08); }
+  .story-card.sky::before   { background: rgba(126,184,212,0.08); }
+  .story-card.sage::before  { background: rgba(122,170,138,0.08); }
+  .story-card.butter::before{ background: rgba(245,215,110,0.12); }
   .story-card:hover::before, .story-card.selected::before { opacity: 1; }
   .story-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(58,48,40,0.12); }
   .story-card.selected { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
   .story-card .emoji { font-size: 32px; margin-bottom: 8px; display: block; }
   .story-card .label { font-weight: 800; font-size: 13px; color: var(--ink); line-height: 1.3; }
   .story-card .sublabel { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
-  .section-label {
-    font-family: 'Caveat', cursive;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+
+  /* Fields */
   .fields-grid { display: grid; gap: 16px; }
-  .field-group {
-    background: var(--warm-white);
-    border: 2px solid var(--sand-dark);
-    border-radius: 16px;
-    padding: 14px 18px;
-    transition: border-color 0.2s;
-    position: relative;
-  }
-  .field-group:focus-within {
-    border-color: var(--sky);
-    box-shadow: 0 0 0 3px rgba(126,184,212,0.2);
-  }
-  .field-group label {
-    display: block;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--ink-soft);
-    margin-bottom: 6px;
-  }
-  .field-group input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-family: 'Caveat', cursive;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--ink);
-    outline: none;
-    line-height: 1.2;
-  }
+  .field-group { background: var(--warm-white); border: 2px solid var(--sand-dark); border-radius: 16px; padding: 14px 18px; transition: border-color 0.2s; position: relative; }
+  .field-group:focus-within { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(126,184,212,0.2); }
+  .field-group label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--ink-soft); margin-bottom: 6px; }
+  .field-group input { width: 100%; border: none; background: transparent; font-family: 'Caveat', cursive; font-size: 20px; font-weight: 600; color: var(--ink); outline: none; line-height: 1.2; }
   .field-group input::placeholder { color: var(--sand-dark); }
-  .field-tag {
-    position: absolute;
-    top: -8px;
-    right: 14px;
-    background: var(--butter);
-    border: 1.5px solid var(--sand-dark);
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 2px 10px;
-    border-radius: 10px;
-    color: var(--ink-soft);
-  }
+  .field-tag { position: absolute; top: -8px; right: 14px; background: var(--butter); border: 1.5px solid var(--sand-dark); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 2px 10px; border-radius: 10px; color: var(--ink-soft); }
+
   /* Pokémon field */
   .pokemon-field-wrap { display: flex; align-items: flex-start; gap: 12px; }
-  .pokemon-field-wrap .input-col { flex: 1; }
-  .poke-preview {
-    width: 68px;
-    height: 68px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: var(--sand);
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-  .poke-preview img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    transition: opacity 0.3s;
-  }
+  .input-col { flex: 1; }
+  .poke-preview { width: 68px; height: 68px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--sand); overflow: hidden; transition: all 0.3s ease; }
   .poke-preview.found { background: var(--butter-light); box-shadow: 0 0 0 2px var(--butter); }
   .poke-preview.error { background: #fff0ee; }
+  .poke-preview img { width: 60px; height: 60px; object-fit: contain; }
   .poke-placeholder { font-size: 26px; opacity: 0.4; }
   .poke-status { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; min-height: 14px; }
-  .poke-status.ok  { color: var(--sage); }
+  .poke-status.ok { color: var(--sage); }
   .poke-status.err { color: var(--coral); }
   .poke-status.searching { color: var(--sky); }
+
   /* Generate button */
-  .generate-btn {
-    width: 100%;
-    margin-top: 28px;
-    padding: 18px;
-    background: var(--coral);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-family: 'Caveat', cursive;
-    font-size: 26px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 0 #c4624a, 0 6px 16px rgba(232,133,106,0.35);
-  }
+  .generate-btn { width: 100%; margin-top: 28px; padding: 18px; background: var(--coral); color: white; border: none; border-radius: 20px; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 0 #c4624a, 0 6px 16px rgba(232,133,106,0.35); }
   .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #c4624a, 0 10px 24px rgba(232,133,106,0.4); }
   .generate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #c4624a; }
-  .generate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
-  /* Loading */
-  .loading-area { display: none; text-align: center; padding: 48px 24px; }
-  .loading-area.visible { display: block; }
-  .loading-pokemon { font-size: 52px; animation: bounce 0.6s ease-in-out infinite alternate; display: block; }
-  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-16px); } }
-  .loading-text { font-family: 'Caveat', cursive; font-size: 22px; color: var(--ink-soft); margin-top: 16px; }
-  .loading-dots span { animation: blink 1.2s infinite; display: inline-block; }
-  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100% { opacity:0; } 40% { opacity:1; } }
+
+  /* Error */
+  .error-msg { display: none; background: #fff0ee; border: 2px solid var(--coral-light); border-radius: 14px; padding: 16px 20px; margin-top: 16px; font-size: 14px; color: var(--coral); text-align: center; }
+  .error-msg.visible { display: block; }
+
   /* Story output */
-  .story-output {
-    display: none;
-    background: var(--warm-white);
-    border: 2.5px solid var(--sand-dark);
-    border-radius: 24px;
-    padding: 28px;
-    margin-top: 24px;
-    box-shadow: 0 8px 32px rgba(58,48,40,0.08);
-    animation: revealStory 0.5s ease;
-  }
-  @keyframes revealStory { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .story-output { display: none; background: var(--warm-white); border: 2.5px solid var(--sand-dark); border-radius: 24px; padding: 28px; margin-top: 24px; box-shadow: 0 8px 32px rgba(58,48,40,0.08); animation: revealStory 0.5s ease; }
+  @keyframes revealStory { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   .story-output.visible { display: block; }
-  /* Pokemon portrait floating in story */
-  .story-portrait {
-    display: none;
-    float: right;
-    margin: 0 0 16px 20px;
-    text-align: center;
-    width: 130px;
-  }
-  .story-portrait.visible { display: block; }
-  .portrait-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: var(--butter-light);
-    border: 3px solid var(--butter);
-    box-shadow: 0 4px 20px rgba(58,48,40,0.14);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    margin: 0 auto;
-  }
-  .portrait-circle::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 22%, rgba(255,255,255,0.38) 0%, transparent 55%);
-    pointer-events: none;
-  }
-  .portrait-circle img {
-    width: 102px;
-    height: 102px;
-    object-fit: contain;
-    filter: drop-shadow(0 3px 8px rgba(58,48,40,0.22));
-  }
-  .portrait-name {
-    font-family: 'Caveat', cursive;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    margin-top: 7px;
-    text-transform: capitalize;
-  }
-  .portrait-types { display: flex; gap: 4px; justify-content: center; margin-top: 4px; flex-wrap: wrap; }
-  .type-badge {
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    padding: 2px 7px;
-    border-radius: 8px;
-    color: white;
-  }
-  .type-fire     { background:#f08030; }
-  .type-water    { background:#6890f0; }
-  .type-grass    { background:#78c850; }
-  .type-electric { background:#f8d030; color:#555; }
-  .type-psychic  { background:#f85888; }
-  .type-ice      { background:#98d8d8; color:#555; }
-  .type-dragon   { background:#7038f8; }
-  .type-dark     { background:#705848; }
-  .type-fairy    { background:#ee99ac; }
-  .type-fighting { background:#c03028; }
-  .type-poison   { background:#a040a0; }
-  .type-ground   { background:#e0c068; color:#555; }
-  .type-rock     { background:#b8a038; }
-  .type-bug      { background:#a8b820; color:#555; }
-  .type-ghost    { background:#705898; }
-  .type-steel    { background:#b8b8d0; color:#555; }
-  .type-flying   { background:#a890f0; }
-  .type-normal   { background:#a8a878; }
-  /* Story header */
-  .story-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 2px dashed var(--sand-dark);
-  }
+
+  .story-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px dashed var(--sand-dark); }
   .story-header .story-icon { font-size: 32px; }
-  .story-header .story-title { font-family:'Caveat',cursive; font-size:20px; font-weight:700; color:var(--ink); line-height:1.2; }
-  .story-header .story-subtitle { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--sage); font-weight:700; }
+  .story-header .story-title { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+  .story-header .story-subtitle { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--sage); font-weight: 700; }
+
+  /* Pokemon portrait */
+  .story-portrait { display: none; float: right; margin: 0 0 16px 20px; text-align: center; width: 130px; }
+  .story-portrait.visible { display: block; }
+  .portrait-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--butter-light); border: 3px solid var(--butter); box-shadow: 0 4px 20px rgba(58,48,40,0.14); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; margin: 0 auto; }
+  .portrait-circle::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 32% 22%, rgba(255,255,255,0.38) 0%, transparent 55%); pointer-events: none; }
+  .portrait-circle img { width: 102px; height: 102px; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(58,48,40,0.22)); }
+  .portrait-name { font-family: 'Caveat', cursive; font-size: 15px; font-weight: 700; color: var(--ink-soft); margin-top: 7px; text-transform: capitalize; }
+
   .story-body { overflow: hidden; }
   .story-text { font-size: 17px; line-height: 1.85; color: var(--ink); }
-  .story-text .highlight {
-    background: var(--butter-light);
-    border-bottom: 2px solid var(--butter);
-    border-radius: 4px;
-    padding: 1px 4px;
-    font-weight: 800;
-    color: var(--coral);
-  }
-  .story-actions { display:flex; gap:10px; margin-top:24px; clear:both; }
-  .btn-secondary {
-    flex:1; padding:12px;
-    background:transparent; border:2px solid var(--sand-dark);
-    border-radius:14px;
-    font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
-    color:var(--ink-soft); cursor:pointer; transition:all 0.2s;
-  }
-  .btn-secondary:hover { border-color:var(--sage); color:var(--sage); background:rgba(122,170,138,0.05); }
-  .error-msg {
-    display:none;
-    background:#fff0ee; border:2px solid var(--coral-light);
-    border-radius:14px; padding:16px 20px; margin-top:16px;
-    font-size:14px; color:var(--coral); text-align:center;
-  }
-  .error-msg.visible { display:block; }
-  .footer-deco { text-align:center; margin-top:48px; font-size:22px; opacity:0.4; letter-spacing:6px; }
-  @media (max-width:480px) {
-    .story-selector { grid-template-columns:1fr 1fr; }
-    .story-output { padding:20px 16px; }
-    .portrait-circle { width:90px; height:90px; }
-    .portrait-circle img { width:76px; height:76px; }
-    .story-portrait { width:100px; }
-  }
+  .story-text .hl { background: var(--butter-light); border-bottom: 2px solid var(--butter); border-radius: 4px; padding: 1px 4px; font-weight: 800; color: var(--coral); }
+
+  .story-actions { display: flex; gap: 10px; margin-top: 24px; clear: both; }
+  .btn-secondary { flex: 1; padding: 12px; background: transparent; border: 2px solid var(--sand-dark); border-radius: 14px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; color: var(--ink-soft); cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--sage); color: var(--sage); }
+
+  .footer-deco { text-align: center; margin-top: 48px; font-size: 22px; opacity: 0.4; letter-spacing: 6px; }
+  @media (max-width:480px) { .story-selector{grid-template-columns:1fr 1fr} .story-output{padding:20px 16px} .portrait-circle{width:90px;height:90px} .portrait-circle img{width:76px;height:76px} .story-portrait{width:100px} }
 </style>
 </head>
 <body>
@@ -372,7 +114,7 @@
     <h1><span class="poke">Poké</span><span class="libs">Libs</span></h1>
     <p class="tagline">Fill in the blanks. Get a resort story. Befriend a Pokémon.</p>
     <div class="pokeball-deco">
-      <!-- Great Ball (blue stripe) -->
+      <!-- Great Ball -->
       <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30">
         <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.2"/>
         <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.2"/>
@@ -381,7 +123,7 @@
         <circle cx="22" cy="22" r="6" fill="white" stroke="#d4c0a0" stroke-width="2.2"/>
         <circle cx="22" cy="22" r="2.5" fill="#d4c0a0"/>
       </svg>
-      <!-- Ultra Ball (yellow + black) -->
+      <!-- Ultra Ball -->
       <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30" style="animation-delay:0.4s">
         <circle cx="22" cy="22" r="20" fill="#3a3028" stroke="#d4c0a0" stroke-width="2.2"/>
         <path d="M2 22h40" stroke="#f5d76e" stroke-width="2.5"/>
@@ -390,7 +132,7 @@
         <circle cx="22" cy="22" r="6" fill="white" stroke="#f5d76e" stroke-width="2.2"/>
         <circle cx="22" cy="22" r="2.5" fill="#f5d76e"/>
       </svg>
-      <!-- Standard Pokéball (center, slightly larger) -->
+      <!-- Standard Pokéball (center, larger) -->
       <svg class="deco-icon" viewBox="0 0 44 44" width="38" height="38" style="animation-delay:0.8s">
         <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.5"/>
         <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.5"/>
@@ -398,7 +140,7 @@
         <circle cx="22" cy="22" r="6.5" fill="white" stroke="#d4c0a0" stroke-width="2.5"/>
         <circle cx="22" cy="22" r="2.5" fill="#d4c0a0"/>
       </svg>
-      <!-- Heal Ball (pink + white) -->
+      <!-- Heal Ball -->
       <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30" style="animation-delay:1.2s">
         <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.2"/>
         <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.2"/>
@@ -407,12 +149,12 @@
         <circle cx="22" cy="22" r="6" fill="white" stroke="#f2b09d" stroke-width="2.2"/>
         <circle cx="22" cy="22" r="2.5" fill="#f2b09d"/>
       </svg>
-      <!-- Master Ball (purple + M) -->
+      <!-- Master Ball -->
       <svg class="deco-icon" viewBox="0 0 44 44" width="30" height="30" style="animation-delay:1.6s">
         <circle cx="22" cy="22" r="20" fill="#fffdf7" stroke="#d4c0a0" stroke-width="2.2"/>
         <path d="M2 22h40" stroke="#d4c0a0" stroke-width="2.2"/>
         <path d="M2.3 22 Q2.3 2 22 2 Q41.7 2 41.7 22" fill="#a040a0" opacity="0.85"/>
-        <text x="22" y="19" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="11" fill="white" opacity="0.95">M</text>
+        <text x="22" y="19" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="11" fill="white">M</text>
         <circle cx="14" cy="12" r="3" fill="#f5d76e" opacity="0.9"/>
         <circle cx="30" cy="12" r="3" fill="#f5d76e" opacity="0.9"/>
         <circle cx="22" cy="22" r="6" fill="white" stroke="#a040a0" stroke-width="2.2"/>
@@ -424,67 +166,43 @@
   <div class="section-label">📖 Pick your story</div>
   <div class="story-selector">
     <div class="story-card coral selected" data-story="arrival" onclick="selectStory(this)">
-      <span class="emoji">🚂</span>
-      <div class="label">First Arrival</div>
-      <div class="sublabel">Checking into the resort</div>
+      <span class="emoji">🚂</span><div class="label">First Arrival</div><div class="sublabel">Checking into the resort</div>
     </div>
     <div class="story-card sky" data-story="encounter" onclick="selectStory(this)">
-      <span class="emoji">🌊</span>
-      <div class="label">Beach Encounter</div>
-      <div class="sublabel">A Pokémon finds you</div>
+      <span class="emoji">🌊</span><div class="label">Beach Encounter</div><div class="sublabel">A Pokémon finds you</div>
     </div>
     <div class="story-card sage" data-story="dinner" onclick="selectStory(this)">
-      <span class="emoji">🍜</span>
-      <div class="label">Dinner Drama</div>
-      <div class="sublabel">Something goes wonderfully wrong</div>
+      <span class="emoji">🍜</span><div class="label">Dinner Drama</div><div class="sublabel">Something goes wonderfully wrong</div>
     </div>
     <div class="story-card butter" data-story="goodbye" onclick="selectStory(this)">
-      <span class="emoji">🌅</span>
-      <div class="label">Last Day</div>
-      <div class="sublabel">A bittersweet farewell</div>
+      <span class="emoji">🌅</span><div class="label">Last Day</div><div class="sublabel">A bittersweet farewell</div>
     </div>
   </div>
 
   <div class="section-label">✏️ Fill in the blanks</div>
   <div class="fields-grid" id="fieldsGrid"></div>
 
-  <button class="generate-btn" id="generateBtn" onclick="generateStory()">✨ Tell My Story ✨</button>
+  <button class="generate-btn" onclick="generateStory()">✨ Tell My Story ✨</button>
   <div class="error-msg" id="errorMsg"></div>
-
-  <div class="loading-area" id="loadingArea">
-    <svg id="loadingBall" viewBox="0 0 60 60" width="64" height="64" style="animation: spin 1s linear infinite; display:block; margin:0 auto;">
-      <circle cx="30" cy="30" r="27" fill="none" stroke="#d4c0a0" stroke-width="3"/>
-      <path d="M3 30h54" stroke="#d4c0a0" stroke-width="3"/>
-      <path d="M3 30 Q3 3 30 3 Q57 3 57 30" fill="#e8856a" opacity="0.8"/>
-      <path d="M3 30 Q3 57 30 57 Q57 57 57 30" fill="#fffdf7"/>
-      <circle cx="30" cy="30" r="8" fill="white" stroke="#d4c0a0" stroke-width="3"/>
-      <circle cx="30" cy="30" r="3.5" fill="#d4c0a0"/>
-    </svg>
-    <style>@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }</style>
-    <div class="loading-text">Writing your story<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
-  </div>
 
   <div class="story-output" id="storyOutput">
     <div class="story-header">
       <span class="story-icon" id="outputIcon">📖</span>
       <div>
         <div class="story-subtitle">Your Pokélibs Story</div>
-        <div class="story-title" id="outputTitle">Resort Chronicles</div>
+        <div class="story-title" id="outputTitle"></div>
       </div>
     </div>
     <div class="story-body">
       <div class="story-portrait" id="storyPortrait">
-        <div class="portrait-circle">
-          <img id="portraitImg" src="" alt="">
-        </div>
+        <div class="portrait-circle" id="portraitCircle"></div>
         <div class="portrait-name" id="portraitName"></div>
-        <div class="portrait-types" id="portraitTypes"></div>
       </div>
       <div class="story-text" id="storyText"></div>
     </div>
     <div class="story-actions">
       <button class="btn-secondary" onclick="tryAgain()">↩ Edit Words</button>
-      <button class="btn-secondary" onclick="generateStory()">🎲 Rewrite It</button>
+      <button class="btn-secondary" onclick="generateStory()">🎲 Different Story</button>
     </div>
   </div>
 
@@ -492,67 +210,101 @@
 </div>
 
 <script>
+// ── Story definitions ─────────────────────────────────────────────
 const STORIES = {
   arrival: {
-    icon: '🚂', title: 'First Arrival at the Resort',
-    fields: [
-      { key:'name',       label:'Your name',                     hint:'noun',        placeholder:'e.g. Sparky'          },
-      { key:'pokemon',    label:'A Pokémon species',              hint:'Pokémon ✦',   placeholder:'e.g. Snorlax',        isPokemon:true },
-      { key:'adjective1', label:'Adjective — how you felt',      hint:'adjective',   placeholder:'e.g. overwhelmed'     },
-      { key:'luggage',    label:'Something you packed',           hint:'noun',        placeholder:'e.g. a ukulele'       },
-      { key:'smell',      label:'A smell',                       hint:'noun',        placeholder:'e.g. burnt toast'     },
-      { key:'verb',       label:'Something a creature might do', hint:'verb -ing',   placeholder:'e.g. snoring'         },
-      { key:'adjective2', label:'Another adjective',              hint:'adjective',   placeholder:'e.g. enormous'        },
-      { key:'emotion',    label:'An emotion',                    hint:'noun',        placeholder:'e.g. hope'            },
+    icon:'🚂', title:'First Arrival at the Resort',
+    fields:[
+      {key:'name',    label:'Your name',                    hint:'noun',      placeholder:'e.g. Troy'},
+      {key:'pokemon', label:'A Pokémon species',            hint:'Pokémon ✦', placeholder:'e.g. snorlax', isPokemon:true},
+      {key:'adj1',    label:'Adjective — how you felt',     hint:'adjective', placeholder:'e.g. overwhelmed'},
+      {key:'luggage', label:'Something you packed',          hint:'noun',      placeholder:'e.g. a ukulele'},
+      {key:'smell',   label:'A smell',                      hint:'noun',      placeholder:'e.g. burnt toast'},
+      {key:'verb',    label:'Something a creature might do',hint:'verb -ing', placeholder:'e.g. snoring'},
+      {key:'adj2',    label:'Another adjective',             hint:'adjective', placeholder:'e.g. enormous'},
+      {key:'emotion', label:'An emotion',                   hint:'noun',      placeholder:'e.g. hope'},
+    ],
+    // 3 template variants, rotated on "Different Story"
+    templates:[
+      `The train doors opened and {name} stepped onto the platform carrying {luggage}, which immediately attracted the attention of a {adj2} {pokemon} napping across three seats of the waiting bench. The resort smelled of {smell} and possibility.\n\nA staff Comfey drifted over and draped a small flower lei around {name}'s neck. The {pokemon} opened one eye, decided {name} was acceptable, and went back to {verb}. {name} felt {adj1} in a way that was somehow also peaceful.\n\nAt check-in, a Blissey handed over a key card decorated with little footprints and said something warm in Pokémon that the translation card rendered as: "Your room is ready. The {smell} is from the kitchen. We hope you feel {emotion} by dinner."\n\nAnd standing there, luggage in one hand and lei in the other, {name} realized that the {pokemon} had followed them inside and was now sitting on their foot.\n\nSome arrivals, it turns out, are also beginnings.`,
+
+      `{name} arrived seventeen minutes late, slightly out of breath, still holding {luggage} because the luggage carousel had tried to keep it. The resort's automatic doors opened onto a lobby that smelled powerfully of {smell}.\n\nA {adj2} {pokemon} was {verb} directly in front of the welcome desk. Nobody seemed to find this unusual. {name} stepped carefully around it and rang the bell.\n\nThe receptionist — a cheerful Audino — slid over a card that read: "Welcome! Your Pokémon companion has already chosen you. Please do not be {adj1} about this. It is an honor."\n\n{name} looked down. The {pokemon} had moved. It was now sitting on {name}'s foot.\n\nThe feeling that settled in — somewhere between {emotion} and amazement — would not leave for the rest of the trip. Nor, for that matter, would the {pokemon}.`,
+
+      `The brochure had said "a resort unlike any other." What the brochure had not said was that a {adj2} {pokemon} would be {verb} on the welcome mat when {name} arrived, luggage in one hand and {luggage} in the other.\n\nThe lobby smelled of {smell}. A small Togepi was handing out towels. {name} felt profoundly {adj1}.\n\n"First time?" said a voice. It was a Slowking at a small desk, wearing reading glasses and an expression of patient wisdom. {name} nodded. The Slowking nodded back. "The {pokemon} does that to everyone," it said. "Consider it a greeting. Consider yourself chosen."\n\nThe {pokemon} opened its eyes, regarded {name} with the deep and ancient calm of a creature that has never once doubted its own worth, and went back to {verb}.\n\n{name} stood very still, luggage at their feet, feeling something that could only be described as {emotion}.\n\nIt was, by any measure, an excellent beginning.`
     ]
   },
   encounter: {
-    icon: '🌊', title: 'The Beach Encounter',
-    fields: [
-      { key:'name',       label:'Your name',               hint:'noun',        placeholder:'e.g. Remy'      },
-      { key:'pokemon',    label:'A water Pokémon',          hint:'Pokémon ✦',   placeholder:'e.g. Vaporeon', isPokemon:true },
-      { key:'food',       label:'A snack',                  hint:'noun',        placeholder:'e.g. mochi'     },
-      { key:'bodypart',   label:'A body part',              hint:'noun',        placeholder:'e.g. kneecap'   },
-      { key:'sound',      label:'A weird sound',            hint:'sound word',  placeholder:'e.g. SPLORCH'   },
-      { key:'adjective1', label:'Adjective — texture',      hint:'adjective',   placeholder:'e.g. velvety'   },
-      { key:'verb',       label:'Something you did next',   hint:'verb -ed',    placeholder:'e.g. screamed'  },
-      { key:'feeling',    label:'How you felt after',       hint:'adjective',   placeholder:'e.g. chosen'    },
+    icon:'🌊', title:'The Beach Encounter',
+    fields:[
+      {key:'name',    label:'Your name',              hint:'noun',       placeholder:'e.g. Troy'},
+      {key:'pokemon', label:'A water Pokémon',        hint:'Pokémon ✦',  placeholder:'e.g. vaporeon', isPokemon:true},
+      {key:'food',    label:'A snack',                hint:'noun',       placeholder:'e.g. mochi'},
+      {key:'bodypart',label:'A body part',            hint:'noun',       placeholder:'e.g. kneecap'},
+      {key:'sound',   label:'A weird sound',          hint:'sound word', placeholder:'e.g. SPLORCH'},
+      {key:'adj1',    label:'Adjective — texture',    hint:'adjective',  placeholder:'e.g. velvety'},
+      {key:'verb',    label:'Something you did next', hint:'verb -ed',   placeholder:'e.g. screamed'},
+      {key:'feeling', label:'How you felt after',     hint:'adjective',  placeholder:'e.g. chosen'},
+    ],
+    templates:[
+      `{name} was sitting quietly on the beach eating {food} when the {pokemon} arrived.\n\nIt did not arrive dramatically. It simply surfaced about three meters out, regarded {name} with enormous calm eyes, and then proceeded to nudge {name}'s {bodypart} with its nose. The sound it made was something like {sound}. The texture of its nose was surprisingly {adj1}.\n\n{name} {verb}.\n\nThe {pokemon} waited politely for this to pass, then nudged the {bodypart} again, more gently this time, as if to say: yes, hello, I am aware this is unusual, but here we are.\n\nThey sat together for a long time after that — {name} with the remains of the {food}, the {pokemon} half-in, half-out of the tide — watching the sun get lower in a way that felt personally arranged.\n\n{name} went back to their room feeling {feeling}. They had not expected that. Nobody ever does.`,
+
+      `The {food} had been {name}'s idea of a perfect solo afternoon. The {pokemon} had other plans.\n\nIt surfaced without warning, made a sound exactly like {sound}, and pressed its face against {name}'s {bodypart} with the confidence of a creature that has never once been unwelcome anywhere.\n\nThe nose — {adj1}, unexpectedly — left a small damp print.\n\n{name} {verb}. The {pokemon} waited. Then it tilted its head at an angle that clearly communicated: your reaction was noted and found endearing.\n\nFor the next hour they shared the beach. {name} finished the {food}. The {pokemon} did slow circles in the shallows, occasionally glancing back as if checking that {name} was still there.\n\n{name} was still there. {name} felt {feeling} in a way they hadn't felt in a very long time.\n\nSome encounters aren't accidents. They're appointments you didn't know you'd made.`,
+
+      `{name} had just taken a large bite of {food} when the {pokemon} made its entrance.\n\nThe sound — a resonant, magnificent {sound} — came first. Then the nose, {adj1} and entirely without warning, against {name}'s {bodypart}.\n\n{name} {verb}. The {food} survived. Barely.\n\nThe {pokemon} observed all of this without judgment, which somehow made it worse, and then sat down in the sand next to {name} with the settled air of someone who has arrived exactly where they meant to be.\n\nThe afternoon light went gold. The water went silver. {name} and the {pokemon} remained companionably side by side, two creatures who had both ended up, against all probability, in exactly the right place.\n\n{name} walked back to the resort feeling {feeling} — the particular kind that comes from being surprised by something gentle.\n\nThe {food} wrapper was still in their pocket. They kept it.`
     ]
   },
   dinner: {
-    icon: '🍜', title: 'Dinner at the Resort Café',
-    fields: [
-      { key:'name',       label:'Your name',                 hint:'noun',        placeholder:'e.g. Wren'               },
-      { key:'pokemon',    label:'A Pokémon chef',             hint:'Pokémon ✦',   placeholder:'e.g. Slurpuff',          isPokemon:true },
-      { key:'dish',       label:'A dish name (made up OK)',  hint:'noun',        placeholder:'e.g. Thundersoup'        },
-      { key:'ingredient', label:'A surprising ingredient',   hint:'noun',        placeholder:'e.g. glitter'            },
-      { key:'adjective1', label:'How it tasted',             hint:'adjective',   placeholder:'e.g. electric'           },
-      { key:'disaster',   label:'A minor disaster',          hint:'noun',        placeholder:'e.g. a ceiling fan'      },
-      { key:'reaction',   label:'Your reaction',             hint:'verb -ed',    placeholder:'e.g. applauded'          },
-      { key:'lesson',     label:'Something you learned',     hint:'noun phrase', placeholder:"e.g. to never say never" },
+    icon:'🍜', title:'Dinner at the Resort Café',
+    fields:[
+      {key:'name',       label:'Your name',                hint:'noun',       placeholder:'e.g. Troy'},
+      {key:'pokemon',    label:'A Pokémon chef',           hint:'Pokémon ✦',  placeholder:'e.g. slurpuff', isPokemon:true},
+      {key:'dish',       label:'A dish name (real or made up)', hint:'noun',  placeholder:'e.g. Thundersoup'},
+      {key:'ingredient', label:'A surprising ingredient',  hint:'noun',       placeholder:'e.g. glitter'},
+      {key:'adj1',       label:'How it tasted',            hint:'adjective',  placeholder:'e.g. electric'},
+      {key:'disaster',   label:'A minor disaster',         hint:'noun',       placeholder:'e.g. a ceiling fan'},
+      {key:'verb',       label:'What you did',             hint:'verb -ed',   placeholder:'e.g. applauded'},
+      {key:'lesson',     label:'Something you learned',    hint:'noun phrase', placeholder:'e.g. to never say never'},
+    ],
+    templates:[
+      `The menu said simply: "{dish}." No further description. {name} ordered it anyway.\n\nThe {pokemon} chef arrived tableside to present it personally, which {name} understood was an honor, even if the {pokemon} was also wearing a small sauce-stained hat tilted at an angle suggesting recent catastrophe.\n\nThe dish contained {ingredient}. {name} had not expected {ingredient}. The {pokemon} watched with the alert pride of an artist unveiling something.\n\n{name} tasted it. It was {adj1}. It was also, somehow, wonderful.\n\nThen came {disaster}.\n\nThe details are not important. What matters is that {name} {verb}, the {pokemon} recovered with remarkable dignity, and the table next to them actually clapped.\n\nDessert arrived unprompted — a small complimentary sorbet with a note that read: "From the kitchen. We are sorry about {disaster}. The {dish} is better tomorrow. Please come back."\n\n{name} left having learned {lesson}. Worth every bite.`,
+
+      `{name} arrived at the café uncertain about the {dish}, and left understanding that certainty is overrated.\n\nThe {pokemon} chef sent it out personally — a rare honor — and stood at a respectful distance while {name} took the first bite. The dish contained {ingredient}, which {name} had not anticipated. The taste was {adj1} in a way that required a moment of silence.\n\nThe {pokemon} interpreted the silence correctly as reverence.\n\nThe trouble began with {disaster}, as trouble often does. It was brief. It was also spectacular. {name} {verb}. The café staff responded with practiced calm. The {pokemon} chef reappeared from the kitchen holding a small towel and an expression of philosophical acceptance.\n\n"These things happen," the menu translation card later explained, "when food is made with real feeling."\n\n{name} paid the bill, left a generous tip, and walked out having learned {lesson}.\n\nThe {ingredient} was, in retrospect, the best part.`,
+
+      `The {dish} was the {pokemon} chef's specialty. This was made clear by the way every other Pokémon in the kitchen stopped to watch it being plated.\n\n{name} received it at a table near the window. It smelled remarkable. It contained {ingredient}, which raised questions {name} chose not to pursue. It tasted {adj1}.\n\nThe {pokemon} emerged from the kitchen mid-meal specifically to observe {name}'s expression. {name} gave a thumbs up. The {pokemon} returned to the kitchen visibly moved.\n\nThen {disaster} occurred. These things happen at the best restaurants.\n\n{name} {verb}. The couple at the next table took a photo. The {pokemon} handled it with a grace that suggested this was not the first time {disaster} had been a factor in the evening service.\n\nA complimentary {dish} arrived later — smaller, steadier, equally {adj1}.\n\n{name} walked back to the room having learned {lesson}.\n\nThey were already planning to return tomorrow.`
     ]
   },
   goodbye: {
-    icon: '🌅', title: 'The Last Morning',
-    fields: [
-      { key:'name',       label:'Your name',               hint:'noun',        placeholder:'e.g. Hana'              },
-      { key:'pokemon',    label:'Your Pokémon companion',  hint:'Pokémon ✦',   placeholder:'e.g. Jigglypuff',       isPokemon:true },
-      { key:'object',     label:'Something small you carry', hint:'noun',      placeholder:'e.g. a pebble'          },
-      { key:'adjective1', label:'The light looked...',     hint:'adjective',   placeholder:'e.g. golden'            },
-      { key:'sound',      label:'A sound from outside',    hint:'noun',        placeholder:'e.g. waves'             },
-      { key:'memory',     label:'Your favorite memory',    hint:'noun phrase', placeholder:'e.g. the midnight swim' },
-      { key:'verb',       label:'What you almost did',     hint:'verb',        placeholder:'e.g. cry'               },
-      { key:'adjective2', label:'How you left feeling',    hint:'adjective',   placeholder:'e.g. rearranged'        },
+    icon:'🌅', title:'The Last Morning',
+    fields:[
+      {key:'name',    label:'Your name',               hint:'noun',       placeholder:'e.g. Troy'},
+      {key:'pokemon', label:'Your Pokémon companion',  hint:'Pokémon ✦',  placeholder:'e.g. jigglypuff', isPokemon:true},
+      {key:'object',  label:'Something small you carry',hint:'noun',      placeholder:'e.g. a pebble'},
+      {key:'adj1',    label:'The light looked...',      hint:'adjective',  placeholder:'e.g. golden'},
+      {key:'sound',   label:'A sound from outside',    hint:'noun',       placeholder:'e.g. waves'},
+      {key:'memory',  label:'Your favourite memory',   hint:'noun phrase', placeholder:'e.g. the midnight swim'},
+      {key:'verb',    label:'What you almost did',     hint:'verb',       placeholder:'e.g. cry'},
+      {key:'adj2',    label:'How you left feeling',    hint:'adjective',  placeholder:'e.g. rearranged'},
+    ],
+    templates:[
+      `{name} woke before the alarm on the last morning. The light was {adj1}. Outside: the sound of {sound}.\n\nThe {pokemon} was already awake, sitting by the window in a patch of sun with the patient dignity of a creature that has always known how to inhabit a moment.\n\n{name} packed slowly. Into a pocket went {object} — a small thing, but the right kind of small thing to carry home from a place like this. The {pokemon} watched the packing with an expression that was hard to read and easy to feel.\n\nThey sat together one last time at the edge of the water. {name} thought about {memory}. Almost {verb}. Didn't.\n\nThe {pokemon} leaned very slightly against {name}'s shoulder, which in Pokémon is a complete sentence.\n\n{name} checked out, collected a small goodbye card illustrated with footprints, and walked to the shuttle with {object} in one pocket and something harder to name in the other.\n\nThey left feeling {adj2}. Which is, it turns out, the very best way to leave somewhere that mattered.`,
+
+      `The morning of departure always arrives too quickly. {name} stood at the window watching the {adj1} light on the water, listening to {sound}, and trying not to count the hours.\n\nThe {pokemon} appeared at the door with {object} in its mouth.\n\nIt had found it somewhere — the beach, perhaps, or the garden — and had brought it as a gift with the absolute seriousness of a creature that understands what matters and what doesn't.\n\n{name} accepted {object}. The {pokemon} sat down. They spent the last hour together doing nothing in particular, which was everything.\n\n{name} thought about {memory}. Came close to — almost {verb}. Held it together.\n\nAt the shuttle, the {pokemon} stood at the path's edge and watched. {name} did not look back more than twice.\n\nThey arrived home feeling {adj2}: changed in a way that doesn't show from the outside but shifts everything inside.\n\n{object} is on the windowsill now. It is doing its job perfectly.`,
+
+      `Last mornings at good places have their own quality of light. This one was {adj1}. The {sound} outside was the sound {name} would hear in memory for a long time after.\n\nThe {pokemon} had slept at the foot of the bed. It woke when {name} woke and regarded the open suitcase with a calm that {name} was not quite managing.\n\nSomewhere along the path to the beach — for one last walk, just the two of them — {name} picked up {object}. The {pokemon} sniffed it, approved, and continued walking.\n\nThey sat for a while. {name} thought about {memory}. Nearly {verb}. The {pokemon} placed one paw on {name}'s knee.\n\nThat was enough.\n\nAt checkout, {name} shook the Blissey's hand, nodded to the {pokemon}, and carried {object} to the shuttle. The {pokemon} watched from the path. The light stayed {adj1} until the resort was out of sight.\n\n{name} went home feeling {adj2}.\n\nThey had not expected to feel so much. That is the whole point of places like this.`
     ]
   }
 };
 
-const LOADING_EMOJIS = ['🌸','🌊','⛺','🌿','🎴','🍡'];
+// ── Pokémon dex — name → id, sprites loaded as <img src> (no fetch needed) ──
+const DEX = {"bulbasaur":1,"ivysaur":2,"venusaur":3,"charmander":4,"charmeleon":5,"charizard":6,"squirtle":7,"wartortle":8,"blastoise":9,"caterpie":10,"metapod":11,"butterfree":12,"weedle":13,"kakuna":14,"beedrill":15,"pidgey":16,"pidgeotto":17,"pidgeot":18,"rattata":19,"raticate":20,"spearow":21,"fearow":22,"ekans":23,"arbok":24,"pikachu":25,"raichu":26,"sandshrew":27,"sandslash":28,"nidoran-f":29,"nidorina":30,"nidoqueen":31,"nidoran-m":32,"nidorino":33,"nidoking":34,"clefairy":35,"clefable":36,"vulpix":37,"ninetales":38,"jigglypuff":39,"wigglytuff":40,"zubat":41,"golbat":42,"oddish":43,"gloom":44,"vileplume":45,"paras":46,"parasect":47,"venonat":48,"venomoth":49,"diglett":50,"dugtrio":51,"meowth":52,"persian":53,"psyduck":54,"golduck":55,"mankey":56,"primeape":57,"growlithe":58,"arcanine":59,"poliwag":60,"poliwhirl":61,"poliwrath":62,"abra":63,"kadabra":64,"alakazam":65,"machop":66,"machoke":67,"machamp":68,"bellsprout":69,"weepinbell":70,"victreebel":71,"tentacool":72,"tentacruel":73,"geodude":74,"graveler":75,"golem":76,"ponyta":77,"rapidash":78,"slowpoke":79,"slowbro":80,"magnemite":81,"magneton":82,"farfetchd":83,"doduo":84,"dodrio":85,"seel":86,"dewgong":87,"grimer":88,"muk":89,"shellder":90,"cloyster":91,"gastly":92,"haunter":93,"gengar":94,"onix":95,"drowzee":96,"hypno":97,"krabby":98,"kingler":99,"voltorb":100,"electrode":101,"exeggcute":102,"exeggutor":103,"cubone":104,"marowak":105,"hitmonlee":106,"hitmonchan":107,"lickitung":108,"koffing":109,"weezing":110,"rhyhorn":111,"rhydon":112,"chansey":113,"tangela":114,"kangaskhan":115,"horsea":116,"seadra":117,"goldeen":118,"seaking":119,"staryu":120,"starmie":121,"mr-mime":122,"scyther":123,"jynx":124,"electabuzz":125,"magmar":126,"pinsir":127,"tauros":128,"magikarp":129,"gyarados":130,"lapras":131,"ditto":132,"eevee":133,"vaporeon":134,"jolteon":135,"flareon":136,"porygon":137,"omanyte":138,"omastar":139,"kabuto":140,"kabutops":141,"aerodactyl":142,"snorlax":143,"articuno":144,"zapdos":145,"moltres":146,"dratini":147,"dragonair":148,"dragonite":149,"mewtwo":150,"mew":151,"chikorita":152,"bayleef":153,"meganium":154,"cyndaquil":155,"quilava":156,"typhlosion":157,"totodile":158,"croconaw":159,"feraligatr":160,"sentret":161,"furret":162,"hoothoot":163,"noctowl":164,"ledyba":165,"ledian":166,"spinarak":167,"ariados":168,"crobat":169,"chinchou":170,"lanturn":171,"pichu":172,"cleffa":173,"igglybuff":174,"togepi":175,"togetic":176,"natu":177,"xatu":178,"mareep":179,"flaaffy":180,"ampharos":181,"bellossom":182,"marill":183,"azumarill":184,"sudowoodo":185,"politoed":186,"hoppip":187,"skiploom":188,"jumpluff":189,"aipom":190,"sunkern":191,"sunflora":192,"yanma":193,"wooper":194,"quagsire":195,"espeon":196,"umbreon":197,"murkrow":198,"slowking":199,"misdreavus":200,"unown":201,"wobbuffet":202,"girafarig":203,"pineco":204,"forretress":205,"dunsparce":206,"gligar":207,"steelix":208,"snubbull":209,"granbull":210,"qwilfish":211,"scizor":212,"shuckle":213,"heracross":214,"sneasel":215,"teddiursa":216,"ursaring":217,"slugma":218,"magcargo":219,"swinub":220,"piloswine":221,"corsola":222,"remoraid":223,"octillery":224,"delibird":225,"mantine":226,"skarmory":227,"houndour":228,"houndoom":229,"kingdra":230,"phanpy":231,"donphan":232,"porygon2":233,"stantler":234,"smeargle":235,"tyrogue":236,"hitmontop":237,"smoochum":238,"elekid":239,"magby":240,"miltank":241,"blissey":242,"raikou":243,"entei":244,"suicune":245,"larvitar":246,"pupitar":247,"tyranitar":248,"lugia":249,"ho-oh":250,"celebi":251,"treecko":252,"grovyle":253,"sceptile":254,"torchic":255,"combusken":256,"blaziken":257,"mudkip":258,"marshtomp":259,"swampert":260,"poochyena":261,"mightyena":262,"zigzagoon":263,"linoone":264,"wurmple":265,"silcoon":266,"beautifly":267,"cascoon":268,"dustox":269,"lotad":270,"lombre":271,"ludicolo":272,"seedot":273,"nuzleaf":274,"shiftry":275,"taillow":276,"swellow":277,"wingull":278,"pelipper":279,"ralts":280,"kirlia":281,"gardevoir":282,"surskit":283,"masquerain":284,"shroomish":285,"breloom":286,"slakoth":287,"vigoroth":288,"slaking":289,"nincada":290,"ninjask":291,"shedinja":292,"whismur":293,"loudred":294,"exploud":295,"makuhita":296,"hariyama":297,"azurill":298,"nosepass":299,"skitty":300,"delcatty":301,"sableye":302,"mawile":303,"aron":304,"lairon":305,"aggron":306,"meditite":307,"medicham":308,"electrike":309,"manectric":310,"plusle":311,"minun":312,"volbeat":313,"illumise":314,"roselia":315,"gulpin":316,"swalot":317,"carvanha":318,"sharpedo":319,"wailmer":320,"wailord":321,"numel":322,"camerupt":323,"torkoal":324,"spoink":325,"grumpig":326,"spinda":327,"trapinch":328,"vibrava":329,"flygon":330,"cacnea":331,"cacturne":332,"swablu":333,"altaria":334,"zangoose":335,"seviper":336,"lunatone":337,"solrock":338,"barboach":339,"whiscash":340,"corphish":341,"crawdaunt":342,"baltoy":343,"claydol":344,"lileep":345,"cradily":346,"anorith":347,"armaldo":348,"feebas":349,"milotic":350,"castform":351,"kecleon":352,"shuppet":353,"banette":354,"duskull":355,"dusclops":356,"tropius":357,"chimecho":358,"absol":359,"wynaut":360,"snorunt":361,"glalie":362,"spheal":363,"sealeo":364,"walrein":365,"clamperl":366,"huntail":367,"gorebyss":368,"relicanth":369,"luvdisc":370,"bagon":371,"shelgon":372,"salamence":373,"beldum":374,"metang":375,"metagross":376,"regirock":377,"regice":378,"registeel":379,"latias":380,"latios":381,"kyogre":382,"groudon":383,"rayquaza":384,"jirachi":385,"deoxys":386,"turtwig":387,"grotle":388,"torterra":389,"chimchar":390,"monferno":391,"infernape":392,"piplup":393,"prinplup":394,"empoleon":395,"starly":396,"staravia":397,"staraptor":398,"bidoof":399,"bibarel":400,"kricketot":401,"kricketune":402,"shinx":403,"luxio":404,"luxray":405,"budew":406,"roserade":407,"cranidos":408,"rampardos":409,"shieldon":410,"bastiodon":411,"burmy":412,"wormadam":413,"mothim":414,"combee":415,"vespiquen":416,"pachirisu":417,"buizel":418,"floatzel":419,"cherubi":420,"cherrim":421,"shellos":422,"gastrodon":423,"ambipom":424,"drifloon":425,"drifblim":426,"buneary":427,"lopunny":428,"mismagius":429,"honchkrow":430,"glameow":431,"purugly":432,"chingling":433,"stunky":434,"skuntank":435,"bronzor":436,"bronzong":437,"bonsly":438,"mime-jr":439,"happiny":440,"chatot":441,"spiritomb":442,"gible":443,"gabite":444,"garchomp":445,"munchlax":446,"riolu":447,"lucario":448,"hippopotas":449,"hippowdon":450,"skorupi":451,"drapion":452,"croagunk":453,"toxicroak":454,"carnivine":455,"finneon":456,"lumineon":457,"mantyke":458,"snover":459,"abomasnow":460,"weavile":461,"magnezone":462,"lickilicky":463,"rhyperior":464,"tangrowth":465,"electivire":466,"magmortar":467,"togekiss":468,"yanmega":469,"leafeon":470,"glaceon":471,"gliscor":472,"mamoswine":473,"porygon-z":474,"gallade":475,"probopass":476,"dusknoir":477,"froslass":478,"rotom":479,"uxie":480,"mesprit":481,"azelf":482,"dialga":483,"palkia":484,"heatran":485,"regigigas":486,"giratina":487,"cresselia":488,"phione":489,"manaphy":490,"darkrai":491,"shaymin":492,"arceus":493,"victini":494,"snivy":495,"servine":496,"serperior":497,"tepig":498,"pignite":499,"emboar":500,"oshawott":501,"dewott":502,"samurott":503,"patrat":504,"watchog":505,"lillipup":506,"herdier":507,"stoutland":508,"purrloin":509,"liepard":510,"pansage":511,"simisage":512,"pansear":513,"simisear":514,"panpour":515,"simipour":516,"munna":517,"musharna":518,"pidove":519,"tranquill":520,"unfezant":521,"blitzle":522,"zebstrika":523,"roggenrola":524,"boldore":525,"gigalith":526,"woobat":527,"swoobat":528,"drilbur":529,"excadrill":530,"audino":531,"timburr":532,"gurdurr":533,"conkeldurr":534,"tympole":535,"palpitoad":536,"seismitoad":537,"throh":538,"sawk":539,"sewaddle":540,"swadloon":541,"leavanny":542,"venipede":543,"whirlipede":544,"scolipede":545,"cottonee":546,"whimsicott":547,"petilil":548,"lilligant":549,"basculin":550,"sandile":551,"krokorok":552,"krookodile":553,"darumaka":554,"darmanitan":555,"maractus":556,"dwebble":557,"crustle":558,"scraggy":559,"scrafty":560,"sigilyph":561,"yamask":562,"cofagrigus":563,"tirtouga":564,"carracosta":565,"archen":566,"archeops":567,"trubbish":568,"garbodor":569,"zorua":570,"zoroark":571,"minccino":572,"cinccino":573,"gothita":574,"gothorita":575,"gothitelle":576,"solosis":577,"duosion":578,"reuniclus":579,"ducklett":580,"swanna":581,"vanillite":582,"vanillish":583,"vanilluxe":584,"deerling":585,"sawsbuck":586,"emolga":587,"karrablast":588,"escavalier":589,"foongus":590,"amoonguss":591,"frillish":592,"jellicent":593,"alomomola":594,"joltik":595,"galvantula":596,"ferroseed":597,"ferrothorn":598,"klink":599,"klang":600,"klinklang":601,"tynamo":602,"eelektrik":603,"eelektross":604,"elgyem":605,"beheeyem":606,"litwick":607,"lampent":608,"chandelure":609,"axew":610,"fraxure":611,"haxorus":612,"cubchoo":613,"beartic":614,"cryogonal":615,"shelmet":616,"accelgor":617,"stunfisk":618,"mienfoo":619,"mienshao":620,"druddigon":621,"golett":622,"golurk":623,"pawniard":624,"bisharp":625,"bouffalant":626,"rufflet":627,"braviary":628,"vullaby":629,"mandibuzz":630,"heatmor":631,"durant":632,"deino":633,"zweilous":634,"hydreigon":635,"larvesta":636,"volcarona":637,"cobalion":638,"terrakion":639,"virizion":640,"tornadus":641,"thundurus":642,"reshiram":643,"zekrom":644,"landorus":645,"kyurem":646,"keldeo":647,"meloetta":648,"genesect":649,"chespin":650,"quilladin":651,"chesnaught":652,"fennekin":653,"braixen":654,"delphox":655,"froakie":656,"frogadier":657,"greninja":658,"bunnelby":659,"diggersby":660,"fletchling":661,"fletchinder":662,"talonflame":663,"scatterbug":664,"spewpa":665,"vivillon":666,"litleo":667,"pyroar":668,"flabebe":669,"floette":670,"florges":671,"skiddo":672,"gogoat":673,"pancham":674,"pangoro":675,"furfrou":676,"espurr":677,"meowstic":678,"honedge":679,"doublade":680,"aegislash":681,"spritzee":682,"aromatisse":683,"swirlix":684,"slurpuff":685,"inkay":686,"malamar":687,"binacle":688,"barbaracle":689,"skrelp":690,"dragalge":691,"clauncher":692,"clawitzer":693,"helioptile":694,"heliolisk":695,"tyrunt":696,"tyrantrum":697,"amaura":698,"aurorus":699,"sylveon":700,"hawlucha":701,"dedenne":702,"carbink":703,"goomy":704,"sliggoo":705,"goodra":706,"klefki":707,"phantump":708,"trevenant":709,"pumpkaboo":710,"gourgeist":711,"bergmite":712,"avalugg":713,"noibat":714,"noivern":715,"xerneas":716,"yveltal":717,"zygarde":718,"diancie":719,"hoopa":720,"volcanion":721,"rowlet":722,"dartrix":723,"decidueye":724,"litten":725,"torracat":726,"incineroar":727,"popplio":728,"brionne":729,"primarina":730,"pikipek":731,"trumbeak":732,"toucannon":733,"yungoos":734,"gumshoos":735,"grubbin":736,"charjabug":737,"vikavolt":738,"crabrawler":739,"crabominable":740,"oricorio":741,"cutiefly":742,"ribombee":743,"rockruff":744,"lycanroc":745,"wishiwashi":746,"mareanie":747,"toxapex":748,"mudbray":749,"mudsdale":750,"dewpider":751,"araquanid":752,"fomantis":753,"lurantis":754,"morelull":755,"shiinotic":756,"salandit":757,"salazzle":758,"stufful":759,"bewear":760,"bounsweet":761,"steenee":762,"tsareena":763,"comfey":764,"oranguru":765,"passimian":766,"wimpod":767,"golisopod":768,"sandygast":769,"palossand":770,"pyukumuku":771,"type-null":772,"silvally":773,"minior":774,"komala":775,"turtonator":776,"togedemaru":777,"mimikyu":778,"bruxish":779,"drampa":780,"dhelmise":781,"jangmo-o":782,"hakamo-o":783,"kommo-o":784,"tapu-koko":785,"tapu-lele":786,"tapu-bulu":787,"tapu-fini":788,"cosmog":789,"cosmoem":790,"solgaleo":791,"lunala":792,"nihilego":793,"buzzwole":794,"pheromosa":795,"xurkitree":796,"celesteela":797,"kartana":798,"guzzlord":799,"necrozma":800,"magearna":801,"marshadow":802,"poipole":803,"naganadel":804,"stakataka":805,"blacephalon":806,"zeraora":807,"meltan":808,"melmetal":809,"grookey":810,"thwackey":811,"rillaboom":812,"scorbunny":813,"raboot":814,"cinderace":815,"sobble":816,"drizzile":817,"inteleon":818,"skwovet":819,"greedent":820,"rookidee":821,"corvisquire":822,"corviknight":823,"blipbug":824,"dottler":825,"orbeetle":826,"nickit":827,"thievul":828,"gossifleur":829,"eldegoss":830,"wooloo":831,"dubwool":832,"chewtle":833,"drednaw":834,"yamper":835,"boltund":836,"rolycoly":837,"carkol":838,"coalossal":839,"applin":840,"flapple":841,"appletun":842,"silicobra":843,"sandaconda":844,"cramorant":845,"arrokuda":846,"barraskewda":847,"toxel":848,"toxtricity":849,"sizzlipede":850,"centiskorch":851,"clobbopus":852,"grapploct":853,"sinistea":854,"polteageist":855,"hatenna":856,"hattrem":857,"hatterene":858,"impidimp":859,"morgrem":860,"grimmsnarl":861,"obstagoon":862,"perrserker":863,"cursola":864,"sirfetchd":865,"mr-rime":866,"runerigus":867,"milcery":868,"alcremie":869,"falinks":870,"pincurchin":871,"snom":872,"frosmoth":873,"stonjourner":874,"eiscue":875,"indeedee":876,"morpeko":877,"cufant":878,"copperajah":879,"dracozolt":880,"arctozolt":881,"dracovish":882,"arctovish":883,"duraludon":884,"dreepy":885,"drakloak":886,"dragapult":887,"zacian":888,"zamazenta":889,"eternatus":890,"kubfu":891,"urshifu":892,"zarude":893,"regieleki":894,"regidrago":895,"glastrier":896,"spectrier":897,"calyrex":898,"wyrdeer":899,"kleavor":900,"ursaluna":901,"basculegion":902,"sneasler":903,"overqwil":904,"enamorus":905,"sprigatito":906,"floragato":907,"meowscarada":908,"fuecoco":909,"crocalor":910,"skeledirge":911,"quaxly":912,"quaxwell":913,"quaquaval":914,"lechonk":915,"oinkologne":916,"tarountula":917,"spidops":918,"nymble":919,"lokix":920,"pawmi":921,"pawmo":922,"pawmot":923,"tandemaus":924,"maushold":925,"fidough":926,"dachsbun":927,"smoliv":928,"dolliv":929,"arboliva":930,"squawkabilly":931,"nacli":932,"naclstack":933,"garganacl":934,"charcadet":935,"armarouge":936,"ceruledge":937,"tadbulb":938,"bellibolt":939,"wattrel":940,"kilowattrel":941,"maschiff":942,"mabosstiff":943,"shroodle":944,"grafaiai":945,"bramblin":946,"brambleghast":947,"toedscool":948,"toedscruel":949,"klawf":950,"capsakid":951,"scovillain":952,"rellor":953,"rabsca":954,"flittle":955,"espathra":956,"tinkatink":957,"tinkatuff":958,"tinkaton":959,"wiglett":960,"wugtrio":961,"bombirdier":962,"finizen":963,"palafin":964,"varoom":965,"revavroom":966,"cyclizar":967,"orthworm":968,"glimmet":969,"glimmora":970,"greavard":971,"houndstone":972,"flamigo":973,"cetoddle":974,"cetitan":975,"veluza":976,"dondozo":977,"tatsugiri":978,"annihilape":979,"clodsire":980,"farigiraf":981,"dudunsparce":982,"kingambit":983,"gimmighoul":999,"gholdengo":1000,"koraidon":1007,"miraidon":1008,
+"mr mime":122,"mr. mime":122,"farfetch'd":83,"sirfetch'd":865,"ho oh":250,"mime jr":439,"type null":772,"tapu koko":785,"tapu lele":786,"tapu bulu":787,"tapu fini":788,"jangmo o":782,"hakamo o":783,"kommo o":784};
+
 let selectedStory = 'arrival';
 let pokemonData   = null;
 let pokeTimer     = null;
+let templateIdx   = {};  // tracks which template variant per story
 
-// ── Story selector ──────────────────────────────────────────────
+// ── Story selector ───────────────────────────────────────────────
 function selectStory(el) {
   document.querySelectorAll('.story-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
@@ -562,12 +314,11 @@ function selectStory(el) {
   hideOutput();
 }
 
-// ── Render fields ───────────────────────────────────────────────
+// ── Render fields ────────────────────────────────────────────────
 function renderFields() {
-  const story = STORIES[selectedStory];
-  const grid  = document.getElementById('fieldsGrid');
+  const grid = document.getElementById('fieldsGrid');
   grid.innerHTML = '';
-  story.fields.forEach(f => {
+  STORIES[selectedStory].fields.forEach(f => {
     const div = document.createElement('div');
     div.className = 'field-group';
     if (f.isPokemon) {
@@ -576,7 +327,10 @@ function renderFields() {
         <label for="f_${f.key}">${f.label}</label>
         <div class="pokemon-field-wrap">
           <div class="input-col">
-            <input id="f_${f.key}" type="text" placeholder="e.g. snorlax" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" oninput="onPokeInput(this)" onblur="onPokeCommit(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();onPokeCommit(this)}">
+            <input id="f_${f.key}" type="text" placeholder="${f.placeholder}"
+              autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+              oninput="onPokeInput(this)" onblur="onPokeCommit(this)"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();onPokeCommit(this)}">
             <div class="poke-status" id="pokeStatus"></div>
           </div>
           <div class="poke-preview" id="pokePreview"><span class="poke-placeholder">🔍</span></div>
@@ -591,179 +345,128 @@ function renderFields() {
   });
 }
 
-// ── PokéAPI lookup via Claude (artifact CSP blocks direct fetch) ──
-function normalize(raw) {
-  return raw.trim().toLowerCase().normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-]/g, '');
+// ── Pokémon lookup — instant, no network, img src for sprites ───
+function resolveKey(raw) {
+  const s = raw.trim().toLowerCase();
+  const stripped = s.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/['\u2019\.]/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'');
+  const candidates = [s, stripped, s.replace(/\s+/g,'-'), s.replace(/[^a-z0-9]/g,'')];
+  for (const c of candidates) if (DEX[c] !== undefined) return {key:c, id:DEX[c]};
+  return null;
 }
 
 function onPokeInput(input) {
   clearTimeout(pokeTimer);
   pokemonData = null;
   const raw = input.value.trim();
-  const preview = document.getElementById('pokePreview');
-  const status  = document.getElementById('pokeStatus');
-  if (!raw) {
-    preview.className = 'poke-preview';
-    preview.innerHTML = '<span class="poke-placeholder">🔍</span>';
-    status.textContent = '';
-    return;
-  }
-  status.className = 'poke-status searching';
-  status.textContent = 'Searching…';
-  pokeTimer = setTimeout(() => lookupPokemon(raw.trim()), 900);
+  if (!raw) { resetPreview(); return; }
+  setPokeStatus('searching','…');
+  pokeTimer = setTimeout(() => resolveLocal(raw), 300);
 }
 
 function onPokeCommit(input) {
   clearTimeout(pokeTimer);
   const raw = input.value.trim();
   if (!raw || pokemonData) return;
-  document.getElementById('pokeStatus').className = 'poke-status searching';
-  document.getElementById('pokeStatus').textContent = 'Searching…';
-  lookupPokemon(raw);
+  resolveLocal(raw);
 }
 
-async function lookupPokemon(rawName) {
-  const preview = document.getElementById('pokePreview');
-  const status  = document.getElementById('pokeStatus');
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 200,
-        system: `You are a Pokémon database. Respond with ONLY a raw JSON object, no markdown, no backticks, no explanation. For a valid Pokémon name (any capitalization) return:
-{"found":true,"display_name":"Pikachu","national_dex":25,"types":["electric"]}
-For an invalid name return:
-{"found":false}`,
-        messages: [{ role: 'user', content: rawName }]
-      })
-    });
-    if (!res.ok) throw new Error('api error');
-    const data = await res.json();
-
-    const textBlock = data.content.find(c => c.type === 'text');
-    if (!textBlock) throw new Error('no text');
-
-    // Strip any accidental markdown fences
-    const cleaned = textBlock.text.trim().replace(/^```[a-z]*\n?/,'').replace(/\n?```$/,'').trim();
-    const poke = JSON.parse(cleaned);
-
-    if (!poke.found) throw new Error('not found');
-
-    const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.national_dex}.png`;
-
-    pokemonData = {
-      name: poke.display_name.toLowerCase(),
-      displayName: poke.display_name,
-      sprite: spriteUrl,
-      types: poke.types
-    };
-
-    preview.className = 'poke-preview found';
-    preview.innerHTML = `<img src="${spriteUrl}" alt="${poke.display_name}" style="width:60px;height:60px;object-fit:contain;">`;
-    status.className = 'poke-status ok';
-    status.textContent = `✓ ${poke.display_name}`;
-
-  } catch(e) {
+function resolveLocal(raw) {
+  const hit = resolveKey(raw);
+  if (!hit) {
+    setPokeStatus('err','Not found — check spelling');
+    document.getElementById('pokePreview').className = 'poke-preview error';
+    document.getElementById('pokePreview').innerHTML = '<span class="poke-placeholder">❓</span>';
     pokemonData = null;
-    preview.className = 'poke-preview error';
-    preview.innerHTML = '<span class="poke-placeholder">❓</span>';
-    status.className = 'poke-status err';
-    status.textContent = 'Not found — check spelling';
-  }
-}
-
-// ── Get all field values ─────────────────────────────────────────
-function getFieldValues() {
-  const values = {};
-  STORIES[selectedStory].fields.forEach(f => {
-    const el = document.getElementById(`f_${f.key}`);
-    values[f.key] = el ? el.value.trim() : '';
-  });
-  return values;
-}
-
-// ── Generate ─────────────────────────────────────────────────────
-async function generateStory() {
-  const values = getFieldValues();
-  const story  = STORIES[selectedStory];
-  const empty  = story.fields.filter(f => !values[f.key]);
-  if (empty.length > 0) {
-    document.getElementById(`f_${empty[0].key}`)?.focus();
-    showError(`Please fill in: "${empty[0].label}"`);
     return;
   }
-  hideOutput();
-  hideError();
-  setLoading(true);
+  const displayName = cap(raw.trim());
+  // Sprite via <img src> — same pattern as PokéPal, no fetch needed
+  const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hit.id}.png`;
+  const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${hit.id}.png`;
+  pokemonData = { displayName, id: hit.id, spriteUrl, fallbackUrl };
 
-  const wordList = story.fields.map(f => `${f.label}: "${values[f.key]}"`).join('\n');
+  const preview = document.getElementById('pokePreview');
+  preview.className = 'poke-preview found';
+  preview.innerHTML = '';
+  const img = document.createElement('img');
+  img.src = spriteUrl;
+  img.alt = '';
+  img.style.cssText = 'width:60px;height:60px;object-fit:contain;';
+  img.onerror = function() {
+    this.src = fallbackUrl;
+    this.onerror = function() {
+      preview.innerHTML = '<span class="poke-placeholder">✓</span>';
+    };
+  };
+  preview.appendChild(img);
+  setPokeStatus('ok', `✓ ${displayName} #${hit.id}`);
+}
 
-  const systemPrompt = `You are the charming narrator of Pokémon Holiday Resort, a cozy watercolor resort where humans and Pokémon vacation together. Write warm, whimsical, slightly absurdist stories (200–280 words) in the style of Pokémon: Concierge — gentle, observational, full of small quiet moments and unexpected heart. Wrap every user-supplied word in <mark> tags. Keep the tone cozy and funny, never mean. End with one sentence that feels like a small revelation.`;
+function resetPreview() {
+  document.getElementById('pokePreview').className = 'poke-preview';
+  document.getElementById('pokePreview').innerHTML = '<span class="poke-placeholder">🔍</span>';
+  document.getElementById('pokeStatus').textContent = '';
+}
+function setPokeStatus(cls, msg) {
+  const s = document.getElementById('pokeStatus');
+  s.className = 'poke-status ' + cls;
+  s.textContent = msg;
+}
 
-  const userPrompt = `Write the story: "${story.title}"\n\nUser's words:\n${wordList}\n\nWeave all words naturally into a resort story (200–280 words). Every user-provided word must appear, wrapped in <mark> tags.`;
-
-  let emojiIdx = 0;
-  const emojiEl  = document.getElementById('loadingEmoji');
-  const interval = setInterval(() => {
-    if (emojiEl) emojiEl.textContent = LOADING_EMOJIS[emojiIdx++ % LOADING_EMOJIS.length];
-  }, 500);
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    });
-    clearInterval(interval);
-    if (!res.ok) throw new Error(`API ${res.status}`);
-    const data    = await res.json();
-    const rawText = data.content.map(c => c.text || '').join('');
-    const html    = rawText
-      .replace(/\n/g, '<br>')
-      .replace(/<mark>(.*?)<\/mark>/g, '<span class="highlight">$1</span>');
-    setLoading(false);
-    showStory(story.icon, story.title, html);
-  } catch (err) {
-    clearInterval(interval);
-    setLoading(false);
-    showError('Something went wrong at the front desk. Please try again.');
-    console.error(err);
+// ── Generate story — pure template substitution, zero network ───
+function generateStory() {
+  const story = STORIES[selectedStory];
+  const values = {};
+  for (const f of story.fields) {
+    const el = document.getElementById(`f_${f.key}`);
+    values[f.key] = el ? el.value.trim() : '';
+    if (!values[f.key]) {
+      el && el.focus();
+      showError(`Please fill in: "${f.label}"`);
+      return;
+    }
   }
-}
+  hideError();
 
-// ── Show / hide ──────────────────────────────────────────────────
-function setLoading(on) {
-  document.getElementById('loadingArea').classList.toggle('visible', on);
-  document.getElementById('generateBtn').disabled = on;
-}
+  // Rotate templates
+  if (templateIdx[selectedStory] === undefined) templateIdx[selectedStory] = 0;
+  const templates = story.templates;
+  const tmpl = templates[templateIdx[selectedStory] % templates.length];
+  templateIdx[selectedStory]++;
 
-function showStory(icon, title, html) {
-  document.getElementById('outputIcon').textContent  = icon;
-  document.getElementById('outputTitle').textContent = title;
-  document.getElementById('storyText').innerHTML     = html;
+  // Substitute — wrap each value in highlight span
+  let text = tmpl;
+  for (const [k, v] of Object.entries(values)) {
+    const span = `<span class="hl">${v}</span>`;
+    text = text.replaceAll(`{${k}}`, span);
+  }
+  // Paragraphs
+  const html = text.split('\n').map(p => p.trim() ? `<p style="margin-bottom:1em">${p}</p>` : '').join('');
 
+  // Portrait
   const portrait = document.getElementById('storyPortrait');
-  if (pokemonData?.sprite) {
-    document.getElementById('portraitImg').src           = pokemonData.sprite;
-    document.getElementById('portraitImg').alt           = pokemonData.displayName || pokemonData.name;
-    document.getElementById('portraitName').textContent  = pokemonData.displayName || cap(pokemonData.name);
-    document.getElementById('portraitTypes').innerHTML   =
-      pokemonData.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
+  const circle   = document.getElementById('portraitCircle');
+  if (pokemonData) {
+    const circle = document.getElementById('portraitCircle');
+    circle.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = pokemonData.spriteUrl;
+    img.alt = pokemonData.displayName;
+    img.onerror = function() {
+    this.src = pokemonData.fallbackUrl;
+    this.onerror = function() { portrait.classList.remove('visible'); };
+  };
+    circle.appendChild(img);
+    document.getElementById('portraitName').textContent = pokemonData.displayName;
     portrait.classList.add('visible');
   } else {
     portrait.classList.remove('visible');
   }
 
+  document.getElementById('outputIcon').textContent  = story.icon;
+  document.getElementById('outputTitle').textContent = story.title;
+  document.getElementById('storyText').innerHTML     = html;
   document.getElementById('storyOutput').classList.add('visible');
   document.getElementById('storyOutput').scrollIntoView({ behavior:'smooth', block:'start' });
 }
@@ -771,7 +474,7 @@ function showStory(icon, title, html) {
 function hideOutput()  { document.getElementById('storyOutput').classList.remove('visible'); }
 function showError(m)  { const e = document.getElementById('errorMsg'); e.textContent = m; e.classList.add('visible'); }
 function hideError()   { document.getElementById('errorMsg').classList.remove('visible'); }
-function tryAgain()    { hideOutput(); window.scrollTo({ top:0, behavior:'smooth' }); }
+function tryAgain()    { hideOutput(); window.scrollTo({top:0,behavior:'smooth'}); }
 function cap(s)        { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 renderFields();
