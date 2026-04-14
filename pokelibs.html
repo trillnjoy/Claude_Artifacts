@@ -41,7 +41,8 @@
   .story-card:hover::before, .story-card.selected::before { opacity: 1; }
   .story-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(58,48,40,0.12); }
   .story-card.selected { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
-  .story-card .emoji { font-size: 32px; margin-bottom: 8px; display: block; }
+  .story-card .emoji { font-size: 32px; margin-bottom: 8px; display: block; min-height: 48px; }
+  .card-img { width: 64px; height: 64px; object-fit: contain; display: block; margin: 0 auto; }
   .story-card .label { font-weight: 800; font-size: 13px; color: var(--ink); line-height: 1.3; }
   .story-card .sublabel { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
 
@@ -166,16 +167,16 @@
   <div class="section-label">📖 Pick your story</div>
   <div class="story-selector">
     <div class="story-card coral selected" data-story="arrival" onclick="selectStory(this)">
-      <span class="emoji">🚂</span><div class="label">First Arrival</div><div class="sublabel">Checking into the resort</div>
+      <span class="emoji"><img src="Arrival.png" alt="Arrival" class="card-img"></span><div class="label">First Arrival</div><div class="sublabel">Checking into the resort</div>
     </div>
     <div class="story-card sky" data-story="encounter" onclick="selectStory(this)">
-      <span class="emoji">🌊</span><div class="label">Beach Encounter</div><div class="sublabel">A Pokémon finds you</div>
+      <span class="emoji"><img src="Beach.png" alt="Beach" class="card-img"></span><div class="label">Beach Encounter</div><div class="sublabel">A Pokémon finds you</div>
     </div>
     <div class="story-card sage" data-story="dinner" onclick="selectStory(this)">
-      <span class="emoji">🍜</span><div class="label">Dinner Drama</div><div class="sublabel">Something goes wonderfully wrong</div>
+      <span class="emoji"><img src="Lunch.png" alt="Lunch" class="card-img"></span><div class="label">Dinner Drama</div><div class="sublabel">Something goes wonderfully wrong</div>
     </div>
     <div class="story-card butter" data-story="goodbye" onclick="selectStory(this)">
-      <span class="emoji">🌅</span><div class="label">Last Day</div><div class="sublabel">A bittersweet farewell</div>
+      <span class="emoji"><img src="Goodbye.png" alt="Goodbye" class="card-img"></span><div class="label">Last Day</div><div class="sublabel">A bittersweet farewell</div>
     </div>
   </div>
 
