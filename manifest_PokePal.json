@@ -1,0 +1,25 @@
+{
+  "name": "Nate's PokéPal Game",
+  "short_name": "PokéPal",
+  "description": "Nate's Pokémon guessing and evolution game",
+  "start_url": "/Claude_Artifacts/pokepal.html",
+  "scope": "/Claude_Artifacts/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    {
+      "src": "PokePal_icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "PokePal_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
