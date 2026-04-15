@@ -36,8 +36,8 @@
 
   /* Story selector */
   .section-label { font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .story-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0 32px; }
-  .story-card { background: var(--warm-white); border: 2.5px solid var(--sand-dark); border-radius: 18px; padding: 18px 16px; cursor: pointer; transition: all 0.2s ease; text-align: center; position: relative; overflow: hidden; }
+  .story-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 28px 0 32px; }
+  .story-card { background: var(--warm-white); border: 2.5px solid var(--sand-dark); border-radius: 18px; padding: 4px; cursor: pointer; transition: all 0.2s ease; text-align: center; position: relative; overflow: hidden; }
   .story-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; border-radius: 16px; }
   .story-card.coral::before { background: rgba(232,133,106,0.08); }
   .story-card.sky::before   { background: rgba(126,184,212,0.08); }
@@ -46,8 +46,8 @@
   .story-card:hover::before, .story-card.selected::before { opacity: 1; }
   .story-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(58,48,40,0.12); }
   .story-card.selected { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
-  .story-card .emoji { margin-bottom: 8px; display: flex; align-items: center; justify-content: center; height: 56px; }
-  .card-img { width: auto; height: 56px; max-width: 90%; object-fit: contain; display: block; margin: 0 auto; }
+  .story-card .emoji { margin-bottom: 4px; display: flex; align-items: center; justify-content: center; }
+  .card-img { width: auto; height: 90px; max-width: 95%; object-fit: contain; display: block; margin: 0 auto; }
   .story-card .label { font-weight: 800; font-size: 13px; color: var(--ink); line-height: 1.3; }
   .story-card .sublabel { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
 
