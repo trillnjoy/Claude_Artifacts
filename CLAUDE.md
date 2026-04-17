@@ -1,17 +1,17 @@
-# Poetry Archive — Project Specification
-*Last updated: 2026-03-15. Update this file at the end of every productive session.*
+# Projects Engagement Guide
+*Last updated: 2026-04-15. Update this file at the end of every productive session.*
 
 ---
 
 ## The Project
 
-A personal poetry anthology — poems collected over decades — in one place, secure from degradation, ubiquitously available. Troy (pediatrician, reader, writer, printmaker) is the sole user and non-developer co-maintainer.
+Collections over decades — in one place, secure from degradation, ubiquitously available. Troy (medical informaticist, pediatrician, reader, writer, printmaker's assistant) is the sole user and non-developer co-maintainer.
 
 **Governing principle:** Democratization of data through minimal-overhead point solutions. Any path requiring significant technical infrastructure is out of scope by design. The co-developer's time and tolerance are finite and must be respected.
 
 ---
 
-## Current Architecture
+## Poetry Archive Current Architecture
 
 **Host:** GitHub Pages at `https://trillnjoy.github.io/Claude_Artifacts/`  
 **Repo:** `trillnjoy/Claude_Artifacts` — branch `main` is live production  
@@ -22,7 +22,7 @@ A personal poetry anthology — poems collected over decades — in one place, s
 **Offline:** IndexedDB handles all reading/browsing offline. Network required only for acquisition.  
 **PWA:** Installed to home screen with custom icon (192px and 512px PNGs in repo root). `manifest.json` requires `start_url` and `scope` both = `"/Claude_Artifacts/"`
 
-**Current poem count:** 92 poems (as of 2026-03-15)
+**Current poem count:** 105 poems (as of 2026-03-15)
 
 ---
 
@@ -243,7 +243,7 @@ No preamble. No re-explanation. Each thread is a sprint. Claude will over-plan w
 
 ## Co-Developer Profile
 
-Troy Lawrence McGuire, MD. Pediatrician. Reader, writer, printmaker, genealogist. Mac user 40 years. Not a developer. Has deep literary judgment and strong opinions about tools, process, and scope. Will push back hard on scope creep and unnecessary complexity. Respects clean solutions. Dislikes being managed. Values honest assessment over false confidence. The poetry archive is a deeply personal project of lasting importance to him.
+Troy Lawrence McGuire, MD. Pediatrician. Reader, writer, busband to a printmaker, genealogist. Mac user 40 years. Not a willing developer. Has deep literary judgment and strong opinions about tools, process, and scope. Will push back hard on scope creep and unnecessary complexity. Respects clean solutions. Dislikes being managed. Values honest assessment over false confidence. The poetry archive is a deeply personal project of lasting importance to him.
 
 **Working preferences:**
 - Tight, actionable responses — no narration, no preamble
