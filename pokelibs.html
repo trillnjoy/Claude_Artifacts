@@ -24,7 +24,7 @@
 
   /* Header */
   .header { text-align: center; padding: 32px 0 24px; }
-  .resort-badge { display: inline-block; background: var(--sage); color: white; font-family: 'Caveat', cursive; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 4px 16px; border-radius: 20px; margin-bottom: 10px; }
+  .resort-badge { display: inline-block; background: var(--sage); color: white; font-family: 'Caveat', cursive; font-size: 18px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 4px 16px; border-radius: 20px; margin-bottom: 10px; }
   h1 { font-family: 'Caveat', cursive; font-size: clamp(42px, 10vw, 68px); font-weight: 700; line-height: 1.05; letter-spacing: -1px; }
   h1 .poke { color: var(--coral); } h1 .libs { color: var(--sage); }
   .tagline { font-size: 14px; color: var(--ink-soft); margin-top: 8px; font-style: italic; }
@@ -108,7 +108,7 @@
   .btn-secondary { flex: 1; padding: 12px; background: transparent; border: 2px solid var(--sand-dark); border-radius: 14px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; color: var(--ink-soft); cursor: pointer; transition: all 0.2s; }
   .btn-secondary:hover { border-color: var(--sage); color: var(--sage); }
 
-  .footer-deco { text-align: center; margin-top: 48px; font-size: 22px; opacity: 0.4; letter-spacing: 6px; }
+  .footer-deco { text-align: center; margin-top: 48px; font-size: 13px; opacity: 0.6; letter-spacing: 1px; line-height: 1.6; color: var(--ink-soft); padding: 0 16px; }
   @media (max-width:480px) { .story-selector{grid-template-columns:1fr 1fr} .story-output{padding:20px 16px} .portrait-circle{width:90px;height:90px} .portrait-circle img{width:76px;height:76px} .story-portrait{width:100px} }
 </style>
 </head>
@@ -116,7 +116,7 @@
 <div class="container">
 
   <div class="header">
-    <div class="resort-badge">✦ Holiday Resort ✦</div>
+    <div class="resort-badge">✦ Gamma J's Destination Resort & Spa ✦</div>
     <h1><span class="poke">Poké</span><span class="libs">Libs</span></h1>
     <p class="tagline">Fill in the blanks. Get a resort story. Befriend a Pokémon.</p>
     <div class="pokeball-deco">
@@ -212,7 +212,7 @@
     </div>
   </div>
 
-  <div class="footer-deco">✦ ✦ ✦</div>
+  <div class="footer-deco">✦ ✦ ✦ &nbsp; All rights and original ideation by Jill McGuire, LLC &nbsp; ✦ ✦ ✦</div>
 </div>
 
 <script>
@@ -221,7 +221,7 @@ const STORIES = {
   arrival: {
     icon:'🚂', title:'First Arrival at the Resort',
     fields:[
-      {key:'name',    label:'Your name',                    hint:'noun',      placeholder:'e.g. Troy'},
+      {key:'name',    label:'Your name',                    hint:'noun',      placeholder:'e.g. Beauregard'},
       {key:'pokemon', label:'A Pokémon species',            hint:'Pokémon ✦', placeholder:'e.g. snorlax', isPokemon:true},
       {key:'adj1',    label:'Adjective — how you felt',     hint:'adjective', placeholder:'e.g. overwhelmed'},
       {key:'luggage', label:'Something you packed',          hint:'noun',      placeholder:'e.g. a ukulele'},
@@ -242,7 +242,7 @@ const STORIES = {
   encounter: {
     icon:'🌊', title:'The Beach Encounter',
     fields:[
-      {key:'name',    label:'Your name',              hint:'noun',       placeholder:'e.g. Troy'},
+      {key:'name',    label:'Your name',              hint:'noun',       placeholder:'e.g. Beauregard'},
       {key:'pokemon', label:'A water Pokémon',        hint:'Pokémon ✦',  placeholder:'e.g. vaporeon', isPokemon:true},
       {key:'food',    label:'A snack',                hint:'noun',       placeholder:'e.g. mochi'},
       {key:'bodypart',label:'A body part',            hint:'noun',       placeholder:'e.g. kneecap'},
@@ -262,7 +262,7 @@ const STORIES = {
   dinner: {
     icon:'🍜', title:'Dinner at the Resort Café',
     fields:[
-      {key:'name',       label:'Your name',                hint:'noun',       placeholder:'e.g. Troy'},
+      {key:'name',       label:'Your name',                hint:'noun',       placeholder:'e.g. Beauregard'},
       {key:'pokemon',    label:'A Pokémon chef',           hint:'Pokémon ✦',  placeholder:'e.g. slurpuff', isPokemon:true},
       {key:'dish',       label:'A dish name (real or made up)', hint:'noun',  placeholder:'e.g. Thundersoup'},
       {key:'ingredient', label:'A surprising ingredient',  hint:'noun',       placeholder:'e.g. glitter'},
@@ -282,7 +282,7 @@ const STORIES = {
   goodbye: {
     icon:'🌅', title:'The Last Morning',
     fields:[
-      {key:'name',    label:'Your name',               hint:'noun',       placeholder:'e.g. Troy'},
+      {key:'name',    label:'Your name',               hint:'noun',       placeholder:'e.g. Beauregard'},
       {key:'pokemon', label:'Your Pokémon companion',  hint:'Pokémon ✦',  placeholder:'e.g. jigglypuff', isPokemon:true},
       {key:'object',  label:'Something small you carry',hint:'noun',      placeholder:'e.g. a pebble'},
       {key:'adj1',    label:'The light looked...',      hint:'adjective',  placeholder:'e.g. golden'},
