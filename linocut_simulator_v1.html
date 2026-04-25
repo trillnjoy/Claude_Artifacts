@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Linocut Print Simulator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Bebas+Neue&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #16120e;
+    --surface: #1f1a14;
+    --border: #4a3820;
+    --gold: #d4b47a;
+    --gold-dim: #9a7848;
+    --text: #f0e6d0;
+    --muted: #a08860;
+    --label: #c8a96e;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 4px;
+    color: var(--gold);
+  }
+
+  #pressureWrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--label);
+    text-transform: uppercase;
+  }
+
+  #pressureBar {
+    width: 52px; height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  #pressureFill {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    border-radius: 3px;
+    transition: width 0.04s;
+  }
+
+  /* ── CANVAS SECTIONS ── */
+  .canvas-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .col-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--label);
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    background: #0e0b08;
+    touch-action: pan-y;
+  }
+
+  .canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #drawCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    cursor: crosshair;
+    touch-action: pan-y;
+  }
+
+  /* Upload overlay */
+  #uploadOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #0e0b08;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  #uploadOverlay .up-icon { font-size: 36px; color: var(--gold-dim); }
+  #uploadOverlay .up-text {
+    font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--label); text-align: center; line-height: 2;
+  }
+  #uploadOverlay:hover .up-text { color: var(--gold); }
+  #fileInput { display: none; }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tb-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tb-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--label);
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  .spacer { flex: 1; min-width: 4px; }
+  .tb-divider { width: 1px; height: 24px; background: var(--border); margin: 0 2px; }
+
+  /* Pill groups */
+  .pill-group {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .pill-btn {
+    padding: 8px 14px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    -webkit-user-select: none; user-select: none;
+    touch-action: manipulation;
+  }
+
+  .pill-btn:last-child { border-right: none; }
+  .pill-btn.active { background: var(--gold); color: #16120e; font-weight: bold; }
+  .pill-btn:not(.active):active { background: #2a2018; }
+
+  /* Gouge buttons */
+  .gouge-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .gouge-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    -webkit-user-select: none; user-select: none;
+    touch-action: manipulation;
+    min-width: 54px;
+  }
+
+  .gouge-btn svg path,
+  .gouge-btn svg line,
+  .gouge-btn svg rect { stroke: var(--label); }
+
+  .gouge-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #16120e;
+  }
+
+  .gouge-btn.active svg path,
+  .gouge-btn.active svg line,
+  .gouge-btn.active svg rect { stroke: #16120e; }
+
+  .gouge-btn:not(.active):active { background: #2a2018; border-color: var(--gold); }
+
+  /* Size slider */
+  .size-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    outline: none;
+    border-radius: 3px;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .size-val {
+    font-size: 14px;
+    color: var(--gold);
+    min-width: 28px;
+    text-align: right;
+    font-weight: bold;
+  }
+
+  /* Action buttons */
+  .act-btn {
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    white-space: nowrap;
+    -webkit-user-select: none; user-select: none;
+    touch-action: manipulation;
+  }
+
+  .act-btn:not(:disabled):active { background: #2a2018; border-color: var(--gold); }
+  .act-btn:disabled { opacity: 0.3; cursor: default; }
+  .act-btn.gold { border-color: var(--gold-dim); color: var(--gold); font-weight: bold; }
+  .act-btn.gold:not(:disabled):active { background: var(--gold); color: #16120e; }
+
+  #undoCount { font-size: 11px; color: var(--label); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Linocut Simulator</h1>
+  <div id="pressureWrap">
+    Pencil
+    <div id="pressureBar"><div id="pressureFill"></div></div>
+  </div>
+</header>
+
+<!-- SOURCE IMAGE (top, full width) -->
+<div class="canvas-section">
+  <div class="col-label" id="leftLabel">Block — paint areas carved since last print</div>
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="baseCanvas"></canvas>
+    <canvas id="drawCanvas"></canvas>
+    <div id="uploadOverlay" onclick="document.getElementById('fileInput').click()">
+      <div class="up-icon">↑</div>
+      <div class="up-text">Tap to load<br>block or print photo</div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*">
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+
+  <!-- Row 1: Source · Mode · Undo / Clear -->
+  <div class="tb-row">
+    <span class="tb-label">Source</span>
+    <div class="pill-group">
+      <button class="pill-btn active" id="blockBtn" onclick="setSource('block')">Block</button>
+      <button class="pill-btn"        id="printBtn" onclick="setSource('print')">Print</button>
+    </div>
+    <div class="tb-divider"></div>
+    <span class="tb-label">Mode</span>
+    <div class="pill-group">
+      <button class="pill-btn active" id="carveBtn"   onclick="setMode('carve')">Carve</button>
+      <button class="pill-btn"        id="restoreBtn" onclick="setMode('restore')">Restore</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="act-btn" id="undoBtn" onclick="undo()" disabled>↩ Undo <span id="undoCount"></span></button>
+    <button class="act-btn" onclick="clearMask()">✕ Clear</button>
+  </div>
+
+  <!-- Row 2: Gouge type -->
+  <div class="tb-row">
+    <span class="tb-label">Gouge</span>
+    <div class="gouge-row">
+
+      <button class="gouge-btn" id="gouge-knife" onclick="setGouge('knife')">
+        <svg width="34" height="14" viewBox="0 0 34 14">
+          <line x1="4" y1="7" x2="30" y2="7" stroke="#c8a96e" stroke-width="0.8" stroke-linecap="round"/>
+        </svg>
+        Knife
+      </button>
+
+      <button class="gouge-btn active" id="gouge-vfine" onclick="setGouge('vfine')">
+        <svg width="34" height="14" viewBox="0 0 34 14">
+          <path d="M13 2 L17 12 L21 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        V Fine
+      </button>
+
+      <button class="gouge-btn" id="gouge-vwide" onclick="setGouge('vwide')">
+        <svg width="34" height="14" viewBox="0 0 34 14">
+          <path d="M7 2 L17 12 L27 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        V Wide
+      </button>
+
+      <button class="gouge-btn" id="gouge-usmall" onclick="setGouge('usmall')">
+        <svg width="34" height="14" viewBox="0 0 34 14">
+          <path d="M7 2 Q7 12 17 12 Q27 12 27 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        U Gouge
+      </button>
+
+      <button class="gouge-btn" id="gouge-ularge" onclick="setGouge('ularge')">
+        <svg width="34" height="14" viewBox="0 0 34 14">
+          <path d="M2 2 Q2 12 17 12 Q32 12 32 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        U Large
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Row 3: Size · Ink · Save -->
+  <div class="tb-row">
+    <span class="tb-label">Size</span>
+    <div class="size-wrap">
+      <input type="range" id="gougeSize" min="3" max="90" value="18">
+      <span class="size-val" id="sizeVal">18</span>
+    </div>
+    <div class="tb-divider"></div>
+    <span class="tb-label">Ink</span>
+    <div class="pill-group">
+      <button class="pill-btn active" id="inkBlue"  onclick="setInk('blue')">Blue</button>
+      <button class="pill-btn"        id="inkBlack" onclick="setInk('black')">Black</button>
+      <button class="pill-btn"        id="inkRed"   onclick="setInk('red')">Red</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="act-btn gold" onclick="downloadResult()">↓ Save</button>
+  </div>
+
+</div><!-- /toolbar -->
+
+<!-- SIMULATED OUTPUT (below toolbar, full width) -->
+<div class="canvas-section">
+  <div class="col-label">Simulated next print</div>
+  <div class="canvas-wrap">
+    <canvas id="outputCanvas"></canvas>
+  </div>
+</div>
+
+<script>
+// ── Canvas refs ────────────────────────────────────────────────────
+const baseCanvas   = document.getElementById('baseCanvas');
+const drawCanvas   = document.getElementById('drawCanvas');
+const outputCanvas = document.getElementById('outputCanvas');
+const bCtx = baseCanvas.getContext('2d');
+const dCtx = drawCanvas.getContext('2d');
+const oCtx = outputCanvas.getContext('2d');
+
+// ── State ──────────────────────────────────────────────────────────
+let img             = null;
+let mode            = 'carve';
+let source          = 'block';
+let gougeType       = 'vfine';
+let inkColor        = 'blue';
+let isDrawing       = false;
+let lastX = 0, lastY = 0;
+let currentPressure = 1.0;
+
+const undoStack = [];   // array of ImageData, one per stroke start
+const MAX_UNDO  = 40;
+
+const inkRGB = {
+  blue:  [26,  35,  126],
+  black: [17,  17,   17],
+  red:   [123, 26,   26],
+};
+
+// ── Resize canvases ────────────────────────────────────────────────
+function setCanvasSize(w, h) {
+  baseCanvas.width  = w; baseCanvas.height  = h;
+  drawCanvas.width  = w; drawCanvas.height  = h;
+  outputCanvas.width = w; outputCanvas.height = h;
+}
+
+// ── Size slider — immediate response, no debounce ─────────────────
+const gougeSlider = document.getElementById('gougeSize');
+const sizeValEl   = document.getElementById('sizeVal');
+function onSizeChange() { sizeValEl.textContent = gougeSlider.value; }
+gougeSlider.addEventListener('input',       onSizeChange);
+gougeSlider.addEventListener('pointermove', onSizeChange);
+gougeSlider.addEventListener('change',      onSizeChange);
+
+// ── File load ──────────────────────────────────────────────────────
+document.getElementById('fileInput').onchange = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const i = new Image();
+    i.onload = () => {
+      img = i;
+      // Canvas internal pixels must exactly match CSS display pixels — no scaling mismatch.
+      // Enforce 55vh height cap here in JS so coordinate mapping stays 1:1.
+      const wrapW    = baseCanvas.parentElement.clientWidth;
+      const maxH     = Math.round(window.innerHeight * 0.55);
+      const scale    = Math.min(wrapW / i.width, maxH / i.height, 1);
+      const displayW = Math.round(i.width  * scale);
+      const displayH = Math.round(i.height * scale);
+      setCanvasSize(displayW, displayH);
+      undoStack.length = 0;
+      updateUndoBtn();
+      bCtx.drawImage(i, 0, 0, displayW, displayH);
+      dCtx.clearRect(0, 0, displayW, displayH);
+      document.getElementById('uploadOverlay').style.display = 'none';
+      simulate();
+    };
+    i.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+// ── Setters ────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  document.getElementById('carveBtn').classList.toggle('active', m === 'carve');
+  document.getElementById('restoreBtn').classList.toggle('active', m === 'restore');
+}
+
+function setSource(s) {
+  source = s;
+  document.getElementById('blockBtn').classList.toggle('active', s === 'block');
+  document.getElementById('printBtn').classList.toggle('active', s === 'print');
+  document.getElementById('leftLabel').textContent =
+    s === 'block' ? 'Block — paint areas carved since last print'
+                  : 'Last Print — paint areas carved since this pull';
+  if (img) simulate();
+}
+
+function setGouge(g) {
+  gougeType = g;
+  document.querySelectorAll('.gouge-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('gouge-' + g).classList.add('active');
+}
+
+function setInk(c) {
+  inkColor = c;
+  document.getElementById('inkBlue').classList.toggle('active',  c === 'blue');
+  document.getElementById('inkBlack').classList.toggle('active', c === 'black');
+  document.getElementById('inkRed').classList.toggle('active',   c === 'red');
+  if (img) simulate();
+}
+
+// ── Gouge rendering ────────────────────────────────────────────────
+// Each gouge type has its own alpha profile that mirrors its real cross-section.
+// Pressure (0–1) scales both size and opacity.
+function renderGouge(cx, cy, baseSize, pressure) {
+  const s  = baseSize * (0.35 + pressure * 0.65);
+  const r  = s / 2;
+  const op = 0.5 + pressure * 0.5;
+
+  if (mode === 'restore') {
+    // Soft circular eraser regardless of gouge
+    dCtx.globalCompositeOperation = 'destination-out';
+    const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.3);
+    g.addColorStop(0,   `rgba(0,0,0,${op})`);
+    g.addColorStop(0.55,`rgba(0,0,0,${op * 0.5})`);
+    g.addColorStop(1,   'rgba(0,0,0,0)');
+    dCtx.fillStyle = g;
+    dCtx.beginPath(); dCtx.arc(cx, cy, r * 1.3, 0, Math.PI*2); dCtx.fill();
+    dCtx.globalCompositeOperation = 'source-over';
+    return;
+  }
+
+  dCtx.globalCompositeOperation = 'source-over';
+
+  switch (gougeType) {
+
+    case 'knife': {
+      // Knife/veiner: true hairline — sub-pixel width, grows only slightly with size.
+      // Narrowest tool at any size setting.
+      const kr = Math.max(0.5, r * 0.06);
+      dCtx.fillStyle = `rgba(255,255,255,${Math.min(1, op * 1.2)})`;
+      dCtx.beginPath(); dCtx.arc(cx, cy, kr, 0, Math.PI*2); dCtx.fill();
+      break;
+    }
+
+    case 'vfine': {
+      // V-fine: workhorse fine scratch. Narrow gaussian spike — tight centre,
+      // soft feathered edge. Width ~12% of size setting.
+      const rr = Math.max(1, r * 0.12);
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr * 4);
+      g.addColorStop(0,    `rgba(255,255,255,${op})`);
+      g.addColorStop(0.15, `rgba(255,255,255,${op * 0.85})`);
+      g.addColorStop(0.45, `rgba(255,255,255,${op * 0.4})`);
+      g.addColorStop(1,    'rgba(255,255,255,0)');
+      dCtx.fillStyle = g;
+      dCtx.beginPath(); dCtx.arc(cx, cy, rr * 4, 0, Math.PI*2); dCtx.fill();
+      break;
+    }
+
+    case 'vwide': {
+      // V-wide: noticeably wider than V-fine. Width ~30% of size setting.
+      // Bright centre with visible shoulder falloff.
+      const rr = Math.max(2, r * 0.30);
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr * 3.2);
+      g.addColorStop(0,    `rgba(255,255,255,${op})`);
+      g.addColorStop(0.2,  `rgba(255,255,255,${op * 0.8})`);
+      g.addColorStop(0.55, `rgba(255,255,255,${op * 0.3})`);
+      g.addColorStop(1,    'rgba(255,255,255,0)');
+      dCtx.fillStyle = g;
+      dCtx.beginPath(); dCtx.arc(cx, cy, rr * 3.2, 0, Math.PI*2); dCtx.fill();
+      break;
+    }
+
+    case 'usmall': {
+      // U-gouge small: flat-bottomed channel, uniform opacity across full width.
+      // Clearly wider than V-wide — width = 55% of size setting.
+      const rr = Math.max(3, r * 0.55);
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr);
+      g.addColorStop(0,    `rgba(255,255,255,${op})`);
+      g.addColorStop(0.70, `rgba(255,255,255,${op})`);
+      g.addColorStop(0.90, `rgba(255,255,255,${op * 0.3})`);
+      g.addColorStop(1,    'rgba(255,255,255,0)');
+      dCtx.fillStyle = g;
+      dCtx.beginPath(); dCtx.arc(cx, cy, rr, 0, Math.PI*2); dCtx.fill();
+      break;
+    }
+
+    case 'ularge': {
+      // U-gouge large: wide flat bowl — appreciably broader than U-small.
+      // Width = full radius r (100% of size setting). Hard shoulder.
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0,    `rgba(255,255,255,${op})`);
+      g.addColorStop(0.80, `rgba(255,255,255,${op})`);
+      g.addColorStop(0.93, `rgba(255,255,255,${op * 0.25})`);
+      g.addColorStop(1,    'rgba(255,255,255,0)');
+      dCtx.fillStyle = g;
+      dCtx.beginPath(); dCtx.arc(cx, cy, r, 0, Math.PI*2); dCtx.fill();
+      break;
+    }
+  }
+}
+
+// ── Coordinate transform ───────────────────────────────────────────
+function getPos(e) {
+  const rect = drawCanvas.getBoundingClientRect();
+  // Map from CSS/screen coordinates to canvas internal pixel coordinates
+  const scaleX = drawCanvas.width  / rect.width;
+  const scaleY = drawCanvas.height / rect.height;
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top)  * scaleY,
+  };
+}
+
+// ── Palm rejection ─────────────────────────────────────────────────
+// When Apple Pencil is down, block all finger touch so resting palm
+// neither draws nor scrolls the page.
+const DRAW_TYPES = new Set(['pen', 'mouse']);
+let penActive = false;
+
+// We listen on document so finger touches anywhere are caught while pen is down
+document.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'pen') {
+    penActive = true;
+    // Freeze scroll while pen is in contact
+    document.body.style.overflow = 'hidden';
+  }
+  if (e.pointerType === 'touch' && penActive) {
+    e.preventDefault(); // block finger draw & scroll
+    e.stopPropagation();
+  }
+}, { passive: false });
+
+document.addEventListener('pointerup', e => {
+  if (e.pointerType === 'pen') {
+    penActive = false;
+    document.body.style.overflow = '';
+  }
+});
+
+document.addEventListener('pointercancel', e => {
+  if (e.pointerType === 'pen') {
+    penActive = false;
+    document.body.style.overflow = '';
+  }
+});
+
+// Also block touchmove on document when pen is active (belt-and-suspenders)
+document.addEventListener('touchmove', e => {
+  if (penActive) e.preventDefault();
+}, { passive: false });
+
+// ── Canvas pointer events (Apple Pencil + mouse only) ─────────────
+drawCanvas.addEventListener('pointerdown', e => {
+  if (!img) return;
+  if (!DRAW_TYPES.has(e.pointerType)) return;
+  e.preventDefault();
+  drawCanvas.setPointerCapture(e.pointerId);
+  currentPressure = e.pressure > 0 ? e.pressure : 1.0;
+  updatePressureBar(currentPressure);
+  undoStack.push(dCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height));
+  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  updateUndoBtn();
+  isDrawing = true;
+  const p = getPos(e); lastX = p.x; lastY = p.y;
+  renderGouge(p.x, p.y, parseInt(document.getElementById('gougeSize').value), currentPressure);
+});
+
+drawCanvas.addEventListener('pointermove', e => {
+  if (!isDrawing) return;
+  if (!DRAW_TYPES.has(e.pointerType)) return;
+  e.preventDefault();
+  if (e.pressure > 0) { currentPressure = e.pressure; updatePressureBar(currentPressure); }
+  const p    = getPos(e);
+  const dist = Math.hypot(p.x - lastX, p.y - lastY);
+  const size = parseInt(document.getElementById('gougeSize').value);
+  // Spacing between dabs: 20% of gouge size for smooth stroke
+  const spacing = Math.max(1, size * 0.2);
+  const steps   = Math.max(1, Math.floor(dist / spacing));
+  for (let i = 1; i <= steps; i++) {
+    renderGouge(
+      lastX + (p.x - lastX) * i / steps,
+      lastY + (p.y - lastY) * i / steps,
+      size, currentPressure
+    );
+  }
+  lastX = p.x; lastY = p.y;
+});
+
+drawCanvas.addEventListener('pointerup',     e => { e.preventDefault(); finishStroke(); });
+drawCanvas.addEventListener('pointercancel', e => { e.preventDefault(); finishStroke(); });
+
+function finishStroke() {
+  if (!isDrawing) return;
+  isDrawing = false;
+  simulate();
+}
+
+function updatePressureBar(p) {
+  document.getElementById('pressureFill').style.width = (p * 100) + '%';
+}
+
+// ── Undo ───────────────────────────────────────────────────────────
+function undo() {
+  if (!undoStack.length) return;
+  dCtx.putImageData(undoStack.pop(), 0, 0);
+  updateUndoBtn();
+  simulate();
+}
+
+function updateUndoBtn() {
+  const btn = document.getElementById('undoBtn');
+  btn.disabled = undoStack.length === 0;
+  document.getElementById('undoCount').textContent = undoStack.length > 0 ? `(${undoStack.length})` : '';
+}
+
+// ── Clear ──────────────────────────────────────────────────────────
+function clearMask() {
+  if (!img) return;
+  undoStack.push(dCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height));
+  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  updateUndoBtn();
+  dCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+  simulate();
+}
+
+// ── Simulate ───────────────────────────────────────────────────────
+function simulate() {
+  if (!img) return;
+  const w = outputCanvas.width;
+  const h = outputCanvas.height;
+
+  const tmp = document.createElement('canvas');
+  tmp.width = w; tmp.height = h;
+  const tCtx = tmp.getContext('2d');
+  tCtx.drawImage(img, 0, 0, w, h);
+
+  const baseData = tCtx.getImageData(0, 0, w, h);
+  const maskData = dCtx.getImageData(0, 0, w, h);
+  const outData  = oCtx.createImageData(w, h);
+
+  const [ir, ig, ib] = inkRGB[inkColor];
+
+  for (let i = 0; i < baseData.data.length; i += 4) {
+    const lum    = (baseData.data[i]*0.299 + baseData.data[i+1]*0.587 + baseData.data[i+2]*0.114) / 255;
+    const inkAmt = 1 - lum;
+    const r = Math.round(255*(1-inkAmt) + ir*inkAmt);
+    const g = Math.round(255*(1-inkAmt) + ig*inkAmt);
+    const b = Math.round(255*(1-inkAmt) + ib*inkAmt);
+    const mA = maskData.data[i+3] / 255;
+    outData.data[i]   = Math.round(r + (255-r)*mA);
+    outData.data[i+1] = Math.round(g + (255-g)*mA);
+    outData.data[i+2] = Math.round(b + (255-b)*mA);
+    outData.data[i+3] = 255;
+  }
+
+  oCtx.putImageData(outData, 0, 0);
+
+  if (source === 'block') {
+    const fl = document.createElement('canvas');
+    fl.width = w; fl.height = h;
+    const fCtx = fl.getContext('2d');
+    fCtx.translate(w, 0); fCtx.scale(-1, 1);
+    fCtx.drawImage(outputCanvas, 0, 0);
+    oCtx.clearRect(0, 0, w, h);
+    oCtx.drawImage(fl, 0, 0);
+  }
+}
+
+// ── Save ───────────────────────────────────────────────────────────
+function downloadResult() {
+  const a = document.createElement('a');
+  a.download = 'simulated_print.png';
+  a.href = outputCanvas.toDataURL('image/png');
+  a.click();
+}
+
+// ── Init placeholder ───────────────────────────────────────────────
+(function() {
+  const W = 380, H = 520;
+  setCanvasSize(W, H);
+  function ph(ctx, msg) {
+    ctx.fillStyle = '#0e0b08';
+    ctx.fillRect(0, 0, W, H);
+    if (msg) {
+      ctx.fillStyle = '#35291d';
+      ctx.font = '11px Courier Prime, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(msg, W/2, H/2);
+    }
+  }
+  ph(bCtx, '');
+  ph(oCtx, 'Simulated print');
+})();
+</script>
+</body>
+</html>
