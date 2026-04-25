@@ -340,16 +340,23 @@
     <span class="tb-label">Gouge</span>
     <div class="gouge-row">
 
+      <button class="gouge-btn" id="gouge-knife" onclick="setGouge('knife')">
+        <svg width="34" height="14" viewBox="0 0 34 14">
+          <line x1="4" y1="7" x2="30" y2="7" stroke="#c8a96e" stroke-width="0.8" stroke-linecap="round"/>
+        </svg>
+        Knife
+      </button>
+
       <button class="gouge-btn active" id="gouge-vfine" onclick="setGouge('vfine')">
         <svg width="34" height="14" viewBox="0 0 34 14">
-          <path d="M5 2 L17 12 L29 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M13 2 L17 12 L21 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         </svg>
         V Fine
       </button>
 
       <button class="gouge-btn" id="gouge-vwide" onclick="setGouge('vwide')">
         <svg width="34" height="14" viewBox="0 0 34 14">
-          <path d="M2 2 L17 12 L32 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M7 2 L17 12 L27 2" stroke="#c8a96e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         </svg>
         V Wide
       </button>
@@ -368,20 +375,6 @@
         U Large
       </button>
 
-      <button class="gouge-btn" id="gouge-flat" onclick="setGouge('flat')">
-        <svg width="34" height="14" viewBox="0 0 34 14">
-          <rect x="3" y="5" width="28" height="4" rx="1" stroke="#c8a96e" stroke-width="1.2" fill="none"/>
-        </svg>
-        Flat
-      </button>
-
-      <button class="gouge-btn" id="gouge-knife" onclick="setGouge('knife')">
-        <svg width="34" height="14" viewBox="0 0 34 14">
-          <line x1="4" y1="7" x2="30" y2="7" stroke="#c8a96e" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-        Knife
-      </button>
-
     </div>
   </div>
 
@@ -389,7 +382,7 @@
   <div class="tb-row">
     <span class="tb-label">Size</span>
     <div class="size-wrap">
-      <input type="range" id="gougeSize" min="3" max="90" value="18" oninput="document.getElementById('sizeVal').textContent=this.value">
+      <input type="range" id="gougeSize" min="3" max="90" value="18">
       <span class="size-val" id="sizeVal">18</span>
     </div>
     <div class="tb-divider"></div>
@@ -448,6 +441,14 @@ function setCanvasSize(w, h) {
   outputCanvas.width = w; outputCanvas.height = h;
 }
 
+// ── Size slider — immediate response, no debounce ─────────────────
+const gougeSlider = document.getElementById('gougeSize');
+const sizeValEl   = document.getElementById('sizeVal');
+function onSizeChange() { sizeValEl.textContent = gougeSlider.value; }
+gougeSlider.addEventListener('input',       onSizeChange);
+gougeSlider.addEventListener('pointermove', onSizeChange);
+gougeSlider.addEventListener('change',      onSizeChange);
+
 // ── File load ──────────────────────────────────────────────────────
 document.getElementById('fileInput').onchange = function(e) {
   const file = e.target.files[0];
@@ -457,15 +458,13 @@ document.getElementById('fileInput').onchange = function(e) {
     const i = new Image();
     i.onload = () => {
       img = i;
-      // Size canvas to exactly match what will be displayed on screen.
-      // CSS sets width:100% height:auto, so displayed height = wrapW * (imgH/imgW).
-      // We cap that at 70% of viewport height. Canvas internal pixels must match
-      // this exactly so getPos coordinate mapping is always 1:1.
-      const wrapW       = baseCanvas.parentElement.clientWidth;
-      const naturalH    = Math.round(i.height * (wrapW / i.width));
-      const maxH        = Math.round(window.innerHeight * 0.70);
-      const displayH    = Math.min(naturalH, maxH);
-      const displayW    = naturalH > maxH ? Math.round(i.width * (maxH / i.height)) : wrapW;
+      // Canvas internal pixels must exactly match CSS display pixels — no scaling mismatch.
+      // Enforce 55vh height cap here in JS so coordinate mapping stays 1:1.
+      const wrapW    = baseCanvas.parentElement.clientWidth;
+      const maxH     = Math.round(window.innerHeight * 0.55);
+      const scale    = Math.min(wrapW / i.width, maxH / i.height, 1);
+      const displayW = Math.round(i.width  * scale);
+      const displayH = Math.round(i.height * scale);
       setCanvasSize(displayW, displayH);
       undoStack.length = 0;
       updateUndoBtn();
@@ -535,70 +534,67 @@ function renderGouge(cx, cy, baseSize, pressure) {
 
   switch (gougeType) {
 
+    case 'knife': {
+      // Knife/veiner: true hairline — sub-pixel width, grows only slightly with size.
+      // Narrowest tool at any size setting.
+      const kr = Math.max(0.5, r * 0.06);
+      dCtx.fillStyle = `rgba(255,255,255,${Math.min(1, op * 1.2)})`;
+      dCtx.beginPath(); dCtx.arc(cx, cy, kr, 0, Math.PI*2); dCtx.fill();
+      break;
+    }
+
     case 'vfine': {
-      // Narrow V: sharp centre spike, rapid falloff — a fine scratch
-      const rr = Math.max(1.5, r * 0.28);
-      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr * 3.5);
+      // V-fine: workhorse fine scratch. Narrow gaussian spike — tight centre,
+      // soft feathered edge. Width ~12% of size setting.
+      const rr = Math.max(1, r * 0.12);
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr * 4);
       g.addColorStop(0,    `rgba(255,255,255,${op})`);
-      g.addColorStop(0.25, `rgba(255,255,255,${op * 0.7})`);
+      g.addColorStop(0.15, `rgba(255,255,255,${op * 0.85})`);
+      g.addColorStop(0.45, `rgba(255,255,255,${op * 0.4})`);
       g.addColorStop(1,    'rgba(255,255,255,0)');
       dCtx.fillStyle = g;
-      dCtx.beginPath(); dCtx.arc(cx, cy, rr * 3.5, 0, Math.PI*2); dCtx.fill();
+      dCtx.beginPath(); dCtx.arc(cx, cy, rr * 4, 0, Math.PI*2); dCtx.fill();
       break;
     }
 
     case 'vwide': {
-      // Wide V: bright rim, slight hollow centre — ring-like
-      const g = dCtx.createRadialGradient(cx, cy, r * 0.08, cx, cy, r);
-      g.addColorStop(0,    `rgba(255,255,255,${op * 0.4})`); // hollow centre
-      g.addColorStop(0.35, `rgba(255,255,255,${op * 0.75})`);
-      g.addColorStop(0.72, `rgba(255,255,255,${op})`);        // bright rim
+      // V-wide: noticeably wider than V-fine. Width ~30% of size setting.
+      // Bright centre with visible shoulder falloff.
+      const rr = Math.max(2, r * 0.30);
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr * 3.2);
+      g.addColorStop(0,    `rgba(255,255,255,${op})`);
+      g.addColorStop(0.2,  `rgba(255,255,255,${op * 0.8})`);
+      g.addColorStop(0.55, `rgba(255,255,255,${op * 0.3})`);
       g.addColorStop(1,    'rgba(255,255,255,0)');
       dCtx.fillStyle = g;
-      dCtx.beginPath(); dCtx.arc(cx, cy, r, 0, Math.PI*2); dCtx.fill();
+      dCtx.beginPath(); dCtx.arc(cx, cy, rr * 3.2, 0, Math.PI*2); dCtx.fill();
       break;
     }
 
     case 'usmall': {
-      // Small U: even flat-bottomed channel
-      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      // U-gouge small: flat-bottomed channel, uniform opacity across full width.
+      // Clearly wider than V-wide — width = 55% of size setting.
+      const rr = Math.max(3, r * 0.55);
+      const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, rr);
       g.addColorStop(0,    `rgba(255,255,255,${op})`);
-      g.addColorStop(0.62, `rgba(255,255,255,${op})`);
+      g.addColorStop(0.70, `rgba(255,255,255,${op})`);
+      g.addColorStop(0.90, `rgba(255,255,255,${op * 0.3})`);
       g.addColorStop(1,    'rgba(255,255,255,0)');
       dCtx.fillStyle = g;
-      dCtx.beginPath(); dCtx.arc(cx, cy, r, 0, Math.PI*2); dCtx.fill();
+      dCtx.beginPath(); dCtx.arc(cx, cy, rr, 0, Math.PI*2); dCtx.fill();
       break;
     }
 
     case 'ularge': {
-      // Large U: wide flat bowl, hard shoulder
+      // U-gouge large: wide flat bowl — appreciably broader than U-small.
+      // Width = full radius r (100% of size setting). Hard shoulder.
       const g = dCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
       g.addColorStop(0,    `rgba(255,255,255,${op})`);
-      g.addColorStop(0.78, `rgba(255,255,255,${op})`);
-      g.addColorStop(0.92, `rgba(255,255,255,${op * 0.35})`);
+      g.addColorStop(0.80, `rgba(255,255,255,${op})`);
+      g.addColorStop(0.93, `rgba(255,255,255,${op * 0.25})`);
       g.addColorStop(1,    'rgba(255,255,255,0)');
       dCtx.fillStyle = g;
       dCtx.beginPath(); dCtx.arc(cx, cy, r, 0, Math.PI*2); dCtx.fill();
-      break;
-    }
-
-    case 'flat': {
-      // Flat chisel: rectangular, hard-edged — wide and shallow
-      const hw = r;
-      const hh = Math.max(2, r * 0.25);
-      dCtx.fillStyle = `rgba(255,255,255,${op})`;
-      dCtx.beginPath();
-      if (dCtx.roundRect) dCtx.roundRect(cx - hw, cy - hh, hw*2, hh*2, 1);
-      else                dCtx.rect(cx - hw, cy - hh, hw*2, hh*2);
-      dCtx.fill();
-      break;
-    }
-
-    case 'knife': {
-      // Knife/veiner: hairline — very fine, very opaque
-      const kr = Math.max(1, r * 0.12);
-      dCtx.fillStyle = `rgba(255,255,255,${Math.min(1, op * 1.15)})`;
-      dCtx.beginPath(); dCtx.arc(cx, cy, kr, 0, Math.PI*2); dCtx.fill();
       break;
     }
   }
