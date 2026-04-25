@@ -91,16 +91,12 @@
     width: 100%;
     background: #0e0b08;
     touch-action: pan-y;
-    max-height: 70vh;
-    overflow: hidden;
   }
 
   .canvas-wrap canvas {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 70vh;
-    object-fit: contain;
   }
 
   #drawCanvas {
@@ -461,16 +457,20 @@ document.getElementById('fileInput').onchange = function(e) {
     const i = new Image();
     i.onload = () => {
       img = i;
-      const wrapW = baseCanvas.parentElement.clientWidth;
-      const maxH  = Math.round(window.innerHeight * 0.65);
-      const scale = Math.min(wrapW / i.width, maxH / i.height, 1);
-      const w = Math.round(i.width  * scale);
-      const h = Math.round(i.height * scale);
-      setCanvasSize(w, h);
+      // Size canvas to exactly match what will be displayed on screen.
+      // CSS sets width:100% height:auto, so displayed height = wrapW * (imgH/imgW).
+      // We cap that at 70% of viewport height. Canvas internal pixels must match
+      // this exactly so getPos coordinate mapping is always 1:1.
+      const wrapW       = baseCanvas.parentElement.clientWidth;
+      const naturalH    = Math.round(i.height * (wrapW / i.width));
+      const maxH        = Math.round(window.innerHeight * 0.70);
+      const displayH    = Math.min(naturalH, maxH);
+      const displayW    = naturalH > maxH ? Math.round(i.width * (maxH / i.height)) : wrapW;
+      setCanvasSize(displayW, displayH);
       undoStack.length = 0;
       updateUndoBtn();
-      bCtx.drawImage(i, 0, 0, w, h);
-      dCtx.clearRect(0, 0, w, h);
+      bCtx.drawImage(i, 0, 0, displayW, displayH);
+      dCtx.clearRect(0, 0, displayW, displayH);
       document.getElementById('uploadOverlay').style.display = 'none';
       simulate();
     };
