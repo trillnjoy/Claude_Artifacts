@@ -89,13 +89,17 @@
     position: relative;
     width: 100%;
     background: #0e0b08;
-    touch-action: none;
+    touch-action: pan-y;
+    max-height: 50vh;
+    overflow: hidden;
   }
 
   .canvas-wrap canvas {
     display: block;
     width: 100%;
     height: auto;
+    max-height: 50vh;
+    object-fit: contain;
   }
 
   #drawCanvas {
@@ -104,6 +108,7 @@
     width: 100% !important;
     height: 100% !important;
     cursor: crosshair;
+    touch-action: pan-y;
   }
 
   /* Upload overlay */
@@ -608,9 +613,12 @@ function getPos(e) {
   return { x: (src.clientX - rect.left) * sx, y: (src.clientY - rect.top) * sy };
 }
 
-// ── Pointer events (Apple Pencil + mouse + touch) ──────────────────
+// ── Pointer events (Apple Pencil + mouse only — finger scrolls freely) ──
+const DRAW_TYPES = new Set(['pen', 'mouse']);
+
 drawCanvas.addEventListener('pointerdown', e => {
   if (!img) return;
+  if (!DRAW_TYPES.has(e.pointerType)) return; // finger → don't draw
   e.preventDefault();
   drawCanvas.setPointerCapture(e.pointerId);
   currentPressure = e.pressure > 0 ? e.pressure : 1.0;
@@ -626,6 +634,7 @@ drawCanvas.addEventListener('pointerdown', e => {
 
 drawCanvas.addEventListener('pointermove', e => {
   if (!isDrawing) return;
+  if (!DRAW_TYPES.has(e.pointerType)) return;
   e.preventDefault();
   if (e.pressure > 0) { currentPressure = e.pressure; updatePressureBar(currentPressure); }
   const p    = getPos(e);
