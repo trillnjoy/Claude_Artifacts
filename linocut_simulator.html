@@ -614,17 +614,52 @@ function getPos(e) {
   return { x: (src.clientX - rect.left) * sx, y: (src.clientY - rect.top) * sy };
 }
 
-// ── Pointer events (Apple Pencil + mouse only — finger scrolls freely) ──
+// ── Palm rejection ─────────────────────────────────────────────────
+// When Apple Pencil is down, block all finger touch so resting palm
+// neither draws nor scrolls the page.
 const DRAW_TYPES = new Set(['pen', 'mouse']);
+let penActive = false;
 
+// We listen on document so finger touches anywhere are caught while pen is down
+document.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'pen') {
+    penActive = true;
+    // Freeze scroll while pen is in contact
+    document.body.style.overflow = 'hidden';
+  }
+  if (e.pointerType === 'touch' && penActive) {
+    e.preventDefault(); // block finger draw & scroll
+    e.stopPropagation();
+  }
+}, { passive: false });
+
+document.addEventListener('pointerup', e => {
+  if (e.pointerType === 'pen') {
+    penActive = false;
+    document.body.style.overflow = '';
+  }
+});
+
+document.addEventListener('pointercancel', e => {
+  if (e.pointerType === 'pen') {
+    penActive = false;
+    document.body.style.overflow = '';
+  }
+});
+
+// Also block touchmove on document when pen is active (belt-and-suspenders)
+document.addEventListener('touchmove', e => {
+  if (penActive) e.preventDefault();
+}, { passive: false });
+
+// ── Canvas pointer events (Apple Pencil + mouse only) ─────────────
 drawCanvas.addEventListener('pointerdown', e => {
   if (!img) return;
-  if (!DRAW_TYPES.has(e.pointerType)) return; // finger → don't draw
+  if (!DRAW_TYPES.has(e.pointerType)) return;
   e.preventDefault();
   drawCanvas.setPointerCapture(e.pointerId);
   currentPressure = e.pressure > 0 ? e.pressure : 1.0;
   updatePressureBar(currentPressure);
-  // Save snapshot for undo
   undoStack.push(dCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height));
   if (undoStack.length > MAX_UNDO) undoStack.shift();
   updateUndoBtn();
