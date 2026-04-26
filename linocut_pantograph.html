@@ -446,6 +446,7 @@ let penActive = false;
 let isDrawing = false;
 let lastX = 0, lastY = 0;
 let pressure  = 1.0;
+let strokeDabCount = 0;  // tracks dabs within current stroke for taper
 let showingOriginal = false;
 let homography = null;      // 3x3 matrix mapping print canvas → block canvas
 let pendingLandmarks = null; // from API, awaiting user confirm
@@ -484,13 +485,13 @@ function drawPrintImage() {
   basePrint._scale=scale;
 }
 
-function drawBlockImage() {
+async function drawBlockImage(onProgress) {
   const w = baseBlock.width, h = baseBlock.height;
   bbCtx.clearRect(0,0,w,h);
 
   if (homography) {
     // Warp block image onto print coordinate space using inverse homography
-    drawWarpedBlock(w, h);
+    await drawWarpedBlock(w, h, onProgress);
     // Store full-canvas mapping for coord transform
     baseBlock._ox=0; baseBlock._oy=0; baseBlock._dw=w; baseBlock._dh=h;
     baseBlock._warped=true;
@@ -511,57 +512,112 @@ function drawBlockImage() {
 // ── Homography warp ────────────────────────────────────────────────
 // H maps print-canvas coords → block-image coords (in native px)
 // We do backward mapping: for each output pixel, compute source pixel.
-// Uses offscreen canvas + ImageData for performance.
-function drawWarpedBlock(W, H) {
-  // Get block image at its native size into an offscreen canvas
-  const srcC = document.createElement('canvas');
-  srcC.width = blockImg.width; srcC.height = blockImg.height;
-  const srcCtx = srcC.getContext('2d');
-  srcCtx.drawImage(blockImg, 0, 0);
-  const srcData = srcCtx.getImageData(0, 0, blockImg.width, blockImg.height);
+// Runs in async chunks so the UI can update progress between rows.
+function drawWarpedBlock(W, H, onProgress) {
+  return new Promise(resolve => {
+    const srcC = document.createElement('canvas');
+    srcC.width = blockImg.width; srcC.height = blockImg.height;
+    const srcCtx = srcC.getContext('2d');
+    srcCtx.drawImage(blockImg, 0, 0);
+    const srcData = srcCtx.getImageData(0, 0, blockImg.width, blockImg.height);
 
-  // Inverse of H: maps block-canvas coords → print-canvas coords
-  // Actually H maps printCanvas → blockImage, so inverse maps blockCanvas → printCanvas
-  // We iterate over block canvas pixels, find where they came from in print space,
-  // then bilinear sample the block image at H(printPt).
-  // Simpler: iterate print canvas pixels, project to block image, paint on block canvas.
+    const dst = bbCtx.createImageData(W, H);
+    const Hinv = invertH(homography);
+    if (!Hinv) { bbCtx.clearRect(0,0,W,H); resolve(); return; }
 
-  const dst = bbCtx.createImageData(W, H);
-  const Hinv = invertH(homography);
-  if (!Hinv) { bbCtx.clearRect(0,0,W,H); return; }
+    const bW = blockImg.width, bH = blockImg.height;
+    const CHUNK = 50; // rows per chunk
+    let y = 0;
 
-  const bW = blockImg.width, bH = blockImg.height;
-
-  for (let y = 0; y < H; y++) {
-    for (let x = 0; x < W; x++) {
-      // Map block canvas (x,y) → block image coords via Hinv
-      // H maps printCanvas → blockImageNative
-      // So: we want to find which block image pixel lands at block canvas (x,y)
-      // Step 1: (x,y) is already in block canvas space (same as print canvas space after warp)
-      // Apply Hinv to get block image coords
-      const [bx, by] = applyH(Hinv, x, y);
-      if (bx < 0 || by < 0 || bx >= bW-1 || by >= bH-1) continue;
-      // Mirror the x coordinate (block is physically mirrored)
-      const mbx = bW - 1 - bx;
-      // Bilinear interpolation
-      const fx = Math.floor(mbx), fy = Math.floor(by);
-      const dx = mbx - fx, dy = by - fy;
-      const idx = (fy * bW + fx) * 4;
-      const idxr = idx + 4;
-      const idxb = ((fy+1) * bW + fx) * 4;
-      const idxbr = idxb + 4;
-      const dstIdx = (y * W + x) * 4;
-      for (let c = 0; c < 4; c++) {
-        dst.data[dstIdx+c] = Math.round(
-          srcData.data[idx+c]   * (1-dx)*(1-dy) +
-          srcData.data[idxr+c]  * dx*(1-dy) +
-          srcData.data[idxb+c]  * (1-dx)*dy +
-          srcData.data[idxbr+c] * dx*dy
-        );
+    function processChunk() {
+      const end = Math.min(y + CHUNK, H);
+      for (; y < end; y++) {
+        for (let x = 0; x < W; x++) {
+          const [bx, by] = applyH(Hinv, x, y);
+          if (bx < 0 || by < 0 || bx >= bW-1 || by >= bH-1) continue;
+          const mbx = bW - 1 - bx;
+          const fx = Math.floor(mbx), fy = Math.floor(by);
+          const dx = mbx - fx, dy = by - fy;
+          const idx   = (fy * bW + fx) * 4;
+          const idxr  = idx + 4;
+          const idxb  = ((fy+1) * bW + fx) * 4;
+          const idxbr = idxb + 4;
+          const dstIdx = (y * W + x) * 4;
+          for (let c = 0; c < 4; c++) {
+            dst.data[dstIdx+c] = Math.round(
+              srcData.data[idx+c]   * (1-dx)*(1-dy) +
+              srcData.data[idxr+c]  * dx*(1-dy) +
+              srcData.data[idxb+c]  * (1-dx)*dy +
+              srcData.data[idxbr+c] * dx*dy
+            );
+          }
+        }
+      }
+      if (onProgress) onProgress(Math.round((y / H) * 100));
+      if (y < H) {
+        setTimeout(processChunk, 0);
+      } else {
+        bbCtx.putImageData(dst, 0, 0);
+        resolve();
       }
     }
+    processChunk();
+  });
+}
+
+// ── RANSAC homography ──────────────────────────────────────────────
+// Robustly fits homography by rejecting landmark outliers.
+// Uses random 4-point samples, scores all landmarks, keeps best inlier set.
+function ransacHomography(pts, opts) {
+  const { maxIter = 400, inlierThresh = 8, minInliers = 4 } = opts || {};
+  if (pts.length < 4) return null;
+
+  let bestH = null, bestInliers = [], bestCount = 0;
+
+  // Squared threshold in block-image-native px
+  const thresh2 = inlierThresh * inlierThresh;
+
+  function score(H) {
+    let inliers = [];
+    for (const pt of pts) {
+      const [predBx, predBy] = applyH(H, pt.p.x, pt.p.y);
+      const dx = predBx - pt.b.x, dy = predBy - pt.b.y;
+      if (dx*dx + dy*dy < thresh2) inliers.push(pt);
+    }
+    return inliers;
   }
-  bbCtx.putImageData(dst, 0, 0);
+
+  const n = pts.length;
+  for (let iter = 0; iter < maxIter; iter++) {
+    // Pick 4 distinct random indices
+    const idx = [];
+    while (idx.length < 4) {
+      const r = Math.floor(Math.random() * n);
+      if (!idx.includes(r)) idx.push(r);
+    }
+    const sample = idx.map(i => pts[i]);
+    const H = computeHomography(sample);
+    if (!H) continue;
+    const inliers = score(H);
+    if (inliers.length > bestCount) {
+      bestCount = inliers.length;
+      bestInliers = inliers;
+      bestH = H;
+    }
+    // Early exit if we have a very good consensus
+    if (bestCount >= Math.round(n * 0.85)) break;
+  }
+
+  // Refit using all inliers for best final H
+  if (bestInliers.length >= minInliers) {
+    const refinedH = computeHomography(bestInliers);
+    console.log(`RANSAC: ${bestInliers.length}/${pts.length} inliers (thresh=${inlierThresh}px)`);
+    console.log('RANSAC inliers:', bestInliers.map(p => `(${p.p.x.toFixed(0)},${p.p.y.toFixed(0)})`).join(' '));
+    return refinedH || bestH;
+  }
+  // Fallback: use all points
+  console.warn('RANSAC: too few inliers, falling back to full DLT');
+  return computeHomography(pts);
 }
 
 // ── Homography math ────────────────────────────────────────────────
@@ -944,7 +1000,7 @@ function drawLandmarkPreview(lms) {
   });
 }
 
-function applyRegistration() {
+async function applyRegistration() {
   if (!pendingLandmarks || pendingLandmarks.length < 4) return;
 
   // Filter landmarks in top 20% of print — belt and suspenders
@@ -958,7 +1014,7 @@ function applyRegistration() {
     b: { x: lm.block.x, y: lm.block.y }
   }));
 
-  homography = computeHomography(pts);
+  homography = ransacHomography(pts);
 
   if (!homography) {
     document.getElementById('reg-status').textContent = 'Could not compute homography — try again.';
@@ -984,13 +1040,25 @@ function applyRegistration() {
 
   console.log(`Registration applied: ${pts.length} landmarks`);
 
+  // Keep overlay visible during warp, update status
+  const regStatus = document.getElementById('reg-status');
+  const regSpinner = document.getElementById('reg-spinner');
+  document.getElementById('reg-landmarks').style.display = 'none';
+  regSpinner.style.display = 'block';
+  regStatus.textContent = 'Warping block image… 0%';
+
+  // Redraw print first (restores dots-free image)
+  drawPrintImage();
+
+  // Async warp with progress
+  await drawBlockImage(pct => {
+    regStatus.textContent = `Warping block image… ${pct}%`;
+  });
+
   document.getElementById('reg-overlay').classList.remove('visible');
   document.getElementById('block-label').innerHTML = '<span>Block</span> — AI registered · red = carve here';
   pendingLandmarks = null;
 
-  // Redraw with warp applied
-  drawPrintImage(); // restore dots
-  drawBlockImage();
   mbCtx.clearRect(0, 0, maskBlock.width, maskBlock.height);
   undoStack.length = 0; updateUndoBtn();
 }
@@ -998,8 +1066,9 @@ function applyRegistration() {
 function cancelRegistration() {
   document.getElementById('reg-overlay').classList.remove('visible');
   pendingLandmarks = null;
-  // Restore print image without dots
+  // Restore both canvases without landmark dots
   drawPrintImage();
+  drawBlockImage();  // redraws block without red dots (no-op if no blockImg)
 }
 
 // ── Coord mapping ──────────────────────────────────────────────────
@@ -1095,11 +1164,20 @@ sizeSlider.addEventListener('pointermove', onSize);
 sizeSlider.addEventListener('change',      onSize);
 
 // ── Gouge rendering ────────────────────────────────────────────────
-function renderMark(ctx, cx, cy, baseSize, p, isErase, isBlock) {
+function renderMark(ctx, cx, cy, baseSize, p, isErase, isBlock, dabCount) {
   try {
     const s  = baseSize * (0.35 + p * 0.65);
     const r  = Math.max(0.5, s / 2);
-    const op = isBlock ? (0.5 + p * 0.5) * 0.45 : (0.5 + p * 0.5);
+    let op = isBlock ? (0.5 + p * 0.5) * 0.45 : (0.5 + p * 0.5);
+
+    // Taper opacity at stroke entry (first 3 dabs) for pointy tools
+    // dabCount is undefined when called outside a live stroke (e.g. from undo preview)
+    if (dabCount !== undefined && (gouge === 'vfine' || gouge === 'vwide')) {
+      const TAPER_DABS = 3;
+      if (dabCount <= TAPER_DABS) {
+        op *= 0.15 + 0.85 * ((dabCount - 1) / TAPER_DABS);
+      }
+    }
 
     if (isErase) {
       ctx.globalCompositeOperation = 'destination-out';
@@ -1169,8 +1247,9 @@ function renderMark(ctx, cx, cy, baseSize, p, isErase, isBlock) {
 function applyStroke(px, py, bx, by) {
   const size = parseInt(sizeSlider.value);
   const isRestore = mode === 'restore';
-  renderMark(epCtx, px, py, size, pressure, isRestore, false);
-  renderMark(mbCtx, bx, by, size, pressure, isRestore, true);
+  strokeDabCount++;
+  renderMark(epCtx, px, py, size, pressure, isRestore, false, strokeDabCount);
+  renderMark(mbCtx, bx, by, size, pressure, isRestore, true,  strokeDabCount);
 }
 
 // ── Undo ───────────────────────────────────────────────────────────
@@ -1227,6 +1306,7 @@ drawPrint.addEventListener('pointerdown', e => {
   document.getElementById('pressure-fill').style.width = (pressure*100)+'%';
   pushUndo();
   isDrawing = true;
+  strokeDabCount = 0;
   const c = mapCoords(e);
   lastX=c.px; lastY=c.py;
   applyStroke(c.px, c.py, c.bx, c.by);
@@ -1250,8 +1330,8 @@ drawPrint.addEventListener('pointermove', e => {
   showCrosshair(c.bx, c.by);
 });
 
-drawPrint.addEventListener('pointerup',     e => { e.preventDefault(); isDrawing=false; hideCrosshair(); });
-drawPrint.addEventListener('pointercancel', e => { e.preventDefault(); isDrawing=false; hideCrosshair(); });
+drawPrint.addEventListener('pointerup',     e => { e.preventDefault(); isDrawing=false; strokeDabCount=0; hideCrosshair(); });
+drawPrint.addEventListener('pointercancel', e => { e.preventDefault(); isDrawing=false; strokeDabCount=0; hideCrosshair(); });
 drawPrint.addEventListener('pointerleave',  e => { hideCrosshair(); });
 
 // ── Crosshair ─────────────────────────────────────────────────────

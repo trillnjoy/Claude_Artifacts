@@ -1,7 +1,7 @@
 // ── Linocut Pantograph Service Worker ─────────────────────────────
 // INCREMENT VERSION HERE on every deploy. This is the only file
 // that changes between versions — the HTML URL stays permanent.
-const VERSION = 'v11';
+const VERSION = 'v12';
 const CACHE   = 'linocut-pantograph-' + VERSION;
 
 const ASSETS = [
