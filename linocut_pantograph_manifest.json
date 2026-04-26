@@ -1,0 +1,24 @@
+{
+  "name": "Linocut Pantograph",
+  "short_name": "Pantograph",
+  "description": "Registered mirror mapping tool for linocut printmaking",
+  "start_url": "./linocut_pantograph_v10.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0f0d0a",
+  "theme_color": "#0f0d0a",
+  "icons": [
+    {
+      "src": "LinoPantograph_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "LinoPantograph_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
