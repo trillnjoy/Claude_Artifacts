@@ -2,7 +2,7 @@
   "name": "Linocut Pantograph",
   "short_name": "Pantograph",
   "description": "Registered mirror mapping tool for linocut printmaking",
-  "start_url": "./linocut_pantograph_v10.html",
+  "start_url": "./linocut_pantograph.html",
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#0f0d0a",
