@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Linocut Pantograph</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital@0;1&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+:root {
+  --bg:       #0f0d0a;
+  --surface:  #181410;
+  --border:   #3a2e1e;
+  --gold:     #c8a45a;
+  --gold2:    #8a6a30;
+  --text:     #ecdfc8;
+  --dim:      #8a7a60;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Courier Prime', monospace;
+  width: 100%; height: 100%;
+  min-height: -webkit-fill-available;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: -webkit-fill-available;
+  overflow: hidden;
+}
+
+/* ── HEADER ── */
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  height: 44px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+#title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 5px;
+  color: var(--gold);
+}
+
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#pencil-label { font-size:11px; letter-spacing:2px; color:var(--dim); text-transform:uppercase; }
+#pressure-bar { width:48px; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+#pressure-fill { height:100%; background:var(--gold); width:0%; border-radius:2px; transition:width 0.04s; }
+
+/* ── PANES ── */
+#panes {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.pane-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-align: center;
+  padding: 4px 0;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pane-label span { color: var(--gold); font-weight: bold; }
+
+#pane-divider { width:1px; background:var(--border); flex-shrink:0; }
+
+.canvas-host {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #0a0806;
+  touch-action: none;
+}
+
+.canvas-host canvas {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+/* Upload overlay */
+.upload-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #0a0806;
+  cursor: pointer;
+  z-index: 20;
+}
+.upload-overlay .up-arrow { font-size:28px; color:var(--gold2); }
+.upload-overlay .up-text  { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--dim); text-align:center; line-height:1.9; }
+input[type=file] { display:none; }
+
+/* Crosshair */
+#crosshair {
+  position: absolute;
+  pointer-events: none;
+  z-index: 30;
+  display: none;
+}
+#crosshair::before, #crosshair::after {
+  content:''; position:absolute; background:rgba(210,40,20,0.85);
+}
+#crosshair::before { width:1px; height:20px; top:-10px; left:0; }
+#crosshair::after  { width:20px; height:1px; top:0; left:-10px; }
+
+/* ── TOOLBAR ── */
+#toolbar {
+  flex-shrink: 0;
+  height: 58px;
+  min-height: 58px;
+  max-height: 58px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+#toolbar::-webkit-scrollbar { display:none; }
+
+.tb-sep { width:1px; height:28px; background:var(--border); flex-shrink:0; }
+
+.g-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--dim);
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-width: 46px;
+  height: 44px;
+  -webkit-user-select: none; user-select: none;
+  touch-action: manipulation;
+  transition: all 0.1s;
+}
+.g-btn svg path, .g-btn svg line { stroke: var(--dim); }
+.g-btn.active { background:var(--gold); border-color:var(--gold); color:#0f0d0a; }
+.g-btn.active svg path, .g-btn.active svg line { stroke:#0f0d0a; }
+
+.pill-group { display:inline-flex; border:1px solid var(--border); border-radius:4px; overflow:hidden; flex-shrink:0; }
+.p-btn {
+  padding:0 12px; height:36px;
+  background:transparent; border:none; border-right:1px solid var(--border);
+  color:var(--text); font-family:'Courier Prime',monospace; font-size:12px;
+  letter-spacing:1px; text-transform:uppercase; cursor:pointer; flex-shrink:0;
+  -webkit-user-select:none; user-select:none; touch-action:manipulation;
+}
+.p-btn:last-child { border-right:none; }
+.p-btn.active { background:var(--gold); color:#0f0d0a; font-weight:bold; }
+
+#size-wrap { display:inline-flex; align-items:center; gap:6px; flex-shrink:0; min-width:110px; }
+#size-label { font-size:10px; letter-spacing:2px; color:var(--dim); text-transform:uppercase; }
+input[type=range] {
+  -webkit-appearance:none; width:80px; height:2px; background:var(--border);
+  outline:none; border-radius:2px; flex-shrink:0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; width:24px; height:24px;
+  background:var(--gold); border-radius:50%; cursor:pointer;
+}
+#size-val { font-size:12px; color:var(--gold); min-width:22px; font-weight:bold; }
+
+.a-btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:0 12px; height:36px;
+  background:transparent; border:1px solid var(--border); border-radius:4px;
+  color:var(--text); font-family:'Courier Prime',monospace; font-size:11px;
+  letter-spacing:1px; text-transform:uppercase; cursor:pointer;
+  flex-shrink:0; white-space:nowrap;
+  -webkit-user-select:none; user-select:none; touch-action:manipulation;
+}
+.a-btn:disabled { opacity:0.28; cursor:default; }
+.a-btn.gold { border-color:var(--gold2); color:var(--gold); }
+.a-btn.gold:not(:disabled):active { background:var(--gold); color:#0f0d0a; }
+.a-btn.accent { border-color:var(--gold); color:var(--gold); font-weight:bold; }
+.a-btn.accent:not(:disabled):active { background:var(--gold); color:#0f0d0a; }
+#undo-count { font-size:9px; color:var(--dim); margin-left:2px; }
+
+/* ── REGISTRATION OVERLAY ── */
+#reg-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10,8,6,0.92);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+#reg-overlay.visible { display:flex; }
+
+#reg-spinner {
+  width: 48px; height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#reg-status {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  max-width: 340px;
+  line-height: 1.7;
+}
+
+#reg-landmarks {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+#reg-error {
+  font-size: 11px;
+  color: #d22814;
+  letter-spacing: 1px;
+  max-width: 340px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.reg-btn {
+  padding: 10px 24px;
+  background: var(--gold);
+  border: none;
+  border-radius: 4px;
+  color: #0f0d0a;
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* landmark dots drawn on canvas via JS */
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="header">
+    <div id="title">Linocut Pantograph</div>
+    <div id="header-right">
+      <span id="pencil-label">Pencil</span>
+      <div id="pressure-bar"><div id="pressure-fill"></div></div>
+    </div>
+  </div>
+
+  <div id="panes">
+
+    <div class="pane" id="pane-print">
+      <div class="pane-label"><span>Last Print</span> — mark areas to reduce</div>
+      <div class="canvas-host" id="host-print">
+        <canvas id="base-print"></canvas>
+        <canvas id="erase-print"></canvas>
+        <canvas id="draw-print"></canvas>
+        <div class="upload-overlay" id="over-print" onclick="document.getElementById('file-print').click()">
+          <div class="up-arrow">↑</div>
+          <div class="up-text">Load last print</div>
+        </div>
+        <input type="file" id="file-print" accept="image/*">
+      </div>
+    </div>
+
+    <div id="pane-divider"></div>
+
+    <div class="pane" id="pane-block">
+      <div class="pane-label" id="block-label"><span>Block</span> — load image, then Register</div>
+      <div class="canvas-host" id="host-block">
+        <canvas id="base-block"></canvas>
+        <canvas id="mask-block"></canvas>
+        <div id="crosshair"></div>
+        <div class="upload-overlay" id="over-block" onclick="document.getElementById('file-block').click()">
+          <div class="up-arrow">↑</div>
+          <div class="up-text">Load block photo</div>
+        </div>
+        <input type="file" id="file-block" accept="image/*">
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toolbar">
+    <span style="font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;flex-shrink:0;">Gouge</span>
+
+    <button class="g-btn" id="g-knife" onclick="setGouge('knife')">
+      <svg width="32" height="10" viewBox="0 0 32 10"><line x1="3" y1="5" x2="29" y2="5" stroke="#c8a45a" stroke-width="0.7" stroke-linecap="round"/></svg>
+      Knife
+    </button>
+    <button class="g-btn active" id="g-vfine" onclick="setGouge('vfine')">
+      <svg width="32" height="12" viewBox="0 0 32 12"><path d="M13 2 L16 10 L19 2" stroke="#c8a45a" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      V Fine
+    </button>
+    <button class="g-btn" id="g-vwide" onclick="setGouge('vwide')">
+      <svg width="32" height="12" viewBox="0 0 32 12"><path d="M7 2 L16 10 L25 2" stroke="#c8a45a" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      V Wide
+    </button>
+    <button class="g-btn" id="g-usmall" onclick="setGouge('usmall')">
+      <svg width="32" height="12" viewBox="0 0 32 12"><path d="M8 2 Q8 11 16 11 Q24 11 24 2" stroke="#c8a45a" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      U Gouge
+    </button>
+    <button class="g-btn" id="g-ularge" onclick="setGouge('ularge')">
+      <svg width="32" height="12" viewBox="0 0 32 12"><path d="M2 2 Q2 11 16 11 Q30 11 30 2" stroke="#c8a45a" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      U Large
+    </button>
+
+    <div class="tb-sep"></div>
+
+    <div class="pill-group">
+      <button class="p-btn active" id="m-carve"   onclick="setMode('carve')">Carve</button>
+      <button class="p-btn"        id="m-restore" onclick="setMode('restore')">Restore</button>
+    </div>
+
+    <div class="tb-sep"></div>
+
+    <div id="size-wrap">
+      <span id="size-label">Size</span>
+      <input type="range" id="size-slider" min="3" max="80" value="16">
+      <span id="size-val">16</span>
+    </div>
+
+    <div class="tb-sep"></div>
+
+    <button class="a-btn accent" id="reg-btn" onclick="startRegistration()" disabled>⊹ Register</button>
+
+    <div class="tb-sep"></div>
+
+    <button class="a-btn" id="toggle-btn" onclick="toggleOriginal()">👁 Original</button>
+    <button class="a-btn" id="undo-btn" onclick="undo()" disabled>↩ Undo<span id="undo-count"></span></button>
+    <button class="a-btn" onclick="clearAll()">✕ Clear</button>
+
+    <div class="tb-sep"></div>
+
+    <button class="a-btn gold" onclick="savePrint()">↓ Print</button>
+    <button class="a-btn gold" onclick="saveBlock()">↓ Block</button>
+  </div>
+
+</div>
+
+<!-- REGISTRATION OVERLAY -->
+<div id="reg-overlay">
+  <div id="reg-spinner"></div>
+  <div id="reg-status">Sending images to Claude Vision…</div>
+  <div id="reg-error"></div>
+  <div id="reg-landmarks">
+    <button class="reg-btn" onclick="applyRegistration()">✓ Apply Registration</button>
+    <button class="reg-btn" style="background:var(--border);color:var(--text);" onclick="cancelRegistration()">Cancel</button>
+  </div>
+</div>
+
+<script>
+// ── Canvas refs ────────────────────────────────────────────────────
+const basePrint  = document.getElementById('base-print');
+const erasePrint = document.getElementById('erase-print');
+const drawPrint  = document.getElementById('draw-print');
+const baseBlock  = document.getElementById('base-block');
+const maskBlock  = document.getElementById('mask-block');
+const bpCtx = basePrint.getContext('2d');
+const epCtx = erasePrint.getContext('2d');
+const dpCtx = drawPrint.getContext('2d');
+const bbCtx = baseBlock.getContext('2d');
+const mbCtx = maskBlock.getContext('2d');
+
+// ── State ──────────────────────────────────────────────────────────
+let printImg  = null;
+let blockImg  = null;
+let gouge     = 'vfine';
+let mode      = 'carve';
+let penActive = false;
+let isDrawing = false;
+let lastX = 0, lastY = 0;
+let pressure  = 1.0;
+let showingOriginal = false;
+let homography = null;      // 3x3 matrix mapping print canvas → block canvas
+let pendingLandmarks = null; // from API, awaiting user confirm
+
+const MAX_UNDO = 40;
+const undoStack = [];
+
+// ── Sizing ─────────────────────────────────────────────────────────
+function sizeCanvases() {
+  const pw = document.getElementById('host-print').clientWidth  || 100;
+  const ph = document.getElementById('host-print').clientHeight || 100;
+  const bw = document.getElementById('host-block').clientWidth  || 100;
+  const bh = document.getElementById('host-block').clientHeight || 100;
+
+  [basePrint, erasePrint, drawPrint].forEach(c => {
+    c.width = pw; c.height = ph;
+    c.style.width = pw+'px'; c.style.height = ph+'px';
+  });
+  [baseBlock, maskBlock].forEach(c => {
+    c.width = bw; c.height = bh;
+    c.style.width = bw+'px'; c.style.height = bh+'px';
+  });
+
+  if (printImg) drawPrintImage();
+  if (blockImg) drawBlockImage();
+}
+
+function drawPrintImage() {
+  const w = basePrint.width, h = basePrint.height;
+  const scale = Math.min(w/printImg.width, h/printImg.height);
+  const dw = Math.round(printImg.width*scale), dh = Math.round(printImg.height*scale);
+  const ox = Math.round((w-dw)/2), oy = Math.round((h-dh)/2);
+  bpCtx.clearRect(0,0,w,h);
+  bpCtx.drawImage(printImg, ox, oy, dw, dh);
+  basePrint._ox=ox; basePrint._oy=oy; basePrint._dw=dw; basePrint._dh=dh;
+  basePrint._scale=scale;
+}
+
+function drawBlockImage() {
+  const w = baseBlock.width, h = baseBlock.height;
+  bbCtx.clearRect(0,0,w,h);
+
+  if (homography) {
+    // Warp block image onto print coordinate space using inverse homography
+    drawWarpedBlock(w, h);
+    // Store full-canvas mapping for coord transform
+    baseBlock._ox=0; baseBlock._oy=0; baseBlock._dw=w; baseBlock._dh=h;
+    baseBlock._warped=true;
+  } else {
+    // Fallback: simple mirror scale
+    const scale = Math.min(w/blockImg.width, h/blockImg.height);
+    const dw = Math.round(blockImg.width*scale), dh = Math.round(blockImg.height*scale);
+    const ox = Math.round((w-dw)/2), oy = Math.round((h-dh)/2);
+    bbCtx.save();
+    bbCtx.translate(w,0); bbCtx.scale(-1,1);
+    bbCtx.drawImage(blockImg, ox, oy, dw, dh);
+    bbCtx.restore();
+    baseBlock._ox=ox; baseBlock._oy=oy; baseBlock._dw=dw; baseBlock._dh=dh;
+    baseBlock._warped=false;
+  }
+}
+
+// ── Homography warp ────────────────────────────────────────────────
+// H maps print-canvas coords → block-image coords (in native px)
+// We do backward mapping: for each output pixel, compute source pixel.
+// Uses offscreen canvas + ImageData for performance.
+function drawWarpedBlock(W, H) {
+  // Get block image at its native size into an offscreen canvas
+  const srcC = document.createElement('canvas');
+  srcC.width = blockImg.width; srcC.height = blockImg.height;
+  const srcCtx = srcC.getContext('2d');
+  srcCtx.drawImage(blockImg, 0, 0);
+  const srcData = srcCtx.getImageData(0, 0, blockImg.width, blockImg.height);
+
+  // Inverse of H: maps block-canvas coords → print-canvas coords
+  // Actually H maps printCanvas → blockImage, so inverse maps blockCanvas → printCanvas
+  // We iterate over block canvas pixels, find where they came from in print space,
+  // then bilinear sample the block image at H(printPt).
+  // Simpler: iterate print canvas pixels, project to block image, paint on block canvas.
+
+  const dst = bbCtx.createImageData(W, H);
+  const Hinv = invertH(homography);
+  if (!Hinv) { bbCtx.clearRect(0,0,W,H); return; }
+
+  const bW = blockImg.width, bH = blockImg.height;
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      // Map block canvas (x,y) → block image coords via Hinv
+      // H maps printCanvas → blockImageNative
+      // So: we want to find which block image pixel lands at block canvas (x,y)
+      // Step 1: (x,y) is already in block canvas space (same as print canvas space after warp)
+      // Apply Hinv to get block image coords
+      const [bx, by] = applyH(Hinv, x, y);
+      if (bx < 0 || by < 0 || bx >= bW-1 || by >= bH-1) continue;
+      // Mirror the x coordinate (block is physically mirrored)
+      const mbx = bW - 1 - bx;
+      // Bilinear interpolation
+      const fx = Math.floor(mbx), fy = Math.floor(by);
+      const dx = mbx - fx, dy = by - fy;
+      const idx = (fy * bW + fx) * 4;
+      const idxr = idx + 4;
+      const idxb = ((fy+1) * bW + fx) * 4;
+      const idxbr = idxb + 4;
+      const dstIdx = (y * W + x) * 4;
+      for (let c = 0; c < 4; c++) {
+        dst.data[dstIdx+c] = Math.round(
+          srcData.data[idx+c]   * (1-dx)*(1-dy) +
+          srcData.data[idxr+c]  * dx*(1-dy) +
+          srcData.data[idxb+c]  * (1-dx)*dy +
+          srcData.data[idxbr+c] * dx*dy
+        );
+      }
+    }
+  }
+  bbCtx.putImageData(dst, 0, 0);
+}
+
+// ── Homography math ────────────────────────────────────────────────
+// Normalised DLT — much better conditioned than plain DLT
+// pts: array of {p: {x,y}, b: {x,y}} — print canvas → block image native
+function computeHomography(pts) {
+  if (pts.length < 4) return null;
+
+  // Compute normalisation transforms for src (print) and dst (block)
+  function normTransform(points) {
+    const mx = points.reduce((s,p)=>s+p.x,0)/points.length;
+    const my = points.reduce((s,p)=>s+p.y,0)/points.length;
+    const sd = Math.sqrt(points.reduce((s,p)=>s+(p.x-mx)**2+(p.y-my)**2,0)/points.length);
+    const sc = sd < 1e-8 ? 1 : Math.SQRT2/sd;
+    // T: scale and translate so centroid=0, mean dist=sqrt(2)
+    return {
+      T: [[sc,0,-sc*mx],[0,sc,-sc*my],[0,0,1]],
+      Tinv: [[1/sc,0,mx],[0,1/sc,my],[0,0,1]]
+    };
+  }
+
+  const srcPts = pts.map(p=>p.p);
+  const dstPts = pts.map(p=>p.b);
+  const {T: Tp, Tinv: Tpinv} = normTransform(srcPts);
+  const {T: Tb}               = normTransform(dstPts);
+
+  function applyT(T, x, y) {
+    const w = T[2][0]*x + T[2][1]*y + T[2][2];
+    return [(T[0][0]*x + T[0][1]*y + T[0][2])/w,
+            (T[1][0]*x + T[1][1]*y + T[1][2])/w];
+  }
+
+  // Build normalised A matrix
+  const A = [];
+  for (const {p, b} of pts) {
+    const [x,y]  = applyT(Tp, p.x, p.y);
+    const [X,Y]  = applyT(Tb, b.x, b.y);
+    A.push([-x,-y,-1, 0, 0, 0, X*x, X*y, X]);
+    A.push([ 0, 0, 0,-x,-y,-1, Y*x, Y*y, Y]);
+  }
+
+  const h = solveDLT(A);
+  if (!h) return null;
+
+  // Denormalise: H = Tb_inv * Hn * Tp
+  const Hn = [[h[0],h[1],h[2]],[h[3],h[4],h[5]],[h[6],h[7],h[8]]];
+  // Tb_inv
+  const Tbinv = [[1/Tb[0][0], 0, -Tb[0][2]/Tb[0][0]],
+                 [0, 1/Tb[1][1], -Tb[1][2]/Tb[1][1]],
+                 [0, 0, 1]];
+
+  // Matrix multiply: result = Tbinv * Hn * Tp
+  function matmul(A, B) {
+    return A.map((row,i) => [0,1,2].map(j =>
+      [0,1,2].reduce((s,k) => s + row[k]*B[k][j], 0)
+    ));
+  }
+  const H = matmul(matmul(Tbinv, Hn), Tp);
+  // Normalise so H[2][2] = 1
+  const s = H[2][2];
+  return H.map(r=>r.map(v=>v/s));
+}
+
+function solveDLT(A) {
+  // Thin SVD via Golub-Reinsch is complex; use a simpler eigenvalue approach.
+  // Compute A^T A, then find eigenvector of smallest eigenvalue.
+  const n = A.length, m = 9;
+  // A^T A (9x9)
+  const ATA = Array.from({length:m}, () => new Array(m).fill(0));
+  for (let i=0;i<m;i++) for (let j=0;j<m;j++) for (let k=0;k<n;k++) ATA[i][j]+=A[k][i]*A[k][j];
+  // Power iteration for smallest eigenvector: iterate on (ATA - λI) inverse
+  // Use deflation: find smallest via shifted inverse iteration
+  return inverseIteration(ATA, m);
+}
+
+function inverseIteration(M, n) {
+  // Shifted inverse iteration to find eigenvector of smallest eigenvalue
+  let v = Array.from({length:n}, (_,i) => i===n-1 ? 1 : 0);
+  const shift = 0; // no shift needed for well-conditioned systems
+  const MpI = M.map((row,i) => row.map((val,j) => val + (i===j ? 1e-10 : 0)));
+  for (let iter=0; iter<300; iter++) {
+    const w = luSolve(MpI, v);
+    if (!w) break;
+    const norm = Math.sqrt(w.reduce((s,x)=>s+x*x,0));
+    if (norm < 1e-15) break;
+    v = w.map(x=>x/norm);
+  }
+  return v;
+}
+
+function luSolve(A, b) {
+  const n = b.length;
+  // Deep copy A
+  const M = A.map(r=>[...r, 0]);
+  const x = [...b];
+  // Augmented matrix
+  const aug = A.map((row,i) => [...row, b[i]]);
+  // Forward elimination with partial pivoting
+  for (let col=0;col<n;col++) {
+    let maxRow=col;
+    for (let row=col+1;row<n;row++) if (Math.abs(aug[row][col])>Math.abs(aug[maxRow][col])) maxRow=row;
+    [aug[col],aug[maxRow]]=[aug[maxRow],aug[col]];
+    if (Math.abs(aug[col][col])<1e-12) return null;
+    for (let row=col+1;row<n;row++) {
+      const factor=aug[row][col]/aug[col][col];
+      for (let k=col;k<=n;k++) aug[row][k]-=factor*aug[col][k];
+    }
+  }
+  // Back substitution
+  const sol = new Array(n).fill(0);
+  for (let i=n-1;i>=0;i--) {
+    sol[i]=aug[i][n];
+    for (let j=i+1;j<n;j++) sol[i]-=aug[i][j]*sol[j];
+    sol[i]/=aug[i][i];
+  }
+  return sol;
+}
+
+function applyH(H, x, y) {
+  const w = H[2][0]*x + H[2][1]*y + H[2][2];
+  return [
+    (H[0][0]*x + H[0][1]*y + H[0][2]) / w,
+    (H[1][0]*x + H[1][1]*y + H[1][2]) / w
+  ];
+}
+
+function invertH(H) {
+  const m = H;
+  const det =
+    m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) -
+    m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) +
+    m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+  if (Math.abs(det) < 1e-12) return null;
+  const inv = [
+    [(m[1][1]*m[2][2]-m[1][2]*m[2][1])/det, (m[0][2]*m[2][1]-m[0][1]*m[2][2])/det, (m[0][1]*m[1][2]-m[0][2]*m[1][1])/det],
+    [(m[1][2]*m[2][0]-m[1][0]*m[2][2])/det, (m[0][0]*m[2][2]-m[0][2]*m[2][0])/det, (m[0][2]*m[1][0]-m[0][0]*m[1][2])/det],
+    [(m[1][0]*m[2][1]-m[1][1]*m[2][0])/det, (m[0][1]*m[2][0]-m[0][0]*m[2][1])/det, (m[0][0]*m[1][1]-m[0][1]*m[1][0])/det]
+  ];
+  return inv;
+}
+
+// ── Vision API registration ────────────────────────────────────────
+function imageToBase64(img, cropRect) {
+  const c = document.createElement('canvas');
+  const maxDim = 1024;
+  const src = cropRect || { x:0, y:0, w:img.width, h:img.height };
+  const scale = Math.min(maxDim/src.w, maxDim/src.h, 1);
+  c.width  = Math.round(src.w * scale);
+  c.height = Math.round(src.h * scale);
+  c.getContext('2d').drawImage(img, src.x, src.y, src.w, src.h, 0, 0, c.width, c.height);
+  return { b64: c.toDataURL('image/jpeg', 0.88).split(',')[1], w: c.width, h: c.height, crop: src, scale };
+}
+
+// Auto-detect the lino plate boundary within a block photo.
+// Scans for the transition from grey/neutral surround to the blue/coloured plate.
+// Returns {x, y, w, h} crop rect in native image pixels, or null if not detected.
+function detectPlateBoundary(img) {
+  const THUMB = 400; // work at thumbnail size for speed
+  const sc = Math.min(THUMB/img.width, THUMB/img.height, 1);
+  const tw = Math.round(img.width*sc), th = Math.round(img.height*sc);
+  const c = document.createElement('canvas'); c.width=tw; c.height=th;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0, tw, th);
+  const px = ctx.getImageData(0,0,tw,th).data;
+
+  // Score each pixel: how "grey" vs "coloured"?
+  // Grey: R≈G≈B. Coloured (blue lino): B >> R and B >> G.
+  // Use saturation as discriminator.
+  function isSurround(r,g,b) {
+    const mx=Math.max(r,g,b), mn=Math.min(r,g,b);
+    const sat = mx > 0 ? (mx-mn)/mx : 0;
+    return sat < 0.18; // low saturation = grey/neutral surround
+  }
+
+  // Scan from each edge inward, find first row/col where >60% of pixels are NOT surround
+  const threshold = 0.6;
+
+  function rowColoured(y) {
+    let count=0;
+    for (let x=0;x<tw;x++) {
+      const i=(y*tw+x)*4;
+      if (!isSurround(px[i],px[i+1],px[i+2])) count++;
+    }
+    return count/tw >= threshold;
+  }
+  function colColoured(x) {
+    let count=0;
+    for (let y=0;y<th;y++) {
+      const i=(y*tw+x)*4;
+      if (!isSurround(px[i],px[i+1],px[i+2])) count++;
+    }
+    return count/th >= threshold;
+  }
+
+  let top=0, bottom=th-1, left=0, right=tw-1;
+  while (top < th-1    && !rowColoured(top))    top++;
+  while (bottom > 0    && !rowColoured(bottom))  bottom--;
+  while (left < tw-1   && !colColoured(left))    left++;
+  while (right > 0     && !colColoured(right))   right--;
+
+  // Add 2% padding inset so we don't clip plate edges
+  const pad = Math.round(tw * 0.02);
+  top    = Math.min(top    + pad, th-1);
+  bottom = Math.max(bottom - pad, 0);
+  left   = Math.min(left   + pad, tw-1);
+  right  = Math.max(right  - pad, 0);
+
+  if (right - left < tw*0.2 || bottom - top < th*0.2) return null; // detection failed
+
+  // Scale back to native image coords
+  return {
+    x: Math.round(left   / sc),
+    y: Math.round(top    / sc),
+    w: Math.round((right - left)  / sc),
+    h: Math.round((bottom - top)  / sc)
+  };
+}
+
+// blockCrop stores the detected plate boundary (native px), used for coord correction
+let blockCrop = null;
+
+async function startRegistration() {
+  if (!printImg || !blockImg) return;
+  const overlay = document.getElementById('reg-overlay');
+  const status  = document.getElementById('reg-status');
+  const errEl   = document.getElementById('reg-error');
+  const landEl  = document.getElementById('reg-landmarks');
+
+  overlay.classList.add('visible');
+  document.getElementById('reg-spinner').style.display = 'block';
+  landEl.style.display = 'none';
+  errEl.textContent = '';
+  status.textContent = 'Sending images to Claude Vision…';
+
+  try {
+    const print64 = imageToBase64(printImg);
+
+    // Auto-detect plate boundary in block image to eliminate grey surround
+    status.textContent = 'Detecting plate boundary…';
+    blockCrop = detectPlateBoundary(blockImg);
+    const block64 = imageToBase64(blockImg, blockCrop);
+    const cropNote = blockCrop
+      ? `The block image has been pre-cropped to the plate boundary (grey surround removed). Both images now show only the plate/print content.`
+      : `No surround crop was detected — full block image is used.`;
+
+    const prompt = `You are analyzing two images for precise image registration. Coordinate accuracy is critical.
+
+IMAGE 1: A linocut PRINT — the final printed result on paper. The face looks toward the RIGHT side of the image.
+IMAGE 2: A photo of the linocut BLOCK — the physical printing plate in its NATURAL orientation (not yet mirrored). The face looks toward the LEFT side of the image. ${cropNote}
+
+These two images show the same subject but mirror-reversed because printing transfers ink in reverse.
+
+Your task: identify the SAME anatomical feature in both images and report its pixel coordinate in EACH image's own space. Do NOT mentally mirror any coordinates — just report where each feature actually sits in each image as you see it.
+
+For example: the nose tip will be on the RIGHT half of Image 1 and on the LEFT half of Image 2. Report both as-is.
+
+Identify exactly 12 landmarks. Focus on mid-face and lower-face only — do NOT use top of hair or crown:
+1. Inner corner of the visible eye (medial canthus)
+2. Outer corner of the visible eye (lateral canthus)
+3. Centre of the upper eyelid
+4. Tip of the nose
+5. Upper nostril edge nearest face centre
+6. Lower nostril / alar base
+7. Ear tragus (small cartilage at ear canal entrance)
+8. Ear antihelix (upper curved ridge of ear)
+9. Corner of the mouth
+10. Upper lip centre / most prominent mustache point
+11. Most distinctive lower beard curl centre
+12. Mid-beard inflection point
+
+Respond ONLY with valid JSON, no markdown, no explanation:
+{"landmarks":[{"name":"inner canthus","print":{"x":245,"y":312},"block":{"x":189,"y":298}},...]}`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: print64.b64 } },
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: block64.b64 } },
+            { type: 'text',  text: prompt }
+          ]
+        }]
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error?.message || 'API error');
+
+    const text = data.content.find(c=>c.type==='text')?.text || '';
+    const jsonStr = text.replace(/```json?\s*/gi,'').replace(/```/g,'').trim();
+    const parsed  = JSON.parse(jsonStr);
+    const lms     = parsed.landmarks;
+
+    if (!lms || lms.length < 4) throw new Error(`Only ${lms?.length||0} landmarks found — need at least 4`);
+
+    status.textContent = `Found ${lms.length} landmarks${blockCrop ? ' (plate auto-cropped)' : ''}. Review and apply.`;
+    document.getElementById('reg-spinner').style.display = 'none';
+
+    // DIAGNOSTIC: log raw Vision coords and crop info
+    console.log('=== REGISTRATION DIAGNOSTIC ===');
+    console.log('Print image:', printImg.width, 'x', printImg.height);
+    console.log('Block image:', blockImg.width, 'x', blockImg.height);
+    console.log('Block crop detected:', blockCrop ? JSON.stringify(blockCrop) : 'NONE — full image used');
+    if (blockCrop) {
+      console.log('Crop as % of block height: top=' + (blockCrop.y/blockImg.height*100).toFixed(1)+'% bottom=' + ((blockCrop.y+blockCrop.h)/blockImg.height*100).toFixed(1)+'%');
+    }
+    console.log('Raw Vision landmarks (in downsampled image px):');
+    lms.forEach((lm,i) => console.log(`  ${i+1}. ${lm.name}: print(${lm.print.x},${lm.print.y}) block(${lm.block.x},${lm.block.y})`));
+
+    // Scale landmarks back to native image coords.
+    const bc = blockCrop || {x:0, y:0, w:blockImg.width, h:blockImg.height};
+    pendingLandmarks = lms.map(lm => ({
+      name:  lm.name,
+      print: {
+        x: lm.print.x * (printImg.width  / print64.w),
+        y: lm.print.y * (printImg.height / print64.h)
+      },
+      block: {
+        x: bc.x + lm.block.x * (bc.w / block64.w),
+        y: bc.y + lm.block.y * (bc.h / block64.h)
+      }
+    }));
+
+    console.log('Scaled landmarks (native image px):');
+    pendingLandmarks.forEach((lm,i) => {
+      const printYfrac = (lm.print.y/printImg.height*100).toFixed(1);
+      const blockYfrac = (lm.block.y/blockImg.height*100).toFixed(1);
+      console.log(`  ${i+1}. ${lm.name}: print(${lm.print.x.toFixed(0)},${lm.print.y.toFixed(0)}) [${printYfrac}%] block(${lm.block.x.toFixed(0)},${lm.block.y.toFixed(0)}) [${blockYfrac}%] Ydiff=${((lm.block.y/blockImg.height)-(lm.print.y/printImg.height)*100).toFixed(1)}%`);
+    });
+    console.log('================================');
+
+    // Draw landmark dots on a preview
+    drawLandmarkPreview(pendingLandmarks);
+    landEl.style.display = 'flex';
+
+  } catch(err) {
+    document.getElementById('reg-spinner').style.display = 'none';
+    errEl.textContent = 'Error: ' + err.message;
+    status.textContent = 'Registration failed.';
+    landEl.innerHTML = '<button class="reg-btn" style="background:var(--border);color:var(--text);" onclick="cancelRegistration()">Close</button>';
+    landEl.style.display = 'flex';
+    console.error('Registration error:', err);
+  }
+}
+
+function drawLandmarkPreview(lms) {
+  // Gold dots on print canvas at print landmark positions
+  lms.forEach(lm => {
+    const cx = basePrint._ox + lm.print.x * basePrint._scale;
+    const cy = basePrint._oy + lm.print.y * basePrint._scale;
+    bpCtx.beginPath();
+    bpCtx.arc(cx, cy, 6, 0, Math.PI*2);
+    bpCtx.fillStyle = 'rgba(200,164,90,0.9)';
+    bpCtx.fill();
+    bpCtx.strokeStyle = '#fff';
+    bpCtx.lineWidth = 1.5;
+    bpCtx.stroke();
+  });
+
+  // Red dots on block canvas at mirrored block landmark positions
+  // Block is displayed mirrored, so mirror the x coord for display
+  const bScale = Math.min(baseBlock.width/blockImg.width, baseBlock.height/blockImg.height);
+  const bOx = baseBlock._ox || 0, bOy = baseBlock._oy || 0;
+  lms.forEach(lm => {
+    // Mirror x: displayed block has bW-1-bx as screen x
+    const mirroredX = bOx + (blockImg.width - 1 - lm.block.x) * bScale;
+    const cy = bOy + lm.block.y * bScale;
+    bbCtx.beginPath();
+    bbCtx.arc(mirroredX, cy, 6, 0, Math.PI*2);
+    bbCtx.fillStyle = 'rgba(210,40,20,0.9)';
+    bbCtx.fill();
+    bbCtx.strokeStyle = '#fff';
+    bbCtx.lineWidth = 1.5;
+    bbCtx.stroke();
+  });
+}
+
+function applyRegistration() {
+  if (!pendingLandmarks || pendingLandmarks.length < 4) return;
+
+  // Filter landmarks in top 20% of print — belt and suspenders
+  const topCutoff = printImg.height * 0.20;
+  const usable = pendingLandmarks.filter(lm => lm.print.y > topCutoff);
+  const pts = (usable.length >= 4 ? usable : pendingLandmarks).map(lm => ({
+    p: {
+      x: basePrint._ox + lm.print.x * basePrint._scale,
+      y: basePrint._oy + lm.print.y * basePrint._scale
+    },
+    b: { x: lm.block.x, y: lm.block.y }
+  }));
+
+  homography = computeHomography(pts);
+
+  if (!homography) {
+    document.getElementById('reg-status').textContent = 'Could not compute homography — try again.';
+    return;
+  }
+
+  // DIAGNOSTIC: measure per-landmark residuals to expose Y drift pattern
+  console.log('=== HOMOGRAPHY RESIDUALS ===');
+  console.log('H matrix:', JSON.stringify(homography.map(r=>r.map(v=>+v.toFixed(4)))));
+  const sorted = [...pts].sort((a,b) => a.p.y - b.p.y);
+  sorted.forEach((pt, i) => {
+    // H maps print canvas → block native. Apply H to print point, compare to block point.
+    const [predBx, predBy] = applyH(homography, pt.p.x, pt.p.y);
+    // Convert predicted block native to block canvas coords for comparison
+    // (block canvas = mirrored scaled block native)
+    const blockScale = Math.min(baseBlock.width/blockImg.width, baseBlock.height/blockImg.height);
+    const blockOx = baseBlock._ox || 0, blockOy = baseBlock._oy || 0;
+    const predCanvBx = blockOx + (blockImg.width - predBx) * blockScale; // mirrored
+    const predCanvBy = blockOy + predBy * blockScale;
+    console.log(`  y=${pt.p.y.toFixed(0)} → predicted block(${predCanvBx.toFixed(0)},${predCanvBy.toFixed(0)}) actual block_native(${pt.b.x.toFixed(0)},${pt.b.y.toFixed(0)}) Xresid=${(predBx-pt.b.x).toFixed(1)} Yresid=${(predBy-pt.b.y).toFixed(1)}`);
+  });
+  console.log('============================');
+
+  console.log(`Registration applied: ${pts.length} landmarks`);
+
+  document.getElementById('reg-overlay').classList.remove('visible');
+  document.getElementById('block-label').innerHTML = '<span>Block</span> — AI registered · red = carve here';
+  pendingLandmarks = null;
+
+  // Redraw with warp applied
+  drawPrintImage(); // restore dots
+  drawBlockImage();
+  mbCtx.clearRect(0, 0, maskBlock.width, maskBlock.height);
+  undoStack.length = 0; updateUndoBtn();
+}
+
+function cancelRegistration() {
+  document.getElementById('reg-overlay').classList.remove('visible');
+  pendingLandmarks = null;
+  // Restore print image without dots
+  drawPrintImage();
+}
+
+// ── Coord mapping ──────────────────────────────────────────────────
+// Maps a print canvas point to a block canvas point
+function mapCoords(e) {
+  const rect = drawPrint.getBoundingClientRect();
+  const px = (e.clientX - rect.left) * (drawPrint.width  / rect.width);
+  const py = (e.clientY - rect.top)  * (drawPrint.height / rect.height);
+
+  const po = basePrint, bo = baseBlock;
+  if (!po._dw || !bo._dw) return { px, py, bx: px, by: py };
+
+  let bx, by;
+  if (homography && bo._warped) {
+    // With homography: block canvas is warped to print space so 1:1 mapping
+    bx = px; by = py;
+  } else {
+    // Fallback simple scale
+    const nx = (px - po._ox) / po._dw;
+    const ny = (py - po._oy) / po._dh;
+    bx = bo._ox + nx * bo._dw;
+    by = bo._oy + ny * bo._dh;
+  }
+
+  return { px, py, bx, by };
+}
+
+function mapX_fromPrint(px) {
+  if (homography && baseBlock._warped) return px;
+  const po = basePrint, bo = baseBlock;
+  if (!po._dw) return 0;
+  return bo._ox + ((px - po._ox) / po._dw) * bo._dw;
+}
+function mapY_fromPrint(py) {
+  if (homography && baseBlock._warped) return py;
+  const po = basePrint, bo = baseBlock;
+  if (!po._dh) return 0;
+  return bo._oy + ((py - po._oy) / po._dh) * bo._dh;
+}
+
+// ── File loading ───────────────────────────────────────────────────
+document.getElementById('file-print').onchange = function(e) {
+  loadImage(e.target.files[0], img => {
+    printImg = img;
+    document.getElementById('over-print').style.display = 'none';
+    sizeCanvases();
+    epCtx.clearRect(0, 0, erasePrint.width, erasePrint.height);
+    undoStack.length = 0; updateUndoBtn();
+    checkRegReady();
+  });
+};
+
+document.getElementById('file-block').onchange = function(e) {
+  loadImage(e.target.files[0], img => {
+    blockImg = img;
+    homography = null;
+    document.getElementById('over-block').style.display = 'none';
+    document.getElementById('block-label').innerHTML = '<span>Block</span> — load image, then Register';
+    sizeCanvases();
+    mbCtx.clearRect(0, 0, maskBlock.width, maskBlock.height);
+    undoStack.length = 0; updateUndoBtn();
+    checkRegReady();
+  });
+};
+
+function checkRegReady() {
+  document.getElementById('reg-btn').disabled = !(printImg && blockImg);
+}
+
+function loadImage(file, cb) {
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => { const i=new Image(); i.onload=()=>cb(i); i.src=ev.target.result; };
+  r.readAsDataURL(file);
+}
+
+// ── Gouge / mode / size ────────────────────────────────────────────
+function setGouge(g) {
+  gouge = g;
+  document.querySelectorAll('.g-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('g-'+g).classList.add('active');
+}
+function setMode(m) {
+  mode = m;
+  document.getElementById('m-carve').classList.toggle('active',   m==='carve');
+  document.getElementById('m-restore').classList.toggle('active', m==='restore');
+}
+const sizeSlider = document.getElementById('size-slider');
+const sizeValEl  = document.getElementById('size-val');
+function onSize() { sizeValEl.textContent = sizeSlider.value; }
+sizeSlider.addEventListener('input',       onSize);
+sizeSlider.addEventListener('pointermove', onSize);
+sizeSlider.addEventListener('change',      onSize);
+
+// ── Gouge rendering ────────────────────────────────────────────────
+function renderMark(ctx, cx, cy, baseSize, p, isErase, isBlock) {
+  try {
+    const s  = baseSize * (0.35 + p * 0.65);
+    const r  = Math.max(0.5, s / 2);
+    const op = isBlock ? (0.5 + p * 0.5) * 0.45 : (0.5 + p * 0.5);
+
+    if (isErase) {
+      ctx.globalCompositeOperation = 'destination-out';
+      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,r*1.3);
+      g.addColorStop(0,   `rgba(0,0,0,${op})`);
+      g.addColorStop(0.5, `rgba(0,0,0,${op*0.5})`);
+      g.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(cx,cy,r*1.3,0,Math.PI*2); ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+      return;
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
+    const color = isBlock ? `rgba(210,40,20,` : `rgba(255,255,255,`;
+
+    switch (gouge) {
+      case 'knife': {
+        const kr = Math.max(0.5, r*0.06);
+        ctx.fillStyle = `${color}${Math.min(1,op*1.2)})`;
+        ctx.beginPath(); ctx.arc(cx,cy,kr,0,Math.PI*2); ctx.fill();
+        break;
+      }
+      case 'vfine': {
+        const rr = Math.max(1, r*0.12);
+        const g  = ctx.createRadialGradient(cx,cy,0,cx,cy,rr*4);
+        g.addColorStop(0,    `${color}${op})`);
+        g.addColorStop(0.15, `${color}${op*0.85})`);
+        g.addColorStop(0.45, `${color}${op*0.4})`);
+        g.addColorStop(1,    `${color}0)`);
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr*4,0,Math.PI*2); ctx.fill();
+        break;
+      }
+      case 'vwide': {
+        const rr = Math.max(2, r*0.30);
+        const g  = ctx.createRadialGradient(cx,cy,0,cx,cy,rr*3.2);
+        g.addColorStop(0,    `${color}${op})`);
+        g.addColorStop(0.2,  `${color}${op*0.8})`);
+        g.addColorStop(0.55, `${color}${op*0.3})`);
+        g.addColorStop(1,    `${color}0)`);
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr*3.2,0,Math.PI*2); ctx.fill();
+        break;
+      }
+      case 'usmall': {
+        const rr = Math.max(3, r*0.55);
+        const g  = ctx.createRadialGradient(cx,cy,0,cx,cy,rr);
+        g.addColorStop(0,    `${color}${op})`);
+        g.addColorStop(0.70, `${color}${op})`);
+        g.addColorStop(0.90, `${color}${op*0.3})`);
+        g.addColorStop(1,    `${color}0)`);
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.fill();
+        break;
+      }
+      case 'ularge': {
+        const g = ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+        g.addColorStop(0,    `${color}${op})`);
+        g.addColorStop(0.80, `${color}${op})`);
+        g.addColorStop(0.93, `${color}${op*0.25})`);
+        g.addColorStop(1,    `${color}0)`);
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
+        break;
+      }
+    }
+  } catch(e) { console.warn('renderMark:', e.message); }
+}
+
+function applyStroke(px, py, bx, by) {
+  const size = parseInt(sizeSlider.value);
+  const isRestore = mode === 'restore';
+  renderMark(epCtx, px, py, size, pressure, isRestore, false);
+  renderMark(mbCtx, bx, by, size, pressure, isRestore, true);
+}
+
+// ── Undo ───────────────────────────────────────────────────────────
+function pushUndo() {
+  undoStack.push({
+    printSnap: epCtx.getImageData(0,0,erasePrint.width,erasePrint.height),
+    blockSnap: mbCtx.getImageData(0,0,maskBlock.width, maskBlock.height),
+  });
+  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  updateUndoBtn();
+}
+function undo() {
+  if (!undoStack.length) return;
+  const s = undoStack.pop();
+  epCtx.putImageData(s.printSnap, 0, 0);
+  mbCtx.putImageData(s.blockSnap, 0, 0);
+  updateUndoBtn();
+}
+function updateUndoBtn() {
+  document.getElementById('undo-btn').disabled = undoStack.length === 0;
+  document.getElementById('undo-count').textContent = undoStack.length > 0 ? ` (${undoStack.length})` : '';
+}
+function clearAll() {
+  pushUndo();
+  epCtx.clearRect(0,0,erasePrint.width,erasePrint.height);
+  mbCtx.clearRect(0,0,maskBlock.width, maskBlock.height);
+}
+
+// ── Toggle original ────────────────────────────────────────────────
+function toggleOriginal() {
+  showingOriginal = !showingOriginal;
+  erasePrint.style.display = showingOriginal ? 'none' : 'block';
+  maskBlock.style.display  = showingOriginal ? 'none' : 'block';
+  document.getElementById('toggle-btn').classList.toggle('active', showingOriginal);
+}
+
+// ── Palm rejection ─────────────────────────────────────────────────
+const PEN_TYPES = new Set(['pen','mouse']);
+document.addEventListener('pointerdown', e => {
+  if (e.pointerType==='pen') { penActive=true; document.body.style.overflow='hidden'; }
+  if (e.pointerType==='touch' && penActive) { e.preventDefault(); e.stopPropagation(); }
+}, { passive:false });
+document.addEventListener('pointerup',     e => { if (e.pointerType==='pen') { penActive=false; document.body.style.overflow=''; }});
+document.addEventListener('pointercancel', e => { if (e.pointerType==='pen') { penActive=false; document.body.style.overflow=''; }});
+document.addEventListener('touchmove', e => { if (penActive) e.preventDefault(); }, { passive:false });
+
+// ── Drawing ────────────────────────────────────────────────────────
+drawPrint.addEventListener('pointerdown', e => {
+  if (!printImg || !blockImg) return;
+  if (!PEN_TYPES.has(e.pointerType)) return;
+  e.preventDefault();
+  drawPrint.setPointerCapture(e.pointerId);
+  pressure = e.pressure > 0 ? e.pressure : 1.0;
+  document.getElementById('pressure-fill').style.width = (pressure*100)+'%';
+  pushUndo();
+  isDrawing = true;
+  const c = mapCoords(e);
+  lastX=c.px; lastY=c.py;
+  applyStroke(c.px, c.py, c.bx, c.by);
+  showCrosshair(c.bx, c.by);
+});
+
+drawPrint.addEventListener('pointermove', e => {
+  if (!isDrawing || !PEN_TYPES.has(e.pointerType)) return;
+  e.preventDefault();
+  if (e.pressure > 0) { pressure=e.pressure; document.getElementById('pressure-fill').style.width=(pressure*100)+'%'; }
+  const c    = mapCoords(e);
+  const dist = Math.hypot(c.px-lastX, c.py-lastY);
+  const size = parseInt(sizeSlider.value);
+  const steps = Math.max(1, Math.floor(dist / Math.max(1, size*0.18)));
+  for (let i=1; i<=steps; i++) {
+    const tx  = lastX + (c.px-lastX)*i/steps;
+    const ty  = lastY + (c.py-lastY)*i/steps;
+    applyStroke(tx, ty, mapX_fromPrint(tx), mapY_fromPrint(ty));
+  }
+  lastX=c.px; lastY=c.py;
+  showCrosshair(c.bx, c.by);
+});
+
+drawPrint.addEventListener('pointerup',     e => { e.preventDefault(); isDrawing=false; hideCrosshair(); });
+drawPrint.addEventListener('pointercancel', e => { e.preventDefault(); isDrawing=false; hideCrosshair(); });
+drawPrint.addEventListener('pointerleave',  e => { hideCrosshair(); });
+
+// ── Crosshair ─────────────────────────────────────────────────────
+function showCrosshair(bx, by) {
+  const ch = document.getElementById('crosshair');
+  const hostRect = document.getElementById('host-block').getBoundingClientRect();
+  const scaleX = baseBlock.width  / hostRect.width;
+  const scaleY = baseBlock.height / hostRect.height;
+  ch.style.display = 'block';
+  ch.style.left    = Math.round(bx/scaleX)+'px';
+  ch.style.top     = Math.round(by/scaleY)+'px';
+}
+function hideCrosshair() { document.getElementById('crosshair').style.display='none'; }
+
+// ── Save ───────────────────────────────────────────────────────────
+function compositeAndSave(label, baseC, overlayC, flip) {
+  const w=baseC.width, h=baseC.height;
+  const out=document.createElement('canvas'); out.width=w; out.height=h;
+  const ctx=out.getContext('2d');
+  ctx.drawImage(baseC,0,0); ctx.drawImage(overlayC,0,0);
+  if (flip) {
+    const fl=document.createElement('canvas'); fl.width=w; fl.height=h;
+    const fCtx=fl.getContext('2d');
+    fCtx.translate(w,0); fCtx.scale(-1,1); fCtx.drawImage(out,0,0);
+    const a=document.createElement('a'); a.download=label+'.png'; a.href=fl.toDataURL('image/png'); a.click();
+  } else {
+    const a=document.createElement('a'); a.download=label+'.png'; a.href=out.toDataURL('image/png'); a.click();
+  }
+}
+function savePrint() { compositeAndSave('print_marked', basePrint, erasePrint, false); }
+function saveBlock() { compositeAndSave('block_masked', baseBlock, maskBlock, !homography); }
+
+// ── Init ───────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    try { sizeCanvases(); } catch(e) { console.error(e); }
+  }));
+});
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', sizeCanvases);
+} else {
+  window.addEventListener('resize', sizeCanvases);
+}
+</script>
+</body>
+</html>
