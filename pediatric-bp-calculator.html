@@ -23,25 +23,27 @@
         .header {
             background: linear-gradient(135deg, #0066CC 0%, #00A3A3 100%);
             color: white;
-            padding: 12px 16px;
+            padding: 0 16px 0 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         .header-content {
             max-width: 480px;
             margin: 0 auto;
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 14px;
         }
         .logo {
-            width: 52px;
-            height: 52px;
+            width: 128px;
+            height: 128px;
             flex-shrink: 0;
-            border-radius: 12px;
+            border-radius: 0;
         }
         .header-text {
             flex: 1;
             text-align: right;
+            padding-top: 28px;
         }
         .header h1 {
             font-size: 20px;
@@ -53,7 +55,7 @@
         .header p {
             font-size: 12px;
             opacity: 0.90;
-            margin: 2px 0 0 0;
+            margin: 4px 0 0 0;
         }
         
         /* Main */
@@ -331,10 +333,13 @@
             color: #2C3E50;
             cursor: pointer;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         button:active {
             transform: scale(0.98);
         }
+        .btn-sm { flex: 1; }
+        .btn-lg { flex: 2; }
         
         /* Hidden */
         .hidden {
@@ -354,7 +359,7 @@
     <!-- Header -->
     <div class="header">
         <div class="header-content">
-            <img src="./bp_icon_192.png" alt="BP Calculator Icon" class="logo">
+            <img src="./bp_icon_512.png" alt="BP Calculator Icon" class="logo">
             <div class="header-text">
                 <h1>Pediatric BP Calculator</h1>
                 <p>Based on 2017 AAP Clinical Practice Guideline</p>
@@ -438,9 +443,9 @@
 
         <!-- Buttons -->
         <div class="button-group">
-            <button id="resetBtn">🔄 Reset</button>
-            <button id="infoBtn">ℹ️ Instructions</button>
-            <button id="refBtn">📚 References</button>
+            <button id="resetBtn" class="btn-sm">🔄</button>
+            <button id="infoBtn" class="btn-lg">ℹ️ Instructions</button>
+            <button id="refBtn" class="btn-lg">📚 Reference</button>
         </div>
 
         <!-- Footer -->
