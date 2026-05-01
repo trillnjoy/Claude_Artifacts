@@ -23,62 +23,68 @@
         .header {
             background: linear-gradient(135deg, #0066CC 0%, #00A3A3 100%);
             color: white;
-            padding: 24px 20px;
+            padding: 12px 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .header-content {
             max-width: 480px;
             margin: 0 auto;
-        }
-        .header-top {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
-            margin-bottom: 8px;
         }
         .logo {
-            width: 40px;
-            height: 40px;
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 12px;
+        }
+        .header-text {
+            flex: 1;
+            text-align: right;
         }
         .header h1 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin: 0;
         }
         .header p {
-            font-size: 14px;
-            opacity: 0.95;
+            font-size: 12px;
+            opacity: 0.90;
+            margin: 2px 0 0 0;
         }
         
         /* Main */
         .main {
             max-width: 480px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 12px 16px;
         }
         
         /* Card */
         .card {
             background: white;
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
+            padding: 16px 16px 10px;
+            margin-bottom: 10px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         .card h2 {
-            margin: 0 0 20px 0;
-            font-size: 18px;
+            margin: 0 0 10px 0;
+            font-size: 16px;
             font-weight: 600;
             color: #2C3E50;
         }
         
         /* Form elements */
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 10px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 14px;
             font-weight: 600;
             color: #2C3E50;
@@ -92,11 +98,11 @@
             margin-bottom: 8px;
         }
         .age-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #0066CC;
             background: rgba(0,102,204,0.1);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 8px;
         }
         input[type="range"] {
@@ -141,51 +147,80 @@
             position: relative;
             display: flex;
             background: #E0E0E0;
-            border-radius: 12px;
-            padding: 4px;
-            height: 48px;
+            border-radius: 10px;
+            padding: 3px;
+            height: 40px;
         }
         .sex-slider {
             position: absolute;
-            width: calc(50% - 4px);
-            height: 40px;
+            width: calc(50% - 3px);
+            height: 34px;
             background: #0066CC;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: transform 0.3s ease;
             box-shadow: 0 2px 6px rgba(0,102,204,0.3);
         }
         .sex-slider.female {
-            transform: translateX(calc(100% + 4px));
+            transform: translateX(calc(100% + 3px));
+        }
+        .sex-slider.neutral {
+            opacity: 0;
         }
         .sex-button {
             flex: 1;
             border: none;
             background: transparent;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
             position: relative;
             z-index: 1;
             transition: color 0.3s ease;
-            color: #2C3E50;
+            color: #666;
         }
         .sex-button.active {
             color: white;
         }
         
+        /* Side-by-side Height + Sex row */
+        .height-sex-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 4px;
+            align-items: flex-start;
+        }
+        .height-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .sex-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .height-sex-row label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+        
         /* Height input */
         .height-input-group {
             display: flex;
-            gap: 12px;
-            align-items: center;
+            gap: 8px;
+            align-items: flex-start;
         }
         .height-input-group input {
             flex: 1;
-            padding: 14px;
+            padding: 10px;
             font-size: 16px;
             border: 2px solid #E0E0E0;
-            border-radius: 12px;
+            border-radius: 10px;
             outline: none;
+            min-width: 0;
         }
         .height-input-group input:focus {
             border-color: #0066CC;
@@ -194,46 +229,65 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
+            padding-top: 2px;
         }
         .radio-label {
             display: flex;
             align-items: center;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
         }
         .radio-label input {
-            margin-right: 6px;
+            margin-right: 4px;
             cursor: pointer;
             accent-color: #0066CC;
         }
         
-        /* Results */
+        /* Results heading row */
+        .results-heading-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+        .results-heading-row h2 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2C3E50;
+            white-space: nowrap;
+        }
         .patient-summary {
             background: rgba(0,102,204,0.1);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            border: 2px solid rgba(0,102,204,0.3);
+            border-radius: 20px;
+            padding: 5px 12px;
+            border: 1.5px solid rgba(0,102,204,0.3);
+            flex-shrink: 1;
+            min-width: 0;
         }
         .patient-summary p {
             margin: 0;
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
             color: #2C3E50;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
         thead tr {
             background: #E0E0E0;
         }
         th {
-            padding: 12px 8px;
+            padding: 8px 6px;
             font-weight: 700;
             color: #000;
             border-bottom: 2px solid #2C3E50;
@@ -242,7 +296,7 @@
         th:nth-child(2), th:nth-child(3) { text-align: center; }
         th:nth-child(4) { text-align: left; }
         td {
-            padding: 12px 8px;
+            padding: 9px 6px;
             border-bottom: 1px solid #E0E0E0;
         }
         td:nth-child(1) { font-weight: 600; color: #000; }
@@ -263,13 +317,13 @@
         /* Buttons */
         .button-group {
             display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         button {
             flex: 1;
-            padding: 14px;
-            font-size: 15px;
+            padding: 10px;
+            font-size: 14px;
             font-weight: 600;
             border: 2px solid #E0E0E0;
             border-radius: 12px;
@@ -290,12 +344,9 @@
         /* Footer */
         .footer {
             text-align: center;
-            padding: 20px;
-            font-size: 13px;
+            padding: 8px 16px 12px;
+            font-size: 12px;
             color: #666;
-        }
-        .footer p {
-            margin: 0 0 8px 0;
         }
     </style>
 </head>
@@ -303,17 +354,11 @@
     <!-- Header -->
     <div class="header">
         <div class="header-content">
-            <div class="header-top">
-                <svg class="logo" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M 30,15 Q 20,10 15,20 Q 12,30 20,40 Q 30,45 40,38 L 45,45 Q 38,35 30,15 Z" fill="#FFD100" stroke="#005EB8" stroke-width="3"/>
-                    <path d="M 70,15 Q 80,10 85,20 Q 88,30 80,40 Q 70,48 58,42 L 55,45 Q 62,35 70,15 Z" fill="#00AEEF" stroke="#005EB8" stroke-width="3"/>
-                    <path d="M 30,85 Q 20,90 15,80 Q 10,68 20,58 Q 32,52 42,60 L 45,55 Q 38,65 30,85 Z" fill="#8DC63F" stroke="#005EB8" stroke-width="3"/>
-                    <path d="M 70,85 Q 80,90 85,80 Q 90,68 80,58 Q 68,52 58,60 L 55,55 Q 62,65 70,85 Z" fill="#ED1C24" stroke="#005EB8" stroke-width="3"/>
-                    <ellipse cx="50" cy="50" rx="5" ry="8" fill="#005EB8"/>
-                </svg>
+            <img src="./bp_icon_192.PNG" alt="BP Calculator Icon" class="logo">
+            <div class="header-text">
                 <h1>Pediatric BP Calculator</h1>
+                <p>Based on 2017 AAP Clinical Practice Guideline</p>
             </div>
-            <p>Based on 2017 AAP Clinical Practice Guideline</p>
         </div>
     </div>
 
@@ -336,28 +381,28 @@
                 </div>
             </div>
             
-            <!-- Sex -->
-            <div class="form-group">
-                <label>Sex</label>
-                <div class="sex-toggle">
-                    <div class="sex-slider" id="sexSlider"></div>
-                    <button class="sex-button active" id="maleBtn">Male</button>
-                    <button class="sex-button" id="femaleBtn">Female</button>
+            <!-- Height + Sex side by side -->
+            <div class="height-sex-row">
+                <div class="height-col">
+                    <label>Height</label>
+                    <div class="height-input-group">
+                        <input type="number" id="heightInput" placeholder="cm" step="0.1">
+                        <div class="unit-radios">
+                            <label class="radio-label">
+                                <input type="radio" name="unit" value="cm" checked> cm
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="unit" value="in"> in
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Height -->
-            <div class="form-group">
-                <label>Height</label>
-                <div class="height-input-group">
-                    <input type="number" id="heightInput" placeholder="Enter height in cm" step="0.1">
-                    <div class="unit-radios">
-                        <label class="radio-label">
-                            <input type="radio" name="unit" value="cm" checked> cm
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="unit" value="in"> in
-                        </label>
+                <div class="sex-col">
+                    <label>Sex</label>
+                    <div class="sex-toggle">
+                        <div class="sex-slider neutral" id="sexSlider"></div>
+                        <button class="sex-button" id="maleBtn">M</button>
+                        <button class="sex-button" id="femaleBtn">F</button>
                     </div>
                 </div>
             </div>
@@ -365,10 +410,11 @@
 
         <!-- Results Card -->
         <div class="card hidden" id="resultsCard">
-            <h2>Blood Pressure Reference Values</h2>
-            
-            <div class="patient-summary">
-                <p id="patientSummary"></p>
+            <div class="results-heading-row">
+                <h2>BP Reference Ranges</h2>
+                <div class="patient-summary">
+                    <p id="patientSummary"></p>
+                </div>
             </div>
             
             <table>
@@ -399,9 +445,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p><strong>Disclaimer:</strong> This calculator is for educational and clinical reference purposes only. 
-            Always use clinical judgment and confirm measurements before making diagnostic or treatment decisions.</p>
-            <p style="opacity: 0.7">Based on 2017 AAP Clinical Practice Guideline</p>
+            <p><strong>Disclaimer:</strong> For educational and clinical reference only. Always use clinical judgment and confirm measurements before making diagnostic or treatment decisions.</p>
         </div>
     </div>
 
@@ -409,7 +453,7 @@
         // State
         let state = {
             age: 10,
-            sex: 'Male',
+            sex: null,
             height: '',
             unit: 'cm'
         };
@@ -507,7 +551,7 @@
         // Update results
         function updateResults() {
             const height = parseFloat(state.height);
-            if (!height || height <= 0) {
+            if (!height || height <= 0 || !state.sex) {
                 document.getElementById('resultsCard').classList.add('hidden');
                 return;
             }
@@ -575,7 +619,8 @@
 
         document.getElementById('maleBtn').addEventListener('click', function() {
             state.sex = 'Male';
-            document.getElementById('sexSlider').classList.remove('female');
+            const slider = document.getElementById('sexSlider');
+            slider.classList.remove('female', 'neutral');
             document.getElementById('maleBtn').classList.add('active');
             document.getElementById('femaleBtn').classList.remove('active');
             updateResults();
@@ -583,7 +628,9 @@
 
         document.getElementById('femaleBtn').addEventListener('click', function() {
             state.sex = 'Female';
-            document.getElementById('sexSlider').classList.add('female');
+            const slider = document.getElementById('sexSlider');
+            slider.classList.remove('neutral');
+            slider.classList.add('female');
             document.getElementById('femaleBtn').classList.add('active');
             document.getElementById('maleBtn').classList.remove('active');
             updateResults();
@@ -604,16 +651,18 @@
         });
 
         document.getElementById('resetBtn').addEventListener('click', function() {
-            state = { age: 10, sex: 'Male', height: '', unit: 'cm' };
+            state = { age: 10, sex: null, height: '', unit: 'cm' };
             document.getElementById('ageSlider').value = 10;
             document.getElementById('ageValue').textContent = '10 years';
             document.getElementById('ageSlider').style.background = 'linear-gradient(to right, #0066CC 0%, #0066CC 37.5%, #E0E0E0 37.5%, #E0E0E0 100%)';
-            document.getElementById('sexSlider').classList.remove('female');
-            document.getElementById('maleBtn').classList.add('active');
+            const slider = document.getElementById('sexSlider');
+            slider.classList.remove('female');
+            slider.classList.add('neutral');
+            document.getElementById('maleBtn').classList.remove('active');
             document.getElementById('femaleBtn').classList.remove('active');
             document.getElementById('heightInput').value = '';
             document.querySelectorAll('input[name="unit"]')[0].checked = true;
-            document.getElementById('heightInput').placeholder = 'Enter height in cm';
+            document.getElementById('heightInput').placeholder = 'cm';
             document.getElementById('resultsCard').classList.add('hidden');
         });
 
