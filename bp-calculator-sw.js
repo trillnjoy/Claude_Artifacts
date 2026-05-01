@@ -1,5 +1,5 @@
 // Service Worker for Pediatric BP Calculator PWA
-const CACHE_NAME = 'pediatric-bp-calc-v2.1';
+const CACHE_NAME = 'pediatric-bp-calc-v2.2';
 const urlsToCache = [
   './pediatric-bp-calculator.html',
   './bp-calculator-manifest.json',

@@ -39,6 +39,7 @@
             height: 128px;
             flex-shrink: 0;
             border-radius: 0;
+            margin: 4px 0 4px 4px;
         }
         .header-text {
             flex: 1;
@@ -188,7 +189,7 @@
         .height-sex-row {
             display: flex;
             gap: 12px;
-            margin-bottom: 4px;
+            margin-bottom: 0;
             align-items: flex-start;
         }
         .height-col {
@@ -208,30 +209,31 @@
             font-weight: 600;
             color: #2C3E50;
         }
-        
-        /* Height input */
-        .height-input-group {
+        .height-label-row {
             display: flex;
-            gap: 8px;
-            align-items: flex-start;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
         }
-        .height-input-group input {
-            flex: 1;
+        .height-label-row label {
+            margin-bottom: 0;
+        }
+        .unit-radios {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+        .height-input {
+            width: 100%;
             padding: 10px;
             font-size: 16px;
             border: 2px solid #E0E0E0;
             border-radius: 10px;
             outline: none;
-            min-width: 0;
+            box-sizing: border-box;
         }
-        .height-input-group input:focus {
+        .height-input:focus {
             border-color: #0066CC;
-        }
-        .unit-radios {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding-top: 2px;
         }
         .radio-label {
             display: flex;
@@ -241,7 +243,7 @@
             font-weight: 500;
         }
         .radio-label input {
-            margin-right: 4px;
+            margin-right: 3px;
             cursor: pointer;
             accent-color: #0066CC;
         }
@@ -389,9 +391,8 @@
             <!-- Height + Sex side by side -->
             <div class="height-sex-row">
                 <div class="height-col">
-                    <label>Height</label>
-                    <div class="height-input-group">
-                        <input type="number" id="heightInput" placeholder="cm" step="0.1">
+                    <div class="height-label-row">
+                        <label>Height</label>
                         <div class="unit-radios">
                             <label class="radio-label">
                                 <input type="radio" name="unit" value="cm" checked> cm
@@ -401,6 +402,7 @@
                             </label>
                         </div>
                     </div>
+                    <input type="number" id="heightInput" placeholder="cm" step="0.1" class="height-input">
                 </div>
                 <div class="sex-col">
                     <label>Sex</label>
@@ -435,9 +437,7 @@
             </table>
             
             <div class="note hidden" id="adolescentNote">
-                <strong>Note:</strong> Adult thresholds are used for patients ≥13 years per 2017 AAP guidelines. 
-                Normal: &lt;120/&lt;80 mmHg, Elevated BP: 120-129/&lt;80 mmHg, 
-                Stage 1 HTN: 130-139/80-89 mmHg, Stage 2 HTN: ≥140/≥90 mmHg.
+                <strong>Note:</strong> Adult thresholds are used for patients ≥13 years per 2017 AAP guidelines.
             </div>
         </div>
 
@@ -673,7 +673,7 @@
 
         document.getElementById('infoBtn').addEventListener('click', function() {
             alert('Pediatric BP Calculator\n' +
-                  'Version 2.1 — May 2026\n\n' +
+                  'Version 2.2 — May 2026\n\n' +
                   '1. Use slider to select age (1-25 years)\n' +
                   '2. Toggle between Male/Female\n' +
                   '3. Enter height and select units (cm/in)\n' +
