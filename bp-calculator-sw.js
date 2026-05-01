@@ -1,5 +1,5 @@
 // Service Worker for Pediatric BP Calculator PWA
-const CACHE_NAME = 'pediatric-bp-calc-v2.0';
+const CACHE_NAME = 'pediatric-bp-calc-v2.1';
 const urlsToCache = [
   './pediatric-bp-calculator.html',
   './bp-calculator-manifest.json',
@@ -17,7 +17,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate
+// Activate — delete old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
