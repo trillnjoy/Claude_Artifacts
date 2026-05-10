@@ -614,21 +614,32 @@ const APP_VERSION = '5.0';
 let worker = null;
 let workerReady = false;
 
+let workerTimeout = null;
+
 function initWorker() {
   try {
+    if (worker) { try { worker.terminate(); } catch(e) {} }
+    workerReady = false;
     const src = document.getElementById('worker-src').textContent;
     const blob = new Blob([src], { type: 'application/javascript' });
     const url = URL.createObjectURL(blob);
     worker = new Worker(url);
     worker.onmessage = handleWorkerMsg;
     worker.onerror = function(e) {
-      setStatus('Worker error: ' + e.message, 'err');
+      clearTimeout(workerTimeout);
+      setStatus('Worker error: ' + (e.message || 'unknown') + ' — restarting', 'err');
       resetTrace();
+      // Restart worker after error so app recovers
+      setTimeout(initWorker, 500);
     };
-    // Ping to confirm version match
     worker.postMessage({ type: 'ping' });
+    // If worker doesn't pong within 5s, something is wrong
+    workerTimeout = setTimeout(function() {
+      if (!workerReady) setStatus('Worker slow to start — try refreshing', 'warn');
+    }, 5000);
   } catch(e) {
     setStatus('Worker init failed: ' + e.message, 'err');
+    workerReady = false;
   }
 }
 
@@ -648,6 +659,7 @@ function handleWorkerMsg(e) {
     return;
   }
   if (msg.type === 'done') {
+    clearTimeout(workerTimeout);
     currentSVG = msg.svg;
     renderSVG(currentSVG);
     document.getElementById('specTags').style.display = 'flex';
@@ -658,6 +670,7 @@ function handleWorkerMsg(e) {
     return;
   }
   if (msg.type === 'error') {
+    clearTimeout(workerTimeout);
     setStatus('Trace error: ' + msg.msg, 'err');
     resetTrace();
   }
@@ -790,10 +803,11 @@ function runTrace() {
   var pv = document.getElementById('plateSize').value.split('x');
   var strokeW = parseFloat(document.getElementById('sSt').value) * 0.1;
 
-  // Transfer pixel buffer to worker — zero copy
+  // Send pixel buffer to worker — copy, not transfer, for stability
+  var pixelsCopy = new Uint8ClampedArray(imgData.data);
   worker.postMessage({
     type: 'trace',
-    pixels: imgData.data.buffer,
+    pixels: pixelsCopy.buffer,
     width: canvas.width,
     height: canvas.height,
     opts: {
@@ -805,28 +819,37 @@ function runTrace() {
       plateW: parseFloat(pv[0]),
       plateH: parseFloat(pv[1])
     }
-  }, [imgData.data.buffer]); // Transferable — main thread no longer owns this buffer
+  });
+  // Safety timeout — if worker takes >45s it's likely stuck
+  workerTimeout = setTimeout(function() {
+    setStatus('Trace timed out — try higher Despeckle or lower Threshold', 'err');
+    resetTrace();
+    initWorker(); // fresh worker
+  }, 45000);
 }
 
-// ── VISION ENGINE (contour analysis + SVG generation) ──
+// ── VISION ENGINE — JSON contour analysis rendered as SVG ──
+// Vision does what it's actually good at: spatial description.
+// We ask for normalized contour coordinates as JSON, then render them.
+// This sidesteps the SVG token explosion problem entirely.
 function runVision() {
   if (!apiKey || !currentImgB64) return;
-  var styleMode = document.getElementById('styleMode').value;
-  var lineWeight = document.getElementById('lineWeight').value;
+
   var pv = document.getElementById('plateSize').value.split('x');
   var pw = parseFloat(pv[0]), ph = parseFloat(pv[1]);
   var viewW = Math.round(pw * 72), viewH = Math.round(ph * 72);
-  var strokeMap = { fine: '1', medium: '1.5', bold: '2.5' };
-  var strokeW = strokeMap[lineWeight];
+  var lwMap = { fine: 1, medium: 1.5, bold: 2.5 };
+  var strokeW = lwMap[document.getElementById('lineWeight').value];
+  var detail = document.getElementById('detail').value;
+  var styleMode = document.getElementById('styleMode').value;
 
-  var styleMap = {
-    contour: 'contour-faithful: trace the actual visible outlines and major internal edges of the subject as you see them in the image',
-    crosshatch: 'contour outlines with parallel crosshatch lines in shadow and depth areas',
-    engraving: 'bold outlines with parallel line groups suggesting volume, 19th century natural history engraving',
-    minimal: 'single clean silhouette outline only, maximum negative space'
+  var detailMap = {
+    spare: 'Return 3-6 paths: silhouette outline and 1-3 key identifying features only.',
+    moderate: 'Return 6-14 paths: clear outline plus major anatomical or structural features.',
+    rich: 'Return 14-24 paths: full outline with detailed internal features and secondary edges.'
   };
 
-  setStatus('Sending to Vision AI\u2026', '');
+  setStatus('Sending to Vision AI…', '');
   document.getElementById('visionSpin').classList.add('on');
   document.getElementById('visionBtn').disabled = true;
   document.getElementById('dlRow').style.display = 'none';
@@ -834,23 +857,19 @@ function runVision() {
   document.getElementById('analysisBox').classList.remove('on');
   document.getElementById('dbgPanel').style.display = 'none';
 
-  // Two-part prompt: Vision analyzes actual spatial structure, then generates SVG from that analysis
-  var systemPrompt = 'You are a printmaker and contour analyst creating letterpress plate art. '
-    + 'You examine images closely and translate their actual spatial structure — outlines, edges, '
-    + 'form boundaries — into SVG line art. Your SVG reflects what you actually see, not a generic '
-    + 'representation of the subject type. '
-    + 'Output format: one <analysis> tag summarizing subject, pose, and dominant contours you observe, '
-    + 'then immediately the SVG. No other text. '
-    + 'SVG rules: viewBox="0 0 '+viewW+' '+viewH+'", fill="none", stroke="#000000" on root element, '
-    + 'stroke-width="'+strokeW+'" minimum, no fills, no gradients, no opacity. '
-    + 'Paths must reflect actual observed contours from the image.';
-
-  var userPrompt = 'Examine this image carefully. Identify the subject\'s actual outline shape, '
-    + 'pose, and the major visible internal features (eyes, limbs, structural edges). '
-    + 'Then generate a '+styleMap[styleMode]+' SVG for a '
-    + pw+'x'+ph+' inch letterpress plate at '+viewW+'x'+viewH+' units. '
-    + 'Your paths should follow the actual contours you observe in the image. '
-    + 'Minimum stroke-width '+strokeW+'. Pure black on white. No fills.';
+  var systemPrompt = 'You are a contour analyst for letterpress plate art. '
+    + 'Examine the image and return ONLY a JSON object — no markdown, no explanation, no SVG. '
+    + 'The JSON describes actual visible contours as normalized coordinates (0.0-1.0 of image frame). '
+    + 'Format: {'
+    + '"subject": "brief description",'
+    + '"pose": "orientation and position",'
+    + '"paths": [{"role":"outline|feature|detail","label":"what this path depicts","closed":true|false,'
+    + '"points":[{"x":0.0-1.0,"y":0.0-1.0},...]}]'
+    + '} '
+    + detailMap[detail] + ' '
+    + 'Points should trace the actual visible edge smoothly — 6-20 points per path is ideal. '
+    + 'Coordinates are fractions of image width/height, origin top-left. '
+    + 'Return JSON only. No other text.';
 
   fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -862,14 +881,14 @@ function runVision() {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 16000,
+      max_tokens: 4000,
       system: systemPrompt,
       messages: [
         { role: 'user', content: [
           { type: 'image', source: { type: 'base64', media_type: currentImgType, data: currentImgB64 } },
-          { type: 'text', text: userPrompt }
+          { type: 'text', text: 'Analyze this image and return the JSON contour description. JSON only.' }
         ]},
-        { role: 'assistant', content: '<analysis>' }
+        { role: 'assistant', content: '{' }
       ]
     })
   })
@@ -879,32 +898,112 @@ function runVision() {
   })
   .then(data => {
     updateTok(data.usage);
-    var raw = '<analysis>' + data.content.map(b => b.text || '').join('');
-    var cleaned = raw.replace(/```svg\s*/gi,'').replace(/```xml\s*/gi,'').replace(/```\s*/g,'').trim();
-    showDbg(cleaned);
-    var am = cleaned.match(/<analysis>([\s\S]*?)<\/analysis>/i);
-    if (am) {
-      document.getElementById('analysisText').textContent = am[1].trim();
+    var raw = '{' + data.content.map(b => b.text || '').join('');
+    showDbg(raw);
+
+    // Parse JSON
+    var parsed;
+    try {
+      // Strip any trailing incomplete JSON before parsing
+      var clean = raw.trim();
+      // Find last complete closing brace
+      var depth = 0, lastGood = -1;
+      for (var ci = 0; ci < clean.length; ci++) {
+        if (clean[ci] === '{' || clean[ci] === '[') depth++;
+        if (clean[ci] === '}' || clean[ci] === ']') { depth--; if (depth === 0) lastGood = ci; }
+      }
+      if (lastGood > 0) clean = clean.slice(0, lastGood+1);
+      parsed = JSON.parse(clean);
+    } catch(e) {
+      setStatus('JSON parse error: ' + e.message + ' — see debug', 'err');
+      return;
+    }
+
+    // Show analysis
+    if (parsed.subject || parsed.pose) {
+      document.getElementById('analysisText').textContent =
+        (parsed.subject || '') + (parsed.pose ? ' · ' + parsed.pose : '');
       document.getElementById('analysisBox').classList.add('on');
     }
-    var ss = cleaned.toLowerCase().indexOf('<svg');
-    var se = cleaned.toLowerCase().lastIndexOf('</svg>');
-    if (ss === -1) { setStatus('No SVG returned \u2014 see debug', 'err'); return; }
-    var truncated = se === -1 || se < ss;
-    currentSVG = truncated ? closeTrunc(cleaned.slice(ss)) : cleaned.slice(ss, se+6);
+
+    // Render contour JSON as SVG
+    if (!parsed.paths || !parsed.paths.length) {
+      setStatus('No contour paths returned — try again', 'err');
+      return;
+    }
+
+    currentSVG = contoursToSVG(parsed.paths, viewW, viewH, strokeW, styleMode);
     renderSVG(currentSVG);
+
     document.getElementById('specTags').style.display = 'flex';
     document.getElementById('specEng').textContent = '\u2713 Vision AI';
-    document.getElementById('specSz').textContent = '\u2713 '+pw+' x '+ph+' in';
+    document.getElementById('specSz').textContent = '\u2713 ' + pw + ' x ' + ph + ' in';
     document.getElementById('dlRow').style.display = 'flex';
-    setStatus(truncated ? 'Partial SVG recovered \u2014 try Spare detail' : 'Vision AI generation complete', truncated ? 'warn' : 'ok');
+    setStatus('Vision contour analysis complete (' + parsed.paths.length + ' paths)', 'ok');
   })
-  .catch(err => setStatus('Error: '+err.message, 'err'))
+  .catch(err => setStatus('Error: ' + err.message, 'err'))
   .finally(() => {
     document.getElementById('visionSpin').classList.remove('on');
     checkReady();
   });
 }
+
+// Convert Vision JSON contour paths to SVG
+// Normalized 0-1 coordinates -> plate viewBox units
+// Uses Catmull-Rom -> cubic bezier conversion for smooth curves
+function contoursToSVG(paths, viewW, viewH, strokeW, styleMode) {
+  var parts = [
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+viewW+' '+viewH+'"'
+    +' width="'+viewW+'" height="'+viewH+'"'
+    +' fill="none" stroke="#000000" stroke-width="'+strokeW+'"'
+    +' stroke-linecap="round" stroke-linejoin="round">'
+  ];
+
+  // Role -> stroke weight multiplier for visual hierarchy
+  var roleWeight = { outline: 1.4, feature: 1.0, detail: 0.7 };
+
+  paths.forEach(function(path) {
+    if (!path.points || path.points.length < 2) return;
+    var pts = path.points.map(function(p) {
+      return { x: p.x * viewW, y: p.y * viewH };
+    });
+    var sw = (strokeW * (roleWeight[path.role] || 1.0)).toFixed(2);
+    var d = pointsToCubicBezier(pts, path.closed);
+    if (d) {
+      parts.push('<path d="' + d + '"'
+        + (path.role === 'outline' ? ' stroke-width="'+sw+'"' : sw !== strokeW.toFixed(2) ? ' stroke-width="'+sw+'"' : '')
+        + (path.closed ? '' : ' fill="none"')
+        + '/>');
+    }
+  });
+
+  parts.push('</svg>');
+  return parts.join('\n');
+}
+
+// Catmull-Rom spline through points -> cubic bezier SVG path
+function pointsToCubicBezier(pts, closed) {
+  if (pts.length < 2) return null;
+  if (pts.length === 2) {
+    return 'M '+f(pts[0].x)+' '+f(pts[0].y)+' L '+f(pts[1].x)+' '+f(pts[1].y);
+  }
+  var tension = 0.4;
+  var d = 'M ' + f(pts[0].x) + ' ' + f(pts[0].y);
+  var allPts = closed
+    ? [pts[pts.length-1]].concat(pts).concat([pts[0], pts[1]])
+    : [pts[0]].concat(pts).concat([pts[pts.length-1]]);
+  for (var i = 1; i < pts.length; i++) {
+    var p0 = allPts[i-1], p1 = allPts[i], p2 = allPts[i+1], p3 = allPts[i+2];
+    var cp1x = p1.x + (p2.x - p0.x) * tension;
+    var cp1y = p1.y + (p2.y - p0.y) * tension;
+    var cp2x = p2.x - (p3.x - p1.x) * tension;
+    var cp2y = p2.y - (p3.y - p1.y) * tension;
+    d += ' C '+f(cp1x)+' '+f(cp1y)+' '+f(cp2x)+' '+f(cp2y)+' '+f(p2.x)+' '+f(p2.y);
+  }
+  if (closed) d += ' Z';
+  return d;
+}
+function f(n) { return Math.round(n * 10) / 10; }
 
 function closeTrunc(s) {
   var tags = ['/>', '</path>', '</circle>', '</rect>', '</ellipse>', '</line>', '</g>'];
