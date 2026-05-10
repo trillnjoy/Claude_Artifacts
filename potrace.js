@@ -1292,3 +1292,14 @@ var Potrace = (function() {
     svg += '" stroke="' + strokec + '" fill="' + fillc + '"' + fillrule + '/></svg>';
     return svg;
   }
+
+  return {
+    loadImageFromUrl  : loadImageFromUrl,
+    loadImageFromFile : loadImageFromFile,
+    setParameter      : setParameter,
+    process           : process,
+    getSVG            : getSVG,
+    clear             : clear
+  };
+
+})();
