@@ -523,28 +523,27 @@ function runTrace() {
   // Use setTimeout so browser paints the progress bar before Potrace blocks the thread
   setTimeout(function() {
     try {
-      Potrace.loadImageFromUrl(canvas.toDataURL('image/png'), function() {
-        document.getElementById('progBar').style.width = '60%';
-        setStatus('Optimising curves\u2026', 'info');
-        Potrace.process(function() {
-          document.getElementById('progBar').style.width = '90%';
-          // getSVG(scale) outputs paths scaled from image px to plate pt
-          var rawSVG = Potrace.getSVG(scale);
-          // Normalise SVG root: plate viewBox, black fill, no grays
-          currentSVG = rawSVG.replace(
-            /<svg[^>]*>/,
-            '<svg xmlns="http://www.w3.org/2000/svg"'
-            + ' viewBox="0 0 ' + svgW + ' ' + svgH + '"'
-            + ' width="' + svgW + '" height="' + svgH + '"'
-            + ' fill="#000000">'
-          );
-          renderSVG(currentSVG);
-          document.getElementById('specTags').style.display = 'flex';
-          document.getElementById('specEng').textContent = '\u2713 Potrace';
-          document.getElementById('dlRow').style.display = 'flex';
-          setStatus('Trace complete \u2014 adjust sliders to refine', 'ok');
-          resetTrace();
-        });
+      // loadImageFromUrl takes URL only — no callback.
+      // process() polls info.isReady every 100ms until image loads, then fires callback.
+      Potrace.loadImageFromUrl(canvas.toDataURL('image/png'));
+      Potrace.process(function() {
+        document.getElementById('progBar').style.width = '90%';
+        // getSVG(scale) outputs paths scaled from image px to plate pt
+        var rawSVG = Potrace.getSVG(scale);
+        // Normalise SVG root: plate viewBox, black fill, no grays
+        currentSVG = rawSVG.replace(
+          /<svg[^>]*>/,
+          '<svg xmlns="http://www.w3.org/2000/svg"'
+          + ' viewBox="0 0 ' + svgW + ' ' + svgH + '"'
+          + ' width="' + svgW + '" height="' + svgH + '"'
+          + ' fill="#000000">'
+        );
+        renderSVG(currentSVG);
+        document.getElementById('specTags').style.display = 'flex';
+        document.getElementById('specEng').textContent = '\u2713 Potrace';
+        document.getElementById('dlRow').style.display = 'flex';
+        setStatus('Trace complete \u2014 adjust sliders to refine', 'ok');
+        resetTrace();
       });
     } catch(e) {
       setStatus('Trace error: ' + e.message, 'err');
