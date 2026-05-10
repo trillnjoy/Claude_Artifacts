@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dingbatastic v2 — Letterpress SVG Generator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f4f0e8;
+    --paper-dark: #e8e2d4;
+    --rule: #c8bfa8;
+    --accent: #2c1810;
+    --press-red: #8b1a0e;
+    --radius: 4px;
+    --pad: clamp(14px, 2.5vw, 28px);
+    --col-gap: clamp(12px, 2vw, 20px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--paper); color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif; -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none; }
+
+  .app { display: grid; grid-template-rows: auto 1fr auto; min-height: 100dvh;
+    max-width: 1366px; margin: 0 auto; }
+
+  /* HEADER */
+  header { display: flex; align-items: baseline; gap: 14px; padding: var(--pad) var(--pad) 0;
+    border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+  .wordmark { font-size: clamp(20px, 3vw, 30px); font-weight: 300; letter-spacing: 0.08em; color: var(--accent); }
+  .wordmark em { font-style: italic; font-weight: 400; }
+  .tagline { font-family: 'JetBrains Mono', monospace; font-size: clamp(8px, 1vw, 10px);
+    letter-spacing: 0.18em; color: var(--rule); text-transform: uppercase; }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .api-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em;
+    color: var(--press-red); border: 1px solid var(--press-red); padding: 3px 8px;
+    border-radius: 2px; opacity: 0.7; }
+  .api-badge.connected { opacity: 1; color: #2d6a2d; border-color: #2d6a2d; }
+  .gear-btn { background: none; border: 1px solid var(--rule); border-radius: var(--radius);
+    padding: 5px 9px; cursor: pointer; font-size: 14px; color: #888;
+    transition: all 0.15s; line-height: 1; }
+  .gear-btn:hover { background: var(--paper-dark); color: var(--ink); border-color: var(--accent); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,14,12,0.5);
+    z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius);
+    padding: 24px; width: min(400px, 90vw); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+  .modal-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .modal-note { font-size: 12px; color: #888; line-height: 1.6; margin-bottom: 16px;
+    font-style: italic; }
+  .modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
+
+  /* MAIN */
+  main { display: grid; grid-template-columns: 1fr 1fr; gap: var(--col-gap);
+    padding: var(--pad); align-items: start; }
+  @media (max-width: 700px) { main { grid-template-columns: 1fr; } }
+
+  /* PANELS */
+  .panel { background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 14px; background: var(--paper-dark); border-bottom: 1px solid var(--rule); }
+  .panel-title { font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .panel-body { padding: 18px; }
+
+  /* FIELDS */
+  .field-label { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: #888; display: block; margin-bottom: 5px; }
+  .field-row { display: flex; gap: 8px; }
+  input[type="password"], input[type="text"] { flex: 1; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; background: var(--paper); border: 1px solid var(--rule);
+    border-radius: var(--radius); padding: 9px 12px; color: var(--ink); outline: none;
+    transition: border-color 0.2s; }
+  input:focus { border-color: var(--accent); }
+
+  /* BUTTONS */
+  .btn { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; border: 1px solid var(--ink); background: transparent;
+    color: var(--ink); padding: 9px 14px; border-radius: var(--radius); cursor: pointer;
+    transition: all 0.15s; white-space: nowrap; }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.35; pointer-events: none; }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+  .btn-primary:hover { background: var(--press-red); border-color: var(--press-red); }
+  .btn-ghost { border-color: var(--rule); color: #888; font-size: 9px; }
+  .btn-ghost:hover { background: var(--paper-dark); color: var(--ink); }
+  @media (hover: none) { .btn { min-height: 44px; } }
+
+  /* DROP ZONE */
+  .drop-zone { position: relative; border: 1.5px dashed var(--rule); border-radius: var(--radius);
+    min-height: 200px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 10px; cursor: pointer; transition: all 0.2s;
+    background: var(--paper); overflow: hidden; touch-action: manipulation; }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); background: #f9f6f0; }
+  .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    width: 100%; height: 100%; font-size: 16px; }
+  .drop-icon { font-size: 32px; opacity: 0.25; line-height: 1; }
+  .drop-label { font-size: 13px; font-style: italic; color: #aaa; text-align: center; line-height: 1.5; }
+  .drop-sub { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #ccc; }
+  .preview-img { width: 100%; height: 100%; object-fit: contain; max-height: 260px;
+    display: block; padding: 10px; }
+
+  /* CONTROLS */
+  .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+  @media (max-width: 400px) { .controls-grid { grid-template-columns: 1fr; } }
+  .select-field { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: var(--paper);
+    border: 1px solid var(--rule); border-radius: var(--radius); padding: 9px 10px;
+    color: var(--ink); width: 100%; outline: none; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; }
+  @media (hover: none) { .select-field { min-height: 44px; } }
+
+  .generate-row { display: flex; gap: 10px; align-items: center; margin-top: 14px; }
+  .spinner { display: none; width: 18px; height: 18px; border: 2px solid var(--rule);
+    border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  .spinner.active { display: block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* TOKEN COUNTER */
+  .token-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .token-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em;
+    color: #aaa; border: 1px solid var(--rule); border-radius: 2px; padding: 2px 7px; }
+  .token-badge.warn { color: #a06020; border-color: #a06020; }
+
+  .status-line { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    color: #aaa; margin-top: 8px; min-height: 16px; }
+  .status-line.error { color: var(--press-red); }
+  .status-line.success { color: #2d6a2d; }
+  .status-line.warn { color: #a06020; }
+  .rule { border: none; border-top: 1px solid var(--rule); margin: 14px 0; }
+  .dim-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    background: var(--accent); color: var(--paper); padding: 2px 7px; border-radius: 2px; letter-spacing: 0.1em; }
+
+  /* ANALYSIS BOX */
+  .analysis-box { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius);
+    padding: 12px 14px; margin-bottom: 14px; font-size: 13px; line-height: 1.65;
+    font-style: italic; color: #555; display: none; }
+  .analysis-box.visible { display: block; }
+  .analysis-label { font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--rule); display: block; margin-bottom: 5px; }
+
+  /* OUTPUT */
+  .output-zone { min-height: 280px; border: 1px solid var(--rule); border-radius: var(--radius);
+    background: #fff; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative; }
+  .output-placeholder { text-align: center; color: #ccc; }
+  .output-placeholder p { font-style: italic; font-size: 14px; margin-top: 8px; }
+  .output-placeholder span { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-top: 4px; color: #ddd; }
+  .output-svg-wrap { width: 100%; padding: 14px; display: flex; align-items: center; justify-content: center; }
+  .output-svg-wrap svg { max-width: 100%; max-height: 400px; width: auto; height: auto; }
+
+  /* SPEC TAGS */
+  .spec-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .spec-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em;
+    padding: 3px 8px; border-radius: 2px; background: var(--paper-dark); color: #888; border: 1px solid var(--rule); }
+  .spec-tag.ok { background: #f0f7f0; color: #2d6a2d; border-color: #a8cca8; }
+
+  /* DOWNLOAD ROW */
+  .download-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+  /* DEBUG PANEL */
+  .debug-panel { margin-top: 12px; border: 1px solid #d4b870; border-radius: var(--radius);
+    background: #fffdf4; overflow: hidden; }
+  .debug-header { display: flex; align-items: center; justify-content: space-between;
+    padding: 7px 12px; background: #fdf7e0; border-bottom: 1px solid #d4b870; cursor: pointer; }
+  .debug-title { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: #b08040; }
+  .debug-body { padding: 10px 12px; display: none; }
+  .debug-body.open { display: block; }
+  .debug-pre { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #666;
+    white-space: pre-wrap; word-break: break-all; line-height: 1.5;
+    max-height: 160px; overflow-y: auto; }
+  .debug-toggle { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    color: #b08040; letter-spacing: 0.1em; }
+
+  /* FOOTER */
+  footer { padding: 10px var(--pad); border-top: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .footer-note { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; color: #bbb; text-transform: uppercase; }
+
+  @media (min-width: 1024px) {
+    .panel-body { padding: 22px; }
+    .drop-zone { min-height: 240px; }
+    .output-zone { min-height: 340px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-title">Settings</div>
+      <div class="modal-note">Your API key is stored in session memory only — it is never saved to disk, never sent anywhere except the Anthropic API, and clears when you close the tab.</div>
+      <label class="field-label" for="apiKeyInput">Anthropic API Key</label>
+      <div class="field-row">
+        <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeSettings()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveKey()">Save Key</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="wordmark">Ding<em>batastic</em></div>
+    <div class="tagline">Letterpress SVG · v2</div>
+    <div class="header-right">
+      <div class="api-badge" id="apiBadge">NO KEY</div>
+      <button class="gear-btn" onclick="openSettings()" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- LEFT: INPUT -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Source Image</span>
+          <span class="dim-badge" id="dimBadge">1.75 × 3 in</span>
+        </div>
+        <div class="panel-body">
+
+          <label class="field-label">Image Source</label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)"/>
+            <div class="drop-icon">⬡</div>
+            <div class="drop-label">Tap to choose from library, camera, or files</div>
+            <div class="drop-sub">JPEG · PNG · HEIC · WEBP</div>
+          </div>
+
+          <hr class="rule">
+
+          <div class="controls-grid">
+            <div>
+              <label class="field-label" for="styleMode">Output Style</label>
+              <select class="select-field" id="styleMode">
+                <option value="contour">Contour Line Art</option>
+                <option value="crosshatch">Contour + Crosshatch</option>
+                <option value="engraving">Engraving / Woodcut</option>
+                <option value="minimal">Minimal Silhouette</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="lineWeight">Line Weight</label>
+              <select class="select-field" id="lineWeight">
+                <option value="fine">Fine (0.5pt)</option>
+                <option value="medium" selected>Medium (1pt)</option>
+                <option value="bold">Bold (1.5pt)</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="plateSize">Plate Format</label>
+              <select class="select-field" id="plateSize" onchange="updateDimBadge()">
+                <option value="1.75x3" selected>1.75 × 3 in — Note Card</option>
+                <option value="2x3.5">2 × 3.5 in — A2 Card</option>
+                <option value="3x3">3 × 3 in — Square</option>
+                <option value="1.5x2.5">1.5 × 2.5 in — Small</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="detail">Detail Level</label>
+              <select class="select-field" id="detail">
+                <option value="spare">Spare — Field Guide</option>
+                <option value="moderate" selected>Moderate — Natural History</option>
+                <option value="rich">Rich — Botanical Print</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="generate-row">
+            <button class="btn btn-primary" id="generateBtn" onclick="generate()" disabled>
+              Generate Plate Art
+            </button>
+            <div class="spinner" id="spinner"></div>
+          </div>
+
+          <div class="token-row">
+            <div class="token-badge" id="tokenBadge">— tokens</div>
+            <div class="token-badge" id="costBadge">— cost</div>
+          </div>
+
+          <div class="status-line" id="statusLine">Enter API key via ⚙ and load an image to begin</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: OUTPUT -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Plate Output</span>
+          <div style="display:flex;gap:5px;align-items:center">
+            <span class="spec-tag">SVG</span>
+            <span class="spec-tag">B&W</span>
+            <span class="spec-tag" id="tagWeight">≥1pt</span>
+          </div>
+        </div>
+        <div class="panel-body">
+
+          <!-- VISION ANALYSIS — separate from debug -->
+          <div class="analysis-box" id="analysisBox">
+            <span class="analysis-label">Vision saw</span>
+            <span id="analysisText"></span>
+          </div>
+
+          <!-- SVG OUTPUT -->
+          <div class="output-zone" id="outputZone">
+            <div class="output-placeholder">
+              <div style="font-size:36px;opacity:0.15">◈</div>
+              <p>Plate art will appear here</p>
+              <span>SVG · BoxCar Press Compatible</span>
+            </div>
+          </div>
+
+          <!-- SPEC TAGS -->
+          <div class="spec-tags" id="specTags" style="display:none">
+            <span class="spec-tag ok">✓ SVG Vector</span>
+            <span class="spec-tag ok">✓ Black Only</span>
+            <span class="spec-tag ok">✓ Min 0.5pt</span>
+            <span class="spec-tag ok" id="specSize">✓ 1.75 × 3 in</span>
+          </div>
+
+          <!-- DOWNLOAD -->
+          <div class="download-row" id="downloadRow" style="display:none">
+            <button class="btn btn-primary" onclick="downloadSVG()">Download SVG</button>
+            <button class="btn" onclick="copySVG()">Copy SVG</button>
+            <button class="btn btn-ghost" onclick="regenerate()">Regenerate</button>
+          </div>
+
+          <!-- DEBUG PANEL — collapsed by default, separate from analysis -->
+          <div class="debug-panel" id="debugPanel" style="display:none">
+            <div class="debug-header" onclick="toggleDebug()">
+              <span class="debug-title">Raw Response Debug</span>
+              <span class="debug-toggle" id="debugToggleLabel">▶ show</span>
+            </div>
+            <div class="debug-body" id="debugBody">
+              <pre class="debug-pre" id="debugText"></pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PREP NOTE -->
+      <div style="margin-top:12px;padding:12px 14px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--paper-dark)">
+        <span class="field-label" style="margin-bottom:6px">BoxCar Press File Prep</span>
+        <div style="font-size:12px;line-height:1.7;color:#666;font-style:italic">
+          Open SVG in Illustrator or Affinity · Expand strokes · Verify 100% K · Export PDF or EPS · Min 0.25pt for 94/95 plates
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-note">Dingbatastic v2 · BoxCar Press Workflow</div>
+    <div class="footer-note">Claude Sonnet Vision · SVG Output</div>
+  </footer>
+
+</div>
+
+<script>
+// ── STATE ──
+let apiKey = '';
+let currentImageB64 = null;
+let currentImageType = 'image/jpeg';
+let currentSVG = null;
+let sessionTokensUsed = 0;
+
+// ── SETTINGS MODAL ──
+function openSettings() {
+  const input = document.getElementById('apiKeyInput');
+  if (apiKey) input.value = apiKey;
+  document.getElementById('settingsModal').classList.add('open');
+  setTimeout(() => input.focus(), 100);
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('open');
+}
+
+function saveKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val.startsWith('sk-ant')) {
+    document.getElementById('apiKeyInput').style.borderColor = '#8b1a0e';
+    return;
+  }
+  apiKey = val;
+  sessionStorage.setItem('dingbatastic_key', val);
+  document.getElementById('apiBadge').textContent = 'KEY SET';
+  document.getElementById('apiBadge').className = 'api-badge connected';
+  closeSettings();
+  setStatus('API key saved for this session', 'success');
+  checkReady();
+}
+
+// Close modal on overlay click
+document.getElementById('settingsModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSettings();
+});
+
+// ── RESTORE KEY FROM SESSION ──
+(function restoreKey() {
+  const saved = sessionStorage.getItem('dingbatastic_key');
+  if (saved && saved.startsWith('sk-ant')) {
+    apiKey = saved;
+    document.getElementById('apiBadge').textContent = 'KEY SET';
+    document.getElementById('apiBadge').className = 'api-badge connected';
+  }
+})();
+
+// ── DIM BADGE ──
+function updateDimBadge() {
+  const val = document.getElementById('plateSize').value;
+  const [w, h] = val.split('x');
+  document.getElementById('dimBadge').textContent = w + ' \u00d7 ' + h + ' in';
+}
+
+// ── FILE HANDLING ──
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  loadImageFile(file);
+}
+
+function loadImageFile(file) {
+  currentImageType = file.type || 'image/jpeg';
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const result = ev.target.result;
+    currentImageB64 = result.split(',')[1];
+    const dz = document.getElementById('dropZone');
+    dz.innerHTML = '<img class="preview-img" src="' + result + '" alt="Source image"/>'
+      + '<input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)" '
+      + 'style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:16px;"/>';
+    checkReady();
+    setStatus('Image loaded — ready to generate', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+// Drag and drop
+const dropZoneEl = document.getElementById('dropZone');
+dropZoneEl.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('drag-over'); });
+dropZoneEl.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+dropZoneEl.addEventListener('drop', function(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) loadImageFile(file);
+});
+
+// ── DEBUG PANEL ──
+function toggleDebug() {
+  const body = document.getElementById('debugBody');
+  const label = document.getElementById('debugToggleLabel');
+  const open = body.classList.toggle('open');
+  label.textContent = open ? '\u25bc hide' : '\u25b6 show';
+}
+
+function showDebug(text) {
+  document.getElementById('debugText').textContent = text.slice(0, 1200) + (text.length > 1200 ? '\n...' : '');
+  document.getElementById('debugPanel').style.display = 'block';
+}
+
+// ── READY CHECK ──
+function checkReady() {
+  document.getElementById('generateBtn').disabled = !(apiKey && currentImageB64);
+}
+
+// ── STATUS ──
+function setStatus(msg, type) {
+  const el = document.getElementById('statusLine');
+  el.textContent = msg;
+  el.className = 'status-line' + (type ? ' ' + type : '');
+}
+
+// ── TOKEN DISPLAY ──
+function updateTokens(usage) {
+  if (!usage) return;
+  const total = (usage.input_tokens || 0) + (usage.output_tokens || 0);
+  sessionTokensUsed += total;
+  // Sonnet pricing: $3/M input, $15/M output
+  const cost = ((usage.input_tokens || 0) * 3 + (usage.output_tokens || 0) * 15) / 1000000;
+  const sessionCost = (sessionTokensUsed * 9 / 1000000); // rough average
+  const tb = document.getElementById('tokenBadge');
+  const cb = document.getElementById('costBadge');
+  tb.textContent = 'this: ' + total.toLocaleString() + ' tok';
+  cb.textContent = '$' + cost.toFixed(4) + ' / session ~$' + sessionCost.toFixed(3);
+  tb.className = 'token-badge' + (total > 6000 ? ' warn' : '');
+}
+
+// ── CLEAN TRUNCATED SVG ──
+function closeTruncatedSVG(svgText) {
+  // Remove any incomplete last element (unclosed tag)
+  const lastGoodClose = Math.max(
+    svgText.lastIndexOf('/>'),
+    svgText.lastIndexOf('</path>'),
+    svgText.lastIndexOf('</circle>'),
+    svgText.lastIndexOf('</rect>'),
+    svgText.lastIndexOf('</ellipse>'),
+    svgText.lastIndexOf('</line>'),
+    svgText.lastIndexOf('</polyline>'),
+    svgText.lastIndexOf('</g>')
+  );
+  if (lastGoodClose > 0) {
+    return svgText.slice(0, lastGoodClose + (svgText[lastGoodClose] === '>' ? 1 : 2)) + '\n</svg>';
+  }
+  return svgText + '\n</svg>';
+}
+
+// ── GENERATE ──
+async function generate() {
+  if (!apiKey || !currentImageB64) return;
+
+  const styleMode = document.getElementById('styleMode').value;
+  const lineWeight = document.getElementById('lineWeight').value;
+  const plateSize = document.getElementById('plateSize').value;
+  const detail = document.getElementById('detail').value;
+
+  const [pw, ph] = plateSize.split('x').map(Number);
+  const viewW = Math.round(pw * 96);
+  const viewH = Math.round(ph * 96);
+
+  const strokeMap = { fine: '1.5', medium: '2', bold: '2.8' };
+  const strokeW = strokeMap[lineWeight];
+
+  const styleMap = {
+    contour: 'clean contour outlines only, minimal interior lines for key anatomical features',
+    crosshatch: 'contour outlines with parallel crosshatch lines in shadow areas',
+    engraving: 'bold outlines with parallel line groups for form and volume, 19th century engraving style',
+    minimal: 'single clean silhouette outline, almost no interior lines'
+  };
+
+  const detailMap = {
+    spare: 'spare — field guide level, fewest paths possible to identify subject',
+    moderate: 'moderate — natural history illustration, clear form without decoration',
+    rich: 'rich — full structural detail, botanical print level'
+  };
+
+  setStatus('Analyzing and generating…', '');
+  document.getElementById('spinner').classList.add('active');
+  document.getElementById('generateBtn').disabled = true;
+  document.getElementById('downloadRow').style.display = 'none';
+  document.getElementById('specTags').style.display = 'none';
+  document.getElementById('analysisBox').classList.remove('visible');
+  document.getElementById('debugPanel').style.display = 'none';
+
+  const systemPrompt = `You are a printmaker creating SVG line art for letterpress photopolymer plates.
+
+OUTPUT FORMAT — follow exactly:
+1. One line: <analysis>Subject: X · Pose: X · Approach: X</analysis>
+2. Immediately followed by the SVG — no other text
+
+SVG RULES:
+- viewBox="0 0 ${viewW} ${viewH}" exactly
+- stroke="#000000" only — no fills, no colors, no grays
+- stroke-width minimum ${strokeW} on all elements
+- No gradients, opacity, filters, or masks
+- Use simple cubic bezier paths — minimize anchor points
+- Style: ${styleMap[styleMode]}
+- Detail: ${detailMap[detail]}
+- Subject fills 75-85% of viewBox`;
+
+  const userPrompt = 'Analyze this image and generate the letterpress SVG plate art. Output only the <analysis> tag then the SVG. No other text.';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        system: systemPrompt,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: currentImageType, data: currentImageB64 } },
+            { type: 'text', text: userPrompt }
+          ]
+        }]
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error ? err.error.message : 'HTTP ' + response.status);
+    }
+
+    const data = await response.json();
+    updateTokens(data.usage);
+
+    const raw = data.content.map(function(b) { return b.text || ''; }).join('');
+
+    // Strip any markdown fences
+    const cleaned = raw.replace(/```svg\s*/gi, '').replace(/```xml\s*/gi, '').replace(/```\s*/g, '').trim();
+
+    // Show debug (collapsed by default)
+    showDebug(cleaned);
+
+    // Extract analysis tag — separate from SVG display
+    const analysisMatch = cleaned.match(/<analysis>([\s\S]*?)<\/analysis>/i);
+    if (analysisMatch) {
+      document.getElementById('analysisText').textContent = analysisMatch[1].trim();
+      document.getElementById('analysisBox').classList.add('visible');
+    }
+
+    // Find SVG bounds
+    const svgStart = cleaned.toLowerCase().indexOf('<svg');
+    const svgEnd = cleaned.toLowerCase().lastIndexOf('</svg>');
+    let truncated = false;
+
+    if (svgStart === -1) {
+      setStatus('No SVG returned — see debug panel', 'error');
+      return;
+    }
+
+    if (svgEnd === -1 || svgEnd < svgStart) {
+      // Truncated — recover partial SVG
+      currentSVG = closeTruncatedSVG(cleaned.slice(svgStart));
+      truncated = true;
+    } else {
+      currentSVG = cleaned.slice(svgStart, svgEnd + 6);
+    }
+
+    // Render via DOMParser (required for Safari)
+    const outputZone = document.getElementById('outputZone');
+    try {
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(currentSVG, 'image/svg+xml');
+      const parseError = svgDoc.querySelector('parsererror');
+      if (parseError) throw new Error('SVG parse: ' + parseError.textContent.slice(0, 100));
+      const svgEl = document.adoptNode(svgDoc.documentElement);
+      svgEl.setAttribute('width', '100%');
+      svgEl.setAttribute('height', '100%');
+      svgEl.style.maxHeight = '400px';
+      svgEl.style.display = 'block';
+      const wrap = document.createElement('div');
+      wrap.className = 'output-svg-wrap';
+      wrap.appendChild(svgEl);
+      outputZone.innerHTML = '';
+      outputZone.appendChild(wrap);
+    } catch (svgErr) {
+      setStatus('SVG render error: ' + svgErr.message, 'error');
+      return;
+    }
+
+    document.getElementById('specTags').style.display = 'flex';
+    document.getElementById('specSize').textContent = '\u2713 ' + pw + ' \u00d7 ' + ph + ' in';
+    document.getElementById('downloadRow').style.display = 'flex';
+
+    if (truncated) {
+      setStatus('Partial SVG recovered (truncated) — try Spare detail for full render', 'warn');
+    } else {
+      setStatus('Plate art generated — review and download', 'success');
+    }
+
+  } catch (err) {
+    setStatus('Error: ' + err.message, 'error');
+    console.error(err);
+  } finally {
+    document.getElementById('spinner').classList.remove('active');
+    checkReady();
+  }
+}
+
+// ── REGENERATE ──
+function regenerate() {
+  document.getElementById('outputZone').innerHTML =
+    '<div class="output-placeholder"><div style="font-size:36px;opacity:0.15">◈</div><p>Regenerating…</p></div>';
+  generate();
+}
+
+// ── DOWNLOAD ──
+function downloadSVG() {
+  if (!currentSVG) return;
+  const plateSize = document.getElementById('plateSize').value;
+  const blob = new Blob([currentSVG], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'dingbatastic_' + plateSize + '_' + Date.now() + '.svg';
+  a.click();
+  URL.revokeObjectURL(url);
+  setStatus('SVG downloaded', 'success');
+}
+
+// ── COPY SVG ──
+function copySVG() {
+  if (!currentSVG) return;
+  navigator.clipboard.writeText(currentSVG).then(function() {
+    setStatus('SVG copied to clipboard', 'success');
+  }).catch(function() {
+    setStatus('Copy failed — use Download instead', 'error');
+  });
+}
+
+// ── INIT ──
+checkReady();
+updateDimBadge();
+</script>
+</body>
+</html>
