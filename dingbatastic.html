@@ -162,281 +162,13 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
 .fn{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#bbb;text-transform:uppercase}
 @media(min-width:1024px){.panel-body{padding:22px}.drop-zone{min-height:240px}.out-zone{min-height:340px}}
 </style>
+<!-- kilobtye/potrace.js — commit this file alongside dingbatastic.html -->
+<!-- Source: https://raw.githubusercontent.com/kilobtye/potrace/master/potrace.js -->
+<script src="potrace.js"></script>
 </head>
 <body>
 
-<!-- WORKER SOURCE — embedded as plain text, instantiated via Blob URL -->
-<script id="worker-src" type="text/plain">
-// Potrace Worker v5.3 — runs off main thread, no DOM access needed
-// Pure JS port of Peter Selinger's Potrace algorithm
 
-const APP_VERSION = '5.3';
-
-function Bitmap(w,h){ this.w=w; this.h=h; this.data=new Uint8Array(Math.ceil(w*h/8)); }
-Bitmap.prototype={
-  idx:function(x,y){ return y*this.w+x; },
-  at:function(x,y){
-    if(x<0||x>=this.w||y<0||y>=this.h) return false;
-    var i=y*this.w+x; return !!(this.data[i>>3]&(0x80>>(i&7)));
-  },
-  flip:function(x,y){
-    if(x<0||x>=this.w||y<0||y>=this.h) return;
-    var i=y*this.w+x; this.data[i>>3]^=(0x80>>(i&7));
-  },
-  copy:function(){ var b=new Bitmap(this.w,this.h); b.data.set(this.data); return b; }
-};
-
-function fromImageData(d,w,h,threshold){
-  var bm=new Bitmap(w,h);
-  for(var y=0;y<h;y++) for(var x=0;x<w;x++){
-    var i=(y*w+x)*4;
-    if(0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]<threshold) bm.flip(x,y);
-  }
-  return bm;
-}
-
-function Path(){ this.area=0;this.len=0;this.curve={};this.pt=[];this.minX=1e9;this.minY=1e9;this.maxX=-1;this.maxY=-1; }
-function Point(x,y){ this.x=x||0; this.y=y||0; }
-function mod(a,n){ return a>=n?a%n:a>=0?a:n-1-(-1-a)%n; }
-function xprod(p1,p2){ return p1.x*p2.y-p1.y*p2.x; }
-function cyclic(a,b,c){ return a<=c?a<=b&&b<c:a<=b||b<c; }
-function sign(i){ return i>0?1:i<0?-1:0; }
-function dpara(p0,p1,p2){ return(p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y); }
-function ddist(p,q){ return Math.sqrt((p.x-q.x)*(p.x-q.x)+(p.y-q.y)*(p.y-q.y)); }
-function interval(l,a,b){ return new Point(a.x+l*(b.x-a.x),a.y+l*(b.y-a.y)); }
-
-function Quad(){ this.data=new Array(9).fill(0); }
-Quad.prototype.at=function(x,y){ return this.data[x*3+y]; };
-Quad.prototype.sum=function(q){ var r=new Quad(); for(var i=0;i<9;i++) r.data[i]=this.data[i]+q.data[i]; return r; };
-
-function findNext(bm,pt){
-  var i=bm.w*pt.y+pt.x, total=bm.w*bm.h;
-  while(i<total){
-    var bi=i>>3, bit=0x80>>(i&7);
-    if(bm.data[bi]&bit) return new Point(i%bm.w,(i/bm.w)|0);
-    // Skip to next set bit — advance byte at a time when byte is zero
-    if(!(bm.data[bi])) { i=(bi+1)<<3; continue; }
-    i++;
-  }
-  return null;
-}
-
-function findPath(bm,pt){
-  var path=new Path(),x=pt.x,y=pt.y,dirx=0,diry=1,tmp;
-  path.sign=bm.at(pt.x,pt.y)?'+':'-';
-  var limit=bm.w*bm.h*4+8;
-  while(limit-->0){
-    path.pt.push(new Point(x,y));
-    if(x>path.maxX)path.maxX=x; if(x<path.minX)path.minX=x;
-    if(y>path.maxY)path.maxY=y; if(y<path.minY)path.minY=y;
-    path.len++; x+=dirx; y+=diry; path.area-=x*diry;
-    if(x===pt.x&&y===pt.y) break;
-    var l=bm.at(x+((dirx+diry-1)/2|0),y+((diry-dirx-1)/2|0));
-    var r=bm.at(x+((dirx-diry-1)/2|0),y+((diry+dirx-1)/2|0));
-    if(r&&!l){tmp=dirx;dirx=-diry;diry=tmp;}
-    else if(r){tmp=dirx;dirx=diry;diry=-tmp;}
-    else if(!l){tmp=dirx;dirx=diry;diry=-tmp;}
-  }
-  return path;
-}
-
-function xorPath(bm,path){
-  var y1=path.pt[0].y,len=path.len,pt=path.pt;
-  for(var i=1;i<len;i++){
-    var x=pt[i].x,y=pt[i].y;
-    if(y!==y1){ var minY=y1<y?y1:y,xs=pt[i-1].x; for(var j=xs;j<bm.w;j++) bm.flip(j,minY); y1=y; }
-  }
-}
-
-function findPaths(bm,turdsize){
-  var plist=[],bm1=bm.copy(),cur=new Point(0,0),path;
-  while((cur=findNext(bm1,cur))!==null){
-    path=findPath(bm1,cur);
-    xorPath(bm1,path);
-    if(Math.abs(path.area)>turdsize) plist.push(path);
-  }
-  return plist;
-}
-
-function calcSums(path){
-  var pt=path.pt,len=path.len;
-  path.x0=pt[0].x; path.y0=pt[0].y;
-  var sums=[{x:0,y:0,x2:0,y2:0,xy:0}];
-  for(var i=0;i<len;i++){
-    var x=pt[i].x-path.x0,y=pt[i].y-path.y0,s=sums[i];
-    sums.push({x:s.x+x,y:s.y+y,x2:s.x2+x*x,y2:s.y2+y*y,xy:s.xy+x*y});
-  }
-  path.sums=sums;
-}
-
-function calcLon(path){
-  var pt=path.pt,len=path.len,lon=new Array(len),pivk=new Array(len),nc=new Array(len);
-  var k=0;
-  for(var i=len-1;i>=0;i--){ if(pt[i].x!==pt[k].x&&pt[i].y!==pt[k].y) k=i+1; nc[i]=k; }
-  for(var ii=len-1;ii>=0;ii--){
-    var ct=[0,0,0,0];
-    var dir=(3+3*(pt[mod(ii+1,len)].x-pt[ii].x)+(pt[mod(ii+1,len)].y-pt[ii].y))/2|0;
-    ct[dir]++;
-    var constraint=[new Point(0,0),new Point(0,0)],cur=new Point(0,0),off=new Point(0,0);
-    var j=nc[ii],i_=ii,limit2=len*len+4;
-    while(limit2-->0){
-      i_=j;
-      dir=(3+3*sign(pt[i_].x-pt[ii].x)+sign(pt[i_].y-pt[ii].y))/2|0;
-      ct[dir]++;
-      if(ct[0]&&ct[1]&&ct[2]&&ct[3]){pivk[ii]=i_;break;}
-      cur.x=pt[i_].x-pt[ii].x; cur.y=pt[i_].y-pt[ii].y;
-      if(xprod(constraint[0],cur)<0||xprod(constraint[1],cur)>0){pivk[ii]=i_;break;}
-      if(Math.abs(cur.x)>1||Math.abs(cur.y)>1){
-        off.x=cur.x+(cur.y>=0&&(cur.y>0||cur.x<0)?1:-1);
-        off.y=cur.y+(cur.x<=0&&(cur.x<0||cur.y<0)?1:-1);
-        if(xprod(constraint[0],off)>=0){constraint[0].x=off.x;constraint[0].y=off.y;}
-        off.x=cur.x+(cur.y<=0&&(cur.y<0||cur.x<0)?1:-1);
-        off.y=cur.y+(cur.x>=0&&(cur.x>0||cur.y<0)?1:-1);
-        if(xprod(constraint[1],off)<=0){constraint[1].x=off.x;constraint[1].y=off.y;}
-      }
-      j=nc[i_];
-      if(!cyclic(j,ii,i_)) break;
-    }
-    lon[ii]=pivk[ii]||mod(i_,len);
-  }
-  path.lon=lon;
-}
-
-function penalty3(path,i,j){
-  var len=path.len,pt=path.pt,sums=path.sums,r=0;
-  if(j>=len){j-=len;r=1;}
-  var x,y,x2,y2,xy,k;
-  if(r===0){x=sums[j+1].x-sums[i].x;y=sums[j+1].y-sums[i].y;x2=sums[j+1].x2-sums[i].x2;xy=sums[j+1].xy-sums[i].xy;y2=sums[j+1].y2-sums[i].y2;k=j+1-i;}
-  else{x=sums[j+1].x-sums[i].x+sums[len].x;y=sums[j+1].y-sums[i].y+sums[len].y;x2=sums[j+1].x2-sums[i].x2+sums[len].x2;xy=sums[j+1].xy-sums[i].xy+sums[len].xy;y2=sums[j+1].y2-sums[i].y2+sums[len].y2;k=j+1-i+len;}
-  var px=(pt[i].x+pt[j].x)/2-pt[0].x,py=(pt[i].y+pt[j].y)/2-pt[0].y;
-  var ey=pt[j].x-pt[i].x,ex=-(pt[j].y-pt[i].y);
-  var a=(x2-2*x*px)/k+px*px,b=(xy-x*py-y*px)/k+px*py,c=(y2-2*y*py)/k+py*py;
-  return Math.sqrt(ex*ex*a+2*ex*ey*b+ey*ey*c);
-}
-
-function bestPolygon(path){
-  var len=path.len,lon=path.lon,pen=new Array(len+1),prev=new Array(len+1);
-  var clip0=new Array(len),clip1=new Array(len+1),seg0=new Array(len+1),seg1=new Array(len+1);
-  for(var i=0;i<len;i++) clip0[i]=mod(lon[mod(i-1,len)]+1-i,len)+i;
-  for(var i=0;i<len;i++) clip1[i+1]=(mod(clip0[mod(i+1,len)]-i,len)>mod(clip0[i]-i,len))?i:clip0[mod(i+1,len)];
-  var j=1; for(var i=0;i<len;i++){seg0[j]=i;if(j<len)j++;} seg1[j]=0;
-  pen[0]=0;
-  for(j=1;j<=len;j++){
-    pen[j]=Infinity;
-    for(var i=seg0[j];i<=clip1[j];i++){
-      var tp=penalty3(path,mod(i,len),mod(j,len))+pen[mod(i,len)];
-      if(tp<pen[j]){pen[j]=tp;prev[j]=i;}
-    }
-  }
-  path.po=[];
-  j=len; var i=len;
-  while(i>0){i=prev[j];path.po.unshift(mod(i,len));j=i;if(j===len)break;}
-}
-
-function adjustVertices(path){
-  var m=path.po.length,len=path.len,pt=path.pt,po=path.po,sums=path.sums,x0=path.x0,y0=path.y0;
-  path.curve={n:m,tag:[],c:[]};
-  var q=new Array(m),s2a=new Array(m);
-  for(var i=0;i<m;i++){
-    var j=po[mod(i+1,m)],jj=mod(j-po[i],len)+po[i],r=0;
-    if(jj>=len){r=1;jj-=len;}
-    var x,y,x2,y2,xy,k2;
-    if(r===0){x=sums[jj+1].x-sums[po[i]].x;y=sums[jj+1].y-sums[po[i]].y;x2=sums[jj+1].x2-sums[po[i]].x2;xy=sums[jj+1].xy-sums[po[i]].xy;y2=sums[jj+1].y2-sums[po[i]].y2;k2=jj+1-po[i];}
-    else{x=sums[jj+1].x-sums[po[i]].x+sums[len].x;y=sums[jj+1].y-sums[po[i]].y+sums[len].y;x2=sums[jj+1].x2-sums[po[i]].x2+sums[len].x2;xy=sums[jj+1].xy-sums[po[i]].xy+sums[len].xy;y2=sums[jj+1].y2-sums[po[i]].y2+sums[len].y2;k2=jj+1-po[i]+len;}
-    var cx=x/k2+x0,cy=y/k2+y0,dx=pt[jj].x-pt[po[i]].x,dy=pt[jj].y-pt[po[i]].y;
-    var det=dx*dx+dy*dy;
-    var Q=new Quad();
-    Q.data[0]=dy*dy/det;Q.data[1]=-dx*dy/det;Q.data[2]=-Q.data[0]*cx-Q.data[1]*cy;
-    Q.data[3]=Q.data[1];Q.data[4]=dx*dx/det;Q.data[5]=-Q.data[3]*cx-Q.data[4]*cy;
-    Q.data[6]=Q.data[2];Q.data[7]=Q.data[5];Q.data[8]=Q.data[0]*cx*cx+2*Q.data[1]*cx*cy+Q.data[4]*cy*cy;
-    q[i]=Q;
-  }
-  for(var i=0;i<m;i++){
-    var Q=q[i].sum(q[mod(i+1,m)]);
-    var s2=Q.at(0,0)*Q.at(1,1)-Q.at(0,1)*Q.at(1,0);
-    var w;
-    if(Math.abs(s2)>1e-10){
-      w=new Point((-Q.at(0,2)*Q.at(1,1)+Q.at(1,2)*Q.at(0,1))/s2,(Q.at(0,2)*Q.at(1,0)-Q.at(1,2)*Q.at(0,0))/s2);
-    } else {
-      var c0=path.po[i],c1=path.po[mod(i+1,m)];
-      w=new Point((pt[c0].x+pt[c1].x)/2,(pt[c0].y+pt[c1].y)/2);
-    }
-    s2a[i]=w;
-  }
-  for(var i=0;i<m;i++){
-    path.curve.c[i*3]=s2a[mod(i-1,m)];
-    path.curve.c[i*3+2]=s2a[i];
-    path.curve.c[i*3+1]=interval(0.5,path.curve.c[i*3],path.curve.c[i*3+2]);
-    path.curve.tag[i]='CURVE';
-  }
-}
-
-function buildSVG(plist,srcW,srcH,plateW,plateH,strokeW){
-  var targetW=plateW*72,targetH=plateH*72;
-  var scale=Math.min(targetW/srcW,targetH/srcH);
-  var offX=(targetW-srcW*scale)/2,offY=(targetH-srcH*scale)/2;
-  var tw=targetW.toFixed(2),th=targetH.toFixed(2);
-  var parts=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+tw+' '+th+
-    '" width="'+tw+'" height="'+th+'" fill="none" stroke="#000000" stroke-width="'+strokeW+
-    '" stroke-linecap="round" stroke-linejoin="round">',
-    '<g transform="translate('+offX.toFixed(3)+','+offY.toFixed(3)+') scale('+scale.toFixed(6)+')">'];
-  for(var i=0;i<plist.length;i++){
-    var c=plist[i].curve;
-    if(!c||!c.n) continue;
-    var d='M '+r(c.c[(c.n-1)*3+2].x)+' '+r(c.c[(c.n-1)*3+2].y);
-    for(var j=0;j<c.n;j++){
-      d+=' C '+r(c.c[j*3].x)+' '+r(c.c[j*3].y)+' '+r(c.c[j*3+1].x)+' '+r(c.c[j*3+1].y)+' '+r(c.c[j*3+2].x)+' '+r(c.c[j*3+2].y);
-    }
-    parts.push('<path d="'+d+' Z"/>');
-  }
-  parts.push('</g></svg>');
-  return parts.join('\n');
-}
-function r(n){return Math.round(n*100)/100;}
-
-// Catch any error that escapes the try/catch — stack overflows, OOM, etc.
-self.onerror = function(msg, src, line, col, err) {
-  self.postMessage({
-    type: 'error',
-    msg: (err ? err.toString() : msg) + ' (line ' + line + ')'
-  });
-  return true; // suppress default worker termination
-};
-
-self.onmessage=function(e){
-  var msg=e.data;
-  if(msg.type==='ping'){
-    self.postMessage({type:'pong',version:APP_VERSION});
-    return;
-  }
-  if(msg.type==='trace'){
-    try{
-      var data=new Uint8ClampedArray(msg.pixels),w=msg.width,h=msg.height;
-      var opts=msg.opts;
-      self.postMessage({type:'progress',msg:'Thresholding '+w+'x'+h+' px bitmap…',pct:10});
-      var bm=fromImageData(data,w,h,opts.threshold||128);
-      // Count set pixels so we can diagnose threshold issues
-      var setBits=0; for(var bi=0;bi<bm.data.length;bi++){ var b=bm.data[bi]; while(b){setBits+=(b&1);b>>=1;} }
-      self.postMessage({type:'progress',msg:'Finding paths (≈'+setBits+' foreground px)…',pct:25});
-      var plist=findPaths(bm,opts.turdsize||2);
-      self.postMessage({type:'progress',msg:'Computing path sums… ('+plist.length+' paths)',pct:40});
-      for(var i=0;i<plist.length;i++){
-        calcSums(plist[i]);
-        calcLon(plist[i]);
-      }
-      self.postMessage({type:'progress',msg:'Fitting polygons…',pct:60});
-      for(var i=0;i<plist.length;i++) bestPolygon(plist[i]);
-      self.postMessage({type:'progress',msg:'Fitting bezier curves…',pct:80});
-      for(var i=0;i<plist.length;i++) adjustVertices(plist[i]);
-      self.postMessage({type:'progress',msg:'Building SVG…',pct:95});
-      var svg=buildSVG(plist,w,h,opts.plateW,opts.plateH,opts.strokeWidth||1.2);
-      self.postMessage({type:'done',svg:svg});
-    }catch(err){
-      self.postMessage({type:'error',msg:err.message});
-    }
-  }
-};
-</script>
 
 <!-- MODAL -->
 <div class="modal-bg" id="modal">
@@ -618,78 +350,26 @@ self.onmessage=function(e){
 <canvas id="wc" style="display:none"></canvas>
 
 <script>
-// ── VERSION — bump this with each substantial change ──
-const APP_VERSION = '5.3';
+// ── VERSION ──
+const APP_VERSION = '5.4';
 
-// ── WORKER — instantiated from embedded script tag via Blob URL ──
-let worker = null;
-let workerReady = false;
+// ── POTRACE — kilobtye/potrace.js loaded via companion script tag ──
+let potraceReady = false;
 
-let workerTimeout = null;
-
-function initWorker() {
-  try {
-    if (worker) { try { worker.terminate(); } catch(e) {} }
-    workerReady = false;
-    const src = document.getElementById('worker-src').textContent;
-    const blob = new Blob([src], { type: 'application/javascript' });
-    const url = URL.createObjectURL(blob);
-    worker = new Worker(url);
-    worker.onmessage = handleWorkerMsg;
-    worker.onerror = function(e) {
-      clearTimeout(workerTimeout);
-      setStatus('Worker error: ' + (e.message || 'unknown') + ' — restarting', 'err');
-      resetTrace();
-      // Restart worker after error so app recovers
-      setTimeout(initWorker, 500);
-    };
-    worker.postMessage({ type: 'ping' });
-    // If worker doesn't pong within 5s, something is wrong
-    workerTimeout = setTimeout(function() {
-      if (!workerReady) setStatus('Worker slow to start — try refreshing', 'warn');
-    }, 5000);
-  } catch(e) {
-    setStatus('Worker init failed: ' + e.message, 'err');
-    workerReady = false;
-  }
-}
-
-function handleWorkerMsg(e) {
-  var msg = e.data;
-  if (msg.type === 'pong') {
-    workerReady = true;
-    var match = msg.version === APP_VERSION;
-    document.getElementById('verBadge').textContent = 'v' + APP_VERSION + (match ? '' : ' ⚠ worker mismatch');
+function initPotrace() {
+  if (typeof Potrace !== 'undefined') {
+    potraceReady = true;
+    document.getElementById('verBadge').textContent = 'v' + APP_VERSION;
     setStatus('Potrace ready — load an image to begin', 'ok');
     checkReady();
-    return;
-  }
-  if (msg.type === 'progress') {
-    setStatus(msg.msg, 'info');
-    document.getElementById('progBar').style.width = msg.pct + '%';
-    return;
-  }
-  if (msg.type === 'done') {
-    clearTimeout(workerTimeout);
-    currentSVG = msg.svg;
-    renderSVG(currentSVG);
-    document.getElementById('specTags').style.display = 'flex';
-    document.getElementById('specEng').textContent = '\u2713 Potrace';
-    document.getElementById('dlRow').style.display = 'flex';
-    setStatus('Contour trace complete \u2014 adjust sliders to refine', 'ok');
-    resetTrace();
-    return;
-  }
-  if (msg.type === 'error') {
-    clearTimeout(workerTimeout);
-    setStatus('Trace error: ' + msg.msg, 'err');
-    resetTrace();
+  } else {
+    setStatus('potrace.js missing — commit it to the repo alongside dingbatastic.html', 'err');
   }
 }
 
 function resetTrace() {
   document.getElementById('traceSpin').classList.remove('on');
-  document.getElementById('traceBtn').disabled = !currentImg;
+  document.getElementById('traceBtn').disabled = !(currentImg && potraceReady);
   document.getElementById('progWrap').classList.remove('on');
   document.getElementById('progBar').style.width = '0%';
 }
@@ -743,7 +423,7 @@ function toggleEngine() {
   document.getElementById('dlBtn').className = 'btn btn-' + hc;
   document.getElementById('apiBadge').style.display = t ? 'none' : '';
   document.getElementById('engDesc').innerHTML = t
-    ? '<strong>Potrace</strong> &mdash; mathematically traces actual image contours. Zero API cost. Runs off-thread &mdash; no crashes.'
+    ? '<strong>Potrace</strong> &mdash; mathematically traces actual image contours from pixel data. Zero API cost.'
     : '<strong>Vision AI</strong> &mdash; Claude analyzes actual contours and spatial structure from the image, then generates plate-ready SVG informed by what it sees.';
   setStatus(t ? 'Potrace engine' : 'Vision AI \u2014 API key required via \u2699', '');
   checkReady();
@@ -792,16 +472,22 @@ function applyStroke() {
   clearTimeout(traceTimer); traceTimer = setTimeout(runTrace, 400);
 }
 
-// ── POTRACE ENGINE (via Worker) ──
+// ── POTRACE ENGINE ──
 function runTrace() {
-  if (!currentImg || !workerReady) return;
+  if (!currentImg || !potraceReady) return;
+
   document.getElementById('traceSpin').classList.add('on');
   document.getElementById('traceBtn').disabled = true;
   document.getElementById('progWrap').classList.add('on');
-  document.getElementById('progBar').style.width = '5%';
-  setStatus('Preparing image for trace\u2026', 'info');
+  document.getElementById('progBar').style.width = '10%';
+  setStatus('Preparing image\u2026', 'info');
 
-  // Downsample to max 1200px — sufficient for Potrace, keeps Worker fast
+  var pv = document.getElementById('plateSize').value.split('x');
+  var plateW = parseFloat(pv[0]) * 72; // points (72pt/in)
+  var plateH = parseFloat(pv[1]) * 72;
+  var threshold = parseInt(document.getElementById('sT').value);
+
+  // Downsample to max 1200px
   var MAX = 1200;
   var srcW = currentImg.naturalWidth, srcH = currentImg.naturalHeight;
   var sc = Math.min(1, MAX / Math.max(srcW, srcH));
@@ -810,34 +496,61 @@ function runTrace() {
   canvas.height = Math.round(srcH * sc);
   var ctx = canvas.getContext('2d');
   ctx.drawImage(currentImg, 0, 0, canvas.width, canvas.height);
+
+  // Apply threshold — pure black/white for Potrace
   var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  var px = imgData.data;
+  for (var i = 0; i < px.length; i += 4) {
+    var v = (0.299*px[i] + 0.587*px[i+1] + 0.114*px[i+2]) < threshold ? 0 : 255;
+    px[i] = px[i+1] = px[i+2] = v; px[i+3] = 255;
+  }
+  ctx.putImageData(imgData, 0, 0);
+  document.getElementById('progBar').style.width = '30%';
+  setStatus('Tracing contours\u2026', 'info');
 
-  var pv = document.getElementById('plateSize').value.split('x');
-  var strokeW = parseFloat(document.getElementById('sSt').value) * 0.1;
+  // Scale image pixel coords to plate point coords
+  var scale = Math.min(plateW / canvas.width, plateH / canvas.height);
+  var svgW = Math.round(canvas.width * scale);
+  var svgH = Math.round(canvas.height * scale);
 
-  // Send pixel buffer to worker — copy, not transfer, for stability
-  var pixelsCopy = new Uint8ClampedArray(imgData.data);
-  worker.postMessage({
-    type: 'trace',
-    pixels: pixelsCopy.buffer,
-    width: canvas.width,
-    height: canvas.height,
-    opts: {
-      threshold: parseInt(document.getElementById('sT').value),
-      turdsize: parseInt(document.getElementById('sTu').value),
-      alphamax: parseFloat(document.getElementById('sA').value) * 0.1,
-      opttolerance: parseFloat(document.getElementById('sO').value) * 0.1,
-      strokeWidth: strokeW,
-      plateW: parseFloat(pv[0]),
-      plateH: parseFloat(pv[1])
-    }
+  // Set Potrace parameters
+  Potrace.setParameter({
+    turdsize:     parseInt(document.getElementById('sTu').value),
+    alphamax:     parseFloat(document.getElementById('sA').value) * 0.1,
+    opttolerance: parseFloat(document.getElementById('sO').value) * 0.1
   });
-  // Safety timeout — if worker takes >45s it's likely stuck
-  workerTimeout = setTimeout(function() {
-    setStatus('Trace timed out — try higher Despeckle or lower Threshold', 'err');
-    resetTrace();
-    initWorker(); // fresh worker
-  }, 45000);
+
+  // Use setTimeout so browser paints the progress bar before Potrace blocks the thread
+  setTimeout(function() {
+    try {
+      Potrace.loadImageFromUrl(canvas.toDataURL('image/png'), function() {
+        document.getElementById('progBar').style.width = '60%';
+        setStatus('Optimising curves\u2026', 'info');
+        Potrace.process(function() {
+          document.getElementById('progBar').style.width = '90%';
+          // getSVG(scale) outputs paths scaled from image px to plate pt
+          var rawSVG = Potrace.getSVG(scale);
+          // Normalise SVG root: plate viewBox, black fill, no grays
+          currentSVG = rawSVG.replace(
+            /<svg[^>]*>/,
+            '<svg xmlns="http://www.w3.org/2000/svg"'
+            + ' viewBox="0 0 ' + svgW + ' ' + svgH + '"'
+            + ' width="' + svgW + '" height="' + svgH + '"'
+            + ' fill="#000000">'
+          );
+          renderSVG(currentSVG);
+          document.getElementById('specTags').style.display = 'flex';
+          document.getElementById('specEng').textContent = '\u2713 Potrace';
+          document.getElementById('dlRow').style.display = 'flex';
+          setStatus('Trace complete \u2014 adjust sliders to refine', 'ok');
+          resetTrace();
+        });
+      });
+    } catch(e) {
+      setStatus('Trace error: ' + e.message, 'err');
+      resetTrace();
+    }
+  }, 50);
 }
 
 // ── VISION ENGINE — JSON contour analysis rendered as SVG ──
@@ -1031,7 +744,7 @@ function renderSVG(svgStr) {
 // ── UTILS ──
 function checkReady() {
   var hasImg = !!currentImg;
-  document.getElementById('traceBtn').disabled = !(hasImg && workerReady);
+  document.getElementById('traceBtn').disabled = !(hasImg && potraceReady);
   document.getElementById('visionBtn').disabled = !(hasImg && apiKey);
 }
 function setStatus(msg, type) {
@@ -1079,12 +792,11 @@ function regen() {
   if (currentEngine === 'trace') runTrace(); else runVision();
 }
 
-// ── GLOBAL ERROR GUARD — prevent worker errors from killing the page ──
+// ── GLOBAL ERROR GUARD ──
 window.onerror = function(msg, src, line, col, err) {
-  setStatus('Caught error: ' + msg + ' — recovering', 'err');
+  setStatus('Caught error: ' + msg, 'err');
   resetTrace();
-  setTimeout(initWorker, 300);
-  return true; // suppress default handling
+  return true;
 };
 window.onunhandledrejection = function(e) {
   setStatus('Unhandled rejection — recovering', 'err');
@@ -1094,7 +806,7 @@ window.onunhandledrejection = function(e) {
 
 // ── INIT ──
 updateDim();
-initWorker();
+initPotrace();
 </script>
 </body>
 </html>
