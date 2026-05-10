@@ -722,6 +722,7 @@ document.getElementById('modal').addEventListener('click', function(e) { if (e.t
     apiKey = s;
     document.getElementById('apiBadge').textContent = 'KEY SET';
     document.getElementById('apiBadge').className = 'api-badge connected';
+    checkReady(); // ensure button enables if image already loaded
   }
 })();
 
