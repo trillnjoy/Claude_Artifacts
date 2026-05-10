@@ -794,7 +794,7 @@ Respond with the <analysis> tag followed immediately by the SVG. No other text.`
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 4000,
+        max_tokens: 8000,
         system: systemPrompt,
         messages: [{
           role: 'user',
@@ -843,7 +843,7 @@ Respond with the <analysis> tag followed immediately by the SVG. No other text.`
     const svgStart = cleaned.toLowerCase().indexOf('<svg');
     const svgEnd = cleaned.toLowerCase().lastIndexOf('</svg>');
 
-    if (svgStart === -1 || svgEnd === -1) {
+    if (svgStart === -1) {
       setStatus('No SVG in response — see debug panel below', 'error');
       if (!analysisMatch) {
         document.getElementById('analysisText').textContent = cleaned.slice(0, 500);
@@ -852,7 +852,13 @@ Respond with the <analysis> tag followed immediately by the SVG. No other text.`
       return;
     }
 
-    currentSVG = cleaned.slice(svgStart, svgEnd + 6);
+    // If svgEnd not found, model was truncated — close the SVG ourselves
+    if (svgEnd === -1) {
+      currentSVG = cleaned.slice(svgStart) + '\n</svg>';
+      setStatus('Response truncated — partial SVG recovered', 'error');
+    } else {
+      currentSVG = cleaned.slice(svgStart, svgEnd + 6);
+    }
 
     // DOMParser is required for Safari — innerHTML silently drops SVG content
     const outputZone = document.getElementById('outputZone');
