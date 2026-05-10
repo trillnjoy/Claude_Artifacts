@@ -19,19 +19,17 @@ html,body{height:100%;background:var(--paper);color:var(--ink);
 header{display:flex;align-items:baseline;gap:14px;padding:var(--pad) var(--pad) 12px;border-bottom:1px solid var(--rule)}
 .wordmark{font-size:clamp(20px,3vw,30px);font-weight:300;letter-spacing:.08em;color:var(--accent)}
 .wordmark em{font-style:italic;font-weight:400}
-.tagline{font-family:'JetBrains Mono',monospace;font-size:clamp(8px,1vw,10px);letter-spacing:.18em;color:var(--rule);text-transform:uppercase}
-.ver-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
-  color:var(--rule);border:1px solid var(--rule);padding:2px 7px;border-radius:2px;margin-left:4px}
+.tagline{font-family:'JetBrains Mono',monospace;font-size:clamp(10px,1.4vw,13px);letter-spacing:.18em;color:#888;text-transform:uppercase}
+.ver-badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#aaa;margin-left:3px}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .api-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;
   color:var(--press-red);border:1px solid var(--press-red);padding:3px 8px;border-radius:2px;opacity:.7;display:none}
 .api-badge.connected{opacity:1;color:#2d6a2d;border-color:#2d6a2d}
-.gear-btn{background:none;border:1px solid var(--rule);border-radius:var(--radius);
-  padding:5px 9px;cursor:pointer;font-size:14px;color:#888;transition:all .15s;line-height:1}
-.gear-btn:hover{background:var(--paper-dark);color:var(--ink);border-color:var(--accent)}
+.gear-btn{background:none;border:none;padding:2px 4px;cursor:pointer;font-size:clamp(20px,3vw,28px);line-height:1;color:var(--accent);display:flex;align-items:center;gap:4px}
+.gear-btn:active{opacity:.7}
 /* ENGINE BAR */
-.engine-bar{padding:12px var(--pad);border-bottom:1px solid var(--rule);
-  background:var(--paper-dark);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.engine-bar{padding:10px var(--pad);border-bottom:1px solid var(--rule);
+  background:var(--paper-dark);display:flex;align-items:center;gap:14px}
 .engine-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#888;flex-shrink:0}
 .toggle-track{position:relative;width:240px;height:34px;background:#fff;
   border:1px solid var(--rule);border-radius:3px;display:flex;cursor:pointer;flex-shrink:0;overflow:hidden}
@@ -44,8 +42,12 @@ header{display:flex;align-items:baseline;gap:14px;padding:var(--pad) var(--pad) 
 .toggle-opt.inactive{color:#999}
 .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .dot-t{background:#4a90d9}.dot-v{background:#c4703a}
-.engine-desc{font-size:13px;font-style:italic;color:#888;flex:1;min-width:180px}
-.engine-desc strong{font-style:normal;font-weight:600}
+/* img info in source panel header */
+.img-info{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  color:#888;font-style:italic;display:block;margin-top:3px;font-weight:normal}
+/* inline alert next to trace button */
+.trace-alert{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#888;flex:1;min-width:0}
+.trace-alert.err{color:var(--press-red)}
 /* MAIN */
 main{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding:var(--pad);align-items:start}
 @media(max-width:700px){main{grid-template-columns:1fr}}
@@ -87,9 +89,9 @@ input[type="password"]:focus{border-color:var(--accent)}
   gap:10px;cursor:pointer;transition:all .2s;background:var(--paper);overflow:hidden;touch-action:manipulation}
 .drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:#f9f6f0}
 .drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:16px}
-.drop-icon{font-size:32px;opacity:.25}
-.drop-label{font-size:13px;font-style:italic;color:#aaa;text-align:center;line-height:1.5}
-.drop-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#ccc}
+.drop-icon{font-size:32px;opacity:.35;line-height:1}
+.drop-label{font-size:16px;font-style:italic;color:#888;text-align:center;line-height:1.5}
+.drop-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#aaa}
 .preview-img{width:100%;object-fit:contain;max-height:220px;display:block;padding:10px}
 /* CONTROLS GRID */
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
@@ -113,7 +115,7 @@ input[type="password"]:focus{border-color:var(--accent)}
 .status{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#aaa;margin-top:8px;min-height:16px}
 .status.err{color:var(--press-red)}.status.ok{color:#2d6a2d}.status.warn{color:#a06020}.status.info{color:var(--trace-blue)}
 hr{border:none;border-top:1px solid var(--rule);margin:14px 0}
-.dim-badge{font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--accent);color:var(--paper);padding:2px 7px;border-radius:2px;letter-spacing:.1em}
+.dim-badge{display:none}
 /* ANALYSIS */
 .analysis{background:var(--paper);border:1px solid var(--rule);border-radius:var(--radius);
   padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.65;font-style:italic;color:#555;display:none}
@@ -160,6 +162,7 @@ hr{border:none;border-top:1px solid var(--rule);margin:14px 0}
 .prog-bar{height:100%;background:var(--trace-blue);width:0%;transition:width .3s}
 footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .fn{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#bbb;text-transform:uppercase}
+.vision-desc{font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.8vw,15px);line-height:1.7;color:var(--ink);padding:18px;white-space:pre-wrap;text-align:left;}
 @media(min-width:1024px){.panel-body{padding:22px}.drop-zone{min-height:240px}.out-zone{min-height:340px}}
 </style>
 <!-- kilobtye/potrace.js — commit this file alongside dingbatastic.html -->
@@ -188,10 +191,9 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
 <header>
   <div class="wordmark">Ding<em>batastic</em></div>
   <div class="tagline">Letterpress SVG</div>
-  <span class="ver-badge" id="verBadge">v5.3</span>
   <div class="header-right">
     <div class="api-badge" id="apiBadge">NO KEY</div>
-    <button class="gear-btn" onclick="openModal()" title="API Key Settings">&#9881;</button>
+    <button class="gear-btn" onclick="openModal()" title="API Key Settings">⚙️<span class="ver-badge" id="verBadge">v5.3</span></button>
   </div>
 </header>
 
@@ -202,23 +204,30 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
     <div class="toggle-opt active-trace" id="optT"><span class="dot dot-t"></span>Potrace</div>
     <div class="toggle-opt inactive" id="optV"><span class="dot dot-v"></span>Vision AI</div>
   </div>
-  <div class="engine-desc" id="engDesc">
-    <strong>Potrace</strong> &mdash; mathematically traces actual image contours. Zero API cost. Runs off-thread — no crashes.
-  </div>
 </div>
 
 <main>
 <div>
   <div class="panel">
     <div class="panel-hdr t" id="inHdr">
-      <span class="panel-title">Source Image</span>
-      <span class="dim-badge" id="dimBadge">1.75 x 3 in</span>
+      <div>
+        <span class="panel-title">Source Image</span>
+        <span class="img-info" id="dimBadge"></span>
+      </div>
     </div>
     <div class="panel-body">
-      <label class="flabel">Image Source</label>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:5px">
+        <label class="flabel" style="margin-bottom:0">Image Source</label>
+        <div class="status" id="statusLine">Load an image to begin</div>
+      </div>
       <div class="drop-zone" id="dz">
         <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)"/>
-        <div class="drop-icon">&#x2B21;</div>
+        <div class="drop-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+          </svg>
+        </div>
         <div class="drop-label">Tap to choose from library, camera, or files</div>
         <div class="drop-sub">JPEG · PNG · HEIC · WEBP</div>
       </div>
@@ -233,18 +242,16 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
         <div class="srow"><label>Despeckle</label>
           <input type="range" id="sTu" min="0" max="50" value="2" oninput="sv('sTu','vTu');schedule()"/>
           <span class="sval" id="vTu">2</span></div>
-        <div class="srow"><label>Corner Angle</label>
-          <input type="range" id="sA" min="0" max="13" value="10" oninput="sv('sA','vA',0.1);schedule()"/>
-          <span class="sval" id="vA">1.0</span></div>
-        <div class="srow"><label>Curve Opt</label>
-          <input type="range" id="sO" min="1" max="20" value="2" oninput="sv('sO','vO',0.1);schedule()"/>
-          <span class="sval" id="vO">0.2</span></div>
+        <!-- Corner Angle and Curve Opt at defaults — imperceptible impact, removed from UI -->
+        <input type="hidden" id="sA" value="10"/>
+        <input type="hidden" id="sO" value="2"/>
         <div class="srow"><label>Stroke (pt)</label>
           <input type="range" id="sSt" min="5" max="40" value="12" oninput="sv('sSt','vSt',0.1);applyStroke()"/>
           <span class="sval" id="vSt">1.2</span></div>
         <div class="gen-row">
           <button class="btn btn-t" id="traceBtn" onclick="runTrace()" disabled>Trace Image</button>
           <div class="spinner sp-t" id="traceSpin"></div>
+          <span class="trace-alert" id="traceAlert"></span>
         </div>
         <div class="prog-wrap" id="progWrap"><div class="prog-bar" id="progBar"></div></div>
       </div>
@@ -289,7 +296,6 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
         </div>
       </div>
 
-      <div class="status" id="statusLine">Load an image to begin</div>
     </div>
   </div>
 </div>
@@ -320,6 +326,8 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
       </div>
       <div class="dl-row" id="dlRow" style="display:none">
         <button class="btn btn-t" id="dlBtn" onclick="dlSVG()">Download SVG</button>
+        <button class="btn btn-t" onclick="downloadPNG()">PNG 1200dpi</button>
+        <button class="btn btn-t" onclick="downloadTIFF()">TIFF 1200dpi</button>
         <button class="btn" onclick="copySVG()">Copy SVG</button>
         <button class="btn btn-g" onclick="regen()">Regenerate</button>
       </div>
@@ -335,7 +343,7 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
   <div style="margin-top:12px;padding:12px 14px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--paper-dark)">
     <span class="flabel" style="margin-bottom:6px">BoxCar Press File Prep</span>
     <div style="font-size:12px;line-height:1.7;color:#666;font-style:italic">
-      Open SVG in Illustrator or Affinity · Expand strokes · Verify 100% K · Export PDF or EPS · Min 0.25pt for 94/95 plates
+      Download SVG, PNG, or TIFF directly. PNG and TIFF export at 1200 DPI, black on white — BoxCar Press ready. Min 0.25pt line weight for 94/95 plates.
     </div>
   </div>
 </div>
@@ -351,19 +359,20 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
 
 <script>
 // ── VERSION ──
-const APP_VERSION = '5.4';
+const APP_VERSION = '5.5';
 
 // ── POTRACE — kilobtye/potrace.js loaded via companion script tag ──
 let potraceReady = false;
 
 function initPotrace() {
+  var ta = document.getElementById('traceAlert');
   if (typeof Potrace !== 'undefined') {
     potraceReady = true;
     document.getElementById('verBadge').textContent = 'v' + APP_VERSION;
-    setStatus('Potrace ready — load an image to begin', 'ok');
+    if (ta) { ta.textContent = ''; ta.className = 'trace-alert'; }
     checkReady();
   } else {
-    setStatus('potrace.js missing — commit it to the repo alongside dingbatastic.html', 'err');
+    if (ta) { ta.textContent = 'potrace.js missing — commit alongside dingbatastic.html'; ta.className = 'trace-alert err'; }
   }
 }
 
@@ -422,9 +431,10 @@ function toggleEngine() {
   document.getElementById('outTitle').textContent = t ? 'Trace Output' : 'Vision Output';
   document.getElementById('dlBtn').className = 'btn btn-' + hc;
   document.getElementById('apiBadge').style.display = t ? 'none' : '';
-  document.getElementById('engDesc').innerHTML = t
+  var ed = document.getElementById('engDesc');
+  if (ed) ed.innerHTML = t
     ? '<strong>Potrace</strong> &mdash; mathematically traces actual image contours from pixel data. Zero API cost.'
-    : '<strong>Vision AI</strong> &mdash; Claude analyzes actual contours and spatial structure from the image, then generates plate-ready SVG informed by what it sees.';
+    : '<strong>Vision AI</strong> &mdash; sends image to Claude and returns a printmaker brief: subject, silhouette, priority features, value zones, and tracing notes. Use alongside Potrace.';
   setStatus(t ? 'Potrace engine' : 'Vision AI \u2014 API key required via \u2699', '');
   checkReady();
 }
@@ -440,6 +450,10 @@ function handleFile(e) {
     currentImgB64 = dataUrl.split(',')[1];
     currentImg = new Image();
     currentImg.onload = function() {
+      // Show image info in panel header
+      var ext = (file.name || '').split('.').pop().toUpperCase() || file.type.split('/')[1].toUpperCase();
+      document.getElementById('dimBadge').textContent =
+        file.name + ' · ' + currentImg.naturalWidth + ' × ' + currentImg.naturalHeight + ' · ' + ext;
       checkReady();
       if (currentEngine === 'trace') runTrace();
     };
@@ -552,47 +566,30 @@ function runTrace() {
   }, 50);
 }
 
-// ── VISION ENGINE — JSON contour analysis rendered as SVG ──
-// Vision does what it's actually good at: spatial description.
-// We ask for normalized contour coordinates as JSON, then render them.
-// This sidesteps the SVG token explosion problem entirely.
+// ── VISION ENGINE — image description for printmaker reference ──
+// Vision does what it's actually good at: semantic understanding.
+// Potrace handles all contour tracing. Vision informs the human.
 function runVision() {
   if (!apiKey || !currentImgB64) return;
 
-  var pv = document.getElementById('plateSize').value.split('x');
-  var pw = parseFloat(pv[0]), ph = parseFloat(pv[1]);
-  var viewW = Math.round(pw * 72), viewH = Math.round(ph * 72);
-  var lwMap = { fine: 1, medium: 1.5, bold: 2.5 };
-  var strokeW = lwMap[document.getElementById('lineWeight').value];
-  var detail = document.getElementById('detail').value;
-  var styleMode = document.getElementById('styleMode').value;
-
-  var detailMap = {
-    spare: 'Return 2-4 paths. Outline silhouette only, plus 1-2 key features. Outline: 35-50 points tracing the actual visible edge pixel by pixel. Features: 15-20 points each.',
-    moderate: 'Return 5-10 paths. Outline plus major anatomical or structural features. Outline: 40-55 points. Features: 15-25 points each. Trace actual visible edges, not approximations.',
-    rich: 'Return 10-18 paths. Full outline plus detailed internal features and secondary edges. Outline: 50-70 points. Features: 15-30 points each. Every path must precisely follow the actual visible contour in the image.'
-  };
-
-  setStatus('Sending to Vision AI…', '');
+  setStatus('Sending to Vision AI\u2026', '');
   document.getElementById('visionSpin').classList.add('on');
   document.getElementById('visionBtn').disabled = true;
   document.getElementById('dlRow').style.display = 'none';
   document.getElementById('specTags').style.display = 'none';
   document.getElementById('analysisBox').classList.remove('on');
   document.getElementById('dbgPanel').style.display = 'none';
+  document.getElementById('outZone').innerHTML = '';
 
-  var systemPrompt = 'You are a precision contour tracer for letterpress plate art. '
-    + 'Examine the image carefully and return ONLY a JSON object — no markdown, no explanation, no SVG. '
-    + 'Trace the ACTUAL VISIBLE EDGES in the image. Do not approximate or generalize. '
-    + 'Follow the real contour of the subject as it appears in the image, capturing every curve, indent, and protrusion faithfully. '
-    + 'The JSON describes traced contours as normalized coordinates (0.0-1.0 of image frame, origin top-left). '
-    + 'Format: {"subject":"brief description","pose":"orientation and position",'
-    + '"paths":[{"role":"outline|feature|detail","label":"what this path depicts","closed":true|false,'
-    + '"points":[{"x":0.0-1.0,"y":0.0-1.0},...]}]} '
-    + detailMap[detail] + ' '
-    + 'Place points densely and evenly along each actual visible edge — do not skip detail or smooth away real contour variation. '
-    + 'Coordinates are fractions of image width/height. '
-    + 'Return JSON only. No other text.';
+  var systemPrompt = 'You are an expert art director briefing a letterpress printmaker. '
+    + 'Describe this image in practical detail to guide plate design decisions. Cover: '
+    + '(1) Subject and pose — what it is, how it is positioned and oriented. '
+    + '(2) Silhouette — key contour characteristics, proportions, distinctive edges. '
+    + '(3) Priority features — the 3-5 elements most important to capture for recognition. '
+    + '(4) Value zones — major dark/light regions and their approximate positions. '
+    + '(5) Printmaker notes — what will be challenging to trace, what can be simplified, '
+    + 'minimum detail needed for the subject to read clearly at small scale. '
+    + 'Be specific and spatial. Use left/right/upper/lower. Be concise — this is a working brief, not an essay.';
 
   fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -604,14 +601,13 @@ function runVision() {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 8000,
+      max_tokens: 1024,
       system: systemPrompt,
       messages: [
         { role: 'user', content: [
           { type: 'image', source: { type: 'base64', media_type: currentImgType, data: currentImgB64 } },
-          { type: 'text', text: 'Analyze this image and return the JSON contour description. JSON only.' }
-        ]},
-        { role: 'assistant', content: '{' }
+          { type: 'text', text: 'Describe this image as a printmaker brief.' }
+        ]}
       ]
     })
   })
@@ -621,106 +617,29 @@ function runVision() {
   })
   .then(data => {
     updateTok(data.usage);
-    var raw = '{' + data.content.map(b => b.text || '').join('');
-    showDbg(raw);
+    var text = data.content.map(b => b.text || '').join('').trim();
+    showDbg(text);
 
-    // Parse JSON
-    var parsed;
-    try {
-      // Strip any trailing incomplete JSON before parsing
-      var clean = raw.trim();
-      // Find last complete closing brace
-      var depth = 0, lastGood = -1;
-      for (var ci = 0; ci < clean.length; ci++) {
-        if (clean[ci] === '{' || clean[ci] === '[') depth++;
-        if (clean[ci] === '}' || clean[ci] === ']') { depth--; if (depth === 0) lastGood = ci; }
-      }
-      if (lastGood > 0) clean = clean.slice(0, lastGood+1);
-      parsed = JSON.parse(clean);
-    } catch(e) {
-      setStatus('JSON parse error: ' + e.message + ' — see debug', 'err');
-      return;
-    }
+    // Display description in the output zone
+    var oz = document.getElementById('outZone');
+    var desc = document.createElement('div');
+    desc.className = 'vision-desc';
+    desc.textContent = text;
+    oz.innerHTML = '';
+    oz.appendChild(desc);
 
-    // Show analysis
-    if (parsed.subject || parsed.pose) {
-      document.getElementById('analysisText').textContent =
-        (parsed.subject || '') + (parsed.pose ? ' · ' + parsed.pose : '');
-      document.getElementById('analysisBox').classList.add('on');
-    }
+    // Show subject line in analysis box
+    var firstLine = text.split('\n')[0].slice(0, 120);
+    document.getElementById('analysisText').textContent = firstLine;
+    document.getElementById('analysisBox').classList.add('on');
 
-    // Render contour JSON as SVG
-    if (!parsed.paths || !parsed.paths.length) {
-      setStatus('No contour paths returned — try again', 'err');
-      return;
-    }
-
-    currentSVG = contoursToSVG(parsed.paths, viewW, viewH, strokeW, styleMode);
-    showDbg('=== JSON (' + parsed.paths.length + ' paths) ===\n' + raw + '\n\n=== GENERATED SVG ===\n' + currentSVG);
-    renderSVG(currentSVG);
-
-    document.getElementById('specTags').style.display = 'flex';
-    document.getElementById('specEng').textContent = '\u2713 Vision AI';
-    document.getElementById('specSz').textContent = '\u2713 ' + pw + ' x ' + ph + ' in';
-    document.getElementById('dlRow').style.display = 'flex';
-    setStatus('Vision contour analysis complete (' + parsed.paths.length + ' paths)', 'ok');
+    setStatus('Vision analysis complete', 'ok');
   })
   .catch(err => setStatus('Error: ' + err.message, 'err'))
   .finally(() => {
     document.getElementById('visionSpin').classList.remove('on');
     checkReady();
   });
-}
-
-// Convert Vision JSON contour paths to SVG
-// Normalized 0-1 coordinates -> plate viewBox units
-// Uses Catmull-Rom -> cubic bezier conversion for smooth curves
-function contoursToSVG(paths, viewW, viewH, strokeW, styleMode) {
-  var parts = [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+viewW+' '+viewH+'"'
-    +' width="'+viewW+'" height="'+viewH+'"'
-    +' fill="none" stroke="#000000" stroke-width="'+strokeW+'"'
-    +' stroke-linecap="round" stroke-linejoin="round">'
-  ];
-
-  // Role -> stroke weight multiplier for visual hierarchy
-  var roleWeight = { outline: 1.4, feature: 1.0, detail: 0.7 };
-
-  paths.forEach(function(path) {
-    if (!path.points || path.points.length < 2) return;
-    var pts = path.points.map(function(p) {
-      return { x: p.x * viewW, y: p.y * viewH };
-    });
-    var sw = (strokeW * (roleWeight[path.role] || 1.0)).toFixed(2);
-    var d = pointsToCubicBezier(pts, path.closed);
-    if (d) {
-      parts.push('<path d="' + d + '" fill="none" stroke="#000000" stroke-width="'+sw+'"/>');
-    }
-  });
-
-  parts.push('</svg>');
-  return parts.join('\n');
-}
-
-// Polyline renderer — straight segments between dense points.
-// With 35-70 points per path, straight segments read as smooth curves with zero overshoot.
-// Catmull-Rom splines overshoot badly on sparse points; polyline is faithful at any density.
-function pointsToCubicBezier(pts, closed) {
-  if (!pts || pts.length < 2) return null;
-  var d = 'M ' + f(pts[0].x) + ' ' + f(pts[0].y);
-  for (var i = 1; i < pts.length; i++) {
-    d += ' L ' + f(pts[i].x) + ' ' + f(pts[i].y);
-  }
-  if (closed) d += ' Z';
-  return d;
-}
-function f(n) { return Math.round(n * 10) / 10; }
-
-function closeTrunc(s) {
-  var tags = ['/>', '</path>', '</circle>', '</rect>', '</ellipse>', '</line>', '</g>'];
-  var last = -1;
-  tags.forEach(c => { var i = s.lastIndexOf(c); if (i > last) last = i+c.length; });
-  return (last > 0 ? s.slice(0, last) : s) + '\n</svg>';
 }
 
 // ── RENDER (DOMParser — required for Safari) ──
@@ -751,8 +670,7 @@ function setStatus(msg, type) {
   el.textContent = msg; el.className = 'status' + (type ? ' '+type : '');
 }
 function updateDim() {
-  var v = document.getElementById('plateSize').value.split('x');
-  document.getElementById('dimBadge').textContent = v[0]+' x '+v[1]+' in';
+  // dimBadge now shows imported image info after load — plate size no longer displayed here
 }
 function updateTok(u) {
   if (!u) return;
@@ -789,6 +707,142 @@ function regen() {
   document.getElementById('outZone').innerHTML =
     '<div class="out-ph"><div style="font-size:36px;opacity:.15">&#9672;</div><p>Regenerating\u2026</p></div>';
   if (currentEngine === 'trace') runTrace(); else runVision();
+}
+
+// ── RASTER EXPORT — shared SVG→canvas renderer at 1200 DPI ──
+// SVG dimensions are in points (72pt/in); scale = 1200/72 = 16.667
+function svgToCanvas(callback) {
+  if (!currentSVG) return;
+  var wMatch = currentSVG.match(/width="(\d+\.?\d*)"/);
+  var hMatch = currentSVG.match(/height="(\d+\.?\d*)"/);
+  var svgW = wMatch ? parseFloat(wMatch[1]) : 126;
+  var svgH = hMatch ? parseFloat(hMatch[1]) : 216;
+  var scale = 1200 / 72;
+  var cw = Math.round(svgW * scale), ch = Math.round(svgH * scale);
+  var canvas = document.createElement('canvas');
+  canvas.width = cw; canvas.height = ch;
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cw, ch);
+  var blob = new Blob([currentSVG], {type:'image/svg+xml'});
+  var url = URL.createObjectURL(blob);
+  var img = new Image();
+  img.onload = function() {
+    ctx.drawImage(img, 0, 0, cw, ch);
+    URL.revokeObjectURL(url);
+    callback(canvas, cw, ch, svgW, svgH);
+  };
+  img.onerror = function() {
+    URL.revokeObjectURL(url);
+    setStatus('Export error — SVG could not render to canvas', 'err');
+  };
+  img.src = url;
+}
+
+// PNG: transparent background, pure black pixels only — no grays.
+// PNG is inherently RGBA at the file level (no CMYK PNG exists in spec).
+// Pixels are binary-thresholded: luminance < 128 → (0,0,0,255), else → (0,0,0,0).
+function downloadPNG() {
+  if (!currentSVG) return;
+  setStatus('Rendering PNG at 1200 DPI\u2026', 'info');
+  svgToCanvas(function(canvas, cw, ch, svgW, svgH) {
+    var ctx = canvas.getContext('2d');
+    var id = ctx.getImageData(0, 0, cw, ch);
+    var px = id.data;
+    for (var i = 0; i < cw * ch; i++) {
+      var lum = 0.299*px[i*4] + 0.587*px[i*4+1] + 0.114*px[i*4+2];
+      if (lum < 128) { px[i*4]=0; px[i*4+1]=0; px[i*4+2]=0; px[i*4+3]=255; }
+      else           { px[i*4]=0; px[i*4+1]=0; px[i*4+2]=0; px[i*4+3]=0;   }
+    }
+    ctx.putImageData(id, 0, 0);
+    var a = document.createElement('a');
+    a.download = 'plate-'+Math.round(svgW/72*100)/100+'x'+Math.round(svgH/72*100)/100+'in-1200dpi.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+    setStatus('PNG downloaded — transparent bg, binary black, '+cw+'\u00d7'+ch+'px at 1200\u202fdpi', 'ok');
+  });
+}
+
+// TIFF: CMYK color space (PhotometricInterpretation=5, InkSet=1).
+// Black pixels → C=0 M=0 Y=0 K=255. White pixels → C=0 M=0 Y=0 K=0.
+// Binary threshold — no gray values. White background.
+// 14 IFD tags in ascending order (TIFF spec requirement).
+function writeTIFF(w, h, cmyk, dpi) {
+  var nTags = 14;
+  var ifdOff = 8;
+  var ifdSz  = 2 + nTags*12 + 4; // 174
+  var bpsOff = ifdOff + ifdSz;   // BitsPerSample[4] — 4×SHORT = 8 bytes
+  var xrOff  = bpsOff + 8;       // XResolution rational
+  var yrOff  = xrOff  + 8;       // YResolution rational
+  var imgOff = yrOff  + 8;       // pixel data
+  var buf = new ArrayBuffer(imgOff + w*h*4);
+  var v = new DataView(buf), le = true;
+
+  // Header
+  v.setUint8(0,0x49); v.setUint8(1,0x49); // 'II' little-endian
+  v.setUint16(2,42,le); v.setUint32(4,ifdOff,le);
+
+  var p = ifdOff;
+  v.setUint16(p, nTags, le); p += 2;
+
+  function wt(id, type, count, val) {
+    v.setUint16(p,   id,    le);
+    v.setUint16(p+2, type,  le);
+    v.setUint32(p+4, count, le);
+    if (type===3 && count===1) v.setUint16(p+8, val, le);
+    else                       v.setUint32(p+8, val, le);
+    p += 12;
+  }
+
+  // Tags in ascending tag-ID order
+  wt(256,4,1,w);          // ImageWidth
+  wt(257,4,1,h);          // ImageLength
+  wt(258,3,4,bpsOff);     // BitsPerSample: 4 channels, values at bpsOff
+  wt(259,3,1,1);           // Compression = 1 (none)
+  wt(262,3,1,5);           // PhotometricInterpretation = 5 (CMYK)
+  wt(273,4,1,imgOff);      // StripOffsets
+  wt(277,3,1,4);           // SamplesPerPixel = 4
+  wt(278,4,1,h);           // RowsPerStrip = full height
+  wt(279,4,1,w*h*4);       // StripByteCounts
+  wt(282,5,1,xrOff);       // XResolution (RATIONAL)
+  wt(283,5,1,yrOff);       // YResolution (RATIONAL)
+  wt(284,3,1,1);           // PlanarConfiguration = 1 (chunky CMYK)
+  wt(296,3,1,2);           // ResolutionUnit = 2 (inch)
+  wt(332,3,1,1);           // InkSet = 1 (CMYK)
+
+  v.setUint32(p,0,le); // next IFD = 0
+
+  // BitsPerSample data: 8 per channel × 4 channels
+  v.setUint16(bpsOff,  8,le); v.setUint16(bpsOff+2,8,le);
+  v.setUint16(bpsOff+4,8,le); v.setUint16(bpsOff+6,8,le);
+
+  // Resolution rationals (dpi/1)
+  v.setUint32(xrOff,dpi,le); v.setUint32(xrOff+4,1,le);
+  v.setUint32(yrOff,dpi,le); v.setUint32(yrOff+4,1,le);
+
+  // Pixel data
+  new Uint8Array(buf, imgOff, w*h*4).set(cmyk);
+  return buf;
+}
+
+function downloadTIFF() {
+  if (!currentSVG) return;
+  setStatus('Rendering TIFF at 1200 DPI\u2026', 'info');
+  svgToCanvas(function(canvas, cw, ch, svgW, svgH) {
+    var px = canvas.getContext('2d').getImageData(0, 0, cw, ch).data;
+    var cmyk = new Uint8Array(cw * ch * 4);
+    for (var i = 0; i < cw * ch; i++) {
+      var lum = 0.299*px[i*4] + 0.587*px[i*4+1] + 0.114*px[i*4+2];
+      var k = lum < 128 ? 255 : 0;
+      cmyk[i*4]=0; cmyk[i*4+1]=0; cmyk[i*4+2]=0; cmyk[i*4+3]=k;
+    }
+    var tiffBuf = writeTIFF(cw, ch, cmyk, 1200);
+    var a = document.createElement('a');
+    a.download = 'plate-'+Math.round(svgW/72*100)/100+'x'+Math.round(svgH/72*100)/100+'in-1200dpi.tiff';
+    a.href = URL.createObjectURL(new Blob([tiffBuf], {type:'image/tiff'}));
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    setStatus('TIFF downloaded — CMYK K=100%, white bg, '+cw+'\u00d7'+ch+'px at 1200\u202fdpi', 'ok');
+  });
 }
 
 // ── GLOBAL ERROR GUARD ──
