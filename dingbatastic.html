@@ -174,8 +174,15 @@ const APP_VERSION = '5.0';
 
 function Bitmap(w,h){ this.w=w; this.h=h; this.data=new Uint8Array(Math.ceil(w*h/8)); }
 Bitmap.prototype={
-  at:function(x,y){ return(x>=0&&x<this.w&&y>=0&&y<this.h)&&!!(this.data[this.h*(x>>3)+y]&(0x80>>(x&7))); },
-  flip:function(x,y){ if(x>=0&&x<this.w&&y>=0&&y<this.h){ var i=this.h*(x>>3)+y; this.data[i]^=(0x80>>(x&7)); } },
+  idx:function(x,y){ return y*this.w+x; },
+  at:function(x,y){
+    if(x<0||x>=this.w||y<0||y>=this.h) return false;
+    var i=y*this.w+x; return !!(this.data[i>>3]&(0x80>>(i&7)));
+  },
+  flip:function(x,y){
+    if(x<0||x>=this.w||y<0||y>=this.h) return;
+    var i=y*this.w+x; this.data[i>>3]^=(0x80>>(i&7));
+  },
   copy:function(){ var b=new Bitmap(this.w,this.h); b.data.set(this.data); return b; }
 };
 
@@ -203,11 +210,13 @@ Quad.prototype.at=function(x,y){ return this.data[x*3+y]; };
 Quad.prototype.sum=function(q){ var r=new Quad(); for(var i=0;i<9;i++) r.data[i]=this.data[i]+q.data[i]; return r; };
 
 function findNext(bm,pt){
-  var i=bm.w*pt.y+pt.x;
-  while(i<bm.w*bm.h){
-    var byte_=bm.data[Math.floor(i/8)];
-    if(byte_){ while(!(byte_&(0x80>>(i&7)))) i++; return new Point(i%bm.w,Math.floor(i/bm.w)); }
-    i=(Math.floor(i/8)+1)*8;
+  var i=bm.w*pt.y+pt.x, total=bm.w*bm.h;
+  while(i<total){
+    var bi=i>>3, bit=0x80>>(i&7);
+    if(bm.data[bi]&bit) return new Point(i%bm.w,(i/bm.w)|0);
+    // Skip to next set bit — advance byte at a time when byte is zero
+    if(!(bm.data[bi])) { i=(bi+1)<<3; continue; }
+    i++;
   }
   return null;
 }
@@ -393,7 +402,7 @@ self.onmessage=function(e){
   }
   if(msg.type==='trace'){
     try{
-      var data=msg.pixels,w=msg.width,h=msg.height;
+      var data=new Uint8ClampedArray(msg.pixels),w=msg.width,h=msg.height;
       var opts=msg.opts;
       self.postMessage({type:'progress',msg:'Thresholding bitmap…',pct:10});
       var bm=fromImageData(data,w,h,opts.threshold||128);
@@ -853,7 +862,7 @@ function runVision() {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 8000,
+      max_tokens: 16000,
       system: systemPrompt,
       messages: [
         { role: 'user', content: [
