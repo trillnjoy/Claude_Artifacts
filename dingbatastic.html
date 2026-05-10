@@ -167,10 +167,10 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
 
 <!-- WORKER SOURCE — embedded as plain text, instantiated via Blob URL -->
 <script id="worker-src" type="text/plain">
-// Potrace Worker v5.2 — runs off main thread, no DOM access needed
+// Potrace Worker v5.3 — runs off main thread, no DOM access needed
 // Pure JS port of Peter Selinger's Potrace algorithm
 
-const APP_VERSION = '5.2';
+const APP_VERSION = '5.3';
 
 function Bitmap(w,h){ this.w=w; this.h=h; this.data=new Uint8Array(Math.ceil(w*h/8)); }
 Bitmap.prototype={
@@ -456,7 +456,7 @@ self.onmessage=function(e){
 <header>
   <div class="wordmark">Ding<em>batastic</em></div>
   <div class="tagline">Letterpress SVG</div>
-  <span class="ver-badge" id="verBadge">v5.2</span>
+  <span class="ver-badge" id="verBadge">v5.3</span>
   <div class="header-right">
     <div class="api-badge" id="apiBadge">NO KEY</div>
     <button class="gear-btn" onclick="openModal()" title="API Key Settings">&#9881;</button>
@@ -611,7 +611,7 @@ self.onmessage=function(e){
 
 <footer>
   <div class="fn">Dingbatastic &mdash; BoxCar Press Workflow</div>
-  <div class="fn" id="footVer">v5.2 · Worker + Vision AI</div>
+  <div class="fn" id="footVer">v5.3 · Worker + Vision AI</div>
 </footer>
 </div>
 
@@ -619,7 +619,7 @@ self.onmessage=function(e){
 
 <script>
 // ── VERSION — bump this with each substantial change ──
-const APP_VERSION = '5.2';
+const APP_VERSION = '5.3';
 
 // ── WORKER — instantiated from embedded script tag via Blob URL ──
 let worker = null;
@@ -856,9 +856,9 @@ function runVision() {
   var styleMode = document.getElementById('styleMode').value;
 
   var detailMap = {
-    spare: 'Return 3-6 paths: silhouette outline and 1-3 key identifying features only.',
-    moderate: 'Return 6-14 paths: clear outline plus major anatomical or structural features.',
-    rich: 'Return 14-24 paths: full outline with detailed internal features and secondary edges.'
+    spare: 'Return 2-4 paths. Outline silhouette only, plus 1-2 key features. Outline: 35-50 points tracing the actual visible edge pixel by pixel. Features: 15-20 points each.',
+    moderate: 'Return 5-10 paths. Outline plus major anatomical or structural features. Outline: 40-55 points. Features: 15-25 points each. Trace actual visible edges, not approximations.',
+    rich: 'Return 10-18 paths. Full outline plus detailed internal features and secondary edges. Outline: 50-70 points. Features: 15-30 points each. Every path must precisely follow the actual visible contour in the image.'
   };
 
   setStatus('Sending to Vision AI…', '');
@@ -869,18 +869,17 @@ function runVision() {
   document.getElementById('analysisBox').classList.remove('on');
   document.getElementById('dbgPanel').style.display = 'none';
 
-  var systemPrompt = 'You are a contour analyst for letterpress plate art. '
-    + 'Examine the image and return ONLY a JSON object — no markdown, no explanation, no SVG. '
-    + 'The JSON describes actual visible contours as normalized coordinates (0.0-1.0 of image frame). '
-    + 'Format: {'
-    + '"subject": "brief description",'
-    + '"pose": "orientation and position",'
-    + '"paths": [{"role":"outline|feature|detail","label":"what this path depicts","closed":true|false,'
-    + '"points":[{"x":0.0-1.0,"y":0.0-1.0},...]}]'
-    + '} '
+  var systemPrompt = 'You are a precision contour tracer for letterpress plate art. '
+    + 'Examine the image carefully and return ONLY a JSON object — no markdown, no explanation, no SVG. '
+    + 'Trace the ACTUAL VISIBLE EDGES in the image. Do not approximate or generalize. '
+    + 'Follow the real contour of the subject as it appears in the image, capturing every curve, indent, and protrusion faithfully. '
+    + 'The JSON describes traced contours as normalized coordinates (0.0-1.0 of image frame, origin top-left). '
+    + 'Format: {"subject":"brief description","pose":"orientation and position",'
+    + '"paths":[{"role":"outline|feature|detail","label":"what this path depicts","closed":true|false,'
+    + '"points":[{"x":0.0-1.0,"y":0.0-1.0},...]}]} '
     + detailMap[detail] + ' '
-    + 'Points should trace the actual visible edge smoothly — 6-20 points per path is ideal. '
-    + 'Coordinates are fractions of image width/height, origin top-left. '
+    + 'Place points densely and evenly along each actual visible edge — do not skip detail or smooth away real contour variation. '
+    + 'Coordinates are fractions of image width/height. '
     + 'Return JSON only. No other text.';
 
   fetch('https://api.anthropic.com/v1/messages', {
@@ -893,7 +892,7 @@ function runVision() {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 4000,
+      max_tokens: 8000,
       system: systemPrompt,
       messages: [
         { role: 'user', content: [
@@ -991,24 +990,14 @@ function contoursToSVG(paths, viewW, viewH, strokeW, styleMode) {
   return parts.join('\n');
 }
 
-// Catmull-Rom spline through points -> cubic bezier SVG path
+// Polyline renderer — straight segments between dense points.
+// With 35-70 points per path, straight segments read as smooth curves with zero overshoot.
+// Catmull-Rom splines overshoot badly on sparse points; polyline is faithful at any density.
 function pointsToCubicBezier(pts, closed) {
-  if (pts.length < 2) return null;
-  if (pts.length === 2) {
-    return 'M '+f(pts[0].x)+' '+f(pts[0].y)+' L '+f(pts[1].x)+' '+f(pts[1].y);
-  }
-  var tension = 0.4;
+  if (!pts || pts.length < 2) return null;
   var d = 'M ' + f(pts[0].x) + ' ' + f(pts[0].y);
-  var allPts = closed
-    ? [pts[pts.length-1]].concat(pts).concat([pts[0], pts[1]])
-    : [pts[0]].concat(pts).concat([pts[pts.length-1]]);
   for (var i = 1; i < pts.length; i++) {
-    var p0 = allPts[i-1], p1 = allPts[i], p2 = allPts[i+1], p3 = allPts[i+2];
-    var cp1x = p1.x + (p2.x - p0.x) * tension;
-    var cp1y = p1.y + (p2.y - p0.y) * tension;
-    var cp2x = p2.x - (p3.x - p1.x) * tension;
-    var cp2y = p2.y - (p3.y - p1.y) * tension;
-    d += ' C '+f(cp1x)+' '+f(cp1y)+' '+f(cp2x)+' '+f(cp2y)+' '+f(p2.x)+' '+f(p2.y);
+    d += ' L ' + f(pts[i].x) + ' ' + f(pts[i].y);
   }
   if (closed) d += ' Z';
   return d;
