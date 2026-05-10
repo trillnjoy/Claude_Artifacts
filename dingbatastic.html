@@ -167,10 +167,10 @@ footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;ali
 
 <!-- WORKER SOURCE — embedded as plain text, instantiated via Blob URL -->
 <script id="worker-src" type="text/plain">
-// Potrace Worker v5.0 — runs off main thread, no DOM access needed
+// Potrace Worker v5.1 — runs off main thread, no DOM access needed
 // Pure JS port of Peter Selinger's Potrace algorithm
 
-const APP_VERSION = '5.0';
+const APP_VERSION = '5.1';
 
 function Bitmap(w,h){ this.w=w; this.h=h; this.data=new Uint8Array(Math.ceil(w*h/8)); }
 Bitmap.prototype={
@@ -456,7 +456,7 @@ self.onmessage=function(e){
 <header>
   <div class="wordmark">Ding<em>batastic</em></div>
   <div class="tagline">Letterpress SVG</div>
-  <span class="ver-badge" id="verBadge">v5.0</span>
+  <span class="ver-badge" id="verBadge">v5.1</span>
   <div class="header-right">
     <div class="api-badge" id="apiBadge">NO KEY</div>
     <button class="gear-btn" onclick="openModal()" title="API Key Settings">&#9881;</button>
@@ -611,7 +611,7 @@ self.onmessage=function(e){
 
 <footer>
   <div class="fn">Dingbatastic &mdash; BoxCar Press Workflow</div>
-  <div class="fn" id="footVer">v5.0 · Worker + Vision AI</div>
+  <div class="fn" id="footVer">v5.1 · Worker + Vision AI</div>
 </footer>
 </div>
 
@@ -619,7 +619,7 @@ self.onmessage=function(e){
 
 <script>
 // ── VERSION — bump this with each substantial change ──
-const APP_VERSION = '5.0';
+const APP_VERSION = '5.1';
 
 // ── WORKER — instantiated from embedded script tag via Blob URL ──
 let worker = null;
@@ -944,6 +944,7 @@ function runVision() {
     }
 
     currentSVG = contoursToSVG(parsed.paths, viewW, viewH, strokeW, styleMode);
+    showDbg('=== JSON (' + parsed.paths.length + ' paths) ===\n' + raw + '\n\n=== GENERATED SVG ===\n' + currentSVG);
     renderSVG(currentSVG);
 
     document.getElementById('specTags').style.display = 'flex';
@@ -1029,8 +1030,9 @@ function renderSVG(svgStr) {
     var pe = doc.querySelector('parsererror');
     if (pe) throw new Error('Parse: ' + pe.textContent.slice(0, 80));
     var el = document.adoptNode(doc.documentElement);
-    el.setAttribute('width', '100%'); el.setAttribute('height', '100%');
-    el.style.maxHeight = '400px'; el.style.display = 'block';
+    el.setAttribute('width', '100%');
+    el.removeAttribute('height'); // height="100%" collapses SVG in iOS Safari flexbox — let viewBox ratio control height
+    el.style.display = 'block';
     var wrap = document.createElement('div'); wrap.className = 'svg-wrap';
     wrap.appendChild(el); oz.innerHTML = ''; oz.appendChild(wrap);
   } catch(err) { setStatus('SVG render error: '+err.message, 'err'); }
@@ -1059,7 +1061,7 @@ function updateTok(u) {
   document.getElementById('tokBadge').className = 'tok'+(tot>6000?' warn':'');
 }
 function showDbg(text) {
-  document.getElementById('dbgText').textContent = text.slice(0,1200)+(text.length>1200?'\n...':'');
+  document.getElementById('dbgText').textContent = text.slice(0,8000)+(text.length>8000?'\n[... truncated at 8000 chars ...]':'');
   document.getElementById('dbgPanel').style.display = 'block';
 }
 function toggleDbg() {
