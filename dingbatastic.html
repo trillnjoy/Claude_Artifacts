@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dingbatastic</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+:root {
+  --ink:#0f0e0c; --paper:#f4f0e8; --paper-dark:#e8e2d4; --rule:#c8bfa8;
+  --accent:#2c1810; --press-red:#8b1a0e; --trace-blue:#0e3060; --vision-brown:#2c1810;
+  --radius:4px; --pad:clamp(14px,2.5vw,28px); --gap:clamp(12px,2vw,20px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--paper);color:var(--ink);
+  font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+.app{display:grid;grid-template-rows:auto auto 1fr auto;min-height:100dvh;max-width:1366px;margin:0 auto}
+/* HEADER */
+header{display:flex;align-items:baseline;gap:14px;padding:var(--pad) var(--pad) 12px;border-bottom:1px solid var(--rule)}
+.wordmark{font-size:clamp(20px,3vw,30px);font-weight:300;letter-spacing:.08em;color:var(--accent)}
+.wordmark em{font-style:italic;font-weight:400}
+.tagline{font-family:'JetBrains Mono',monospace;font-size:clamp(8px,1vw,10px);letter-spacing:.18em;color:var(--rule);text-transform:uppercase}
+.ver-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  color:var(--rule);border:1px solid var(--rule);padding:2px 7px;border-radius:2px;margin-left:4px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.api-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;
+  color:var(--press-red);border:1px solid var(--press-red);padding:3px 8px;border-radius:2px;opacity:.7;display:none}
+.api-badge.connected{opacity:1;color:#2d6a2d;border-color:#2d6a2d}
+.gear-btn{background:none;border:1px solid var(--rule);border-radius:var(--radius);
+  padding:5px 9px;cursor:pointer;font-size:14px;color:#888;transition:all .15s;line-height:1}
+.gear-btn:hover{background:var(--paper-dark);color:var(--ink);border-color:var(--accent)}
+/* ENGINE BAR */
+.engine-bar{padding:12px var(--pad);border-bottom:1px solid var(--rule);
+  background:var(--paper-dark);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.engine-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#888;flex-shrink:0}
+.toggle-track{position:relative;width:240px;height:34px;background:#fff;
+  border:1px solid var(--rule);border-radius:3px;display:flex;cursor:pointer;flex-shrink:0;overflow:hidden}
+.toggle-thumb{position:absolute;top:2px;bottom:2px;width:calc(50% - 2px);border-radius:2px;transition:all .22s cubic-bezier(.4,0,.2,1);left:2px}
+.toggle-thumb.trace{background:var(--trace-blue)}
+.toggle-thumb.vision{background:var(--vision-brown);left:calc(50%)}
+.toggle-opt{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;gap:5px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;transition:color .22s;user-select:none}
+.toggle-opt.active-trace,.toggle-opt.active-vision{color:#fff}
+.toggle-opt.inactive{color:#999}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-t{background:#4a90d9}.dot-v{background:#c4703a}
+.engine-desc{font-size:13px;font-style:italic;color:#888;flex:1;min-width:180px}
+.engine-desc strong{font-style:normal;font-weight:600}
+/* MAIN */
+main{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding:var(--pad);align-items:start}
+@media(max-width:700px){main{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;
+  padding:9px 14px;background:var(--paper-dark);border-bottom:1px solid var(--rule)}
+.panel-hdr.t{border-left:3px solid var(--trace-blue)}
+.panel-hdr.v{border-left:3px solid var(--vision-brown)}
+.panel-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.panel-body{padding:18px}
+/* FIELDS */
+.flabel{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#888;display:block;margin-bottom:5px}
+input[type="password"]{width:100%;font-family:'JetBrains Mono',monospace;font-size:12px;
+  background:var(--paper);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:9px 12px;color:var(--ink);outline:none;transition:border-color .2s}
+input[type="password"]:focus{border-color:var(--accent)}
+/* SLIDERS */
+.srow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.srow label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#888;width:110px;flex-shrink:0}
+.srow input[type="range"]{flex:1;accent-color:var(--trace-blue);cursor:pointer}
+.sval{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink);width:36px;text-align:right;flex-shrink:0}
+/* BUTTONS */
+.btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);padding:9px 14px;
+  border-radius:var(--radius);cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.35;pointer-events:none}
+.btn-t{background:var(--trace-blue);border-color:var(--trace-blue);color:#fff}
+.btn-t:hover{background:#0a2448;border-color:#0a2448}
+.btn-v{background:var(--vision-brown);border-color:var(--vision-brown);color:#fff}
+.btn-v:hover{background:var(--press-red);border-color:var(--press-red)}
+.btn-g{border-color:var(--rule);color:#888;font-size:9px}
+.btn-g:hover{background:var(--paper-dark);color:var(--ink)}
+@media(hover:none){.btn{min-height:44px}}
+/* DROP ZONE */
+.drop-zone{position:relative;border:1.5px dashed var(--rule);border-radius:var(--radius);
+  min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;cursor:pointer;transition:all .2s;background:var(--paper);overflow:hidden;touch-action:manipulation}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:#f9f6f0}
+.drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:16px}
+.drop-icon{font-size:32px;opacity:.25}
+.drop-label{font-size:13px;font-style:italic;color:#aaa;text-align:center;line-height:1.5}
+.drop-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#ccc}
+.preview-img{width:100%;object-fit:contain;max-height:220px;display:block;padding:10px}
+/* CONTROLS GRID */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+@media(max-width:400px){.cgrid{grid-template-columns:1fr}}
+.sel{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--paper);
+  border:1px solid var(--rule);border-radius:var(--radius);padding:9px 10px;color:var(--ink);
+  width:100%;outline:none;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center}
+@media(hover:none){.sel{min-height:44px}}
+.gen-row{display:flex;gap:10px;align-items:center;margin-top:14px}
+.spinner{display:none;width:18px;height:18px;border:2px solid var(--rule);
+  border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.spinner.on{display:block}
+.sp-t{border-top-color:var(--trace-blue)}.sp-v{border-top-color:var(--vision-brown)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tok-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.tok{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  color:#aaa;border:1px solid var(--rule);border-radius:2px;padding:2px 7px}
+.tok.warn{color:#a06020;border-color:#a06020}
+.status{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#aaa;margin-top:8px;min-height:16px}
+.status.err{color:var(--press-red)}.status.ok{color:#2d6a2d}.status.warn{color:#a06020}.status.info{color:var(--trace-blue)}
+hr{border:none;border-top:1px solid var(--rule);margin:14px 0}
+.dim-badge{font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--accent);color:var(--paper);padding:2px 7px;border-radius:2px;letter-spacing:.1em}
+/* ANALYSIS */
+.analysis{background:var(--paper);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.65;font-style:italic;color:#555;display:none}
+.analysis.on{display:block}
+.alabel{font-family:'JetBrains Mono',monospace;font-style:normal;font-size:9px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--rule);display:block;margin-bottom:5px}
+/* OUTPUT */
+.out-zone{min-height:280px;border:1px solid var(--rule);border-radius:var(--radius);
+  background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.out-zone.bt{border-color:var(--trace-blue)}.out-zone.bv{border-color:var(--vision-brown)}
+.out-ph{text-align:center;color:#ccc}
+.out-ph p{font-style:italic;font-size:14px;margin-top:8px}
+.out-ph span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;display:block;margin-top:4px;color:#ddd}
+.svg-wrap{width:100%;padding:14px;display:flex;align-items:center;justify-content:center}
+.svg-wrap svg{max-width:100%;max-height:400px;width:auto;height:auto}
+/* SPEC */
+.spec-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.stag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  padding:3px 8px;border-radius:2px;background:var(--paper-dark);color:#888;border:1px solid var(--rule)}
+.stag.ok{background:#f0f7f0;color:#2d6a2d;border-color:#a8cca8}
+.stag.tok{background:#f0f4ff;color:var(--trace-blue);border-color:#a8b8d8}
+.dl-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+/* DEBUG */
+.dbg{margin-top:12px;border:1px solid #d4b870;border-radius:var(--radius);background:#fffdf4;overflow:hidden;display:none}
+.dbg-hdr{display:flex;align-items:center;justify-content:space-between;
+  padding:7px 12px;background:#fdf7e0;border-bottom:1px solid #d4b870;cursor:pointer}
+.dbg-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#b08040}
+.dbg-body{padding:10px 12px;display:none}
+.dbg-body.on{display:block}
+.dbg-pre{font-family:'JetBrains Mono',monospace;font-size:10px;color:#666;white-space:pre-wrap;word-break:break-all;line-height:1.5;max-height:160px;overflow-y:auto}
+.dbg-tog{font-family:'JetBrains Mono',monospace;font-size:9px;color:#b08040}
+.hidden{display:none!important}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,14,12,.5);z-index:100;align-items:center;justify-content:center}
+.modal-bg.on{display:flex}
+.modal{background:var(--paper);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:24px;width:min(400px,90vw);box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.modal-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.modal-note{font-size:12px;color:#888;line-height:1.6;margin-bottom:14px;font-style:italic}
+.modal-btns{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+/* PROGRESS BAR */
+.prog-wrap{margin-top:8px;height:3px;background:var(--paper-dark);border-radius:2px;overflow:hidden;display:none}
+.prog-wrap.on{display:block}
+.prog-bar{height:100%;background:var(--trace-blue);width:0%;transition:width .3s}
+footer{padding:10px var(--pad);border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fn{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#bbb;text-transform:uppercase}
+@media(min-width:1024px){.panel-body{padding:22px}.drop-zone{min-height:240px}.out-zone{min-height:340px}}
+</style>
+</head>
+<body>
+
+<!-- WORKER SOURCE — embedded as plain text, instantiated via Blob URL -->
+<script id="worker-src" type="text/plain">
+// Potrace Worker v5.0 — runs off main thread, no DOM access needed
+// Pure JS port of Peter Selinger's Potrace algorithm
+
+const APP_VERSION = '5.0';
+
+function Bitmap(w,h){ this.w=w; this.h=h; this.data=new Uint8Array(Math.ceil(w*h/8)); }
+Bitmap.prototype={
+  at:function(x,y){ return(x>=0&&x<this.w&&y>=0&&y<this.h)&&!!(this.data[this.h*(x>>3)+y]&(0x80>>(x&7))); },
+  flip:function(x,y){ if(x>=0&&x<this.w&&y>=0&&y<this.h){ var i=this.h*(x>>3)+y; this.data[i]^=(0x80>>(x&7)); } },
+  copy:function(){ var b=new Bitmap(this.w,this.h); b.data.set(this.data); return b; }
+};
+
+function fromImageData(d,w,h,threshold){
+  var bm=new Bitmap(w,h);
+  for(var y=0;y<h;y++) for(var x=0;x<w;x++){
+    var i=(y*w+x)*4;
+    if(0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]<threshold) bm.flip(x,y);
+  }
+  return bm;
+}
+
+function Path(){ this.area=0;this.len=0;this.curve={};this.pt=[];this.minX=1e9;this.minY=1e9;this.maxX=-1;this.maxY=-1; }
+function Point(x,y){ this.x=x||0; this.y=y||0; }
+function mod(a,n){ return a>=n?a%n:a>=0?a:n-1-(-1-a)%n; }
+function xprod(p1,p2){ return p1.x*p2.y-p1.y*p2.x; }
+function cyclic(a,b,c){ return a<=c?a<=b&&b<c:a<=b||b<c; }
+function sign(i){ return i>0?1:i<0?-1:0; }
+function dpara(p0,p1,p2){ return(p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y); }
+function ddist(p,q){ return Math.sqrt((p.x-q.x)*(p.x-q.x)+(p.y-q.y)*(p.y-q.y)); }
+function interval(l,a,b){ return new Point(a.x+l*(b.x-a.x),a.y+l*(b.y-a.y)); }
+
+function Quad(){ this.data=new Array(9).fill(0); }
+Quad.prototype.at=function(x,y){ return this.data[x*3+y]; };
+Quad.prototype.sum=function(q){ var r=new Quad(); for(var i=0;i<9;i++) r.data[i]=this.data[i]+q.data[i]; return r; };
+
+function findNext(bm,pt){
+  var i=bm.w*pt.y+pt.x;
+  while(i<bm.w*bm.h){
+    var byte_=bm.data[Math.floor(i/8)];
+    if(byte_){ while(!(byte_&(0x80>>(i&7)))) i++; return new Point(i%bm.w,Math.floor(i/bm.w)); }
+    i=(Math.floor(i/8)+1)*8;
+  }
+  return null;
+}
+
+function findPath(bm,pt){
+  var path=new Path(),x=pt.x,y=pt.y,dirx=0,diry=1,tmp;
+  path.sign=bm.at(pt.x,pt.y)?'+':'-';
+  var limit=bm.w*bm.h*4+8;
+  while(limit-->0){
+    path.pt.push(new Point(x,y));
+    if(x>path.maxX)path.maxX=x; if(x<path.minX)path.minX=x;
+    if(y>path.maxY)path.maxY=y; if(y<path.minY)path.minY=y;
+    path.len++; x+=dirx; y+=diry; path.area-=x*diry;
+    if(x===pt.x&&y===pt.y) break;
+    var l=bm.at(x+((dirx+diry-1)/2|0),y+((diry-dirx-1)/2|0));
+    var r=bm.at(x+((dirx-diry-1)/2|0),y+((diry+dirx-1)/2|0));
+    if(r&&!l){tmp=dirx;dirx=-diry;diry=tmp;}
+    else if(r){tmp=dirx;dirx=diry;diry=-tmp;}
+    else if(!l){tmp=dirx;dirx=diry;diry=-tmp;}
+  }
+  return path;
+}
+
+function xorPath(bm,path){
+  var y1=path.pt[0].y,len=path.len,pt=path.pt;
+  for(var i=1;i<len;i++){
+    var x=pt[i].x,y=pt[i].y;
+    if(y!==y1){ var minY=y1<y?y1:y,xs=pt[i-1].x; for(var j=xs;j<bm.w;j++) bm.flip(j,minY); y1=y; }
+  }
+}
+
+function findPaths(bm,turdsize){
+  var plist=[],bm1=bm.copy(),cur=new Point(0,0),path;
+  while((cur=findNext(bm1,cur))!==null){
+    path=findPath(bm1,cur);
+    xorPath(bm1,path);
+    if(Math.abs(path.area)>turdsize) plist.push(path);
+  }
+  return plist;
+}
+
+function calcSums(path){
+  var pt=path.pt,len=path.len;
+  path.x0=pt[0].x; path.y0=pt[0].y;
+  var sums=[{x:0,y:0,x2:0,y2:0,xy:0}];
+  for(var i=0;i<len;i++){
+    var x=pt[i].x-path.x0,y=pt[i].y-path.y0,s=sums[i];
+    sums.push({x:s.x+x,y:s.y+y,x2:s.x2+x*x,y2:s.y2+y*y,xy:s.xy+x*y});
+  }
+  path.sums=sums;
+}
+
+function calcLon(path){
+  var pt=path.pt,len=path.len,lon=new Array(len),pivk=new Array(len),nc=new Array(len);
+  var k=0;
+  for(var i=len-1;i>=0;i--){ if(pt[i].x!==pt[k].x&&pt[i].y!==pt[k].y) k=i+1; nc[i]=k; }
+  for(var ii=len-1;ii>=0;ii--){
+    var ct=[0,0,0,0];
+    var dir=(3+3*(pt[mod(ii+1,len)].x-pt[ii].x)+(pt[mod(ii+1,len)].y-pt[ii].y))/2|0;
+    ct[dir]++;
+    var constraint=[new Point(0,0),new Point(0,0)],cur=new Point(0,0),off=new Point(0,0);
+    var j=nc[ii],i_=ii,limit2=len*len+4;
+    while(limit2-->0){
+      i_=j;
+      dir=(3+3*sign(pt[i_].x-pt[ii].x)+sign(pt[i_].y-pt[ii].y))/2|0;
+      ct[dir]++;
+      if(ct[0]&&ct[1]&&ct[2]&&ct[3]){pivk[ii]=i_;break;}
+      cur.x=pt[i_].x-pt[ii].x; cur.y=pt[i_].y-pt[ii].y;
+      if(xprod(constraint[0],cur)<0||xprod(constraint[1],cur)>0){pivk[ii]=i_;break;}
+      if(Math.abs(cur.x)>1||Math.abs(cur.y)>1){
+        off.x=cur.x+(cur.y>=0&&(cur.y>0||cur.x<0)?1:-1);
+        off.y=cur.y+(cur.x<=0&&(cur.x<0||cur.y<0)?1:-1);
+        if(xprod(constraint[0],off)>=0){constraint[0].x=off.x;constraint[0].y=off.y;}
+        off.x=cur.x+(cur.y<=0&&(cur.y<0||cur.x<0)?1:-1);
+        off.y=cur.y+(cur.x>=0&&(cur.x>0||cur.y<0)?1:-1);
+        if(xprod(constraint[1],off)<=0){constraint[1].x=off.x;constraint[1].y=off.y;}
+      }
+      j=nc[i_];
+      if(!cyclic(j,ii,i_)) break;
+    }
+    lon[ii]=pivk[ii]||mod(i_,len);
+  }
+  path.lon=lon;
+}
+
+function penalty3(path,i,j){
+  var len=path.len,pt=path.pt,sums=path.sums,r=0;
+  if(j>=len){j-=len;r=1;}
+  var x,y,x2,y2,xy,k;
+  if(r===0){x=sums[j+1].x-sums[i].x;y=sums[j+1].y-sums[i].y;x2=sums[j+1].x2-sums[i].x2;xy=sums[j+1].xy-sums[i].xy;y2=sums[j+1].y2-sums[i].y2;k=j+1-i;}
+  else{x=sums[j+1].x-sums[i].x+sums[len].x;y=sums[j+1].y-sums[i].y+sums[len].y;x2=sums[j+1].x2-sums[i].x2+sums[len].x2;xy=sums[j+1].xy-sums[i].xy+sums[len].xy;y2=sums[j+1].y2-sums[i].y2+sums[len].y2;k=j+1-i+len;}
+  var px=(pt[i].x+pt[j].x)/2-pt[0].x,py=(pt[i].y+pt[j].y)/2-pt[0].y;
+  var ey=pt[j].x-pt[i].x,ex=-(pt[j].y-pt[i].y);
+  var a=(x2-2*x*px)/k+px*px,b=(xy-x*py-y*px)/k+px*py,c=(y2-2*y*py)/k+py*py;
+  return Math.sqrt(ex*ex*a+2*ex*ey*b+ey*ey*c);
+}
+
+function bestPolygon(path){
+  var len=path.len,lon=path.lon,pen=new Array(len+1),prev=new Array(len+1);
+  var clip0=new Array(len),clip1=new Array(len+1),seg0=new Array(len+1),seg1=new Array(len+1);
+  for(var i=0;i<len;i++) clip0[i]=mod(lon[mod(i-1,len)]+1-i,len)+i;
+  for(var i=0;i<len;i++) clip1[i+1]=(mod(clip0[mod(i+1,len)]-i,len)>mod(clip0[i]-i,len))?i:clip0[mod(i+1,len)];
+  var j=1; for(var i=0;i<len;i++){seg0[j]=i;if(j<len)j++;} seg1[j]=0;
+  pen[0]=0;
+  for(j=1;j<=len;j++){
+    pen[j]=Infinity;
+    for(var i=seg0[j];i<=clip1[j];i++){
+      var tp=penalty3(path,mod(i,len),mod(j,len))+pen[mod(i,len)];
+      if(tp<pen[j]){pen[j]=tp;prev[j]=i;}
+    }
+  }
+  path.po=[];
+  j=len; var i=len;
+  while(i>0){i=prev[j];path.po.unshift(mod(i,len));j=i;if(j===len)break;}
+}
+
+function adjustVertices(path){
+  var m=path.po.length,len=path.len,pt=path.pt,po=path.po,sums=path.sums,x0=path.x0,y0=path.y0;
+  path.curve={n:m,tag:[],c:[]};
+  var q=new Array(m),s2a=new Array(m);
+  for(var i=0;i<m;i++){
+    var j=po[mod(i+1,m)],jj=mod(j-po[i],len)+po[i],r=0;
+    if(jj>=len){r=1;jj-=len;}
+    var x,y,x2,y2,xy,k2;
+    if(r===0){x=sums[jj+1].x-sums[po[i]].x;y=sums[jj+1].y-sums[po[i]].y;x2=sums[jj+1].x2-sums[po[i]].x2;xy=sums[jj+1].xy-sums[po[i]].xy;y2=sums[jj+1].y2-sums[po[i]].y2;k2=jj+1-po[i];}
+    else{x=sums[jj+1].x-sums[po[i]].x+sums[len].x;y=sums[jj+1].y-sums[po[i]].y+sums[len].y;x2=sums[jj+1].x2-sums[po[i]].x2+sums[len].x2;xy=sums[jj+1].xy-sums[po[i]].xy+sums[len].xy;y2=sums[jj+1].y2-sums[po[i]].y2+sums[len].y2;k2=jj+1-po[i]+len;}
+    var cx=x/k2+x0,cy=y/k2+y0,dx=pt[jj].x-pt[po[i]].x,dy=pt[jj].y-pt[po[i]].y;
+    var det=dx*dx+dy*dy;
+    var Q=new Quad();
+    Q.data[0]=dy*dy/det;Q.data[1]=-dx*dy/det;Q.data[2]=-Q.data[0]*cx-Q.data[1]*cy;
+    Q.data[3]=Q.data[1];Q.data[4]=dx*dx/det;Q.data[5]=-Q.data[3]*cx-Q.data[4]*cy;
+    Q.data[6]=Q.data[2];Q.data[7]=Q.data[5];Q.data[8]=Q.data[0]*cx*cx+2*Q.data[1]*cx*cy+Q.data[4]*cy*cy;
+    q[i]=Q;
+  }
+  for(var i=0;i<m;i++){
+    var Q=q[i].sum(q[mod(i+1,m)]);
+    var s2=Q.at(0,0)*Q.at(1,1)-Q.at(0,1)*Q.at(1,0);
+    var w;
+    if(Math.abs(s2)>1e-10){
+      w=new Point((-Q.at(0,2)*Q.at(1,1)+Q.at(1,2)*Q.at(0,1))/s2,(Q.at(0,2)*Q.at(1,0)-Q.at(1,2)*Q.at(0,0))/s2);
+    } else {
+      var c0=path.po[i],c1=path.po[mod(i+1,m)];
+      w=new Point((pt[c0].x+pt[c1].x)/2,(pt[c0].y+pt[c1].y)/2);
+    }
+    s2a[i]=w;
+  }
+  for(var i=0;i<m;i++){
+    path.curve.c[i*3]=s2a[mod(i-1,m)];
+    path.curve.c[i*3+2]=s2a[i];
+    path.curve.c[i*3+1]=interval(0.5,path.curve.c[i*3],path.curve.c[i*3+2]);
+    path.curve.tag[i]='CURVE';
+  }
+}
+
+function buildSVG(plist,srcW,srcH,plateW,plateH,strokeW){
+  var targetW=plateW*72,targetH=plateH*72;
+  var scale=Math.min(targetW/srcW,targetH/srcH);
+  var offX=(targetW-srcW*scale)/2,offY=(targetH-srcH*scale)/2;
+  var tw=targetW.toFixed(2),th=targetH.toFixed(2);
+  var parts=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+tw+' '+th+
+    '" width="'+tw+'" height="'+th+'" fill="none" stroke="#000000" stroke-width="'+strokeW+
+    '" stroke-linecap="round" stroke-linejoin="round">',
+    '<g transform="translate('+offX.toFixed(3)+','+offY.toFixed(3)+') scale('+scale.toFixed(6)+')">'];
+  for(var i=0;i<plist.length;i++){
+    var c=plist[i].curve;
+    if(!c||!c.n) continue;
+    var d='M '+r(c.c[(c.n-1)*3+2].x)+' '+r(c.c[(c.n-1)*3+2].y);
+    for(var j=0;j<c.n;j++){
+      d+=' C '+r(c.c[j*3].x)+' '+r(c.c[j*3].y)+' '+r(c.c[j*3+1].x)+' '+r(c.c[j*3+1].y)+' '+r(c.c[j*3+2].x)+' '+r(c.c[j*3+2].y);
+    }
+    parts.push('<path d="'+d+' Z"/>');
+  }
+  parts.push('</g></svg>');
+  return parts.join('\n');
+}
+function r(n){return Math.round(n*100)/100;}
+
+self.onmessage=function(e){
+  var msg=e.data;
+  if(msg.type==='ping'){
+    self.postMessage({type:'pong',version:APP_VERSION});
+    return;
+  }
+  if(msg.type==='trace'){
+    try{
+      var data=msg.pixels,w=msg.width,h=msg.height;
+      var opts=msg.opts;
+      self.postMessage({type:'progress',msg:'Thresholding bitmap…',pct:10});
+      var bm=fromImageData(data,w,h,opts.threshold||128);
+      self.postMessage({type:'progress',msg:'Finding contour paths…',pct:25});
+      var plist=findPaths(bm,opts.turdsize||2);
+      self.postMessage({type:'progress',msg:'Computing path sums… ('+plist.length+' paths)',pct:40});
+      for(var i=0;i<plist.length;i++){
+        calcSums(plist[i]);
+        calcLon(plist[i]);
+      }
+      self.postMessage({type:'progress',msg:'Fitting polygons…',pct:60});
+      for(var i=0;i<plist.length;i++) bestPolygon(plist[i]);
+      self.postMessage({type:'progress',msg:'Fitting bezier curves…',pct:80});
+      for(var i=0;i<plist.length;i++) adjustVertices(plist[i]);
+      self.postMessage({type:'progress',msg:'Building SVG…',pct:95});
+      var svg=buildSVG(plist,w,h,opts.plateW,opts.plateH,opts.strokeWidth||1.2);
+      self.postMessage({type:'done',svg:svg});
+    }catch(err){
+      self.postMessage({type:'error',msg:err.message});
+    }
+  }
+};
+</script>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-title">Settings</div>
+    <div class="modal-note">API key stored in session memory only — cleared when tab closes. Never written to disk or sent anywhere except the Anthropic API.</div>
+    <label class="flabel" for="apiKeyInput">Anthropic API Key</label>
+    <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-…" autocomplete="off" spellcheck="false"/>
+    <div class="modal-btns">
+      <button class="btn btn-g" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-v" onclick="saveKey()">Save Key</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+<header>
+  <div class="wordmark">Ding<em>batastic</em></div>
+  <div class="tagline">Letterpress SVG</div>
+  <span class="ver-badge" id="verBadge">v5.0</span>
+  <div class="header-right">
+    <div class="api-badge" id="apiBadge">NO KEY</div>
+    <button class="gear-btn" onclick="openModal()" title="API Key Settings">&#9881;</button>
+  </div>
+</header>
+
+<div class="engine-bar">
+  <span class="engine-label">Engine</span>
+  <div class="toggle-track" onclick="toggleEngine()">
+    <div class="toggle-thumb trace" id="thumb"></div>
+    <div class="toggle-opt active-trace" id="optT"><span class="dot dot-t"></span>Potrace</div>
+    <div class="toggle-opt inactive" id="optV"><span class="dot dot-v"></span>Vision AI</div>
+  </div>
+  <div class="engine-desc" id="engDesc">
+    <strong>Potrace</strong> &mdash; mathematically traces actual image contours. Zero API cost. Runs off-thread — no crashes.
+  </div>
+</div>
+
+<main>
+<div>
+  <div class="panel">
+    <div class="panel-hdr t" id="inHdr">
+      <span class="panel-title">Source Image</span>
+      <span class="dim-badge" id="dimBadge">1.75 x 3 in</span>
+    </div>
+    <div class="panel-body">
+      <label class="flabel">Image Source</label>
+      <div class="drop-zone" id="dz">
+        <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)"/>
+        <div class="drop-icon">&#x2B21;</div>
+        <div class="drop-label">Tap to choose from library, camera, or files</div>
+        <div class="drop-sub">JPEG · PNG · HEIC · WEBP</div>
+      </div>
+      <hr>
+
+      <!-- POTRACE CONTROLS -->
+      <div id="traceCtrl">
+        <label class="flabel" style="margin-bottom:10px">Trace Parameters</label>
+        <div class="srow"><label>Threshold</label>
+          <input type="range" id="sT" min="1" max="255" value="128" oninput="sv('sT','vT');schedule()"/>
+          <span class="sval" id="vT">128</span></div>
+        <div class="srow"><label>Despeckle</label>
+          <input type="range" id="sTu" min="0" max="50" value="2" oninput="sv('sTu','vTu');schedule()"/>
+          <span class="sval" id="vTu">2</span></div>
+        <div class="srow"><label>Corner Angle</label>
+          <input type="range" id="sA" min="0" max="13" value="10" oninput="sv('sA','vA',0.1);schedule()"/>
+          <span class="sval" id="vA">1.0</span></div>
+        <div class="srow"><label>Curve Opt</label>
+          <input type="range" id="sO" min="1" max="20" value="2" oninput="sv('sO','vO',0.1);schedule()"/>
+          <span class="sval" id="vO">0.2</span></div>
+        <div class="srow"><label>Stroke (pt)</label>
+          <input type="range" id="sSt" min="5" max="40" value="12" oninput="sv('sSt','vSt',0.1);applyStroke()"/>
+          <span class="sval" id="vSt">1.2</span></div>
+        <div class="gen-row">
+          <button class="btn btn-t" id="traceBtn" onclick="runTrace()" disabled>Trace Image</button>
+          <div class="spinner sp-t" id="traceSpin"></div>
+        </div>
+        <div class="prog-wrap" id="progWrap"><div class="prog-bar" id="progBar"></div></div>
+      </div>
+
+      <!-- VISION CONTROLS -->
+      <div id="visionCtrl" class="hidden">
+        <div class="cgrid">
+          <div><label class="flabel">Output Style</label>
+            <select class="sel" id="styleMode">
+              <option value="contour">Contour — trace fidelity</option>
+              <option value="crosshatch">Contour + Crosshatch</option>
+              <option value="engraving">Engraving / Woodcut</option>
+              <option value="minimal">Minimal Silhouette</option>
+            </select></div>
+          <div><label class="flabel">Line Weight</label>
+            <select class="sel" id="lineWeight">
+              <option value="fine">Fine (0.5pt)</option>
+              <option value="medium" selected>Medium (1pt)</option>
+              <option value="bold">Bold (1.5pt)</option>
+            </select></div>
+          <div><label class="flabel">Plate Format</label>
+            <select class="sel" id="plateSize" onchange="updateDim()">
+              <option value="1.75x3" selected>1.75 x 3 in</option>
+              <option value="2x3.5">2 x 3.5 in</option>
+              <option value="3x3">3 x 3 in</option>
+              <option value="1.5x2.5">1.5 x 2.5 in</option>
+            </select></div>
+          <div><label class="flabel">Detail Level</label>
+            <select class="sel" id="detail">
+              <option value="spare">Spare</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="rich">Rich</option>
+            </select></div>
+        </div>
+        <div class="gen-row">
+          <button class="btn btn-v" id="visionBtn" onclick="runVision()" disabled>Analyze &amp; Generate</button>
+          <div class="spinner sp-v" id="visionSpin"></div>
+        </div>
+        <div class="tok-row">
+          <div class="tok" id="tokBadge">-- tokens</div>
+          <div class="tok" id="costBadge">-- cost</div>
+        </div>
+      </div>
+
+      <div class="status" id="statusLine">Load an image to begin</div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="panel">
+    <div class="panel-hdr t" id="outHdr">
+      <span class="panel-title" id="outTitle">Trace Output</span>
+      <div style="display:flex;gap:5px"><span class="stag">SVG</span><span class="stag">B&amp;W</span></div>
+    </div>
+    <div class="panel-body">
+      <div class="analysis" id="analysisBox">
+        <span class="alabel">Vision analysis</span>
+        <span id="analysisText"></span>
+      </div>
+      <div class="out-zone bt" id="outZone">
+        <div class="out-ph">
+          <div style="font-size:36px;opacity:.15">&#9672;</div>
+          <p>Output will appear here</p>
+          <span>SVG · BoxCar Press Compatible</span>
+        </div>
+      </div>
+      <div class="spec-tags" id="specTags" style="display:none">
+        <span class="stag tok" id="specEng">&#10003; Potrace</span>
+        <span class="stag ok">&#10003; SVG Vector</span>
+        <span class="stag ok">&#10003; Black Only</span>
+        <span class="stag ok" id="specSz">&#10003; 1.75 x 3 in</span>
+      </div>
+      <div class="dl-row" id="dlRow" style="display:none">
+        <button class="btn btn-t" id="dlBtn" onclick="dlSVG()">Download SVG</button>
+        <button class="btn" onclick="copySVG()">Copy SVG</button>
+        <button class="btn btn-g" onclick="regen()">Regenerate</button>
+      </div>
+      <div class="dbg" id="dbgPanel">
+        <div class="dbg-hdr" onclick="toggleDbg()">
+          <span class="dbg-title">Raw Response Debug</span>
+          <span class="dbg-tog" id="dbgTog">&#9654; show</span>
+        </div>
+        <div class="dbg-body" id="dbgBody"><pre class="dbg-pre" id="dbgText"></pre></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:12px;padding:12px 14px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--paper-dark)">
+    <span class="flabel" style="margin-bottom:6px">BoxCar Press File Prep</span>
+    <div style="font-size:12px;line-height:1.7;color:#666;font-style:italic">
+      Open SVG in Illustrator or Affinity · Expand strokes · Verify 100% K · Export PDF or EPS · Min 0.25pt for 94/95 plates
+    </div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="fn">Dingbatastic &mdash; BoxCar Press Workflow</div>
+  <div class="fn" id="footVer">v5.0 · Worker + Vision AI</div>
+</footer>
+</div>
+
+<canvas id="wc" style="display:none"></canvas>
+
+<script>
+// ── VERSION — bump this with each substantial change ──
+const APP_VERSION = '5.0';
+
+// ── WORKER — instantiated from embedded script tag via Blob URL ──
+let worker = null;
+let workerReady = false;
+
+function initWorker() {
+  try {
+    const src = document.getElementById('worker-src').textContent;
+    const blob = new Blob([src], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    worker = new Worker(url);
+    worker.onmessage = handleWorkerMsg;
+    worker.onerror = function(e) {
+      setStatus('Worker error: ' + e.message, 'err');
+      resetTrace();
+    };
+    // Ping to confirm version match
+    worker.postMessage({ type: 'ping' });
+  } catch(e) {
+    setStatus('Worker init failed: ' + e.message, 'err');
+  }
+}
+
+function handleWorkerMsg(e) {
+  var msg = e.data;
+  if (msg.type === 'pong') {
+    workerReady = true;
+    var match = msg.version === APP_VERSION;
+    document.getElementById('verBadge').textContent = 'v' + APP_VERSION + (match ? '' : ' ⚠ worker mismatch');
+    setStatus('Potrace ready — load an image to begin', 'ok');
+    checkReady();
+    return;
+  }
+  if (msg.type === 'progress') {
+    setStatus(msg.msg, 'info');
+    document.getElementById('progBar').style.width = msg.pct + '%';
+    return;
+  }
+  if (msg.type === 'done') {
+    currentSVG = msg.svg;
+    renderSVG(currentSVG);
+    document.getElementById('specTags').style.display = 'flex';
+    document.getElementById('specEng').textContent = '\u2713 Potrace';
+    document.getElementById('dlRow').style.display = 'flex';
+    setStatus('Contour trace complete \u2014 adjust sliders to refine', 'ok');
+    resetTrace();
+    return;
+  }
+  if (msg.type === 'error') {
+    setStatus('Trace error: ' + msg.msg, 'err');
+    resetTrace();
+  }
+}
+
+function resetTrace() {
+  document.getElementById('traceSpin').classList.remove('on');
+  document.getElementById('traceBtn').disabled = !currentImg;
+  document.getElementById('progWrap').classList.remove('on');
+  document.getElementById('progBar').style.width = '0%';
+}
+
+// ── STATE ──
+let apiKey = '', currentImg = null, currentImgB64 = null, currentImgType = 'image/jpeg';
+let currentSVG = null, currentEngine = 'trace', sessionTok = 0, traceTimer = null;
+
+// ── MODAL ──
+function openModal() {
+  var inp = document.getElementById('apiKeyInput');
+  if (apiKey) inp.value = apiKey;
+  document.getElementById('modal').classList.add('on');
+  setTimeout(() => inp.focus(), 100);
+}
+function closeModal() { document.getElementById('modal').classList.remove('on'); }
+function saveKey() {
+  var val = document.getElementById('apiKeyInput').value.trim();
+  if (!val.startsWith('sk-ant')) { document.getElementById('apiKeyInput').style.borderColor='#8b1a0e'; return; }
+  apiKey = val;
+  sessionStorage.setItem('dingbatastic_key', val);
+  document.getElementById('apiBadge').textContent = 'KEY SET';
+  document.getElementById('apiBadge').className = 'api-badge connected';
+  closeModal(); setStatus('API key saved for this session', 'ok'); checkReady();
+}
+document.getElementById('modal').addEventListener('click', function(e) { if (e.target===this) closeModal(); });
+(function() {
+  var s = sessionStorage.getItem('dingbatastic_key');
+  if (s && s.startsWith('sk-ant')) {
+    apiKey = s;
+    document.getElementById('apiBadge').textContent = 'KEY SET';
+    document.getElementById('apiBadge').className = 'api-badge connected';
+  }
+})();
+
+// ── ENGINE TOGGLE ──
+function toggleEngine() {
+  currentEngine = currentEngine === 'trace' ? 'vision' : 'trace';
+  var t = currentEngine === 'trace';
+  document.getElementById('thumb').className = 'toggle-thumb ' + currentEngine;
+  document.getElementById('optT').className = 'toggle-opt ' + (t ? 'active-trace' : 'inactive');
+  document.getElementById('optV').className = 'toggle-opt ' + (t ? 'inactive' : 'active-vision');
+  document.getElementById('traceCtrl').classList.toggle('hidden', !t);
+  document.getElementById('visionCtrl').classList.toggle('hidden', t);
+  var hc = t ? 't' : 'v';
+  document.getElementById('inHdr').className = 'panel-hdr ' + hc;
+  document.getElementById('outHdr').className = 'panel-hdr ' + hc;
+  document.getElementById('outZone').className = 'out-zone b' + hc;
+  document.getElementById('outTitle').textContent = t ? 'Trace Output' : 'Vision Output';
+  document.getElementById('dlBtn').className = 'btn btn-' + hc;
+  document.getElementById('apiBadge').style.display = t ? 'none' : '';
+  document.getElementById('engDesc').innerHTML = t
+    ? '<strong>Potrace</strong> &mdash; mathematically traces actual image contours. Zero API cost. Runs off-thread &mdash; no crashes.'
+    : '<strong>Vision AI</strong> &mdash; Claude analyzes actual contours and spatial structure from the image, then generates plate-ready SVG informed by what it sees.';
+  setStatus(t ? 'Potrace engine' : 'Vision AI \u2014 API key required via \u2699', '');
+  checkReady();
+}
+
+// ── FILE HANDLING ──
+function handleFile(e) {
+  var file = e.target && e.target.files ? e.target.files[0] : e;
+  if (!file) return;
+  currentImgType = file.type || 'image/jpeg';
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var dataUrl = ev.target.result;
+    currentImgB64 = dataUrl.split(',')[1];
+    currentImg = new Image();
+    currentImg.onload = function() {
+      checkReady();
+      if (currentEngine === 'trace') runTrace();
+    };
+    currentImg.src = dataUrl;
+    var dz = document.getElementById('dz');
+    dz.innerHTML = '<img class="preview-img" src="'+dataUrl+'" alt="Source"/>'
+      + '<input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)" '
+      + 'style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:16px;"/>';
+    setStatus('Image loaded', 'ok');
+  };
+  reader.readAsDataURL(file);
+}
+var dzEl = document.getElementById('dz');
+dzEl.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('drag-over'); });
+dzEl.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+dzEl.addEventListener('drop', function(e) {
+  e.preventDefault(); this.classList.remove('drag-over');
+  var file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) handleFile(file);
+});
+
+// ── SLIDER HELPERS ──
+function sv(sid, vid, scale) {
+  var val = parseFloat(document.getElementById(sid).value);
+  document.getElementById(vid).textContent = scale ? (val*scale).toFixed(1) : val;
+}
+function schedule() { clearTimeout(traceTimer); traceTimer = setTimeout(runTrace, 400); }
+function applyStroke() {
+  if (!currentImg) return;
+  clearTimeout(traceTimer); traceTimer = setTimeout(runTrace, 400);
+}
+
+// ── POTRACE ENGINE (via Worker) ──
+function runTrace() {
+  if (!currentImg || !workerReady) return;
+  document.getElementById('traceSpin').classList.add('on');
+  document.getElementById('traceBtn').disabled = true;
+  document.getElementById('progWrap').classList.add('on');
+  document.getElementById('progBar').style.width = '5%';
+  setStatus('Preparing image for trace\u2026', 'info');
+
+  // Downsample to max 1200px — sufficient for Potrace, keeps Worker fast
+  var MAX = 1200;
+  var srcW = currentImg.naturalWidth, srcH = currentImg.naturalHeight;
+  var sc = Math.min(1, MAX / Math.max(srcW, srcH));
+  var canvas = document.getElementById('wc');
+  canvas.width = Math.round(srcW * sc);
+  canvas.height = Math.round(srcH * sc);
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(currentImg, 0, 0, canvas.width, canvas.height);
+  var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  var pv = document.getElementById('plateSize').value.split('x');
+  var strokeW = parseFloat(document.getElementById('sSt').value) * 0.1;
+
+  // Transfer pixel buffer to worker — zero copy
+  worker.postMessage({
+    type: 'trace',
+    pixels: imgData.data.buffer,
+    width: canvas.width,
+    height: canvas.height,
+    opts: {
+      threshold: parseInt(document.getElementById('sT').value),
+      turdsize: parseInt(document.getElementById('sTu').value),
+      alphamax: parseFloat(document.getElementById('sA').value) * 0.1,
+      opttolerance: parseFloat(document.getElementById('sO').value) * 0.1,
+      strokeWidth: strokeW,
+      plateW: parseFloat(pv[0]),
+      plateH: parseFloat(pv[1])
+    }
+  }, [imgData.data.buffer]); // Transferable — main thread no longer owns this buffer
+}
+
+// ── VISION ENGINE (contour analysis + SVG generation) ──
+function runVision() {
+  if (!apiKey || !currentImgB64) return;
+  var styleMode = document.getElementById('styleMode').value;
+  var lineWeight = document.getElementById('lineWeight').value;
+  var pv = document.getElementById('plateSize').value.split('x');
+  var pw = parseFloat(pv[0]), ph = parseFloat(pv[1]);
+  var viewW = Math.round(pw * 72), viewH = Math.round(ph * 72);
+  var strokeMap = { fine: '1', medium: '1.5', bold: '2.5' };
+  var strokeW = strokeMap[lineWeight];
+
+  var styleMap = {
+    contour: 'contour-faithful: trace the actual visible outlines and major internal edges of the subject as you see them in the image',
+    crosshatch: 'contour outlines with parallel crosshatch lines in shadow and depth areas',
+    engraving: 'bold outlines with parallel line groups suggesting volume, 19th century natural history engraving',
+    minimal: 'single clean silhouette outline only, maximum negative space'
+  };
+
+  setStatus('Sending to Vision AI\u2026', '');
+  document.getElementById('visionSpin').classList.add('on');
+  document.getElementById('visionBtn').disabled = true;
+  document.getElementById('dlRow').style.display = 'none';
+  document.getElementById('specTags').style.display = 'none';
+  document.getElementById('analysisBox').classList.remove('on');
+  document.getElementById('dbgPanel').style.display = 'none';
+
+  // Two-part prompt: Vision analyzes actual spatial structure, then generates SVG from that analysis
+  var systemPrompt = 'You are a printmaker and contour analyst creating letterpress plate art. '
+    + 'You examine images closely and translate their actual spatial structure — outlines, edges, '
+    + 'form boundaries — into SVG line art. Your SVG reflects what you actually see, not a generic '
+    + 'representation of the subject type. '
+    + 'Output format: one <analysis> tag summarizing subject, pose, and dominant contours you observe, '
+    + 'then immediately the SVG. No other text. '
+    + 'SVG rules: viewBox="0 0 '+viewW+' '+viewH+'", fill="none", stroke="#000000" on root element, '
+    + 'stroke-width="'+strokeW+'" minimum, no fills, no gradients, no opacity. '
+    + 'Paths must reflect actual observed contours from the image.';
+
+  var userPrompt = 'Examine this image carefully. Identify the subject\'s actual outline shape, '
+    + 'pose, and the major visible internal features (eyes, limbs, structural edges). '
+    + 'Then generate a '+styleMap[styleMode]+' SVG for a '
+    + pw+'x'+ph+' inch letterpress plate at '+viewW+'x'+viewH+' units. '
+    + 'Your paths should follow the actual contours you observe in the image. '
+    + 'Minimum stroke-width '+strokeW+'. Pure black on white. No fills.';
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8000,
+      system: systemPrompt,
+      messages: [
+        { role: 'user', content: [
+          { type: 'image', source: { type: 'base64', media_type: currentImgType, data: currentImgB64 } },
+          { type: 'text', text: userPrompt }
+        ]},
+        { role: 'assistant', content: '<analysis>' }
+      ]
+    })
+  })
+  .then(r => {
+    if (!r.ok) return r.json().then(e => { throw new Error(e.error ? e.error.message : 'HTTP '+r.status); });
+    return r.json();
+  })
+  .then(data => {
+    updateTok(data.usage);
+    var raw = '<analysis>' + data.content.map(b => b.text || '').join('');
+    var cleaned = raw.replace(/```svg\s*/gi,'').replace(/```xml\s*/gi,'').replace(/```\s*/g,'').trim();
+    showDbg(cleaned);
+    var am = cleaned.match(/<analysis>([\s\S]*?)<\/analysis>/i);
+    if (am) {
+      document.getElementById('analysisText').textContent = am[1].trim();
+      document.getElementById('analysisBox').classList.add('on');
+    }
+    var ss = cleaned.toLowerCase().indexOf('<svg');
+    var se = cleaned.toLowerCase().lastIndexOf('</svg>');
+    if (ss === -1) { setStatus('No SVG returned \u2014 see debug', 'err'); return; }
+    var truncated = se === -1 || se < ss;
+    currentSVG = truncated ? closeTrunc(cleaned.slice(ss)) : cleaned.slice(ss, se+6);
+    renderSVG(currentSVG);
+    document.getElementById('specTags').style.display = 'flex';
+    document.getElementById('specEng').textContent = '\u2713 Vision AI';
+    document.getElementById('specSz').textContent = '\u2713 '+pw+' x '+ph+' in';
+    document.getElementById('dlRow').style.display = 'flex';
+    setStatus(truncated ? 'Partial SVG recovered \u2014 try Spare detail' : 'Vision AI generation complete', truncated ? 'warn' : 'ok');
+  })
+  .catch(err => setStatus('Error: '+err.message, 'err'))
+  .finally(() => {
+    document.getElementById('visionSpin').classList.remove('on');
+    checkReady();
+  });
+}
+
+function closeTrunc(s) {
+  var tags = ['/>', '</path>', '</circle>', '</rect>', '</ellipse>', '</line>', '</g>'];
+  var last = -1;
+  tags.forEach(c => { var i = s.lastIndexOf(c); if (i > last) last = i+c.length; });
+  return (last > 0 ? s.slice(0, last) : s) + '\n</svg>';
+}
+
+// ── RENDER (DOMParser — required for Safari) ──
+function renderSVG(svgStr) {
+  var oz = document.getElementById('outZone');
+  try {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(svgStr, 'image/svg+xml');
+    var pe = doc.querySelector('parsererror');
+    if (pe) throw new Error('Parse: ' + pe.textContent.slice(0, 80));
+    var el = document.adoptNode(doc.documentElement);
+    el.setAttribute('width', '100%'); el.setAttribute('height', '100%');
+    el.style.maxHeight = '400px'; el.style.display = 'block';
+    var wrap = document.createElement('div'); wrap.className = 'svg-wrap';
+    wrap.appendChild(el); oz.innerHTML = ''; oz.appendChild(wrap);
+  } catch(err) { setStatus('SVG render error: '+err.message, 'err'); }
+}
+
+// ── UTILS ──
+function checkReady() {
+  var hasImg = !!currentImg;
+  document.getElementById('traceBtn').disabled = !(hasImg && workerReady);
+  document.getElementById('visionBtn').disabled = !(hasImg && apiKey);
+}
+function setStatus(msg, type) {
+  var el = document.getElementById('statusLine');
+  el.textContent = msg; el.className = 'status' + (type ? ' '+type : '');
+}
+function updateDim() {
+  var v = document.getElementById('plateSize').value.split('x');
+  document.getElementById('dimBadge').textContent = v[0]+' x '+v[1]+' in';
+}
+function updateTok(u) {
+  if (!u) return;
+  var tot = (u.input_tokens||0)+(u.output_tokens||0); sessionTok += tot;
+  var cost = ((u.input_tokens||0)*3+(u.output_tokens||0)*15)/1000000;
+  document.getElementById('tokBadge').textContent = 'this: '+tot.toLocaleString()+' tok';
+  document.getElementById('costBadge').textContent = '$'+cost.toFixed(4);
+  document.getElementById('tokBadge').className = 'tok'+(tot>6000?' warn':'');
+}
+function showDbg(text) {
+  document.getElementById('dbgText').textContent = text.slice(0,1200)+(text.length>1200?'\n...':'');
+  document.getElementById('dbgPanel').style.display = 'block';
+}
+function toggleDbg() {
+  var b = document.getElementById('dbgBody'), l = document.getElementById('dbgTog');
+  var o = b.classList.toggle('on'); l.textContent = o ? '\u25bc hide' : '\u25b6 show';
+}
+function dlSVG() {
+  if (!currentSVG) return;
+  var blob = new Blob([currentSVG], {type:'image/svg+xml'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'dingbatastic_'+currentEngine+'_'+Date.now()+'.svg';
+  a.click(); URL.revokeObjectURL(url);
+  setStatus('SVG downloaded', 'ok');
+}
+function copySVG() {
+  if (!currentSVG) return;
+  navigator.clipboard.writeText(currentSVG)
+    .then(() => setStatus('SVG copied to clipboard', 'ok'))
+    .catch(() => setStatus('Copy failed \u2014 use Download', 'err'));
+}
+function regen() {
+  document.getElementById('outZone').innerHTML =
+    '<div class="out-ph"><div style="font-size:36px;opacity:.15">&#9672;</div><p>Regenerating\u2026</p></div>';
+  if (currentEngine === 'trace') runTrace(); else runVision();
+}
+
+// ── INIT ──
+updateDim();
+initWorker();
+</script>
+</body>
+</html>
