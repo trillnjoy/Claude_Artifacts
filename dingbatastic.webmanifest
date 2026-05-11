@@ -1,0 +1,25 @@
+{
+  "name": "Dingbatastic",
+  "short_name": "Dingbatastic",
+  "description": "Letterpress SVG plate generator — Potrace tracing and Vision AI printmaker brief",
+  "start_url": "./dingbatastic.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f0e8",
+  "theme_color": "#f4f0e8",
+  "icons": [
+    {
+      "src": "Dingbatastic_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "Dingbatastic_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
