@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Chili Cookoff">
+<meta name="theme-color" content="#1a1208">
+<link rel="manifest" href="./chili-cookoff-manifest.json">
+<title>The Great Chili Cookoff</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --parchment: #f5ede0;
+    --parchment-dark: #ede0cc;
+    --amber: #c17f3a;
+    --rust: #9b3a1a;
+    --rust-light: #b84320;
+    --gold: #c4a35a;
+    --smoke: #6b5d4f;
+    --cream: #fdf8f2;
+    --border: #d4b896;
+    --green: #3a7a3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(193,127,58,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(155,58,26,0.06) 0%, transparent 50%);
+    overscroll-behavior: contain;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    padding: 18px 20px 0;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 3px 20px rgba(26,18,8,0.4);
+  }
+  .header-rule { height: 3px; background: linear-gradient(90deg, transparent, var(--amber), var(--rust), var(--amber), transparent); margin-bottom: 12px; }
+  .header h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(20px, 5.5vw, 30px); font-weight: 700; color: var(--parchment); letter-spacing: 0.04em; line-height: 1.1; }
+  .header h1 span { color: var(--amber); font-style: italic; }
+  .header-sub { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin: 5px 0 12px; }
+  .header-rule-bottom { height: 3px; background: linear-gradient(90deg, transparent, var(--amber), var(--rust), var(--amber), transparent); }
+
+  /* ── NAV ── */
+  .tab-nav { background: #120e08; display: flex; border-bottom: 2px solid var(--amber); }
+  .tab-btn { flex: 1; padding: 10px 4px; background: none; border: none; color: var(--smoke); font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 0.2s, background 0.2s; border-right: 1px solid #2a1f10; -webkit-tap-highlight-color: transparent; }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { color: var(--amber); background: rgba(193,127,58,0.12); }
+  .tab-btn .tab-icon { display: block; font-size: 16px; margin-bottom: 2px; }
+
+  /* ── MAIN ── */
+  .main { padding: 18px 14px 100px; max-width: 480px; margin: 0 auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── TYPOGRAPHY ── */
+  .section-heading { font-family: 'DM Sans', sans-serif; font-size: 19px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .section-rule { height: 1px; background: linear-gradient(90deg, var(--amber), var(--border), transparent); margin-bottom: 14px; }
+  .section-sub { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--smoke); font-style: italic; margin-bottom: 14px; }
+
+  /* ── CHILI SETUP CARD ── */
+  .chili-card { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 12px; box-shadow: 2px 2px 8px rgba(26,18,8,0.06); overflow: hidden; }
+  .chili-card-header { display: flex; align-items: center; gap: 8px; padding: 11px 12px; background: rgba(193,127,58,0.12); border-bottom: 1px solid var(--amber); cursor: pointer; }
+  .chili-emoji { font-size: 18px; flex-shrink: 0; }
+  .chili-header-fields { flex: 1; display: flex; flex-direction: row; align-items: center; gap: 6px; min-width: 0; }
+  .chili-field-sep { color: var(--border); font-size: 15px; flex-shrink: 0; }
+  .chili-booth-input { width: 80px; flex-shrink: 0; background: transparent; border: none; border-bottom: 1.5px solid var(--rust); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--rust); outline: none; padding: 3px 4px; }
+  .chili-booth-input::placeholder { color: var(--smoke); opacity: 0.55; font-weight: 400; }
+  .chili-name-input { flex: 1; min-width: 0; background: transparent; border: none; border-bottom: 1.5px solid var(--amber); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--ink); outline: none; padding: 3px 4px; }
+  .chili-name-input::placeholder { color: var(--smoke); opacity: 0.6; font-weight: 400; }
+  .chili-expand-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--smoke); flex-shrink: 0; padding: 2px 4px; transition: transform 0.2s; }
+  .chili-expand-btn.open { transform: rotate(180deg); }
+  .chili-badges { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 12px 10px; }
+  .chili-details { padding: 12px; display: none; flex-direction: column; gap: 11px; }
+  .chili-details.open { display: flex; }
+  .detail-label { font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 700; display: block; margin-bottom: 7px; }
+
+  /* ── PILLS ── */
+  .pill-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill-toggle { padding: 7px 13px; border-radius: 20px; border: 1.5px solid var(--smoke); background: var(--parchment); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
+  .pill-toggle.selected { background: var(--rust); border-color: var(--rust); color: var(--parchment); }
+  .pill-toggle.selected.amber { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+
+  /* ── SPICE ── */
+  .spice-meter { display: flex; gap: 6px; align-items: center; }
+  .spice-pip { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); background: var(--parchment); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
+  .spice-pip.lit { border-color: var(--rust); background: var(--rust); }
+  .spice-label { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); font-weight: 500; margin-left: 6px; }
+
+  /* ── NOTES ── */
+  .notes-input { width: 100%; background: var(--parchment); border: 1.5px solid var(--smoke); border-radius: 2px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--ink); outline: none; resize: none; min-height: 60px; transition: border-color 0.2s; line-height: 1.5; }
+  .notes-input:focus { border-color: var(--amber); }
+  .notes-input::placeholder { color: var(--smoke); opacity: 0.7; font-style: italic; }
+
+  /* ── VOTER/JUDGE ── */
+  .setup-card { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .setup-card label { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); flex-shrink: 0; }
+  .setup-card input { flex: 1; background: var(--parchment); border: none; border-bottom: 1px dashed var(--border); padding: 4px 6px; font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--ink); outline: none; }
+  .setup-card input::placeholder { color: var(--smoke); opacity: 0.55; }
+
+  /* ── SHARE LINK BOX ── */
+  .share-box { background: var(--cream); border: 1.5px solid var(--amber); border-radius: 4px; padding: 14px; margin-bottom: 14px; }
+  .share-box-label { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; display: block; }
+  .share-url { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); word-break: break-all; background: var(--parchment); border: 1px solid var(--border); border-radius: 2px; padding: 8px 10px; display: block; margin-bottom: 10px; line-height: 1.5; }
+
+  /* ── RANKING ── */
+  .voter-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .voter-pill { padding: 7px 13px; border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.08em; border: 1.5px solid var(--border); background: var(--parchment); color: var(--smoke); cursor: pointer; transition: all 0.2s; }
+  .voter-pill.active { background: var(--rust); border-color: var(--rust); color: var(--parchment); }
+  .voter-pill.complete { border-color: var(--amber); color: var(--amber); }
+  .voter-pill.active.complete { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+  .progress-strip { display: flex; gap: 4px; margin-bottom: 14px; }
+  .progress-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+  .progress-dot.done { background: var(--amber); }
+  .progress-dot.active { background: var(--rust); }
+  .voter-label { font-family: 'DM Sans', sans-serif; font-size: 17px; font-style: italic; color: var(--ink); margin-bottom: 4px; }
+  .rank-instruction { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--smoke); margin-bottom: 12px; }
+  .rank-slot { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.18s; -webkit-tap-highlight-color: transparent; }
+  .rank-slot.selected { border-color: var(--amber); background: rgba(193,127,58,0.07); }
+  .rank-slot.ranked { border-color: var(--rust); }
+  .rank-slot-top { display: flex; align-items: center; gap: 10px; }
+  .rank-badge { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; flex-shrink: 0; border: 2px solid var(--border); background: var(--parchment); color: var(--smoke); }
+  .rank-badge.r1 { background: #c4a35a; border-color: #c4a35a; color: var(--ink); }
+  .rank-badge.r2 { background: var(--smoke); border-color: var(--smoke); color: var(--parchment); }
+  .rank-badge.r3 { background: var(--rust); border-color: var(--rust); color: var(--parchment); }
+  .rank-badge.r4, .rank-badge.r5 { background: var(--parchment-dark); border-color: var(--border); color: var(--smoke); }
+  .rank-chili-info { flex: 1; min-width: 0; }
+  .rank-chili-name { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .rank-chili-meta { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); font-style: italic; margin-top: 2px; }
+  .rank-points { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); flex-shrink: 0; }
+  .rank-selector-panel { background: var(--parchment-dark); border: 1px solid var(--border); border-radius: 4px; padding: 10px; margin-top: -4px; margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .rank-option-btn { flex: 1; min-width: 55px; padding: 8px 4px; background: var(--parchment); border: 1px solid var(--border); border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; text-align: center; color: var(--smoke); -webkit-tap-highlight-color: transparent; }
+  .rank-option-btn:hover, .rank-option-btn:active { background: var(--amber); color: var(--parchment); border-color: var(--amber); }
+  .rank-option-btn.taken { opacity: 0.3; pointer-events: none; }
+  .rank-option-btn.current { background: var(--rust); color: var(--parchment); border-color: var(--rust); }
+
+  /* ── JUDGE MODE ENTRY ── */
+  .judge-name-card { background: var(--cream); border: 1.5px solid var(--amber); border-radius: 4px; padding: 16px; margin-bottom: 16px; }
+  .judge-name-card label { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 8px; }
+  .judge-name-input { width: 100%; background: var(--parchment); border: 1.5px solid var(--smoke); border-radius: 2px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); outline: none; transition: border-color 0.2s; }
+  .judge-name-input:focus { border-color: var(--amber); }
+  .judge-name-input::placeholder { color: var(--smoke); opacity: 0.5; font-weight: 400; }
+
+  /* ── SEND RESULTS ── */
+  .send-results-card { background: var(--cream); border: 2px solid var(--green); border-radius: 4px; padding: 16px; margin-top: 16px; }
+  .send-results-card p { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--smoke); font-style: italic; margin-bottom: 12px; }
+  .json-preview { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--smoke); background: var(--parchment); border: 1px solid var(--border); border-radius: 2px; padding: 8px; word-break: break-all; line-height: 1.5; margin-bottom: 12px; max-height: 80px; overflow-y: auto; }
+
+  /* ── RESULTS ── */
+  .results-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+  .results-table th { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--amber); background: rgba(193,127,58,0.06); }
+  .results-table th:last-child { text-align: right; }
+  .results-table td { padding: 10px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .results-table tr:last-child td { border-bottom: none; }
+  .results-table tr.podium-1 { background: rgba(196,163,90,0.1); }
+  .results-table tr.podium-2 { background: rgba(107,93,79,0.06); }
+  .results-table tr.podium-3 { background: rgba(155,58,26,0.06); }
+  .place-medal { font-size: 20px; }
+  .result-name { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .result-meta { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); font-style: italic; margin-top: 2px; }
+  .result-notes-line { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); font-style: italic; margin-top: 3px; border-left: 2px solid var(--amber); padding-left: 6px; }
+  .result-score { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; text-align: right; color: var(--rust); }
+  .result-votes { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); font-style: italic; margin-top: 2px; }
+  .result-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+  .result-bar-fill { height: 100%; background: linear-gradient(90deg, var(--rust), var(--amber)); border-radius: 2px; }
+  .breakdown-card { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 12px; margin-bottom: 10px; }
+  .breakdown-voter { font-family: 'DM Sans', sans-serif; font-size: 13px; font-style: italic; color: var(--smoke); margin-bottom: 7px; border-bottom: 1px dashed var(--border); padding-bottom: 5px; }
+  .breakdown-row { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--smoke); padding: 3px 0; gap: 8px; }
+  .breakdown-row .rank-label { color: var(--amber); flex-shrink: 0; }
+  .breakdown-row .chili-col { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ── IMPORT ── */
+  .import-paste-area { width: 100%; background: var(--parchment); border: 1.5px solid var(--smoke); border-radius: 3px; padding: 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); outline: none; resize: none; min-height: 80px; line-height: 1.5; transition: border-color 0.2s; }
+  .import-paste-area:focus { border-color: var(--amber); }
+  .import-paste-area::placeholder { color: var(--smoke); opacity: 0.6; }
+  .ballot-chip { display: flex; align-items: center; justify-content: space-between; background: var(--cream); border: 1px solid var(--border); border-radius: 3px; padding: 10px 12px; margin-bottom: 8px; }
+  .ballot-chip-name { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .ballot-chip-meta { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--smoke); }
+  .ballot-chip-remove { background: none; border: none; font-size: 18px; color: var(--border); cursor: pointer; padding: 0 2px; line-height: 1; -webkit-tap-highlight-color: transparent; }
+  .ballot-chip-remove:hover { color: var(--rust); }
+  .import-count { font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
+
+  /* ── BADGES ── */
+  .badge { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 12px; border: 1px solid var(--border); color: var(--smoke); background: var(--parchment); }
+  .badge.spice { border-color: var(--rust); color: var(--rust); background: rgba(155,58,26,0.07); }
+  .badge.meat { border-color: var(--amber); color: var(--amber); background: rgba(193,127,58,0.07); }
+
+  /* ── BUTTONS ── */
+  .btn-primary { display: block; width: 100%; padding: 13px; background: var(--rust); color: var(--parchment); border: none; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; margin-bottom: 10px; -webkit-tap-highlight-color: transparent; }
+  .btn-primary:hover { background: var(--rust-light); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary.green { background: var(--green); }
+  .btn-primary.green:hover { background: #4a9a4a; }
+  .btn-ghost { display: block; width: 100%; padding: 11px; background: transparent; color: var(--smoke); border: 1px solid var(--border); border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-bottom: 10px; -webkit-tap-highlight-color: transparent; }
+  .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+  .btn-amber { display: block; width: 100%; padding: 13px; background: var(--amber); color: var(--ink); border: none; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; margin-bottom: 10px; font-weight: 700; -webkit-tap-highlight-color: transparent; }
+
+  /* ── MISC ── */
+  .ornament { text-align: center; font-family: 'DM Sans', sans-serif; color: var(--gold); font-size: 16px; letter-spacing: 0.4em; margin: 14px 0; opacity: 0.5; }
+  .empty-state { text-align: center; padding: 36px 20px; color: var(--smoke); font-style: italic; font-family: 'DM Sans', sans-serif; }
+  .empty-state .empty-icon { font-size: 44px; margin-bottom: 10px; }
+  .info-box { background: rgba(193,127,58,0.08); border: 1px solid rgba(193,127,58,0.3); border-radius: 3px; padding: 10px 13px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--smoke); font-style: italic; margin-bottom: 14px; line-height: 1.6; }
+  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--amber); font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.1em; padding: 10px 20px; border-radius: 3px; border: 1px solid var(--amber); opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 500; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--parchment-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-rule"></div>
+  <h1>The Great <span>Chili</span> Cookoff</h1>
+  <div class="header-sub">Ranked Choice Scorekeeper</div>
+  <div class="header-rule-bottom"></div>
+  <div class="tab-nav">
+    <button class="tab-btn active" id="tab-setup" onclick="showTab('setup')">
+      <span class="tab-icon">⚙️</span>Setup
+    </button>
+    <button class="tab-btn" id="tab-judge" onclick="showTab('judge')">
+      <span class="tab-icon">🗳️</span>Judge
+    </button>
+    <button class="tab-btn" id="tab-import" onclick="showTab('import')">
+      <span class="tab-icon">📥</span>Import
+    </button>
+    <button class="tab-btn" id="tab-results" onclick="showTab('results')">
+      <span class="tab-icon">🏆</span>Results
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="main">
+
+  <!-- ═══ SETUP ═══ -->
+  <div class="panel active" id="panel-setup">
+    <div class="section-heading">The Contenders</div>
+    <div class="section-rule"></div>
+    <p class="section-sub">Enter each booth's number and organization, then fill in the details.</p>
+    <div id="chili-cards"></div>
+    <div class="ornament">✦ ✦ ✦</div>
+    <div class="section-heading" style="margin-top:4px;">Share with Judges</div>
+    <div class="section-rule"></div>
+    <p class="section-sub">Generates a link with all entries pre-loaded. Send it to each judge.</p>
+    <div class="share-box" id="share-box" style="display:none;">
+      <span class="share-box-label">Judge Link</span>
+      <span class="share-url" id="share-url-display"></span>
+      <button class="btn-amber" onclick="copyShareLink()">📋 Copy Link</button>
+    </div>
+    <button class="btn-primary" onclick="generateShareLink()">Generate Judge Link →</button>
+    <button class="btn-ghost" onclick="resetSetup()">↺ Clear All Entries</button>
+  </div>
+
+  <!-- ═══ JUDGE ═══ -->
+  <div class="panel" id="panel-judge">
+    <div class="section-heading">Cast Your Ballot</div>
+    <div class="section-rule"></div>
+
+    <div id="judge-no-entries" style="display:none;">
+      <div class="info-box">No entries loaded. Ask the organizer to send you the judge link, or have them set up entries on the Setup tab first.</div>
+    </div>
+
+    <div id="judge-entry-ui">
+      <div class="judge-name-card">
+        <label>Your Name</label>
+        <input class="judge-name-input" id="judge-name-input" type="text" inputmode="text"
+          enterkeyhint="done" placeholder="Enter your name…"
+          oninput="judgeState.name=this.value.trim(); updateSendButton()">
+      </div>
+      <p class="section-sub">Rank the chilis from best to last. Tap an entry to assign its rank.</p>
+      <div id="judge-ranking-ui"></div>
+      <div id="send-results-section" style="display:none;">
+        <div class="send-results-card">
+          <p>Your ballot is complete. Tap below to open Messages and send your rankings to the organizer.</p>
+          <div class="json-preview" id="json-preview"></div>
+          <button class="btn-primary green" onclick="sendResultsText()">💬 Send Results via Text</button>
+          <button class="btn-ghost" onclick="copyJsonOnly()">📋 Copy JSON</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ IMPORT ═══ -->
+  <div class="panel" id="panel-import">
+    <div class="section-heading">Import Ballots</div>
+    <div class="section-rule"></div>
+    <p class="section-sub">Paste each judge's JSON text message below and tap Add. Repeat for all judges.</p>
+
+    <div style="margin-bottom:10px;">
+      <textarea class="import-paste-area" id="import-paste" rows="4"
+        placeholder='Paste judge JSON here… e.g. {"judge":"Maria","v":[2,0,4,1,3]}'></textarea>
+    </div>
+    <button class="btn-primary" onclick="importBallot()">+ Add Ballot</button>
+
+    <div id="imported-ballots-section" style="display:none;">
+      <div class="ornament">✦ ✦ ✦</div>
+      <div class="section-heading" style="margin-bottom:4px;">Ballots Received</div>
+      <div class="section-rule"></div>
+      <div class="import-count" id="import-count"></div>
+      <div id="ballot-chips"></div>
+      <button class="btn-amber" onclick="showTab('results')">View Live Results 🏆</button>
+    </div>
+
+    <div class="ornament">✦ ✦ ✦</div>
+    <div class="section-heading" style="margin-bottom:4px;">Entry List</div>
+    <div class="section-rule"></div>
+    <p class="section-sub">Entries currently loaded for scoring.</p>
+    <div id="import-entry-list"></div>
+  </div>
+
+  <!-- ═══ RESULTS ═══ -->
+  <div class="panel" id="panel-results">
+    <div class="section-heading">The Verdict</div>
+    <div class="section-rule"></div>
+    <p class="section-sub" id="results-sub"></p>
+    <div id="results-content"></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────
+const ORGANIZER_PHONE = '7145522094';
+const CHILI_EMOJIS = ['🌶️','🔥','🫕','🍲','🥣'];
+const RANKS = ['1st','2nd','3rd','4th','5th'];
+const MEDALS = ['🥇','🥈','🥉','4th','5th'];
+const POINTS = [5,4,3,2,1];
+const SPICE_LABELS = ['Mild','Medium','Hot','Fiery','Inferno'];
+const SPICE_EMOJIS = ['🧊','🫑','🌶️','🔥','💀'];
+const MEAT_OPTIONS = ['Beef','Pork','Chicken','Turkey','Lamb','Venison','Meatless'];
+const BEAN_OPTIONS  = ['Black','Kidney','Pinto','White','No Beans'];
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+// Setup state: the organizer's entry list
+let setupState = {
+  chilis: Array.from({length:5}, () => ({ booth:'', org:'', spice:0, meat:[], beans:[], notes:'' })),
+  expandedCards: new Set([0])
+};
+
+// Judge state: single judge's session
+let judgeState = {
+  name: '',
+  ranking: [],   // indices into setupState.chilis, ordered best→worst
+  activeChili: null
+};
+
+// Import state: accumulated ballots from text messages
+let importState = {
+  ballots: []    // [{judge, v:[chiliIdx ordered best→worst]}]
+};
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+function init() {
+  loadFromStorage();
+  checkHashForEntries();
+  renderChiliCards();
+  renderImportEntryList();
+  if (setupState.chilis.filter(c=>c.booth||c.org).length > 0) {
+    renderJudgePanel();
+  }
+}
+
+function loadFromStorage() {
+  try {
+    const s = localStorage.getItem('chili_setup');
+    if (s) {
+      const parsed = JSON.parse(s);
+      if (parsed.chilis) setupState.chilis = parsed.chilis;
+    }
+    const b = localStorage.getItem('chili_ballots');
+    if (b) importState.ballots = JSON.parse(b);
+  } catch(e) {}
+}
+
+function saveSetupToStorage() {
+  try { localStorage.setItem('chili_setup', JSON.stringify({ chilis: setupState.chilis })); } catch(e) {}
+}
+
+function saveBallotsToStorage() {
+  try { localStorage.setItem('chili_ballots', JSON.stringify(importState.ballots)); } catch(e) {}
+}
+
+// ─────────────────────────────────────────────
+// HASH-BASED ENTRY SHARING
+// ─────────────────────────────────────────────
+function generateShareLink() {
+  // Sync DOM values first
+  syncChiliInputsFromDOM();
+  const entries = setupState.chilis.filter(c => c.booth || c.org);
+  if (entries.length < 2) { showToast('Enter at least 2 entries first'); return; }
+  saveSetupToStorage();
+
+  const payload = entries.map(c => ({
+    b: c.booth,
+    o: c.org,
+    s: c.spice,
+    m: c.meat,
+    k: c.beans,
+    n: c.notes
+  }));
+  const encoded = btoa(encodeURIComponent(JSON.stringify(payload)));
+  const url = `${location.origin}${location.pathname}#entries=${encoded}`;
+
+  document.getElementById('share-url-display').textContent = url;
+  document.getElementById('share-box').style.display = 'block';
+  document.getElementById('share-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyShareLink() {
+  const url = document.getElementById('share-url-display').textContent;
+  navigator.clipboard.writeText(url).then(() => showToast('Link copied!')).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('Link copied!');
+  });
+}
+
+function checkHashForEntries() {
+  const hash = location.hash;
+  if (!hash.startsWith('#entries=')) return;
+  try {
+    const encoded = hash.slice('#entries='.length);
+    const payload = JSON.parse(decodeURIComponent(atob(encoded)));
+    const loaded = payload.map(p => ({
+      booth: p.b || '', org: p.o || '', spice: p.s || 0,
+      meat: p.m || [], beans: p.k || [], notes: p.n || ''
+    }));
+    // Pad to 5
+    while (loaded.length < 5) loaded.push({ booth:'', org:'', spice:0, meat:[], beans:[], notes:'' });
+    setupState.chilis = loaded;
+    saveSetupToStorage();
+    // Auto-switch to Judge tab
+    showTab('judge');
+  } catch(e) {
+    console.warn('Failed to parse hash entries', e);
+  }
+}
+
+// ─────────────────────────────────────────────
+// SETUP — RENDER CHILI CARDS
+// ─────────────────────────────────────────────
+function syncChiliInputsFromDOM() {
+  document.querySelectorAll('.chili-booth-input').forEach((el, i) => {
+    if (i < setupState.chilis.length) setupState.chilis[i].booth = el.value.trim();
+  });
+  document.querySelectorAll('.chili-name-input').forEach((el, i) => {
+    if (i < setupState.chilis.length) setupState.chilis[i].org = el.value.trim();
+  });
+}
+
+function renderChiliCards() {
+  const el = document.getElementById('chili-cards');
+  el.innerHTML = setupState.chilis.map((chili, i) => {
+    const isOpen = setupState.expandedCards.has(i);
+    const spiceLabel = chili.spice > 0 ? SPICE_LABELS[chili.spice-1] : '';
+
+    let pips = '';
+    for (let p = 1; p <= 5; p++) {
+      pips += `<div class="spice-pip${p <= chili.spice ? ' lit':''}" onclick="setSpice(${i},${p});event.stopPropagation();">${p <= chili.spice ? '🌶️':''}</div>`;
+    }
+    const spiceTxt = chili.spice > 0
+      ? `<span class="spice-label">${SPICE_EMOJIS[chili.spice-1]} ${SPICE_LABELS[chili.spice-1]}</span>`
+      : `<span class="spice-label">Tap to rate</span>`;
+
+    const meatPills = MEAT_OPTIONS.map(m => {
+      const sel = chili.meat.includes(m);
+      return `<button class="pill-toggle${sel?' selected amber':''}" onclick="toggleMeat(${i},'${m}')">${m}</button>`;
+    }).join('');
+
+    const beanPills = BEAN_OPTIONS.map(b => {
+      const sel = chili.beans.includes(b);
+      return `<button class="pill-toggle${sel?' selected':''}" onclick="toggleBean(${i},'${b}')">${b}</button>`;
+    }).join('');
+
+    let badgesHtml = '';
+    if (!isOpen && (chili.org || spiceLabel || chili.meat.length || chili.beans.length || chili.notes)) {
+      badgesHtml = '<div class="chili-badges">';
+      if (chili.org) badgesHtml += `<span class="badge" style="color:var(--ink);border-color:var(--amber);">${chili.org}</span>`;
+      if (spiceLabel) badgesHtml += `<span class="badge spice">${SPICE_EMOJIS[chili.spice-1]} ${spiceLabel}</span>`;
+      if (chili.meat.length) badgesHtml += `<span class="badge meat">${chili.meat.join('/')}</span>`;
+      if (chili.notes) badgesHtml += `<span class="badge">📝</span>`;
+      badgesHtml += '</div>';
+    }
+
+    return `
+    <div class="chili-card">
+      <div class="chili-card-header" onclick="toggleCard(${i})">
+        <span class="chili-emoji">${CHILI_EMOJIS[i]}</span>
+        <div class="chili-header-fields">
+          <input class="chili-booth-input" type="text" inputmode="text" enterkeyhint="next"
+            placeholder="Booth #" value="${chili.booth}"
+            onchange="setupState.chilis[${i}].booth=this.value.trim();saveSetupToStorage()"
+            oninput="setupState.chilis[${i}].booth=this.value.trim()"
+            onclick="event.stopPropagation()" style="font-size:16px;">
+          <span class="chili-field-sep">·</span>
+          <input class="chili-name-input" type="text" inputmode="text" enterkeyhint="next"
+            placeholder="Organization…" value="${chili.org}"
+            onchange="setupState.chilis[${i}].org=this.value.trim();saveSetupToStorage()"
+            oninput="setupState.chilis[${i}].org=this.value.trim()"
+            onclick="event.stopPropagation()" style="font-size:16px;">
+        </div>
+        <button class="chili-expand-btn${isOpen?' open':''}" onclick="toggleCard(${i});event.stopPropagation()">▾</button>
+      </div>
+      ${badgesHtml}
+      <div class="chili-details${isOpen?' open':''}" id="chili-details-${i}">
+        <div>
+          <span class="detail-label">🌶 Spice Level</span>
+          <div class="spice-meter">${pips}${spiceTxt}</div>
+        </div>
+        <div>
+          <span class="detail-label">🥩 Protein</span>
+          <div class="pill-group">${meatPills}</div>
+        </div>
+        <div>
+          <span class="detail-label">🫘 Beans</span>
+          <div class="pill-group">${beanPills}</div>
+        </div>
+        <div>
+          <span class="detail-label">📝 Tasting Notes</span>
+          <textarea class="notes-input" rows="2"
+            placeholder="e.g. smoky finish, secret ingredient, grandma's recipe…"
+            onchange="setupState.chilis[${i}].notes=this.value;saveSetupToStorage()"
+            oninput="setupState.chilis[${i}].notes=this.value"
+          >${chili.notes}</textarea>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(i) {
+  if (setupState.expandedCards.has(i)) setupState.expandedCards.delete(i);
+  else setupState.expandedCards.add(i);
+  renderChiliCards();
+}
+function setSpice(i, level) {
+  setupState.chilis[i].spice = setupState.chilis[i].spice === level ? 0 : level;
+  saveSetupToStorage();
+  renderChiliCards();
+}
+function toggleMeat(i, m) {
+  const arr = setupState.chilis[i].meat;
+  const idx = arr.indexOf(m);
+  if (idx === -1) arr.push(m); else arr.splice(idx,1);
+  saveSetupToStorage();
+  renderChiliCards();
+}
+function toggleBean(i, b) {
+  const arr = setupState.chilis[i].beans;
+  const idx = arr.indexOf(b);
+  if (idx === -1) arr.push(b); else arr.splice(idx,1);
+  saveSetupToStorage();
+  renderChiliCards();
+}
+function resetSetup() {
+  if (!confirm('Clear all entries?')) return;
+  setupState.chilis = Array.from({length:5}, () => ({ booth:'', org:'', spice:0, meat:[], beans:[], notes:'' }));
+  setupState.expandedCards = new Set([0]);
+  saveSetupToStorage();
+  document.getElementById('share-box').style.display = 'none';
+  renderChiliCards();
+}
+
+// ─────────────────────────────────────────────
+// JUDGE PANEL
+// ─────────────────────────────────────────────
+function getValidChilis() {
+  return setupState.chilis.filter(c => c.booth || c.org);
+}
+
+function renderJudgePanel() {
+  const chilis = getValidChilis();
+  const noEntriesEl = document.getElementById('judge-no-entries');
+  const entryUiEl = document.getElementById('judge-entry-ui');
+
+  if (chilis.length === 0) {
+    noEntriesEl.style.display = '';
+    entryUiEl.style.display = 'none';
+    return;
+  }
+  noEntriesEl.style.display = 'none';
+  entryUiEl.style.display = '';
+
+  renderJudgeRankingUI();
+  updateSendButton();
+}
+
+function renderJudgeRankingUI() {
+  const chilis = getValidChilis();
+  const ranking = judgeState.ranking; // array of chiliIdx in rank order
+  const n = chilis.length;
+
+  let slots = [];
+  for (let r = 0; r < n; r++) {
+    if (ranking[r] !== undefined) slots.push({ ci: ranking[r], rank: r, hasRank: true });
+  }
+  chilis.forEach((c, ci) => {
+    if (ranking.indexOf(ci) === -1) slots.push({ ci, rank: -1, hasRank: false });
+  });
+
+  let html = `<div class="rank-instruction">Tap an entry to assign its rank</div>`;
+
+  slots.forEach(({ ci, rank, hasRank }) => {
+    const isOpen = judgeState.activeChili === ci;
+    const chili = chilis[ci];
+    const badgeCls = hasRank ? `rank-badge r${rank+1}` : 'rank-badge';
+    const badgeLabel = hasRank ? RANKS[rank] : '—';
+    const pts = hasRank ? POINTS[rank] : '';
+    const slotCls = 'rank-slot' + (isOpen?' selected':'') + (hasRank?' ranked':'');
+    const meta = buildMeta(chili);
+
+    html += `<div class="${slotCls}" onclick="judgeToggleChili(${ci})">
+      <div class="rank-slot-top">
+        <div class="${badgeCls}">${badgeLabel}</div>
+        <div class="rank-chili-info">
+          <div class="rank-chili-name">${chiliLabel(chili)}</div>
+          ${meta ? `<div class="rank-chili-meta">${meta}</div>` : ''}
+        </div>
+        ${pts ? `<div class="rank-points">${pts}pt</div>` : ''}
+      </div>
+      ${chili.notes ? `<div style="margin-top:5px;padding-top:5px;border-top:1px dashed var(--border);font-family:'DM Sans',sans-serif;font-size:11px;color:var(--smoke);font-style:italic;">"${chili.notes}"</div>` : ''}
+    </div>`;
+
+    if (isOpen) {
+      html += `<div class="rank-selector-panel">`;
+      for (let r = 0; r < n; r++) {
+        const isTaken = ranking[r] !== undefined && ranking[r] !== ci;
+        const isCurrent = ranking[r] === ci;
+        let btnCls = 'rank-option-btn';
+        if (isTaken) btnCls += ' taken';
+        if (isCurrent) btnCls += ' current';
+        html += `<button class="${btnCls}" onclick="judgeAssignRank(${ci},${r})">${RANKS[r]}</button>`;
+      }
+      html += `</div>`;
+    }
+  });
+
+  document.getElementById('judge-ranking-ui').innerHTML = html;
+}
+
+function judgeToggleChili(ci) {
+  judgeState.activeChili = judgeState.activeChili === ci ? null : ci;
+  renderJudgeRankingUI();
+}
+
+function judgeAssignRank(ci, rankIdx) {
+  let r = judgeState.ranking;
+  const oldPos = r.indexOf(ci);
+  if (oldPos !== -1) r.splice(oldPos, 1);
+  if (r[rankIdx] !== undefined) r.splice(rankIdx, 1);
+  r.splice(rankIdx, 0, ci);
+  judgeState.activeChili = null;
+  renderJudgeRankingUI();
+  updateSendButton();
+}
+
+function updateSendButton() {
+  const chilis = getValidChilis();
+  const complete = judgeState.ranking.length === chilis.length;
+  const hasName = judgeState.name.trim().length > 0;
+  const sendSection = document.getElementById('send-results-section');
+
+  if (complete && hasName) {
+    sendSection.style.display = '';
+    const payload = buildJudgePayload();
+    document.getElementById('json-preview').textContent = JSON.stringify(payload);
+  } else {
+    sendSection.style.display = 'none';
+  }
+}
+
+function buildJudgePayload() {
+  const chilis = getValidChilis();
+  // v = array of chiliIdx ordered best→worst
+  return {
+    judge: judgeState.name.trim(),
+    ts: new Date().toISOString(),
+    v: judgeState.ranking,
+    entries: chilis.map((c,i) => ({ i, b: c.booth, o: c.org }))
+  };
+}
+
+function sendResultsText() {
+  const payload = buildJudgePayload();
+  const json = JSON.stringify(payload);
+  const msg = encodeURIComponent(`CHILI VOTE: ${json}`);
+  const url = `sms:${ORGANIZER_PHONE}&body=${msg}`;
+  window.location.href = url;
+}
+
+function copyJsonOnly() {
+  const json = JSON.stringify(buildJudgePayload());
+  navigator.clipboard.writeText(json).then(() => showToast('JSON copied!')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = json; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('JSON copied!');
+  });
+}
+
+// ─────────────────────────────────────────────
+// IMPORT PANEL
+// ─────────────────────────────────────────────
+function importBallot() {
+  const raw = document.getElementById('import-paste').value.trim();
+  if (!raw) { showToast('Paste a JSON ballot first'); return; }
+
+  // Strip "CHILI VOTE: " prefix if present
+  const jsonStr = raw.startsWith('CHILI VOTE:') ? raw.slice('CHILI VOTE:'.length).trim() : raw;
+
+  let ballot;
+  try {
+    ballot = JSON.parse(jsonStr);
+  } catch(e) {
+    showToast('Could not parse JSON — check the text');
+    return;
+  }
+
+  if (!ballot.judge || !Array.isArray(ballot.v)) {
+    showToast('Invalid ballot format');
+    return;
+  }
+
+  // Check for duplicate judge
+  const dup = importState.ballots.findIndex(b => b.judge.toLowerCase() === ballot.judge.toLowerCase());
+  if (dup !== -1) {
+    if (!confirm(`A ballot from "${ballot.judge}" already exists. Replace it?`)) return;
+    importState.ballots.splice(dup, 1);
+  }
+
+  // If we don't have entries loaded yet, load them from the ballot's entries field
+  const validChilis = getValidChilis();
+  if (validChilis.length === 0 && ballot.entries && ballot.entries.length > 0) {
+    // Reconstruct minimal entries from the ballot
+    ballot.entries.forEach((e, i) => {
+      if (i < setupState.chilis.length) {
+        setupState.chilis[i].booth = e.b || '';
+        setupState.chilis[i].org = e.o || '';
+      }
+    });
+    saveSetupToStorage();
+    renderChiliCards();
+    renderImportEntryList();
+  }
+
+  importState.ballots.push({ judge: ballot.judge, ts: ballot.ts, v: ballot.v });
+  saveBallotsToStorage();
+
+  document.getElementById('import-paste').value = '';
+  renderImportPanel();
+  showToast(`Ballot from ${ballot.judge} added ✓`);
+}
+
+function removeBallot(idx) {
+  importState.ballots.splice(idx, 1);
+  saveBallotsToStorage();
+  renderImportPanel();
+}
+
+function renderImportPanel() {
+  const ballots = importState.ballots;
+  const section = document.getElementById('imported-ballots-section');
+
+  if (ballots.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  document.getElementById('import-count').textContent = `${ballots.length} ballot${ballots.length !== 1 ? 's':''} received`;
+
+  document.getElementById('ballot-chips').innerHTML = ballots.map((b, i) => {
+    const ts = b.ts ? new Date(b.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
+    return `<div class="ballot-chip">
+      <div>
+        <div class="ballot-chip-name">${b.judge}</div>
+        ${ts ? `<div class="ballot-chip-meta">${ts}</div>` : ''}
+      </div>
+      <button class="ballot-chip-remove" onclick="removeBallot(${i})">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function renderImportEntryList() {
+  const chilis = getValidChilis();
+  const el = document.getElementById('import-entry-list');
+  if (chilis.length === 0) {
+    el.innerHTML = `<div class="empty-state" style="padding:20px 0;"><div class="empty-icon">🌶️</div><p>No entries yet. Open the Setup tab or receive a ballot with entry data.</p></div>`;
+    return;
+  }
+  el.innerHTML = chilis.map((c, i) => {
+    const meta = buildMeta(c);
+    return `<div class="breakdown-card" style="margin-bottom:8px;">
+      <div class="breakdown-voter">${CHILI_EMOJIS[i]} ${chiliLabel(c)}</div>
+      ${meta ? `<div style="font-family:'DM Sans',sans-serif;font-size:12px;color:var(--smoke);font-style:italic;">${meta}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// RESULTS
+// ─────────────────────────────────────────────
+function renderResults() {
+  const chilis = getValidChilis();
+  const ballots = importState.ballots;
+  const n = chilis.length;
+
+  document.getElementById('results-sub').textContent =
+    `${ballots.length} ballot${ballots.length!==1?'s':''} tallied. Borda count — 1st = ${POINTS[0]}pts down to ${n}th = ${n > 1 ? POINTS[n-1] : 1}pt.`;
+
+  if (ballots.length === 0) {
+    document.getElementById('results-content').innerHTML = `<div class="empty-state"><div class="empty-icon">🌶️</div><p>No ballots imported yet. Head to the Import tab.</p></div>`;
+    return;
+  }
+  if (n === 0) {
+    document.getElementById('results-content').innerHTML = `<div class="empty-state"><div class="empty-icon">⚙️</div><p>No entries loaded. Set up entries on the Setup tab.</p></div>`;
+    return;
+  }
+
+  const scores = new Array(n).fill(0);
+  const voteCounts = new Array(n).fill(0).map(() => []);
+
+  ballots.forEach(ballot => {
+    ballot.v.forEach((chiliIdx, rankPos) => {
+      if (chiliIdx < n && rankPos < POINTS.length) {
+        scores[chiliIdx] += POINTS[rankPos];
+        voteCounts[chiliIdx].push({ judge: ballot.judge, rank: rankPos });
+      }
+    });
+  });
+
+  const sorted = chilis.map((chili, i) => ({ chili, idx: i, score: scores[i], votes: voteCounts[i] }))
+    .sort((a, b) => b.score - a.score);
+
+  const maxScore = sorted[0]?.score || 1;
+
+  let html = `<table class="results-table">
+    <thead><tr><th>#</th><th>Entry</th><th>Score</th></tr></thead><tbody>`;
+
+  sorted.forEach(({ chili, idx, score, votes }, place) => {
+    const pct = (score / maxScore * 100).toFixed(1);
+    const podiumCls = place < 3 ? ` podium-${place+1}` : '';
+    const medal = MEDALS[place] || `${place+1}th`;
+    const firstVotes = votes.filter(v => v.rank === 0).length;
+    const meta = buildMeta(chili);
+
+    html += `<tr class="${podiumCls}">
+      <td><span class="place-medal">${medal}</span></td>
+      <td>
+        <div class="result-name">${CHILI_EMOJIS[idx]} ${chiliLabel(chili)}</div>
+        ${meta ? `<div class="result-meta">${meta}</div>` : ''}
+        ${chili.notes ? `<div class="result-notes-line">${chili.notes}</div>` : ''}
+        <div class="result-bar"><div class="result-bar-fill" style="width:${pct}%"></div></div>
+        <span class="result-votes">${firstVotes} first-place vote${firstVotes!==1?'s':''}</span>
+      </td>
+      <td><div class="result-score">${score}</div><span class="result-votes">pts</span></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table><div class="ornament">✦ ✦ ✦</div>`;
+
+  // Ballot breakdown
+  if (ballots.length > 0) {
+    html += `<div class="section-heading" style="margin-bottom:4px;">Judge Ballots</div><div class="section-rule"></div>`;
+    ballots.forEach(ballot => {
+      html += `<div class="breakdown-card"><div class="breakdown-voter">${ballot.judge}</div>`;
+      ballot.v.forEach((ci, rankPos) => {
+        if (ci >= chilis.length) return;
+        html += `<div class="breakdown-row">
+          <span class="rank-label">${RANKS[rankPos] || (rankPos+1)+'th'}</span>
+          <span class="chili-col">${CHILI_EMOJIS[ci]} ${chiliShort(chilis[ci])}</span>
+          <span style="color:var(--gold);flex-shrink:0">${POINTS[rankPos] || 1}pt</span>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+  }
+
+  html += `<button class="btn-ghost" onclick="clearAllData()">↺ Clear All Data</button>`;
+  document.getElementById('results-content').innerHTML = html;
+}
+
+function clearAllData() {
+  if (!confirm('Clear all ballots and entries?')) return;
+  importState.ballots = [];
+  setupState.chilis = Array.from({length:5}, () => ({ booth:'', org:'', spice:0, meat:[], beans:[], notes:'' }));
+  setupState.expandedCards = new Set([0]);
+  judgeState = { name:'', ranking:[], activeChili: null };
+  saveSetupToStorage();
+  saveBallotsToStorage();
+  renderChiliCards();
+  renderImportEntryList();
+  renderImportPanel();
+  document.getElementById('share-box').style.display = 'none';
+  showTab('setup');
+}
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function chiliLabel(c) {
+  if (c.booth && c.org) return `Booth ${c.booth} · ${c.org}`;
+  if (c.booth) return `Booth ${c.booth}`;
+  return c.org || '—';
+}
+function chiliShort(c) {
+  if (c.booth && c.org) return `#${c.booth} ${c.org}`;
+  if (c.booth) return `Booth ${c.booth}`;
+  return c.org || '—';
+}
+function buildMeta(c) {
+  const parts = [];
+  if (c.spice > 0) parts.push(`${SPICE_EMOJIS[c.spice-1]} ${SPICE_LABELS[c.spice-1]}`);
+  if (c.meat && c.meat.length) parts.push(c.meat.join('/'));
+  if (c.beans && c.beans.length) parts.push(c.beans.join('/') + ' beans');
+  return parts.join(' · ');
+}
+
+// ─────────────────────────────────────────────
+// TAB NAVIGATION
+// ─────────────────────────────────────────────
+function showTab(tab) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+
+  if (tab === 'judge') renderJudgePanel();
+  if (tab === 'import') { renderImportPanel(); renderImportEntryList(); }
+  if (tab === 'results') renderResults();
+}
+
+// ─────────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────────
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+// ─────────────────────────────────────────────
+// SERVICE WORKER
+// ─────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./chili-cookoff-sw.js').catch(e => console.warn('SW reg failed', e));
+  });
+}
+
+// ─────────────────────────────────────────────
+// BOOT
+// ─────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
